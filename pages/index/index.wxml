@@ -7,13 +7,13 @@
     </view>
     <view class="urlbtn">
     <!-- 登录与注册路由 -->
-      <view class="btn">
-        <view class="logobtn">登录</view>
+      <view class="routeBtn">
+        <view class="logoinRoute">登录</view>
         <view class="line">
         </view>
       </view>
-      <view class="btn">
-        <view class="registerbtn">注册</view>
+      <view class="routeBtn">
+        <view class="registerRoute">注册</view>
         <view class="line">
         </view>
       </view>
@@ -22,14 +22,14 @@
   <view class="logoinForm">
     <form>
       <view class="phoneNumber commoninput">
-        <input type="number" maxlength='11' class="user"/>
-        <view class="numPlaceholder placeholder">
+        <input type="number" maxlength='11' class="user input"/>
+        <view class="placeholder">
           请输入手机号
         </view>
       </view>
       <view class="password commoninput">
-        <input type="password" maxlength='11' class="pwd"/>
-        <view class="pwdPlaceholder placeholder">
+        <input type="password" maxlength='11' class="pwd input"/>
+        <view class="placeholder">
           请输入密码
         </view>
       </view>
@@ -38,8 +38,8 @@
   <view class="registerForm">
     <form>
       <view class="phoneNumber commoninput">
-        <input type="number" maxlength='11' class="user"/>
-        <view class="numPlaceholder placeholder">
+        <input type="number" maxlength='11' class="user input"/>
+        <view class="placeholder">
           请输入手机号
         </view>
         <view class="getVerificationCode">
@@ -47,16 +47,19 @@
         </view>
       </view>
       <view class="password commoninput">
-        <input type="number" maxlength='11' class="pwd"/>
-        <view class="pwdPlaceholder placeholder">
+        <input type="number" maxlength='11' class="user input"/>
+        <view class="placeholder">
           请输入验证码
         </view>
       </view>
       <view class="password commoninput">
-        <input type="number" maxlength='20' minlength="6" class="pwd"/>
-        <view class="pwdPlaceholder placeholder">
+        <input type="number" maxlength='20' minlength="6" class="pwd input"/>
+        <view class="placeholder Verification">
           请输入6-20位字母或数字d的密码
         </view>
+      </view>
+      <view class="registerbtn btn">
+        <view class="btnText">注册</view>
       </view>
     </form>
   </view>
