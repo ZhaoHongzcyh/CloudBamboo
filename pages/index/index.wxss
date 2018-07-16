@@ -1,0 +1,102 @@
+/**index.wxss**/
+.system_public{
+}
+
+.imgBamboo{
+  position:relative;
+  width: 180rpx;
+  height: 180rpx;
+  margin:auto;
+  margin-top:110rpx;
+  border:1rpx solid blue;
+}
+
+.logoimg{
+  width: 180rpx;
+  height: 180rpx;
+  margin:auto;
+}
+
+/* 路由按钮区域 */
+.urlbtn{
+  display: flex;
+  width: 630rpx;
+  margin: auto;
+  margin-top: 97rpx;
+  color:gray;
+  border-bottom:2rpx solid gray;
+}
+
+.btn{
+  width: 143rpx;
+  text-align: center;
+  margin: auto;
+}
+
+.logobtn,.registerbtn{
+  width: 66rpx;
+  height: 31rpx;
+  margin: auto;
+  font-size: 32rpx;
+}
+
+
+/* 按钮下方的下划线 */
+.line{
+  width: 143rpx;
+  border: 0rpx;
+  margin: auto;
+  margin-top: 48rpx;
+  border-bottom: 4rpx solid gray;
+}
+
+/* 登录与注册表单 */
+.logoinForm,.registerForm{
+  position: relative;
+  width: 640rpx;
+  margin: auto;
+  margin-top: 60rpx;
+}
+
+.commoninput{
+  position:relative;
+  height: 80rpx;
+  background-color:rgba(236,236,236,1);
+  color: #AAAAAA;
+}
+
+.password{
+  margin-top: 30rpx;
+}
+
+.user,.pwd,.numPlaceholder,.pwdPlaceholder{
+  position:absolute;
+  margin-left:30rpx;
+  width: 168rpx;
+  height: 28rpx;
+  top: 27rpx;
+  bottom: 25rpx;
+  line-height: 28rpx;
+  font-size: 28rpx;
+}
+
+.user,.pwd{
+  display: inline-block;
+  height: 28rpx;
+  width: 600rpx;
+  top: 17rpx;
+}
+
+/* 验证码按钮 */
+.getVerificationCode{
+  position: absolute;
+  right: 0rpx;
+  width: 200rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  text-align:center;
+  color:#fff;
+  background:rgba(64,156,242,1);
+  border-radius: 0rpx 3rpx 3rpx 0rpx;
+}

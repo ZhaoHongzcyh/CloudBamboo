@@ -1,0 +1,12 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "navigationBarTitleText": "云竹协作",
+    "navigationBarBackgroundColor": "#409CF2",
+    "navigationBarTextStyle":"white",
+    "enablePullDownRefresh":true
+  }
+}
