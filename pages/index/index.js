@@ -4,51 +4,120 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
+    logoin:true,//true:代表注册，false:渲染注册
+    logoinPlaceholder:{
+      phone:true,
+      password:true
+    },
+    registerPlaceholder:{
+
+    },
+    logoin:{
+      phone:"",
+      password:""
+    },
+    register:{
+      phone:"",
+      verification:"",
+      password:""
+    },
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
+  //登录/注册 切换
+  switchUrl:function(event){
+    var role = event.currentTarget.dataset.logoin;
+    var condiction = true;
+    if(role != 1){
+      condiction = false
+    }
+    this.setData({
+      logoin:condiction,
+      logoinPlaceholder: {
+        phone: true,
+        password: true
+      },
     })
   },
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
+  // 验证码倒计时
+  VerificationTime:function(){
+
+  },
+  // 登录模块实现placeholder效果
+  inputLogoin:function(event){
+    var role = event.currentTarget.dataset.role;
+    if(role == "user"){
+      if(this.data.logoin.phone.length != 0){
         this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
+          logoinPlaceholder: {
+            phone: false,
+            password: true
+          },
         })
       }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
+    }
+    else{
+      this.setData({
+        logoinPlaceholder: {
+          phone: true,
+          password: false
+        },
       })
     }
   },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
+  // 获取登录信息
+  getLogoInfo:function(event){
+    var role = event.currentTarget.dataset.role;
+    var logoin = {
+          phone: "",
+          password: ""
+      };
+    var logoinPlaceholder = this.data.logoinPlaceholder; 
+    if(role == "user"){
+      logoin.phone = event.detail.value;
+      if(logoin.phone.length > 0){
+        this.setData({
+          logoinPlaceholder: {
+            phone: false,
+            password: logoinPlaceholder.password
+          },
+        })
+      }
+      else{
+        this.setData({
+          logoinPlaceholder: {
+            phone: true,
+            password: logoinPlaceholder.password
+          },
+        })
+      }
+    }
+    else{
+      logoin.password = event.detail.value;
+      if(logoin.password.length > 0){
+        this.setData({
+            logoinPlaceholder: {
+              phone: logoinPlaceholder.phone,
+              password: false
+            }
+        })
+      }
+      else{
+        this.setData({
+          logoinPlaceholder: {
+            phone: logoinPlaceholder.phone,
+            password: true
+          }
+        })
+      }
+    }
+    console.log(logoin);
     this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+      logoin:logoin
     })
+  },
+  // 获取验证码请求
+  getVerificationCode:function(){
+
   }
 })

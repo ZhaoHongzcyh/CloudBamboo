@@ -7,35 +7,42 @@
     </view>
     <view class="urlbtn">
     <!-- 登录与注册路由 -->
-      <view class="routeBtn">
+      <view class="routeBtn" bindtap='switchUrl' data-logoin="1">
         <view class="logoinRoute">登录</view>
-        <view class="line">
-        </view>
+        <view class="line" wx:if="{{logoin}}"></view>
+        <view class="lineHr" wx:if="{{!logoin}}"></view>
       </view>
-      <view class="routeBtn">
+      <view class="routeBtn" bindtap="switchUrl" data-logoin="0">
         <view class="registerRoute">注册</view>
-        <view class="line">
+        <view class="line" wx:if="{{!logoin}}">
         </view>
+        <view class="lineHr" wx:if="{{logoin}}"></view>
       </view>
     </view>
   </view>
-  <view class="logoinForm">
+  <view class="logoinForm" wx:if="{{logoin}}">
     <form>
       <view class="phoneNumber commoninput">
-        <input type="number" maxlength='11' class="user input"/>
-        <view class="placeholder">
+        <input type="number" maxlength='11' class="user input" bindinput="getLogoInfo" data-role="user"/>
+        <view class="placeholder" wx:if="{{logoinPlaceholder.phone}}">
           请输入手机号
         </view>
       </view>
       <view class="password commoninput">
-        <input type="password" maxlength='11' class="pwd input"/>
-        <view class="placeholder">
+        <input type="password" maxlength='11' class="pwd input" bindinput="getLogoInfo" data-role="pwd"/>
+        <view class="placeholder" wx:if="{{logoinPlaceholder.password}}">
           请输入密码
+          <view class="eyes">
+            <image src="./img/eye_icon.png" class="eyesImg"></image>
+          </view>
         </view>
+      </view>
+      <view class="logoinbtn btn">
+        <view class="btnText">登录</view>
       </view>
     </form>
   </view>
-  <view class="registerForm">
+  <view class="registerForm" wx:if="{{!logoin}}">
     <form>
       <view class="phoneNumber commoninput">
         <input type="number" maxlength='11' class="user input"/>
@@ -56,6 +63,9 @@
         <input type="number" maxlength='20' minlength="6" class="pwd input"/>
         <view class="placeholder Verification">
           请输入6-20位字母或数字d的密码
+          <view class="eyes">
+            <image src="./img/eye_icon.png" class="eyesImg"></image>
+          </view>
         </view>
       </view>
       <view class="registerbtn btn">

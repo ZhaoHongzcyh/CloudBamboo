@@ -34,6 +34,7 @@
 }
 
 .logoinRouter,.registerRouter{
+  position:relative;
   width: 66rpx;
   height: 31rpx;
   margin: auto;
@@ -50,6 +51,14 @@
   border-bottom: 4rpx solid gray;
 }
 
+.lineHr{
+  width: 143rpx;
+  border: 0rpx;
+  margin: auto;
+  margin-top: 48rpx;
+  border-bottom: 4rpx solid gray;
+  opacity: 0;
+}
 /* 登录与注册表单 */
 .logoinForm,.registerForm{
   position: relative;
@@ -80,6 +89,10 @@
   font-size: 28rpx;
 }
 
+.placeholder{
+  width: calc(100% - 60rpx);
+}
+
 .user,.pwd{
   display: inline-block;
   height: 28rpx;
@@ -87,8 +100,22 @@
   top: 17rpx;
 }
 
+.eyes{
+  position:absolute;
+  width: 40rpx;
+  height: 40rpx;
+  top : 50%;
+  margin-top: -20rpx;
+  right: 30rpx;
+}
+
+.eyesImg{
+  width: 40rpx;
+  height: 40rpx;
+}
 .Verification{
-  width: 418rpx;
+  /* width: 418rpx; */
+  width: calc(100% - 60rpx);
 }
 
 /* 验证码按钮 */
@@ -110,23 +137,23 @@
   position:relative;
   width: 630rpx;
   height: 80rpx;
-  line-height: 80rpx;
   font-size: 32rpx;
   text-align: center;
   margin: auto;
-  margin-top: 50rpx; 
+  margin-top: 50rpx;
+  padding: 0rpx; 
   background-color: rgba(219,219,219,1);
   color: white;
   border-radius: 40rpx;
+  border: 1rpx solid rgba(219,219,219,1);
 }
 
 .btnText{
   height: 32rpx;
-  line-height: 32rpx;
+  line-height: 32rpx; 
   margin: auto;
   margin-top: 24rpx;
   padding: 0rpx;
   font-size: 32rpx;
-  border:1rpx solid red;
   letter-spacing: 15rpx;
 }
