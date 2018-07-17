@@ -49,7 +49,9 @@ Page({
     }
     else{
       this.setData({
-        dataRole:role
+        dataRole:role,
+        isClickLogoinBtn:false,
+        isClickRegisterBtn:false
       })
     }
 

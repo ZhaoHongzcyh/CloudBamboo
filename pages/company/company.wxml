@@ -35,7 +35,7 @@
   <!-- 工作台区域 -->
   <view class="company-workbench">
     <view class="company-work-head">工作台</view>
-    <view class="workbench-area">
+    <view class="workbench-area list-area">
       <!-- 公司项目 -->
       <view class="company-project workbench">
         <view>
@@ -48,17 +48,58 @@
         <view>
           <image src="./img/company-project.png" class="workbench-img"></image>
         </view>
-        <view class="workbench-text">公司项目</view>
+        <view class="workbench-text">组织架构</view>
       </view>
       <!-- 公司文件 -->
       <view class="company-file workbench">
         <view>
           <image src="./img/company-project.png" class="workbench-img"></image>
         </view>
-        <view class="workbench-text">公司项目</view>
+        <view class="workbench-text">公司文件</view>
       </view>
       <!-- 客户资料 --> 
       <view class="company-customer-information workbench">
+        <view>
+          <image src="./img/company-project.png" class="workbench-img"></image>
+        </view>
+        <view class="workbench-text">客户资料</view>
+      </view>
+    </view>
+  </view>
+  <!-- 审批区域 -->
+  <view class="company-approval">
+    <view class="company-more">
+      <view class="rise">审批</view>
+      <view class="rise company-set-approval">设置审批人</view>
+    </view>
+    <view class="list-area">
+      <view class="company-project workbench">
+        <view>
+          <image src="./img/company-project.png" class="workbench-img"></image>
+        </view>
+        <view class="workbench-text">我发起的</view>
+      </view>
+      <view class="company-project workbench">
+        <view>
+          <image src="./img/company-project.png" class="workbench-img"></image>
+        </view>
+        <view class="workbench-text">我审批的</view>
+      </view>
+      <view class="company-project workbench">
+        <view>
+          <image src="./img/company-project.png" class="workbench-img"></image>
+        </view>
+        <view class="workbench-text">报项目工时</view>
+      </view>
+    </view>
+  </view>
+  <!-- 统计分析区域 -->
+  <view class="company-analysis">
+    <view class="rise rise-analysis">
+      统计分析
+    </view>
+    <view class="list-area">
+      <view class="company-project workbench">
         <view>
           <image src="./img/company-project.png" class="workbench-img"></image>
         </view>
@@ -66,10 +107,8 @@
       </view>
     </view>
   </view>
-  <!-- 审批区域 -->
-  <view class="company-approval">
-  </view>
-  <!-- 统计分析区域 -->
-  <view class="company-analysis">
+  <!--内容添加按钮  -->
+  <view class="company-add-content">
+    +
   </view>
 </view>

@@ -45,7 +45,6 @@
   display: flex;
   align-items: center;
   background-color:#FFFFFF;
-  height: 280rpx;
   box-shadow: 0rpx 2rpx 2rpx 2rpx rgb(245,245,245);
 }
 
@@ -121,31 +120,46 @@
 
 /* 工作区域 */
 .company-workbench{
-  display: block;
-  color:black;
-  border:1rpx solid red;
+   display: block; 
 }
-.company-work-head{
-  width: 72rpx;
+/*公共样式定义，与工作台处于同一目录的样式  */
+.company-work-head,.rise{
+  /* width: 72rpx; */
   height: 23rpx;
   line-height: 23rpx;
   margin-left: 25rpx;
   margin-top: 29rpx;
   color: #999999;
   font-size: 24rpx;
+  flex-grow: 1;
 }
-.workbench-area{
+
+.company-more{
+  display: flex;
+}
+
+.company-set-approval{
+  text-align: right;
+  margin-right: 22rpx;
+  color: #409CF2;
+  font-size: 24rpx;
+  flex-grow: 0;
+}
+
+/*定义公共列表区域  */
+.workbench-area,.list-area{
   margin-top: 22rpx;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: row;
+   /* justify-content: center;  */
   align-items: center;
   background-color: white;
 }
 .workbench{
   padding-top: 30rpx;
   text-align: center;
-  width: 188rpx;
+  width: 187rpx;
   height: 160rpx;
 }
 .workbench-img {
@@ -153,11 +167,25 @@
   height: 60rpx;
 }
 .workbench-text{
-  width: 97rpx;
   height: 23rpx;
   color: #666666;
   font-size: 24rpx;
   text-align: center;
   margin: auto;
   margin-top: 16rpx;
+}
+
+/*内容添加按钮  */
+.company-add-content{
+  position: fixed;
+  width: 81rpx;
+  height: 81rpx;
+  bottom: 128rpx;
+  right: 30rpx;
+  border-radius: 50%;
+  background-color: #409CF2;
+  text-align:center;
+  color: white;
+  line-height: 81rpx;
+  font-size: 36rpx;
 }
