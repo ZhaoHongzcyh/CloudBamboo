@@ -1,0 +1,9 @@
+<view class="wx-popup" hidden="{{flag}}" bindtap="hidePopup">
+  <view class='popup-container'>
+    <!-- <view class="wx-popup-title">{{title}}</view> -->
+    <view class="wx-popup-con">{{content}}</view>
+    <view class="wx-popup-footer">
+      {{footer}}
+    </view>
+  </view>
+</view>

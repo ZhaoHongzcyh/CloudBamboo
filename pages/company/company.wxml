@@ -1,0 +1,75 @@
+<view class="company">
+<!-- 公司名称区域 -->
+  <view class="company-head">
+    <image src="{{company.logo}}" class="company-logo"></image>
+    <view class="company-name">{{company.name}}</view>
+    <view class="company-switch">
+      <image src="./img/switch.png" class="company-switch-img"></image>
+    </view>
+  </view>
+  <!-- 考勤情况 -->
+  <view class="company-check-work">
+    <!-- 今天时间 -->
+    <view class="comapny-today">
+      <view class="work-month-data">
+        <view class="work-data">22</view>
+        <view class="work-month">十一月</view>
+      </view>
+    </view>
+    <!-- 考勤情况 -->
+    <view class="company-work">
+      <!-- 上班考情 -->
+      <view class="company-goToWork">
+        <view class="company-clock">上班打卡时间：</view>
+        <view class="punch-clock-time">9:00</view>
+        <view class="punch-card-btn">上班打卡</view>
+      </view>
+      <!-- 下班那考情 -->
+      <view class="company-goOffWork">
+        <view class="company-clock">下班打卡时间：</view>
+        <view class="punch-clock-time">8:00</view>
+        <view class="punch-card-btn">下班打卡</view>
+      </view>
+    </view>
+  </view>
+  <!-- 工作台区域 -->
+  <view class="company-workbench">
+    <view class="company-work-head">工作台</view>
+    <view class="workbench-area">
+      <!-- 公司项目 -->
+      <view class="company-project workbench">
+        <view>
+          <image src="./img/company-project.png" class="workbench-img"></image>
+        </view>
+        <view class="workbench-text">公司项目</view>
+      </view>
+      <!-- 组织架构 -->
+      <view class="company-organizational-structure workbench">
+        <view>
+          <image src="./img/company-project.png" class="workbench-img"></image>
+        </view>
+        <view class="workbench-text">公司项目</view>
+      </view>
+      <!-- 公司文件 -->
+      <view class="company-file workbench">
+        <view>
+          <image src="./img/company-project.png" class="workbench-img"></image>
+        </view>
+        <view class="workbench-text">公司项目</view>
+      </view>
+      <!-- 客户资料 --> 
+      <view class="company-customer-information workbench">
+        <view>
+          <image src="./img/company-project.png" class="workbench-img"></image>
+        </view>
+        <view class="workbench-text">公司项目</view>
+      </view>
+    </view>
+  </view>
+  <!-- 审批区域 -->
+  <view class="company-approval">
+  </view>
+  <!-- 统计分析区域 -->
+  <view class="company-analysis">
+  </view>
+</view>

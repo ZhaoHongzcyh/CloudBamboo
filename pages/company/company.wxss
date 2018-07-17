@@ -1,0 +1,163 @@
+.company {
+  position: relative;
+  background-color:rgba(245,245,245,1);
+}
+.company-head{
+  height: 88rpx;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color:#FFFFFF;
+  border-bottom: 1rpx solid rgba(219,219,219,1); 
+}
+
+/* 公司logo */
+.company-logo{
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+}
+
+/*公司名称  */
+.company-name{
+  width: 114rpx;
+  height: 27rpx;
+  line-height: 27rpx;
+  color: #666666;
+  font-size: 28rpx;
+}
+/* 切换公司按钮 */
+.company-switch{
+  position:relative;
+  width: 36rpx;
+  height: 36rpx;
+  margin-left: 487rpx;
+}
+.company-switch-img{
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+}
+
+/* 考勤区域 */
+.company-check-work{
+  display: flex;
+  align-items: center;
+  background-color:#FFFFFF;
+  height: 280rpx;
+  box-shadow: 0rpx 2rpx 2rpx 2rpx rgb(245,245,245);
+}
+
+.comapny-today{
+  width: 179rpx;
+  height: 168rpx;
+  border-right:1rpx solid rgba(229,229,229,1);
+}
+
+.work-month-data{
+  width: 81rpx;
+  height: 104rpx;
+  margin:auto;
+  margin-top: 36rpx;
+}
+.work-data{
+  width: 81rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  text-align:center;
+  color: #409CF2;
+  margin: 0rpx;
+  font-size: 72rpx;
+}
+.work-month{
+  margin-top: 23rpx;
+  width: 81rpx;
+  height: 27rpx;
+  font-size: 26rpx;
+  text-align: center;
+  color:rgba(153,153,153,1);
+}
+
+/* 上班与下班考勤 */
+.company-work{
+  position:relative;
+  display: block;
+  width: 100%;
+  height: 280rpx;
+}
+.company-goToWork{
+  height: 140rpx;
+  display:flex;
+  align-items: center;
+}
+.company-goOffWork{
+  height: 140rpx;
+  display: flex;
+  align-items: center;
+}
+
+.company-clock{
+  margin-left: 39rpx;
+  color: #999999;
+  font-size: 28rpx;
+  
+}
+.punch-clock-time{
+  font-size: 28rpx;
+  color: #409CF2
+}
+.punch-card-btn{
+  width: 160rpx;
+  height: 46rpx;
+  margin-left: 42rpx;
+  border-radius: 23rpx;
+  font-size: 24rpx;
+  line-height: 46rpx;
+  color: white;
+  text-align: center;
+  background-color: rgba(64,156,242,1);
+}
+
+/* 工作区域 */
+.company-workbench{
+  display: block;
+  color:black;
+  border:1rpx solid red;
+}
+.company-work-head{
+  width: 72rpx;
+  height: 23rpx;
+  line-height: 23rpx;
+  margin-left: 25rpx;
+  margin-top: 29rpx;
+  color: #999999;
+  font-size: 24rpx;
+}
+.workbench-area{
+  margin-top: 22rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+.workbench{
+  padding-top: 30rpx;
+  text-align: center;
+  width: 188rpx;
+  height: 160rpx;
+}
+.workbench-img {
+  width: 60rpx;
+  height: 60rpx;
+}
+.workbench-text{
+  width: 97rpx;
+  height: 23rpx;
+  color: #666666;
+  font-size: 24rpx;
+  text-align: center;
+  margin: auto;
+  margin-top: 16rpx;
+}

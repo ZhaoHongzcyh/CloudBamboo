@@ -1,0 +1,10 @@
+<!--common/logoinAlert/logoinAlert.wxml-->
+<view class="logoinAlert">
+  <view class='logoinAlert-container' style="background:{{bgcolor}}">
+    <!-- <view class="wx-popup-title">{{title}}</view> -->
+    <view class="wx-logoinAlert-con">
+      <image src="{{src}}" class="logoinAlert-loading" class="{{animate? 'logoinAlert-animate logoinAlert-loading':'logoinAlert-loading'}}"></image>
+      <text class="logoinAlert-Text">{{alertText}}</text>
+    </view>
+  </view>
+</view>

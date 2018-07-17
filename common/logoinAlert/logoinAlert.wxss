@@ -1,0 +1,63 @@
+/* common/logoinAlert/logoinAlert.wxss */
+.logoinAlert{
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+.logoinAlert-container{
+  position: absolute;
+  width: 250rpx;
+  height: 80rpx;
+  top: 50%;
+  left: 50%;
+  margin-left: -125rpx;
+  margin-top: -40rpx;
+  border-radius: 8rpx;
+  text-align: center;
+}
+
+.wx-logoinAlert-con{
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoinAlert-loading{
+  width: 34rpx;
+  height: 29rpx;
+  line-height: 80rpx;
+}
+
+.logoinAlert-Text{
+  font-size: 24rpx;
+  color: white;
+  margin-left: 21rpx
+}
+
+/* 动态加载动画 */
+.logoinAlert-animate{
+  animation: loading 2s ease infinite;
+}
+
+@keyframes loading{
+  0%{
+    transform:rotateZ(0deg);
+  }
+  25%{
+    transform:rotateZ(90deg);
+  }
+  50%{
+    transform:rotateZ(180deg);
+  }
+  75%{
+    transform:rotateZ(270deg);
+  }
+  100%{
+    transform:rotateZ(360deg);
+  }
+}

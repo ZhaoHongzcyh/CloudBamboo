@@ -8,7 +8,6 @@
   height: 180rpx;
   margin:auto;
   margin-top:110rpx;
-  border:1rpx solid blue;
 }
 
 .logoimg{
@@ -102,6 +101,7 @@
 
 .eyes{
   position:absolute;
+  z-index: 2;
   width: 40rpx;
   height: 40rpx;
   top : 50%;
@@ -113,6 +113,7 @@
   width: 40rpx;
   height: 40rpx;
 }
+
 .Verification{
   /* width: 418rpx; */
   width: calc(100% - 60rpx);
@@ -121,6 +122,7 @@
 /* 验证码按钮 */
 .getVerificationCode{
   position: absolute;
+  z-index: 2;
   right: 0rpx;
   width: 200rpx;
   height: 80rpx;
@@ -156,4 +158,43 @@
   padding: 0rpx;
   font-size: 32rpx;
   letter-spacing: 15rpx;
+}
+
+/* 可点击的登录按钮 */
+.clickOn{
+  background-color: rgba(64,156,242,1);
+}
+
+/* 忘记密码 */
+.forgetPwd{
+  position:relative;
+  font-size: 28rpx;
+  margin-top: 40rpx;
+  height: 68rpx;
+  text-align:right;
+  color: #409CF2;
+}
+
+.forgetPwdText{
+  position:absolute;
+  width: 132rpx;
+  height: 68rpx;
+  right:0rpx;
+}
+
+
+/* 条约样式 */
+.treaty{
+  margin-top: 41rpx;
+}
+.treatycheckbox{
+  transform: scale(0.5);
+}
+
+.agreentreaty{
+  font-size:28rpx;
+}
+
+.treatyContent{
+  color: #409CF2;
 }

@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="system">
+<view class="system" wx:if="{{isLogoing}}">
   <view class="system_public">
     <view class="imgBamboo">
     <!-- 云竹图片 -->
@@ -9,18 +9,18 @@
     <!-- 登录与注册路由 -->
       <view class="routeBtn" bindtap='switchUrl' data-logoin="1">
         <view class="logoinRoute">登录</view>
-        <view class="line" wx:if="{{logoin}}"></view>
-        <view class="lineHr" wx:if="{{!logoin}}"></view>
+        <view class="line" wx:if="{{logoinState}}"></view>
+        <view class="lineHr" wx:if="{{!logoinState}}"></view>
       </view>
       <view class="routeBtn" bindtap="switchUrl" data-logoin="0">
         <view class="registerRoute">注册</view>
-        <view class="line" wx:if="{{!logoin}}">
+        <view class="line" wx:if="{{!logoinState}}">
         </view>
-        <view class="lineHr" wx:if="{{logoin}}"></view>
+        <view class="lineHr" wx:if="{{logoinState}}"></view>
       </view>
     </view>
   </view>
-  <view class="logoinForm" wx:if="{{logoin}}">
+  <view class="logoinForm" wx:if="{{logoinState}}" >
     <form>
       <view class="phoneNumber commoninput">
         <input type="number" maxlength='11' class="user input" bindinput="getLogoInfo" data-role="user"/>
@@ -29,48 +29,59 @@
         </view>
       </view>
       <view class="password commoninput">
-        <input type="password" maxlength='11' class="pwd input" bindinput="getLogoInfo" data-role="pwd"/>
+        <input type="{{isShowlogoinPwd? 'text':'password'}}" maxlength='11' class="pwd input" value="{{login.password}}" bindinput="getLogoInfo" data-role="pwd"/>
         <view class="placeholder" wx:if="{{logoinPlaceholder.password}}">
           请输入密码
-          <view class="eyes">
-            <image src="./img/eye_icon.png" class="eyesImg"></image>
-          </view>
+        </view>
+        <view class="eyes" bindtap="switchPwdState" data-role="logoin">
+            <image src="{{isShowlogoinPwd? './img/eye_icon_on.png':'./img/eye_icon_off.png'}}" class="eyesImg"></image>
         </view>
       </view>
-      <view class="logoinbtn btn">
+      <view class="{{isClickLogoinBtn? 'logoinbtn btn clickOn':'logoinbtn btn clickOff'}}">
         <view class="btnText">登录</view>
+      </view>
+      <view class="forgetPwd">
+        <view class="forgetPwdText" bindtap="alert">忘记密码?</view>
       </view>
     </form>
   </view>
-  <view class="registerForm" wx:if="{{!logoin}}">
+  <view class="registerForm" wx:if="{{!logoinState}}">
     <form>
       <view class="phoneNumber commoninput">
-        <input type="number" maxlength='11' class="user input"/>
-        <view class="placeholder">
+        <input type="number" maxlength='11' class="user input" bindinput="getRegisterInfo" data-role="phone"/>
+        <view class="placeholder" wx:if="{{registerPlaceholder.phone}}">
           请输入手机号
         </view>
-        <view class="getVerificationCode">
-          获取验证码
+        <view class="getVerificationCode" bindtap="getVerificationCode">
+          {{verificationBtnText}}
         </view>
       </view>
       <view class="password commoninput">
-        <input type="number" maxlength='11' class="user input"/>
-        <view class="placeholder">
+        <input type="number" maxlength='11' class="user input" bindinput="getRegisterInfo" data-role="verification"/>
+        <view class="placeholder" wx:if="{{registerPlaceholder.verification}}">
           请输入验证码
         </view>
       </view>
       <view class="password commoninput">
-        <input type="number" maxlength='20' minlength="6" class="pwd input"/>
-        <view class="placeholder Verification">
-          请输入6-20位字母或数字d的密码
-          <view class="eyes">
-            <image src="./img/eye_icon.png" class="eyesImg"></image>
-          </view>
+        <input type="{{isShowRegisterPwd? 'text':'password'}}" maxlength='20' minlength="6" class="pwd input" bindinput="getRegisterInfo" value="{{register.password}}" data-role="password"/>
+        <view class="placeholder Verification" wx:if="{{registerPlaceholder.password}}">
+          请输入6-20位字母或数字的密码
+        </view>
+        <view class="eyes" bindtap="switchPwdState" data-role="register">
+          <image src="{{isShowRegisterPwd? './img/eye_icon_on.png':'./img/eye_icon_off.png'}}" class="eyesImg"></image>
         </view>
       </view>
-      <view class="registerbtn btn">
+      <view class="{{isClickRegisterBtn? 'logoinbtn btn clickOn':'logoinbtn btn clickOff'}}">
         <view class="btnText">注册</view>
+      </view>
+      <view class="treaty">
+        <checkbox color="gray" class="treatycheckbox"></checkbox>
+        <text class="agreentreaty">我已阅读并同意<text class="treatyContent">服务协议</text></text>
       </view>
     </form>
   </view>
+  <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+</view>
+<view wx:if="{{!isLogoing}}">
+  <logoinAlert src="/pages/index/img/logoin-loading.png" animate="true" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>
