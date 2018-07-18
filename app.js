@@ -1,5 +1,6 @@
 //app.js
 App({
+  ip:"http://192.168.1.107:8082/tc_service/",
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []

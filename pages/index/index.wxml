@@ -23,13 +23,13 @@
   <view class="logoinForm" wx:if="{{logoinState}}" >
     <form>
       <view class="phoneNumber commoninput">
-        <input type="number" maxlength='11' class="user input" bindinput="getLogoInfo" data-role="user"/>
+        <input type="number" maxlength='11' class="user input" bindinput="getLogoInfo" value="{{login.phone}}" data-role="user"/>
         <view class="placeholder" wx:if="{{logoinPlaceholder.phone}}">
           请输入手机号
         </view>
       </view>
       <view class="password commoninput">
-        <input type="{{isShowlogoinPwd? 'text':'password'}}" maxlength='11' class="pwd input" value="{{login.password}}" bindinput="getLogoInfo" data-role="pwd"/>
+        <input type="{{isShowlogoinPwd? 'text':'password'}}" maxlength='20' class="pwd input" value="{{login.password}}" bindinput="getLogoInfo" data-role="pwd"/>
         <view class="placeholder" wx:if="{{logoinPlaceholder.password}}">
           请输入密码
         </view>
@@ -37,7 +37,7 @@
             <image src="{{isShowlogoinPwd? './img/eye_icon_on.png':'./img/eye_icon_off.png'}}" class="eyesImg"></image>
         </view>
       </view>
-      <view class="{{isClickLogoinBtn? 'logoinbtn btn clickOn':'logoinbtn btn clickOff'}}">
+      <view class="{{isClickLogoinBtn? 'logoinbtn btn clickOn':'logoinbtn btn clickOff'}}" bindtap="userLogoin">
         <view class="btnText">登录</view>
       </view>
       <view class="forgetPwd">
@@ -52,7 +52,7 @@
         <view class="placeholder" wx:if="{{registerPlaceholder.phone}}">
           请输入手机号
         </view>
-        <view class="getVerificationCode" bindtap="getVerificationCode">
+        <view class="getVerificationCode" bindtap="getCode">
           {{verificationBtnText}}
         </view>
       </view>
@@ -71,7 +71,7 @@
           <image src="{{isShowRegisterPwd? './img/eye_icon_on.png':'./img/eye_icon_off.png'}}" class="eyesImg"></image>
         </view>
       </view>
-      <view class="{{isClickRegisterBtn? 'logoinbtn btn clickOn':'logoinbtn btn clickOff'}}">
+      <view class="{{isClickRegisterBtn? 'logoinbtn btn clickOn':'logoinbtn btn clickOff'}}" bindtap="userRegister">
         <view class="btnText">注册</view>
       </view>
       <view class="treaty">
@@ -84,4 +84,10 @@
 </view>
 <view wx:if="{{!isLogoing}}">
   <logoinAlert src="/pages/index/img/logoin-loading.png" animate="true" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+</view>
+<view wx:if="{{registerAlert.state == 1}}">
+  <logoinAlert src="/pages/index/img/close-icon.png" bind:hideAlert="hideAlert" alertText="{{registerAlert.content}}" animate="0" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+</view>
+<view wx:if="{{logoinAlert.state == 1}}">
+  <logoinAlert src="/pages/index/img/close-icon.png" alertText="{{logoinAlert.content}}" animate="0" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>

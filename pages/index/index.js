@@ -1,11 +1,20 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+const util = require("./MD5.js");
+const api = require("../../api/common.js");
 Page({
   data: {
     logoinState:true,//true:代表注册，false:渲染注册
     dataRole:1,//1:登录界面，0：注册界面
+    registerAlert:{
+      state:0,
+      content:""
+    },//0：默认，1:验证码获取失败弹框，2：注册失败弹框
+    logoinAlert:{
+      state:0,
+      content:""
+    },
     isLogoing:true,//是否正在登录中
     logoinPlaceholder:{
       phone:true,
@@ -25,6 +34,7 @@ Page({
       verification:"",
       password:""
     },
+    verification:"",//返回的验证码
     isShowlogoinPwd:false,//登陆密码是否可见
     isShowRegisterPwd:false,//注册密码是否可见
     isClickLogoinBtn:false,//登录按钮是否可点击
@@ -164,7 +174,6 @@ Page({
   },
   // 获取验证码请求
   getVerificationCode:function(){
-    console.log(123);
     var that = this;
     that.setData({
       verificationBtnText: this.data.countTime - 1 + "s后重发",
@@ -304,5 +313,144 @@ Page({
         isClickRegisterBtn:false
       })
     }
+  },
+  // 用户登录
+  userLogoin:function(){
+    this.setData({
+      isLogoing:false
+    });
+    var obj = {
+      userName:this.data.logoin.phone,
+      password:util.hexMD5(this.data.logoin.password)
+    }
+    console.log(obj);
+    if (this.data.isClickLogoinBtn){
+      var address = app.ip + "tw/userService/login";
+      api.request(obj,address,"post",false).then(res=>{
+        this.setData({
+          isLogoing: false
+        });
+        var handleInfo = api.handleLogoinInfo(res);
+        if (handleInfo.msg == 'handle success'){
+          wx.redirectTo({
+            url: '/pages/company/company',
+          })
+        }
+        else{
+          var logoin = this.data.logoin
+          this.setData({
+            logoinAlert:{
+              state:1,
+              content:handleInfo.msg
+            },
+            logoin:{},
+            isLogoing:true
+          })
+          setTimeout(() => {
+            this.setData({
+              logoinAlert: {
+                state: 0,
+                content: ""
+              },
+              logoinPlaceholder:{
+                phone:true,
+                password:true
+              },
+              isClickLogoinBtn:false
+            })
+            console.log(this.data.logoin)
+          }, 1500)
+        }
+      })
+    }
+  },
+  // 用户注册
+  userRegister:function(){
+    if (this.data.isClickRegisterBtn){
+      return false;
+    }
+    var register = this.data.register;
+    var obj = {
+      userName:register.phone,
+      password:util.hexMD5(register.password)
+    }
+    var address = app.ip + "tw/userService/regist";
+    api.request(obj, address, "post", false).then(res => {
+      this.setData({
+        registerAlert: {
+          state: 1,
+          content: res.data.message
+        }
+      })
+    }).catch(e=>{
+      console.log(e);
+    })
+    console.log("登录")
+    if(register.verification != this.data.verification){
+      this.setData({
+        registerAlert:{
+          state:1,
+          content:"验证码错误"
+        }
+      })
+    }
+    else{
+      
+    }
+  },
+  // 隐藏注册弹框
+  hideAlert:function(){
+    this.setData({
+      registerAlert: {
+        state: 0,
+        content: ""
+      }
+    })
+  },
+  // 请求验证码
+  getCode:function(){
+    var phone = this.data.register.phone;
+    var phoneReg = /^1\d{10}$/img;
+    if(phoneReg.test(phone)){
+      return false;
+    }
+    var obj = {
+      mobile: phone,
+      typeFlag: 100
+    }
+    if(this.data.countTime < 60 || obj.phone){
+      return false;
+    }
+    else{
+      console.log(obj)
+      var address = app.ip + "neteasy/sms/sendCode";
+      api.request(obj, address, "post", false).then(res => {
+        console.log(res);
+        if(res.statusCode == 200 && res.data.code != 101){
+          this.setData({
+            verification:res.data
+          })
+        }
+        else{
+          this.setData({
+            registerAlert:{
+              state:1,
+              content:res.data.message
+            }
+          })
+          setTimeout(()=>{
+            this.setData({
+              registerAlert: {
+                state: 0,
+                content: ""
+              },
+              countTime:1
+            })
+          },1500)
+        }
+      })
+    }
+    this.getVerificationCode();
+    
   }
 })

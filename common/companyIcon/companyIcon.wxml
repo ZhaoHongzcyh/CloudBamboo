@@ -1,0 +1,8 @@
+<!--common/companyIcon/companyIcon.wxml-->
+<view class="company-project workbench">
+  <view>
+      <image src="{{src}}" class="workbench-img"></image>
+  </view>
+  <view class="workbench-text">{{title}}</view>
+</view>
+

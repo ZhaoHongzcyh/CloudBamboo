@@ -21,7 +21,6 @@
 
 /*公司名称  */
 .company-name{
-  width: 114rpx;
   height: 27rpx;
   line-height: 27rpx;
   color: #666666;

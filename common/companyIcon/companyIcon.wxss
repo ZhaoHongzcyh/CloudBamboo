@@ -1,0 +1,23 @@
+/* common/companyIcon/companyIcon.wxss */
+.workbench{
+  padding-top: 30rpx;
+  text-align: center;
+  width: 187rpx;
+  height: 160rpx;
+}
+.workbench-img {
+  width: 60rpx;
+  height: 60rpx;
+}
+.workbench-text{
+  height: 23rpx;
+  color: #666666;
+  font-size: 24rpx;
+  text-align: center;
+  margin: auto;
+  margin-top: 16rpx;
+}
+.companyApp{
+  display: flex;
+  flex-direction: row;
+}
