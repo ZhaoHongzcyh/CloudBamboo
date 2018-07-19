@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "companyList": "/common/team/team",
+    "logoinAlert":"/common/logoinAlert/logoinAlert"
+  }
+}

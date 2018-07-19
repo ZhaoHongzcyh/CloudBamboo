@@ -31,7 +31,9 @@
   position:relative;
   width: 36rpx;
   height: 36rpx;
-  margin-left: 487rpx;
+  flex: 3;
+  text-align: right;
+  margin-right: 30rpx;
 }
 .company-switch-img{
   width: 36rpx;
@@ -101,11 +103,18 @@
   font-size: 28rpx;
   
 }
+
 .punch-clock-time{
   font-size: 28rpx;
   color: #409CF2
 }
-.punch-card-btn{
+
+.punch-clock-time-off{
+  font-size: 28rpx;
+  color:#999999;
+}
+
+.punch-card-btn,.punch-card{
   width: 160rpx;
   height: 46rpx;
   margin-left: 42rpx;
@@ -117,6 +126,9 @@
   background-color: rgba(64,156,242,1);
 }
 
+.punch-card-btn-off{
+  background-color:rgba(204,204,204,1)
+}
 /* 工作区域 */
 .company-workbench{
    display: block; 
@@ -188,3 +200,4 @@
   line-height: 81rpx;
   font-size: 36rpx;
 }
+

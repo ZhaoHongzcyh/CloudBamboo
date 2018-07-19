@@ -1,0 +1,34 @@
+/* common/team/team.wxss */
+/* 切换公司 */
+.switch-team{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #FFFFFF;
+  height: 120rpx;
+  padding: 20rpx 0rpx;
+  margin:30rpx 0rpx;
+}
+.company-logo-area{
+  margin-left: 40rpx;
+}
+.companyLogo{
+  width: 80rpx;
+  height: 80rpx;
+}
+.companyInfo{
+  margin-left: 21rpx;
+  height: 80rpx;
+  flex:2;
+}
+.companyName{
+  color:#333333;
+  font-size: 28rpx;
+}
+.company-legal-person{
+  color: #999999;
+  font-size: 24rpx;
+}
+.company-radio{
+  margin-right: 30rpx;
+}

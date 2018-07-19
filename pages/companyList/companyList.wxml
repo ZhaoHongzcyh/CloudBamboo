@@ -1,0 +1,29 @@
+<view class="companylist">
+  <view wx:if="{{isHasCompany == 0}}">
+    <view class="hasntCompany">
+      <view class="Hint">
+        <image src="./img/noComapny.png" class="HintImg"></image>
+      </view>
+      <view class="HintText">
+        你还没有加入任何公司
+      </view>
+    </view>
+  </view>
+  <!-- 渲染公司 -->
+  <view wx:if="{{isHasCompany == 1}}">
+    <block wx:for="{{companyListData}}">
+      <companyList src="/pages/company/img/companyList.png" companyName="{{item.title}}" legalPerson="{{item.ownerName}}" bindswitchCompany="chooseCompany" checked="{{item.checked}}" data-index="{{index}}" data-contentId="{{item.contentId}}" data-id="{{item.id}}"></companyList>
+    </block>
+  </view>
+  <!-- 切换公司请求失败 -->
+  <view class="switch-company-error" wx:if="{{isHasCompany == 2}}">
+    <view class="Hint">
+        <image src="./img/noComapny.png" class="HintImg"></image>
+    </view>
+    <view class="HintText">
+        <view>很抱歉暂未获取到公司信息</view>
+        <view>你可选择切换公司或新建公司</view>
+      </view>
+      <view class="switch-company-btn" bindtap="getCompanyList">切换公司</view>
+  </view>
+</view>

@@ -1,0 +1,28 @@
+<!-- 新建公司 -->
+<view class="add-new-company">
+  <!-- 公司名称 -->
+  <view>
+    <view class="new-company-title">
+      公司名称
+    </view>
+    <view class="new-company-name">
+      <textarea bindtap="input " placeholder="请输入公司名称" placeholder-class="textPlaceholder" class="input-company-name"></textarea>
+      <view>请输入公司名称</view>
+    </view>
+  </view>
+   <!-- 公司成员 -->
+  <view>
+   <view>公司成员({{}}人)</view>
+   <view>
+    <view class="addMember addMemberBtn">+</view>
+    <block>
+      <view>
+        <image src=""></image>
+        <view>
+
+        </view>
+      </view>
+    </block>
+   </view>
+  </view> 
+</view>

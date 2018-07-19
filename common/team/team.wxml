@@ -1,0 +1,13 @@
+<!--common/team/team.wxml-->
+<view class="switch-team" bindtap="switchCompany">
+    <view class="company-logo-area">
+      <image src="{{src}}" class="companyLogo"></image>
+    </view>
+    <view class="companyInfo">
+      <view class="companyName">{{companyName}}</view>
+      <view class="company-legal-person">负责人:{{legalPerson}}</view>
+    </view>
+    <view class="company-radio">
+      <radio color="rgb(64,156,242)" checked="{{checked}}"></radio>
+    </view>
+</view>

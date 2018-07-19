@@ -1,0 +1,28 @@
+.add-new-company{
+  position:absolute;
+  width: 100%;
+  height: 100%;
+ background:rgba(245,245,245,1);
+}
+.new-company-title{
+  height: 23rpx;
+  color: #999999;
+  font-size: 24rpx;
+  line-height: 23rpx;
+  margin: 19rpx 41rpx;
+}
+.new-company-name{
+  position: relative;
+  background-color: white;
+}
+.textPlaceholder{
+  position: absolute;
+  color: #666666;
+  margin-left: 41rpx;
+  right: 0rpx;
+  font-size: 28rpx;
+}
+.input-company-name{
+  height: 120rpx;
+  width: 100%;
+}

@@ -4,11 +4,11 @@ var handleUserInfo = function(info){
     info = info.data.data;
     wx.setStorageSync("allPersonSize", info.allPersonSize);//公司人数
     wx.setStorageSync("cid", info.cid);//公司ID
-    wx.setStorageSync("cname", info.curCorp.cname);//组织名称
+    wx.setStorageSync("teamName", info.curUser.teamName);//组织名称
     wx.setStorageSync("isOrgCorporationAdmin", info.isOrgCorporationAdmin);//是否管理员
   }
   return {
-    cname:info.curCorp.cname,
+    cname:info.curUser.teamName,
     cicon:info.curCorp.cicon//单位logo
   }
 }

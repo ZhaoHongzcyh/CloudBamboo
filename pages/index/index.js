@@ -330,6 +330,8 @@ Page({
         this.setData({
           isLogoing: false
         });
+        console.log("登录")
+        console.log(res);
         var handleInfo = api.handleLogoinInfo(res);
         if (handleInfo.msg == 'handle success'){
           wx.redirectTo({

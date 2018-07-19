@@ -3,7 +3,7 @@
   <view class="company-head">
     <image src="{{company.logo}}" class="company-logo"></image>
     <view class="company-name">{{company.name}}</view>
-    <view class="company-switch">
+    <view class="company-switch" bindtap="switchCompany">
       <image src="./img/switch.png" class="company-switch-img"></image>
     </view>
   </view>
@@ -12,22 +12,22 @@
     <!-- 今天时间 -->
     <view class="comapny-today">
       <view class="work-month-data">
-        <view class="work-data">22</view>
-        <view class="work-month">十一月</view>
+        <view class="work-data">{{time.today}}</view>
+        <view class="work-month">{{time.month}}</view>
       </view>
     </view>
     <view class="company-work">
       <!-- 上班考情 -->
       <view class="company-goToWork">
         <view class="company-clock">上班打卡时间：</view>
-        <view class="punch-clock-time">9:00</view>
-        <view class="punch-card-btn">上班打卡</view>
+        <view class="{{attendance.goWork.status? 'punch-clock-time-off':'punch-clock-time'}}">{{attendance.goWork.time}}</view>
+        <view class="{{attendance.goWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}">上班打卡</view>
       </view>
       <!-- 下班那考情 -->
       <view class="company-goOffWork">
         <view class="company-clock">下班打卡时间：</view>
-        <view class="punch-clock-time">8:00</view>
-        <view class="punch-card-btn">下班打卡</view>
+        <view class="{{attendance.offWork.status? 'punch-clock-time-off':'punch-clock-time'}}">{{attendance.offWork.time}}</view>
+        <view class="{{attendance.offWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}">下班打卡</view>
       </view>
     </view>
   </view>
@@ -36,7 +36,7 @@
     <view class="company-work-head">工作台</view>
     <view class="workbench-area list-area">
       <block wx:for="{{listConfig.workPlatform}}" wx:key="{{item.id}}">
-        <companyList src="{{item.src}}" title="{{item.title}}"></companyList>
+        <companyIcon bindtap="alert" src="{{item.src}}" title="{{item.title}}"></companyIcon>
       </block>
     </view>
   </view>
@@ -48,7 +48,7 @@
     </view>
     <view class="list-area">
       <block wx:for="{{listConfig.iLaunch}}" wx:key="{{item.id}}">
-        <companyList src="{{item.src}}" title="{{item.title}}"></companyList>
+        <companyIcon bindtap="alert" src="{{item.src}}" title="{{item.title}}"></companyIcon>
       </block>
     </view>
   </view>
@@ -59,11 +59,21 @@
     </view>
     <view class="list-area">
       <block wx:for="{{listConfig.analysis}}" wx:key="{{item.id}}">
-        <companyList src="{{item.src}}" title="{{item.title}}"></companyList>
+        <companyIcon bindtap="alert" src="{{item.src}}" title="{{item.title}}"></companyIcon>
       </block>
     </view>
     
   </view>
   <!--内容添加按钮  -->
   <view class="company-add-content">+</view>
+  <!-- app下载提示弹框 -->
+  <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>
+<view wx:if="{{switchCompany}}">
+  <block wx:for="{{companyList}}">
+    <companyList src="/pages/company/img/companyList.png" companyName="九天云竹" legalPerson="罗明"></companyList>
+  </block>
+</view>
+<!-- <view wx:if="{{junpLoading}}">
+  <logoinAlert src="/pages/index/img/logoin-loading.png" alertText="正在跳转。。。" animate="1" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+</view> -->
