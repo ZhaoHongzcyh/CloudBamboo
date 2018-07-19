@@ -6,21 +6,24 @@
       公司名称
     </view>
     <view class="new-company-name">
-      <textarea bindtap="input " placeholder="请输入公司名称" placeholder-class="textPlaceholder" class="input-company-name"></textarea>
-      <view>请输入公司名称</view>
+      <textarea bindinput="getinput" bindfocus="hidePlaceholder" bindblur='showPlaceholder' class="input-company-name"></textarea>
+      <view class="textPlaceholder" wx:if="{{isShowTextPlaceholder}}">请输入公司名称</view>
     </view>
   </view>
    <!-- 公司成员 -->
   <view>
-   <view>公司成员({{}}人)</view>
-   <view>
-    <view class="addMember addMemberBtn">+</view>
-    <block>
-      <view>
-        <image src=""></image>
-        <view>
-
-        </view>
+   <view class="new-company-title">公司成员({{}}人)</view>
+   <view class="add-people">
+    <view class="add-people-btn">
+      <image src="./img/add_icon.png" class="add-menmber-btn"></image>
+      <view class="addText">添加</view>
+    </view>
+    <block wx:for="{{memberList}}">
+      <view class="add-member" >
+        <image class="delete-member" src="./img/delete.png" data-index="{{index}}" wx:if="{{!item.role}}" bindtap="deleteMember"></image>
+        <image src="./img/head.png" class="member-photo"></image>
+        <image src="./img/admin.png" class="menmer-role-admin" wx:if="{{item.role}}"></image>
+        <view class="member-name">{{item.name}}</view>
       </view>
     </block>
    </view>

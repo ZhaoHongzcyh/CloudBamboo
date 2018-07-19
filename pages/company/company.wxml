@@ -65,7 +65,7 @@
     
   </view>
   <!--内容添加按钮  -->
-  <view class="company-add-content">+</view>
+  <view class="company-add-content" bindtap="addCompany">+</view>
   <!-- app下载提示弹框 -->
   <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>

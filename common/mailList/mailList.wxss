@@ -1,0 +1,22 @@
+/* common/mailList/mailList.wxss */
+.mail-list{
+  background-color: white;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+}
+.head-content{
+  margin-top: 10rpx;
+}
+.head-img{
+  width: 68rpx;
+  height: 68rpx;
+  margin:auto 40rpx;
+}
+.mail-name{
+  flex: 2;
+  height: 27rpx;
+  line-height: 27rpx;
+  font-size: 28rpx;
+  color: #333333;
+}

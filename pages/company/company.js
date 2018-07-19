@@ -106,5 +106,11 @@ Page({
     wx.navigateTo({
       url: '/pages/companyList/companyList',
     });
+  },
+  // 添加公司
+  addCompany:function(){
+    wx.navigateTo({
+      url: '/pages/addCompany/addCompany'
+    })
   }
 })
