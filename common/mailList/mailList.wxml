@@ -1,7 +1,7 @@
 <!--common/mailList/mailList.wxml-->
 <view class="mail-list"> 
   <view class="head-content">
-    <image src="./img/head.png" class="head-img"></image>
+    <image src="{{src}}" class="head-img"></image>
   </view>
-  <view class="mail-name">我的设备()</view>
+  <view class="mail-name">{{title}}({{num}})</view>
 </view>

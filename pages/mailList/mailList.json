@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "popup": "/common/popup/popup",
-    "logoinAlert": "/common/logoinAlert/logoinAlert"
+    "logoinAlert": "/common/logoinAlert/logoinAlert",
+    "mailList":"/common/mailList/mailList"
   }
 }

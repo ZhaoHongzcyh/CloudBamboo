@@ -1,3 +1,11 @@
 <view class="mail-list-content">
-  
+  <mailList src="{{equipment.src}}" title="{{equipment.title}}"></mailList>
+  <view class="list">
+    <block wx:for="{{list}}">
+      <mailList src="{{item.src}}" title="{{item.title}}" num="{{item.num}}"></mailList>
+    </block>
+  </view>
+  <view class="group">
+    <mailList src="{{group.src}}" title="{{group.title}}" num="{{group.num}}"></mailList>
+  </view>
 </view>
