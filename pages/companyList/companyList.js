@@ -9,8 +9,7 @@ Page({
     
   },
   onLoad:function(){
-    var that = this;
-    that.getCompanyList();
+    this.getCompanyList();
   },
   // 请求公司列表
   getCompanyList: function () {
@@ -51,6 +50,7 @@ Page({
       })
     })
   },
+  // 选择公司
   chooseCompany:function(e){
     var company = e.details;
     var taskId = e.currentTarget.dataset.id;

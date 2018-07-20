@@ -1,0 +1,55 @@
+/* common/fileList/fileList.wxss */
+.file-list{
+  height: 112rpx;
+  background-color: rgba(255,255,255,1);
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #DBDBDB;
+}
+.file-photo{
+  margin-left: 30rpx;
+}
+.headImg{
+  width: 52rpx;
+  height: 41rpx;
+}
+.file-info{
+  margin-left: 21rpx;
+  flex: 2;
+}
+.file-name{
+  height: 27rpx;
+  line-height: 27rpx;
+  color: #333333;
+  font-size: 28rpx;
+}
+.size-time{
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+}
+.file-time{
+  height: 16rpx;
+  font-size: 20rpx;
+  line-height: 16rpx;
+  color: #999999;
+}
+.file-size{
+  height: 16rpx;
+  font-size: 20rpx;
+  line-height: 16rpx;
+  margin-left: 30rpx;
+  color: #999999;
+}
+.radio-area{
+  padding: 0rpx;
+  display: flex;
+  margin-right: 30rpx;
+  align-items: center;
+}
+.radio{
+  margin: 0rpx;
+  width: 40rpx;
+  height: 40rpx;
+  text-align: center;
+}

@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/cloudDisk/cloudDisk",
     "pages/mailList/mailList",
     "pages/company/company",
     "pages/addCompany/addCompany",

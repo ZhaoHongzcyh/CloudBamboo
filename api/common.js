@@ -46,6 +46,7 @@ var handleLogoinInfo = function(info){
         wx.setStorageSync("appKey", info.data.appKey);
         wx.setStorageSync("proxyUserToken", info.data.proxyUserToken);
         wx.setStorageSync("defaultTaskTeam", info.data.defaultTaskTeam);
+        wx.setStorageSync("tcUserId", info.data.proxyUserInfo.tcUserId);
       }
       catch(e){
         console.log("用户基本信息储存异常");
@@ -179,11 +180,46 @@ var choosedCompany = function(ary,index){
   return ary;
 }
 
+// 云盘数据整理 dat:格式为数组，例如：[{},{}]
+var cloudDiskDataClean = function(dat){
+    var folder = [];//存放文件夹数据
+    var file = [];//存放普通文件
+    for(var i =0; i<dat.length; i++){
+      if(dat[i].atype == 0){
+        folder.push(dat[i])
+      }
+      else{
+        file.push(dat[i])
+      }
+    }
+    return {folder,file};//返回文件夹数据与文件数据
+}
+
+// 云盘数据清洗，按照文件名排序
+var fileNameSort = function(dat){
+  console.log(dat);
+  var folder = dat.folder.sort(function(a,b){
+    a.title > b.title ? 1 : 0;
+  });
+  var file = dat.file.sort(function(a,b){
+    a.title > b.title ? 1 : 0;
+  })
+  var list = [];
+  for(var i = 0; i < folder.length; i++){
+    list.push(folder[i]);
+  }
+  for(var i = 0; i < file.length; i++){
+    list.push(file[i])
+  }
+  return list;//按照文件名排序之后的数据
+}
 module.exports = {
   request,
   handleLogoinInfo,
   handleAttendance,
   getData,
   clearCompanyList,
-  choosedCompany
+  choosedCompany,
+  cloudDiskDataClean,
+  fileNameSort
 }

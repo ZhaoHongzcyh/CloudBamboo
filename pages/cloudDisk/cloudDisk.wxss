@@ -1,0 +1,59 @@
+.file-select-info{
+  display: flex;
+  align-items: center;
+  height: 88rpx;
+  border: 1rpx solid red;
+}
+.cancel{
+  height: 26rpx;
+  margin-left: 25rpx;
+  font-size: 28rpx;
+  color: #666666;
+}
+.select-num{
+  color: #333333;
+  font-size: 34rpx;
+  flex: 2;
+  text-align: center;
+}
+.select-all{
+  height: 26rpx;
+  margin-right: 24rpx;
+  font-size: 28rpx;
+  color: #666666;
+}
+/* 文件搜索 */
+.search{
+  height: 92rpx;
+  display: flex;
+  align-items: center;
+}
+.search-img-btn{
+  margin-left: 24rpx;
+}
+.search-img{
+  width: 34rpx;
+  height: 34rpx;
+}
+.search-input{
+  width: 650rpx;
+  margin-left: 21rpx;
+  border-radius: 30rpx;
+  display: flex;
+  align-items: center;
+  background-color: rgba(245,245,245,1);
+}
+
+.magnifier{
+  width: 26rpx;
+  height: 26rpx;
+  margin-left: 125rpx;
+}
+.search-text{
+  width: 95%;
+  height: 60rpx;
+  margin: auto;
+  font-size: 28rpx;
+  color: #AAAAAA;
+  border: 1rpx solid red;
+}

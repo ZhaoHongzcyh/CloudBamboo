@@ -50,7 +50,7 @@ Page({
   alert:function(){
     this.popup.showPopup()
   },
-  //登录/注册 切换
+  //登录/注册路由切换
   switchUrl:function(event){
     var role = event.currentTarget.dataset.logoin;
     // 重置密码可见状态
@@ -90,10 +90,6 @@ Page({
       isShowRegisterPwd: false
     })
   },
-  // 验证码倒计时
-  VerificationTime:function(){
-
-  },
   // 登录模块实现placeholder效果
   inputLogoin:function(event){
     var role = event.currentTarget.dataset.role;
@@ -124,7 +120,8 @@ Page({
       })
     }
   },
-  // 获取登录信息
+
+  // 获取并储存登录信息
   getLogoInfo:function(event){
     var role = event.currentTarget.dataset.role;
     var logoin = this.data.logoin;
@@ -172,7 +169,8 @@ Page({
     })
     this.validatorLogoinInfo(logoin);
   },
-  // 获取验证码请求
+
+  // 验证码倒计时
   getVerificationCode:function(){
     var that = this;
     that.setData({
@@ -190,7 +188,8 @@ Page({
       that.getVerificationCode()
     },1000)
   },
-  // 切换登陆密码可见状态
+
+  // 切换登录密码可见状态
   switchPwdState:function(e){
     var role = e.currentTarget.dataset.role;
     if(role == "logoin"){
@@ -204,7 +203,8 @@ Page({
       })
     }
   },
-  // 获取用户注册信息
+
+  // 获取并存储用户注册信息
   getRegisterInfo:function(e){
     var role = e.currentTarget.dataset.role;
     var register = this.data.register;
@@ -277,7 +277,8 @@ Page({
     });
     this.validatorRegisterInfo(register);
   },
-  // 验证用户登录信息格式，是否合法，以此改变按钮样式
+
+  // 验证用户登录信息格式，是否合法，以此改变登录按钮样式
   validatorLogoinInfo:function(info){
     var phoneReg = /^1\d{10}$/img;
     var pwdReg = /^\w{6,20}$/
@@ -295,7 +296,8 @@ Page({
       })
     }
   },
-  // 验证用户注册信息格式是否合法，以此改变按钮样式
+
+  // 验证用户注册信息格式是否合法，以此改变注册按钮样式
   validatorRegisterInfo:function(info){
     var phoneReg = /^1\d{10}$/img;
     var verificationReg = /^\w{2,8}$/;
@@ -314,7 +316,8 @@ Page({
       })
     }
   },
-  // 用户登录
+
+  // 发起登录请求
   userLogoin:function(){
     this.setData({
       isLogoing:false
@@ -366,7 +369,8 @@ Page({
       })
     }
   },
-  // 用户注册
+
+  // 发起注册请求
   userRegister:function(){
     if (this.data.isClickRegisterBtn){
       return false;
@@ -400,6 +404,7 @@ Page({
       
     }
   },
+
   // 隐藏注册弹框
   hideAlert:function(){
     this.setData({
@@ -409,7 +414,7 @@ Page({
       }
     })
   },
-  // 请求验证码
+  // 发起验证码请求
   getCode:function(){
     var phone = this.data.register.phone;
     var phoneReg = /^1\d{10}$/img;

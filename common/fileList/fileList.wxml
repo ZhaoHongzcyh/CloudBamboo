@@ -1,0 +1,52 @@
+<!--common/fileList/fileList.wxml-->
+<view class="file-list">
+  <!-- 文件类型图片标识 -->
+  <view class="file-photo">
+    <!-- 文件夹 -->
+    <image src="/pages/cloudDisk/img/folder.png" class="headImg" wx:if="{{item.atype == 0}}"></image>
+    <!-- 其他格式文档 -->
+    <image src="/pages/cloudDisk/img/default.png" class="headImg" wx:if="{{item.atype == 1}}"></image>
+    <!-- doc-work文档 -->
+    <image src="/pages/cloudDisk/img/doc.png" class="headImg" wx:if="{{item.atype == 2}}"></image>
+    <!-- xls-Excel -->
+    <image src="/pages/cloudDisk/img/xls.png" class="headImg" wx:if="{{item.atype == 3}}"></image>
+    <!-- ppt文档 -->
+    <image src="/pages/cloudDisk/img/ppt.png" class="headImg" wx:if="{{item.atype == 4}}"></image>
+    <!-- pdf文档 -->
+    <image src="/pages/cloudDisk/img/pdf.png" class="headImg" wx:if="{{item.atype == 5}}"></image>
+    <!-- text文档 -->
+    <image src="/pages/cloudDisk/img/text.png" class="headImg" wx:if="{{item.atype == 6}}"></image>
+    <!-- img文档 -->
+    <image src="/pages/cloudDisk/img/img.png" class="headImg" wx:if="{{item.atype == 7}}"></image>
+    <!-- html文档 -->
+    <image src="/pages/cloudDisk/img/html.png" class="headImg" wx:if="{{item.atype == 8}}"></image>
+    <!-- video视频 -->
+    <image src="/pages/cloudDisk/img/video.png" class="headImg" wx:if="{{item.atype == 9}}"></image>
+    <!-- 音频文档 -->
+    <image src="/pages/cloudDisk/img/audio.png" class="headImg" wx:if="{{item.atype == 10}}"></image>
+    <!-- rar压缩文件文档 -->
+    <image src="/pages/cloudDisk/img/rar.png" class="headImg" wx:if="{{item.atype == 11}}"></image>
+    <!-- flash文档 -->
+    <image src="/pages/cloudDisk/img/flash.png" class="headImg" wx:if="{{item.atype == 12}}"></image>
+    <!-- link链接 -->
+    <image src="/pages/cloudDisk/img/link.png" class="headImg" wx:if="{{item.atype == 13}}"></image>
+    <!-- 协同文档 -->
+    <image src="/pages/cloudDisk/img/col.png" class="headImg" wx:if="{{item.atype == 14}}"></image>
+    <!-- task项目 -->
+    <image src="/pages/cloudDisk/img/task.png" class="headImg" wx:if="{{item.atype == 15}}"></image>
+  </view>
+  <!-- 文件信息 -->
+  <view class="file-info">
+    <view class="file-name">
+      {{item.title}}
+    </view>
+    <view class="size-time">
+      <view class="file-time">{{item.createDate}}</view>
+      <view class="file-size" wx:if="{{item.atype!=0}}">{{item.asize/(1024*1024)}}M</view>
+    </view>
+  </view>
+  <!-- 文件单选区域 -->
+  <view class="radio-area">
+    <radio class="radio" data-item="{{item}}" bindtap="selectFile" color="rgb(64,156,242)" data-ownerId="{{item.ownerId}}" data-parentId="{{item.parentId}}" data-ownerType="{{item.ownerType}}" data-id="{{item.id}}" checked="{{checked}}"></radio>
+  </view>
+</view>

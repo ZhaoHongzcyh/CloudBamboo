@@ -1,0 +1,19 @@
+<view>
+  <view class="file-select-info" wx:if="{{selectnum>0? true: false}}">
+    <view class="cancel">取消</view>
+    <view class="select-num">已选择{{selectnum}}个</view>
+    <view class="select-all">全选</view>
+  </view>
+  <view class="search">
+    <view class="search-img-btn">
+      <image src="./img/search.png" class="search-img"></image>
+    </view>
+    <view class="search-input">
+      <image src="./img/searchbtn.png" class="magnifier"></image>
+      <input bindinput="getSearchContent" type="text" class="search-text" value="{{input}}"/>
+    </view>
+  </view>
+  <block wx:for="{{fileData}}">
+    <file item="{{item}}" bindselect="select" data-index="{{index}}" checked="{{selectStatus[index]}}"></file>
+  </block>
+</view>

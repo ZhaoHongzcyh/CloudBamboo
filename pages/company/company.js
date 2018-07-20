@@ -28,6 +28,7 @@ Page({
     companyList:[]//公司列表
   },
   onReady:function(){
+    // 弹框
     this.popup = this.selectComponent("#company-popup");
   },
   onLoad:function(){
@@ -92,7 +93,6 @@ Page({
       console.log(e);
     })
   },
-  // tc/taskTeamService/findTaskTeam
   getUserTeam:function(){
     var obj = {};
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
