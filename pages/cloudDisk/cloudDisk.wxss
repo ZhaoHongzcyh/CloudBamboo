@@ -2,6 +2,9 @@
   display: flex;
   align-items: center;
   height: 88rpx;
+  opacity: 0;
+  animation: opacity 1s;
+  animation-fill-mode:forwards;
   border: 1rpx solid red;
 }
 .cancel{
@@ -56,4 +59,60 @@
   font-size: 28rpx;
   color: #AAAAAA;
   border: 1rpx solid red;
+}
+/* 底部文件操作弹框 */
+.footer-alert{
+  position: fixed;
+  display: flex;
+  height: 98rpx;
+  bottom: 0rpx;
+  width: 100%;
+  opacity: 0;
+  transition: all 0.5s;
+  align-items: center;
+  animation: opacity 1s;
+  animation-fill-mode:forwards;
+  background-color: rgba(64,156,242,1);
+}
+@keyframes opacity{
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0.5;
+  }
+  75%{
+    opacity: 0.75;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+.footerimg{
+  width: 42rpx;
+  height: 42rpx;
+}
+.operation{
+  width: 25%;
+  text-align: center;
+}
+.footertext{
+  height: 19rpx;
+  line-height: 0rpx;
+  margin-top: 12rpx;
+  font-size: 20rpx;
+  color: #F8F8F8;
+}
+/* 更多操作 */
+.footer-more{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  z-index:2;
+  background-color: rgba(240,240,240,1);
+}
+.more{
+  margin-top: 15rpx;
+  font-size: 28rpx;
+  text-align: center;
 }

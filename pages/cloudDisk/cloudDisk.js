@@ -8,7 +8,8 @@ Page({
     selectedFile:[],
     selectnum:0,
     selectStatus:[],//文件是否被选中的状态
-    input:"请输入关键字搜索文件或文件夹"
+    input:"请输入关键字搜索文件或文件夹",
+    more:false//用户是否选择了更多操作
   },
   onLoad:function(){
     this.getFileList();
@@ -39,15 +40,6 @@ Page({
       console.log(e)
     })
   },
-  // 文件排序
-  fileSort:function(){
-    if(this.data.sortRule == 'name'){
-
-    }
-    else{
-      
-    }
-  },
   select:function(e){
     console.log("父级");
     console.log(e)
@@ -61,12 +53,55 @@ Page({
     }
     else{
       ary.splice(num,1);
-      selectStatus[index] = false
+      selectStatus[index] = false;
     }
     this.setData({
       selectedFile:ary,
       selectnum:ary.length,
       selectStatus: selectStatus
+    })
+  },
+  // 全选
+  selectAll:function(){
+    var length = this.data.fileData.length;
+    var selectStatus = [];
+    var fileData = this.data.fileData;
+    var ary = [];
+    for(var i = 0; i< length; i++){
+      selectStatus.push(true);
+    }
+    for (var i = 0; i < fileData.length; i++){
+      ary.push(fileData[i].id)
+    }
+    this.setData({
+      selectedFile:ary,
+      selectStatus:selectStatus,
+      selectnum:length
+    })
+  },
+  // 取消
+  cancel:function(){
+    var selectStatus = [];
+    var length = this.data.fileData.length;
+    for(var i = 0; i<length; i++){
+      selectStatus.push(false);
+    }
+    this.setData({
+      selectedFile:[],
+      selectStatus:selectStatus,
+      selectnum:0
+    })
+  },
+  // 更多
+  moreFun:function(){
+    this.setData({
+      more:true
+    })
+  },
+  // 取消更多
+  cancelmore:function(){
+    this.setData({
+      more:false
     })
   },
   getSearchContent:function(e){

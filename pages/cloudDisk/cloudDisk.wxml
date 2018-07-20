@@ -1,8 +1,8 @@
 <view>
   <view class="file-select-info" wx:if="{{selectnum>0? true: false}}">
-    <view class="cancel">取消</view>
+    <view class="cancel" bindtap="cancel">取消</view>
     <view class="select-num">已选择{{selectnum}}个</view>
-    <view class="select-all">全选</view>
+    <view class="select-all" bindtap="selectAll">全选</view>
   </view>
   <view class="search">
     <view class="search-img-btn">
@@ -16,4 +16,33 @@
   <block wx:for="{{fileData}}">
     <file item="{{item}}" bindselect="select" data-index="{{index}}" checked="{{selectStatus[index]}}"></file>
   </block>
+  <!-- 底部文件操作弹框 -->
+  <view class="footer-alert" wx:if="{{selectnum>0? true: false}}">
+    <view class="download operation">
+      <image src="./img/download.png" class="footerimg"></image>
+      <view class="footertext">下载</view>
+    </view>
+    <view class="share operation">
+      <image src="./img/share.png" class="footerimg"></image>
+      <view class="footertext">分享</view>
+    </view>
+    <view class="move operation">
+      <image src="./img/move.png" class="footerimg"></image>
+      <view class="footertext">移动</view>
+    </view>
+    <view class="delete operation">
+      <image src="./img/delete.png" class="footerimg"></image>
+      <view class="footertext">删除</view>
+    </view>
+    <view class="more operation" bindtap="moreFun">
+      <image src="./img/more.png" class="footerimg"></image>
+      <view class="footertext">更多</view>
+    </view>
+  </view>
+  <!-- 更多操作 -->
+  <view class="footer-more" wx:if="{{more && selectnum}}">
+    <view class="copyto more">复制到</view>
+    <view class="rename more" wx:if="{{selectnum == 1}}">重命名</view>
+    <view class="cancelfun more" bindtap="cancelmore">取消</view>
+  </view>
 </view>
