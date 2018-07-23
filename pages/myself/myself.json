@@ -1,8 +1,9 @@
 {
   "usingComponents": {
-    "popup": "/common/popup/popup",
+    "companyIcon": "/common/companyIcon/companyIcon",
     "logoinAlert": "/common/logoinAlert/logoinAlert",
-    "mailList":"/common/mailList/mailList",
+    "companyList": "/common/team/team",
+    "popup": "/common/popup/popup",
     "footNavigator": "/common/footerNavigator/footerNavigator"
   }
 }

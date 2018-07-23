@@ -68,6 +68,8 @@
   <view class="company-add-content" bindtap="addCompany">+</view>
   <!-- app下载提示弹框 -->
   <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+  <!-- 脚步导航区域 -->
+  <footNavigator></footNavigator>
 </view>
 <view wx:if="{{switchCompany}}">
   <block wx:for="{{companyList}}">

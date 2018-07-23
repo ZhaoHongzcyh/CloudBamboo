@@ -1,0 +1,177 @@
+.project{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:rgba(245,245,245,1);
+}
+/* 路由样式 */
+.project-classification{
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 80rpx;
+}
+.project-url{
+  width: 50%;
+  height: 100%;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  background-color: rgba(255,255,255,1);
+  color: #666666;
+  text-align: center;
+}
+.current-url{
+  border-bottom: 4rpx solid #409CF2;
+}
+/* 项目样式 */
+.company-name{
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  border: 1rpx solid black;
+}
+.company-img{
+  width: 40rpx;
+  height: 40rpx;
+  margin: 24rpx 25rpx;
+  border-radius: 50%;
+}
+.companyname{
+  height: 27rpx;
+  font-size: 28rpx;
+  line-height: 27rpx;
+  flex: 2;
+  color: #333333;
+}
+.select{
+  margin: 25rpx 27rpx;
+}
+.select-img{
+  width: 32rpx;
+  height: 32rpx;
+}
+/* 具体某一个样式 */
+.project-info{
+  width: 702rpx;
+  height: 212rpx;
+  margin:20rpx 24rpx;
+  border-radius: 6rpx;
+  background-color:white;
+  border: 1rpx solid #DBDBDB;
+}
+.single-project{
+  display: flex;
+  align-items: center;
+  margin: 32rpx 32rpx 20rpx 32rpx;
+  border-radius: 4rpx;
+}
+.isprogress{
+  width: 112rpx;
+  height: 48rpx;
+  font-size: 28rpx;
+  line-height: 48rpx;
+  font-size: 28rpx;
+  text-align: center;
+  background: linear-gradient(to right,#6786FE,#26CFFD);
+  color: rgba(255,255,255,1);
+}
+.project-name{
+  margin-left: 21rpx;
+  height: 31rpx;
+  line-height: 31rpx;
+  font-size: 32rpx;
+  flex: 2;
+  text-align: left;
+}
+.project-sign{
+  margin-left: 32rpx;
+  text-align: center;
+}
+.projecttop{
+  width: 40rpx;
+  height: 40rpx;
+}
+/* 负责人模块 */
+.project-charge{
+  display: flex;
+  margin-left: 36rpx;
+}
+.charge{
+  height: 23rpx;
+  line-height: 23rpx;
+  font-size: 24rpx;
+  color: #999999;
+}
+.charger{
+  color: #333333;
+  height: 19rpx;
+  margin-left: 19rpx;
+  line-height: 19rpx;
+  font-size: 24rpx;
+}
+/* 进度条信息 */
+.progress{
+  display: flex;
+  align-items: center;
+  margin: 31rpx 0rpx 0rpx 36rpx;
+}
+.progress-bar{
+  height: 12rpx;
+  width: 480rpx;
+  border-radius: 5rpx;
+  background: linear-gradient(to right,#927EFA,#F583ED);
+}
+.istimeout{
+  height: 22rpx;
+  line-height: 22rpx;
+  margin-left: 55rpx;
+  font-size: 24rpx;
+  color: #FD4C45;
+}
+/* 二级项目样式 */
+.second-level-project{
+  width: 680rpx;
+  margin: auto;
+  margin-top :39rpx;
+  background-color: white;
+  border: 1rpx solid black;
+}
+.second-level{
+  display: flex;
+  align-items: center;
+  height: 81rpx;
+  border: 1rpx solid red;
+  /* background-color: white; */
+}
+.second-title-img{
+  width: 26rpx;
+  height: 26rpx;
+  margin-left: 26rpx;
+}
+.second-level-name{
+  color: #333333;
+  font-size: 28rpx;
+  height: 27rpx;
+  line-height: 27rpx;
+  margin-left: 20rpx;
+}
+.second-up{
+  text-align: center;
+  height: 60rpx;
+}
+.second-select-up{
+  width: 24rpx;
+  height: 24rpx;
+}
+/* 新加项目 */
+.add-project{
+  position: absolute;
+  width: 81rpx;
+  height: 81rpx;
+  font-size: 56rpx;
+  line-height: 81rpx;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #409CF2;
+  color: white;
+}

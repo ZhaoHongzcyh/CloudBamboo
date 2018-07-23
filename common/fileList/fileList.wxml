@@ -47,6 +47,6 @@
   </view>
   <!-- 文件单选区域 -->
   <view class="radio-area">
-    <radio class="radio" data-item="{{item}}" bindtap="selectFile" color="rgb(64,156,242)" data-ownerId="{{item.ownerId}}" data-parentId="{{item.parentId}}" data-ownerType="{{item.ownerType}}" data-id="{{item.id}}" checked="{{checked}}"></radio>
+    <radio class="radio" data-item="{{item}}" catchtap="selectFile" color="rgb(64,156,242)" data-ownerId="{{item.ownerId}}" data-parentId="{{item.parentId}}" data-ownerType="{{item.ownerType}}" data-id="{{item.id}}" checked="{{checked}}"></radio>
   </view>
 </view>

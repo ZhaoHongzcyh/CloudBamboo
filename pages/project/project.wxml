@@ -1,0 +1,53 @@
+<view class="project">
+  <view class="project-classification">
+    <view class="project-url current-url">公司项目</view>
+    <view class="project-url">个人项目</view>
+  </view>
+  <!-- 项目数据 -->
+  <block wx:for="{{list}}">
+    <view class="project-data">
+      <view class="company-name">
+        <image src="./img/company-img.png" class="company-img"></image>
+        <view class="companyname">九天云竹</view>
+        <view class="select">
+          <image src="./img/select-up.png" class="select-img"></image>
+        </view>
+      </view>
+      <view class="project-info">
+        <view class="single-project">
+          <view class="isprogress">进行中</view>
+          <view class="project-name">项目名称A</view>
+          <view class="project-sign">
+            <image src="./img/project_top.png" class="projecttop"></image>
+          </view>
+        </view>
+        <!-- 负责人信息 -->
+        <view class="project-charge">
+          <view class="charge">负责人</view>
+          <view class="charger">Gressi</view>
+        </view>
+        <!-- 进度条信息 -->
+        <view class="progress">
+          <view class="progress-bar"></view>
+          <view class="istimeout">超期20天</view>
+        </view>
+        <!-- 二级项目信息 -->
+        <block>
+          <view class="second-level-project">
+            <view class="second-level">
+              <image src="./img/second-level.png" class="second-title-img"></image>
+              <view class="second-level-name">二级项目名称</view>
+            </view>
+            <view class="second-up">
+              <image src="./img/select-up.png" class="second-select-up"></image>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </block>
+  <!-- 添加公司 -->
+  <view class="add-project">+</view>
+  <!-- 脚部跳转 -->
+  <footNavigator></footNavigator>
+</view>

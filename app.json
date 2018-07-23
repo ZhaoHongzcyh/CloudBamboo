@@ -1,13 +1,18 @@
 {
   "pages":[
+    "pages/project/project",
+    "pages/myself/myself",
+    "pages/addNewProject/addNewProject",
+    
+    
+    "pages/index/index",
+    
     "pages/cloudDisk/cloudDisk",
     "pages/mailList/mailList",
     "pages/company/company",
     "pages/addCompany/addCompany",
+    "pages/companyList/companyList"
     
-    "pages/companyList/companyList",
-    "pages/index/index",
-    "pages/logs/logs"
   ],
   "window":{
     "navigationBarTitleText": "云竹协作",

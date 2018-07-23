@@ -1,0 +1,48 @@
+<!-- 添加新项目 -->
+<view class="add-new-project">
+  <view>
+    <view class="title">项目名称</view>
+    <view class="input">
+      <view class="textarea">
+        <textarea class="introduction" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
+      </view>
+    </view>
+  </view>
+  <!-- 项目描述 -->
+  <view>
+    <view class="title">项目描述</view>
+    <view class="input">
+      <view class="textarea">
+        <textarea class="introduction" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
+      </view>
+    </view>
+  </view>
+  <!-- 项目成员 -->
+   <view>
+    <view class="title">项目成员</view>
+    <view class="input">
+      <view class="textarea">
+        <textarea class="introduction" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
+      </view>
+    </view>
+  </view>
+  <!-- 项目级别 -->
+  <view class="project-config">
+    <view class="project">
+      <view class="config">项目级别</view>
+      <view class="value">普通</view>
+    </view>
+    <view class="project">
+      <view class="config">开始时间</view>
+      <view class="value">2017-06-03</view>
+    </view>
+    <view class="project">
+      <view class="config">结束时间</view>
+      <view class="value">--</view>
+    </view>
+    <view class="project">
+      <view class="config">项目所属</view>
+      <view class="value">个人项目</view>
+    </view>
+  </view>
+</view>

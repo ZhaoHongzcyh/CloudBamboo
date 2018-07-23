@@ -13,6 +13,12 @@ Page({
   },
   onLoad:function(){
     this.getFileList();
+    // 弹框节点
+    this.popup = this.selectComponent("#popup");
+  },
+  // 显示弹框
+  alert: function () {
+    this.popup.showPopup()
   },
   // 获取文件列表
   getFileList:function(){

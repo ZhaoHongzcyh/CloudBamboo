@@ -1,0 +1,108 @@
+.head{
+  display: flex;
+  height: 88rpx;
+  align-items: center;
+  border-bottom: 1rpx solid #DBDBDB;
+}
+.headimg{
+  margin-left: 25rpx;
+  width: 64rpx;
+  height: 64rpx;
+}
+.user{
+  color: #333333;
+  font-size: 32rpx;
+  margin-left: 14rpx;
+  flex: 2;
+}
+.bell{
+  width: 36rpx;
+  height: 36rpx;
+}
+.set{
+  margin-left: 27rpx;
+  margin-right: 27rpx;
+  width: 36rpx;
+  height: 36rpx;
+}
+/* 待我处理 */
+.wait-handle-head{
+  display: flex;
+  align-items: center;
+  width: 710rpx;
+  height: 80rpx;
+  margin: auto;
+  margin-top: 30rpx;
+  align-items: center;
+  border: 1rpx solid #DBDBDB;
+}
+.wait-text{
+  height: 26rpx;
+  font-size: 28rpx;
+  margin-left: 35rpx;
+  color: #666666;
+  flex: 1;
+}
+.wait-num{
+  color: #449EF2;
+  font-size: 36rpx;
+  margin-right: 31rpx;
+}
+/* 待我处理的具体内容 */
+.wait-content{
+  display: flex;
+  align-items: center;
+  width: 710rpx;
+  height: 120rpx;
+  border: 1rpx solid rgba(235,236,240,1);
+  border-top: 0rpx;
+  margin: auto;
+}
+.radio-area{
+  margin-left: 30rpx;
+  margin-right: 24rpx;
+  width: 32rpx;
+  height: 32rpx;
+  padding: 0rpx;
+  display: flex;
+}
+.radio{
+  margin: 0rpx;
+  line-height: 0rpx;
+  width: 32rpx;
+  height: 32rpx;
+}
+.wait-info{
+  flex: 2;
+  margin-left: 24rpx;
+}
+.wait-title{
+  height: 27rpx;
+  color: #666666;
+  font-size: 28rpx;
+}
+.wait-time{
+  height: 40rpx;
+  width: 176rpx;
+  border-radius: 3rpx;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  margin-top: 19rpx;
+  color: white;
+  text-align: center;
+  background-color:rgba(64,156,242,1);
+  border:1rpx solid black;
+}
+.handle-img{
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+}
+.handle-name{
+  font-size: 28rpx;
+  height: 27rpx;
+  line-height: 27rpx;
+  color: rgba(102,102,102,1);
+  margin-left: 18rpx;
+  margin-right: 30rpx;
+}

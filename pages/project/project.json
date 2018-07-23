@@ -2,7 +2,6 @@
   "usingComponents": {
     "popup": "/common/popup/popup",
     "logoinAlert": "/common/logoinAlert/logoinAlert",
-    "mailList":"/common/mailList/mailList",
-    "footNavigator": "/common/footerNavigator/footerNavigator"
+    "footNavigator":"/common/footerNavigator/footerNavigator"
   }
 }

@@ -5,7 +5,6 @@
   opacity: 0;
   animation: opacity 1s;
   animation-fill-mode:forwards;
-  border: 1rpx solid red;
 }
 .cancel{
   height: 26rpx;
@@ -58,7 +57,6 @@
   margin: auto;
   font-size: 28rpx;
   color: #AAAAAA;
-  border: 1rpx solid red;
 }
 /* 底部文件操作弹框 */
 .footer-alert{

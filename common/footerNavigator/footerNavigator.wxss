@@ -1,0 +1,25 @@
+.footernavigator{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  height: 98rpx;
+  display: flex;
+  justify-items: center;
+  background-color: white;
+}
+.footermodule{
+  width: 20%;
+  text-align: center;
+  border: 1rpx solid red;
+}
+.footerimg{
+  width: 40rpx;
+  height: 40rpx;
+}
+.footertext{
+  height: 19rpx;
+  line-height: 19rpx;
+  margin-top: 12rpx;
+  color: #333333;
+  font-size: 20rpx;
+}

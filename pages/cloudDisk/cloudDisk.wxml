@@ -14,7 +14,7 @@
     </view>
   </view>
   <block wx:for="{{fileData}}">
-    <file item="{{item}}" bindselect="select" data-index="{{index}}" checked="{{selectStatus[index]}}"></file>
+    <file item="{{item}}" bindselect="select" bindtap="alert" data-index="{{index}}" checked="{{selectStatus[index]}}"></file>
   </block>
   <!-- 底部文件操作弹框 -->
   <view class="footer-alert" wx:if="{{selectnum>0? true: false}}">
@@ -45,4 +45,8 @@
     <view class="rename more" wx:if="{{selectnum == 1}}">重命名</view>
     <view class="cancelfun more" bindtap="cancelmore">取消</view>
   </view>
+  <!-- 脚步导航 -->
+  <footNavigator wx:if="{{selectnum>0? false: true}}"></footNavigator>
+  <!-- 提示弹框 -->
+  <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>

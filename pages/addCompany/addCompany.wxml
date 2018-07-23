@@ -27,5 +27,7 @@
       </view>
     </block>
    </view>
-  </view> 
+  </view>
+   <!--脚步导航  -->
+   <footNavigator></footNavigator>
 </view>

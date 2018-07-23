@@ -8,4 +8,6 @@
   <view class="group">
     <mailList src="{{group.src}}" title="{{group.title}}" num="{{group.num}}"></mailList>
   </view>
+  <!-- 脚步跳转 -->
+  <footNavigator></footNavigator>
 </view>

@@ -1,0 +1,24 @@
+<!--common/footerNavigator/footerNavigator.wxml-->
+<!-- 脚步导航 -->
+  <view class="footernavigator">
+    <view class="footermodule" data-url="/pages/" bindtap="pageJump">
+      <image src="./img/myself.png" class="footerimg"></image>
+      <view class="footertext">我的</view>
+    </view>
+    <view class="footermodule" data-url="/pages/project/project" bindtap="pageJump">
+      <image src="./img/project.png" class="footerimg"></image>
+      <view class="footertext">项目</view>
+    </view>
+    <view class="footermodule" data-url="/pages/company/company" bindtap="pageJump">
+      <image src="./img/company.png" class="footerimg"></image>
+      <view class="footertext">公司</view>
+    </view>
+    <view class="footermodule" data-url="/pages/cloudDisk/cloudDisk" bindtap="pageJump">
+      <image src="./img/cloudDisk.png" class="footerimg"></image>
+      <view class="footertext">云盘</view>
+    </view>
+    <view class="footermodule" data-url="/pages/mailList/mailList" bindtap="pageJump">
+      <image src="./img/mailList.png" class="footerimg"></image>
+      <view class="footertext">通讯录</view>
+    </view>
+  </view>

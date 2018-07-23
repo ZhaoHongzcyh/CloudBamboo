@@ -3,6 +3,7 @@
       "companyIcon": "/common/companyIcon/companyIcon",
       "logoinAlert": "/common/logoinAlert/logoinAlert",
       "companyList":"/common/team/team",
-      "popup":"/common/popup/popup"
+      "popup":"/common/popup/popup",
+      "footNavigator": "/common/footerNavigator/footerNavigator"
   }
 }

@@ -1,1 +1,5 @@
-{}
+{
+  "usingComponents": {
+    "footNavigator": "/common/footerNavigator/footerNavigator"
+  }
+}
