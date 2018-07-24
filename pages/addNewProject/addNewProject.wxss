@@ -57,3 +57,18 @@
   padding-bottom: 26rpx;
   border-bottom: 1rpx solid rgba(219,219,219,1);
 }
+/* 添加用户 */
+.add-user{
+  background-color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: wrap;
+}
+.add-btn{
+  margin-left: 29rpx;
+  border-radius: 50%;
+}
+.add-img{
+  width: 68rpx;
+  height: 68rpx;
+}

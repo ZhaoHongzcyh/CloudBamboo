@@ -1,0 +1,7 @@
+<!--common/people/people.wxml-->
+<view class="add-member" >
+    <image class="delete-member" src="./img/delete.png" data-index="{{index}}" wx:if="{{!item.role}}" bindtap="deleteMember"></image>
+    <image src="./img/head.png" class="member-photo"></image>
+    <image src="./img/admin.png" class="menmer-role-admin" wx:if="{{item.role}}"></image>
+    <view class="member-name">{{item.name}}</view>
+</view>

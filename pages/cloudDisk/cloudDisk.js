@@ -11,7 +11,7 @@ Page({
     input:"请输入关键字搜索文件或文件夹",
     more:false//用户是否选择了更多操作
   },
-  onLoad:function(){
+  onLoad:function(options){
     this.getFileList();
     // 弹框节点
     this.popup = this.selectComponent("#popup");
@@ -47,8 +47,6 @@ Page({
     })
   },
   select:function(e){
-    console.log("父级");
-    console.log(e)
     var index = e.currentTarget.dataset.index;
     var selectStatus = this.data.selectStatus;
     var ary = this.data.selectedFile;
@@ -112,6 +110,5 @@ Page({
   },
   getSearchContent:function(e){
     // console.log(e);
-    console.log(this.data.input)
   }
 })

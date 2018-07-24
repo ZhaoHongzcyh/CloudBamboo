@@ -1,5 +1,7 @@
 {
+  "navigationBarTitleText": "新建公司",
   "usingComponents": {
-    "footNavigator": "/common/footerNavigator/footerNavigator"
+    "footNavigator": "/common/footerNavigator/footerNavigator",
+    "adduser":"/common/people/people"
   }
 }

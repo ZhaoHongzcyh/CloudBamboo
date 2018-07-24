@@ -19,11 +19,14 @@
   </view>
   <!-- 项目成员 -->
    <view>
-    <view class="title">项目成员</view>
-    <view class="input">
-      <view class="textarea">
-        <textarea class="introduction" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
+    <view class="title">项目成员({{user.length}})</view>
+    <view class="add-user">
+      <view class="add-btn">
+        <image src="./img/add-user.png" class="add-img"></image>
       </view>
+      <block wx:for="{{user}}">
+        <adduser item="{{item}}" binddelete="delete" data-index="{{index}}"></adduser>
+      </block>
     </view>
   </view>
   <!-- 项目级别 -->

@@ -12,21 +12,20 @@
   </view>
    <!-- 公司成员 -->
   <view>
-   <view class="new-company-title">公司成员({{}}人)</view>
+   <view class="new-company-title">公司成员({{memberList.length}}人)</view>
    <view class="add-people">
     <view class="add-people-btn">
       <image src="./img/add_icon.png" class="add-menmber-btn"></image>
       <view class="addText">添加</view>
     </view>
     <block wx:for="{{memberList}}">
-      <view class="add-member" >
-        <image class="delete-member" src="./img/delete.png" data-index="{{index}}" wx:if="{{!item.role}}" bindtap="deleteMember"></image>
-        <image src="./img/head.png" class="member-photo"></image>
-        <image src="./img/admin.png" class="menmer-role-admin" wx:if="{{item.role}}"></image>
-        <view class="member-name">{{item.name}}</view>
-      </view>
+      <adduser item="{{item}}" data-index="{{index}}" binddelete="delete"></adduser>
     </block>
    </view>
+  </view>
+  <!-- 添加按钮 -->
+  <view class="add-company-btn">
+    完成
   </view>
    <!--脚步导航  -->
    <footNavigator></footNavigator>

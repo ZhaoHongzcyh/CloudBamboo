@@ -1,7 +1,8 @@
 .add-new-company{
   position:absolute;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 100rpx);
+  overflow: auto;
  background:rgba(245,245,245,1);
 }
 .new-company-title{
@@ -28,6 +29,8 @@
   margin-left: 41rpx;
   height: 120rpx;
   width: 100%;
+  color: #666666;
+  font-size: 28rpx;
 }
 
 /* 添加成员区域 */
@@ -58,38 +61,16 @@
   color: white;
   text-align: center;
 }
-/* 添加的人员头像 */
-.add-member{
-  position: relative;
-  margin-top: 24rpx;
-  margin-left: 57rpx;
-  text-align: center;
-}
-.member-photo{
-  width: 68rpx;
-  height: 68rpx;
+/* 添加按钮 */
+.add-company-btn{
+  width: 670rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 36rpx;
   margin: auto;
-  border-radius: 50%;
-}
-.delete-member{
-  position: absolute;
-  right: -14rpx;
-  top: -14rpx;
-  width: 32rpx;
-  height: 32rpx;
-  border-radius:50%;
-}
-.menmer-role-admin{
-  width: 24rpx;
-  height: 24rpx;
-  position:absolute;
-  bottom: 35rpx;
-  right: 0rpx;
-}
-.member-name{
-  height: 23rpx;
-  margin-bottom: 23rpx;
-  font-size: 24rpx;
+  margin-top: 530rpx;
+  color: white;
   text-align: center;
-  color: #666666;
+  background-color: #409CF2;
 }

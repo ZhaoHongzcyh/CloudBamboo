@@ -1,0 +1,36 @@
+/* common/people/people.wxss */
+/* 添加的人员头像 */
+.add-member{
+  position: relative;
+  margin-top: 24rpx;
+  margin-left: 57rpx;
+  text-align: center;
+}
+.member-photo{
+  width: 68rpx;
+  height: 68rpx;
+  margin: auto;
+  border-radius: 50%;
+}
+.delete-member{
+  position: absolute;
+  right: -14rpx;
+  top: -14rpx;
+  width: 32rpx;
+  height: 32rpx;
+  border-radius:50%;
+}
+.menmer-role-admin{
+  width: 24rpx;
+  height: 24rpx;
+  position:absolute;
+  bottom: 35rpx;
+  right: 0rpx;
+}
+.member-name{
+  height: 23rpx;
+  margin-bottom: 23rpx;
+  font-size: 24rpx;
+  text-align: center;
+  color: #666666;
+}

@@ -62,7 +62,7 @@ Page({
     })
   },
   // 删除成员
-  deleteMember:function(e){
+  delete:function(e){
     var index = e.currentTarget.dataset.index;
     var memberList = this.data.memberList;
     memberList.splice(index,1);
