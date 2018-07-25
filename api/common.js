@@ -227,6 +227,7 @@ var fileNameSort = function(dat){
   for(var i = 0; i < file.length; i++){
     list.push(file[i])
   }
+  console.log(list);
   return list;//按照文件名排序之后的数据
 }
 // 处理”我的“模块中请求的任务数据
