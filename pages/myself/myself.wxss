@@ -83,7 +83,7 @@
 }
 .wait-time{
   height: 40rpx;
-  width: 176rpx;
+  width: 200rpx;
   border-radius: 3rpx;
   font-size: 24rpx;
   line-height: 40rpx;
@@ -91,7 +91,7 @@
   color: white;
   text-align: center;
   background-color:rgba(64,156,242,1);
-  border:1rpx solid black;
+  border-radius: 3rpx;
 }
 .handle-img{
   width: 48rpx;
@@ -105,4 +105,31 @@
   color: rgba(102,102,102,1);
   margin-left: 18rpx;
   margin-right: 30rpx;
+}
+/* 无任务数据样式 */
+.no-content{
+  text-align: center;
+  margin-top: 293rpx;
+}
+.no-project-img{
+  width: 150rpx;
+  height: 150rpx;
+}
+.no-project-text{
+  color: #999999;
+  font-size: 24rpx;
+  height: 23rpx;
+  margin-top: 16rpx;
+  line-height: 23rpx;
+}
+.add-new-project{
+  width: 300rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 36rpx;
+  margin: auto;
+  margin-top: 50rpx;
+  color: white;
+  background-color: #409CF2;
 }

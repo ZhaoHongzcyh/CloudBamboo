@@ -87,16 +87,26 @@ var handleAttendance = function(data){
     goWork.status = false;
     goWork.title = "补登打卡"
   }
+  else if (data.workType == 3) {
+    offWork.time = "--:--";
+    offWork.status = false;
+    offWork.title = "缺卡"
+  }
 
   if(data.closingType == 1){
     offWork.time = data.closingTime.match(timeReg);
     offWork.status = false;
     offWork.title = "正常打卡"
   }
-  else{
+  else if (data.closingType == 2){
     offWork.time = data.closingTime.match(timeReg);
     offWork.status = false;
     offWork.title = "补登打卡"
+  }
+  else if (data.closingType == 3){
+    offWork.time = "--:--";
+    offWork.status = false;
+    offWork.title = "缺卡"
   }
   var obj = {
     goWork,
@@ -184,6 +194,12 @@ var choosedCompany = function(ary,index){
 var cloudDiskDataClean = function(dat){
     var folder = [];//存放文件夹数据
     var file = [];//存放普通文件
+    // 整理时间格式
+    for(var i = 0; i < dat.length; i++){
+      var year = dat[i].createDate.split("T")[0];
+      var date = dat[i].createDate.match(/T(\d|\:){1,20}\d{1,40}/)[0].split("T")[1];
+      dat[i].createDate = year + " " + date
+    }
     for(var i =0; i<dat.length; i++){
       if(dat[i].atype == 0){
         folder.push(dat[i])
@@ -213,6 +229,48 @@ var fileNameSort = function(dat){
   }
   return list;//按照文件名排序之后的数据
 }
+// 处理”我的“模块中请求的任务数据
+var handleTask = function(res){
+  var list = [];
+  var ary = [];
+  ary.sort(function(a,b){
+    return compareTime(a,b);
+  })
+  if(res.data.code == 200 && res.data.result){
+    ary = res.data.data.list;
+    for(var i = 0; i < ary.length; i++){
+      if(ary[i].endDate != null){
+        var str = ary[i].endDate.split("T");
+        str = str[0].split("-");
+        console.log(str);
+        str = str[1] + "月" + str[2] + "日";
+        ary[i].endDate = str;
+        list.unshift(ary[i])
+      }
+      else{
+        list.push(ary[i]);
+      }
+    }
+  }
+  return list;
+}
+// 时间比较
+var compareTime = function(startTime, endTime) {
+  var startTimes = startTime.substring(0, 10).split('-');
+  var endTimes = endTime.substring(0, 10).split('-');
+  startTime = startTimes[1] + '-' + startTimes[2] + '-' + startTimes[0] + ' ' + startTime.substring(10, 19);
+  endTime = endTimes[1] + '-' + endTimes[2] + '-' + endTimes[0] + ' ' + endTime.substring(10, 19);
+  var thisResult = (Date.parse(endTime) - Date.parse(startTime)) / 3600 / 1000;
+  if (thisResult < 0) {
+    return -1;
+  } else if (thisResult > 0) {
+    return 1
+  } else if (thisResult == 0) {
+    return 0;
+  } else {
+    return 0;
+  }
+}
 module.exports = {
   request,
   handleLogoinInfo,
@@ -221,5 +279,7 @@ module.exports = {
   clearCompanyList,
   choosedCompany,
   cloudDiskDataClean,
-  fileNameSort
+  fileNameSort,
+  handleTask,
+  compareTime
 }

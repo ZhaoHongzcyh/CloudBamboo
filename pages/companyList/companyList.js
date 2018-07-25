@@ -54,21 +54,29 @@ Page({
   chooseCompany:function(e){
     var company = e.details;
     var taskId = e.currentTarget.dataset.id;
+    console.log(taskId);
     var index = e.currentTarget.dataset.index;
     var obj = {taskId};
     var ary = this.data.companyListData;
     var address = app.ip + "tc/taskTeamService/setDefaultTaskTeam";
     api.request(obj,address,"post",true).then(res=>{
-      // console.log(res);
       if(res.data.code == 200){
         ary = api.clearCompanyList(ary);
         ary = api.choosedCompany(ary,index);
         this.setData({
           companyListData:ary
         })
+        // 更新本地缓存中的defaultTaskTeam
+        wx.setStorageSync("defaultTaskTeam", taskId)
       }
     }).catch(e=>{
       console.log(e);
+    })
+  },
+  // 添加公司
+  addCompany: function () {
+    wx.navigateTo({
+      url: '/pages/addCompany/addCompany'
     })
   }
 })

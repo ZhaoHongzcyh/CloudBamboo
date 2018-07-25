@@ -10,7 +10,7 @@ Page({
       {
         src:"/pages/mailList/img/head.png",
         title:"我的好友",
-        num:2
+        num:0
       },
       {
         src: "/pages/mailList/img/head.png",
@@ -26,13 +26,17 @@ Page({
     group:{
       src: "/pages/mailList/img/head.png",
       title: "我的群组",
-      num: 1
+      num: 0
     }
   },
   onLoad:function (options) {
-  
+    // 弹框
+    this.popup = this.selectComponent("#company-popup");
   },
-
+  // app下载弹框
+  alert: function () {
+    this.popup.showPopup()
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

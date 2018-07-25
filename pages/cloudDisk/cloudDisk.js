@@ -63,7 +63,14 @@ Page({
       selectedFile:ary,
       selectnum:ary.length,
       selectStatus: selectStatus
-    })
+    });
+    // 隐藏或者显示底部导航栏
+    if (ary.length > 0) {
+      wx.hideTabBar({})
+    }
+    else {
+      wx.showTabBar({})
+    }
   },
   // 全选
   selectAll:function(){
@@ -82,6 +89,13 @@ Page({
       selectStatus:selectStatus,
       selectnum:length
     })
+    // 隐藏或者显示底部导航栏
+    if(length > 0){
+      wx.hideTabBar({})
+    }
+    else{
+      wx.showTabBar({})
+    }
   },
   // 取消
   cancel:function(){

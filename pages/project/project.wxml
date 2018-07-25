@@ -5,16 +5,16 @@
   </view>
   <!-- 项目数据 -->
   <block wx:for="{{list}}" wx:for-item="item">
-    <view class="project-data" bindtap="alert">
-      <view class="company-name" wx:if="{{urlLine}}">
-        <image src="./img/company-img.png" class="company-img"></image>
+    <view class="project-data">
+      <view class="company-name" wx:if="{{urlLine}}" bindtap="alert">
+        <image src="./img/company-img.png" class="company-img"  ></image>
         <view class="companyname">{{item.summaryBean.title}}</view>
         <view class="select" wx:if="{{item.taskBo.list.length>0? true:false}}">
           <image src="./img/select-up.png" class="select-img"></image>
         </view>
       </view>
       <!-- 个人项目 -->
-      <view class="project-info" wx:if="{{!urlLine}}">
+      <view class="project-info" wx:if="{{!urlLine}}" bindtap="alert">
         <block >
           <view class="single-project">
             <view class="isprogress">{{progress[item.summaryBean.tstate]}}</view>
@@ -31,16 +31,16 @@
           <!-- 进度条信息 -->
           <view class="progress">
             <view class="process-bg">
-              <view class="progress-bar" style="width:100%;"></view>
+              <view class="progress-bar" style="width:100%;"  wx:if="{{item.summaryBean.daysRemaining===null? false:true}}"></view>
             </view>
             <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining>0? true:false}}">还剩{{item.summaryBean.daysRemaining}}天</view>
-            <view class="istimeout" wx:if="{{Number(item.summaryBean.daysRemaining)<0? true:false}}">超期{{item.summaryBean.daysRemaining}}天</view>
+            <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining<0? true:false}}">超期{{item.summaryBean.daysRemaining*(-1)}}天</view>
             <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining===null? true:false}}">未设置</view>
           </view>
         </block>
       </view>
       <!-- 公司项目 -->
-      <view class="project-info" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child">
+      <view class="project-info" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" bindtap="alert">
         <block >
           <view class="single-project">
             <view class="isprogress">{{progress[child.summaryBean.tstate]}}</view>
@@ -59,14 +59,15 @@
             <view class="process-bg">
               <view class="progress-bar" style="width:100%;"></view>
             </view>
+            
             <view class="istimeout" wx:if="{{child.summaryBean.daysRemaining>0? true:false}}">还剩{{child.summaryBean.daysRemaining}}天</view>
-            <view class="istimeout" wx:if="{{child.summaryBean.daysRemaining<0? true:false}}">超期{{child.summaryBean.daysRemaining}}天</view>
+            <view class="istimeout" wx:if="{{Number(child.summaryBean.daysRemaining)<0? true:false}}">超期{{child.summaryBean.daysRemaining}}天</view>
             <view class="istimeout" wx:if="{{child.summaryBean.daysRemaining==null? true:false}}">未设置</view>
           </view>
         </block>
       </view>
       <!-- 二级项目信息/公司项目 -->
-      <view class="sublist" wx:if="{{urlLine}}">
+      <view class="sublist" wx:if="{{urlLine}}" bindtap="alert">
         <block wx:for="{{item.taskBo.list}}" wx:for-item="child">
           <block wx:for="{{child.subList}}" wx:for-item="sublist">
             <view class="second-level-project">
@@ -81,8 +82,8 @@
             <image src="./img/select-up.png" class="second-select-up"></image>
           </view>
       </view>  
-      <!-- 耳机项目信息/个人项目 -->
-      <view class="sublist" wx:if="{{!urlLine}}">
+      <!-- 二级项目信息/个人项目 -->
+      <view class="sublist" wx:if="{{!urlLine}}" bindtap="alert">
           <block wx:for="{{item.subList}}" wx:for-item="sublist">
             <view class="second-level-project">
               <view class="second-level">
@@ -99,10 +100,7 @@
   </block>
   <!-- 添加公司 -->
   <view class="add-project" bindtap="jump">+</view>
-  <!-- 脚部跳转 -->
-  <footNavigator></footNavigator>
-  <!-- app下载弹框 -->
-  <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+  
 </view>
 <view class="no-project" wx:if="{{list.length == 0}}">
   <view class="no-content">
@@ -112,6 +110,6 @@
       新建项目
     </view>
   </view>
-  <!-- 脚部跳转 -->
-  <footNavigator></footNavigator>
 </view>
+<!-- app下载弹框 -->
+<popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>

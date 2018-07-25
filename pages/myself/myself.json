@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "通讯录",
   "usingComponents": {
     "companyIcon": "/common/companyIcon/companyIcon",
     "logoinAlert": "/common/logoinAlert/logoinAlert",

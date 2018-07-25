@@ -8,39 +8,16 @@ Page({
         name:"admin",
         role:1,//1:管理员，0：普通用户
         head:"./img/head.png"//头像路径
-      },
-      {
-        name: "普通用户",
-        head: "./img/head.png"//头像路径
-      },
-      {
-        name: "admin",
-        role: 1,//1:管理员，0：普通用户
-        head: "./img/head.png"//头像路径
-      },
-      {
-        name: "普通用户",
-        head: "./img/head.png"//头像路径
-      },
-      {
-        name: "admin",
-        role: 1,//1:管理员，0：普通用户
-        head: "./img/head.png"//头像路径
-      },
-      {
-        name: "普通用户",
-        head: "./img/head.png"//头像路径
-      },
-      {
-        name: "admin",
-        role: 1,//1:管理员，0：普通用户
-        head: "./img/head.png"//头像路径
-      },
-      {
-        name: "普通用户",
-        head: "./img/head.png"//头像路径
       }
     ]
+  },
+  onLoad:function(){
+    // 弹框
+    this.popup = this.selectComponent("#company-popup");
+  },
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
   },
   // 隐藏输入框提示信息
   hidePlaceholder:function(){

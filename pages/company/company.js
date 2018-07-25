@@ -31,7 +31,7 @@ Page({
     // 弹框
     this.popup = this.selectComponent("#company-popup");
   },
-  onLoad:function(){
+  onLoad:function(options){
     this.setData({
       listConfig:listConfig.listConfig
     })
@@ -39,6 +39,11 @@ Page({
     this.getCompanyInfo();
     this.getUserTeam();
     this.flushTime();
+  },
+  // 下拉刷新
+  onPullDownRefresh: function (e) {
+    console.log("刷新")
+    this.onLoad()
   },
   // app下载弹框
   alert: function () {
@@ -73,7 +78,9 @@ Page({
   // 查询公司信息
   getCompanyInfo:function(){
     var obj = {};
-    var address = app.ip + "tw/userService/getUserInfo";
+    //tw/userService/getUserInfo
+    //tc/taskTeamService/findTaskTeam
+    var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj,address,"post",true).then(res=>{
       console.log("公司")
       console.log(res);

@@ -14,7 +14,7 @@
   <view>
    <view class="new-company-title">公司成员({{memberList.length}}人)</view>
    <view class="add-people">
-    <view class="add-people-btn">
+    <view class="add-people-btn" bindtap="alert">
       <image src="./img/add_icon.png" class="add-menmber-btn"></image>
       <view class="addText">添加</view>
     </view>
@@ -24,9 +24,9 @@
    </view>
   </view>
   <!-- 添加按钮 -->
-  <view class="add-company-btn">
+  <view class="add-company-btn" bindtap="alert">
     完成
   </view>
-   <!--脚步导航  -->
-   <footNavigator></footNavigator>
+   <!-- app下载提示弹框 -->
+  <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>

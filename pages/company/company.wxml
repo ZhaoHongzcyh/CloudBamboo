@@ -1,7 +1,7 @@
 <view class="company">
 <!-- 公司名称区域 -->
   <view class="company-head">
-    <image src="{{company.logo}}" class="company-logo"></image>
+    <image src="./img/company.png" class="company-logo"></image>
     <view class="company-name">{{company.name}}</view>
     <view class="company-switch" bindtap="switchCompany">
       <image src="./img/switch.png" class="company-switch-img"></image>
@@ -44,7 +44,7 @@
   <view class="company-approval">
     <view class="company-more">
       <view class="rise">审批</view>
-      <view class="rise company-set-approval">设置审批人</view>
+      <view class="rise company-set-approval" bindtap="alert">设置审批人</view>
     </view>
     <view class="list-area">
       <block wx:for="{{listConfig.iLaunch}}" wx:key="{{item.id}}">
@@ -68,8 +68,7 @@
   <view class="company-add-content" bindtap="addCompany">+</view>
   <!-- app下载提示弹框 -->
   <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
-  <!-- 脚步导航区域 -->
-  <footNavigator></footNavigator>
+  
 </view>
 <view wx:if="{{switchCompany}}">
   <block wx:for="{{companyList}}">

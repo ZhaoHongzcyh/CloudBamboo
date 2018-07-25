@@ -1,22 +1,56 @@
 {
   "pages":[
-    "pages/addCompany/addCompany",
-    "pages/project/project",
-    "pages/addNewProject/addNewProject",
-    
-    "pages/myself/myself",
     "pages/index/index",
+    "pages/addNewProject/addNewProject",
+    "pages/myself/myself",
+    "pages/project/project",
     "pages/cloudDisk/cloudDisk",
     "pages/mailList/mailList",
+    "pages/companyList/companyList",
     "pages/company/company",
-    
-    "pages/companyList/companyList"
-    
+    "pages/addCompany/addCompany"
   ],
   "window":{
     "navigationBarTitleText": "云竹协作",
     "navigationBarBackgroundColor": "#409CF2",
     "navigationBarTextStyle":"white",
     "enablePullDownRefresh":true
+  },
+  "tabBar": {
+    "color":"#000000",
+    "borderStyle":"red",
+    "selectedColor": "#1296db",
+    "list": [
+      {
+        "pagePath": "pages/myself/myself",
+        "text": "我的",
+        "iconPath": "common/footerNavigator/img/myself.png",
+        "selectedIconPath": "common/footerNavigator/img/myself-active.png"
+      },
+      {
+        "pagePath": "pages/project/project",
+        "text": "项目",
+        "iconPath": "common/footerNavigator/img/project.png",
+        "selectedIconPath": "common/footerNavigator/img/project-active.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "公司",
+        "iconPath": "common/footerNavigator/img/company.png",
+        "selectedIconPath": "common/footerNavigator/img/company-active.png"
+      },
+      {
+        "pagePath": "pages/cloudDisk/cloudDisk",
+        "text": "云盘",
+        "iconPath": "common/footerNavigator/img/cloudDisk.png",
+        "selectedIconPath": "common/footerNavigator/img/cloudDisk-active.png"
+      },
+      {
+        "pagePath": "pages/mailList/mailList",
+        "text": "通讯录",
+        "iconPath": "common/footerNavigator/img/mailList.png",
+        "selectedIconPath": "common/footerNavigator/img/mailList-active.png"
+      }
+    ]
   }
 }

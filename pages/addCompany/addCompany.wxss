@@ -1,8 +1,7 @@
 .add-new-company{
   position:absolute;
   width: 100%;
-  height: calc(100% - 100rpx);
-  overflow: auto;
+  height:100%;
  background:rgba(245,245,245,1);
 }
 .new-company-title{

@@ -72,3 +72,16 @@
   width: 68rpx;
   height: 68rpx;
 }
+/* 添加项目按钮 */
+.add-company-btn{
+  width: 670rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 36rpx;
+  margin: auto;
+  margin-top: 20rpx;
+  color: white;
+  text-align: center;
+  background-color: #409CF2;
+}

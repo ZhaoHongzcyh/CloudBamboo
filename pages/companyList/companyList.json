@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "切换公司",
   "usingComponents": {
     "companyList": "/common/team/team",
     "logoinAlert":"/common/logoinAlert/logoinAlert"

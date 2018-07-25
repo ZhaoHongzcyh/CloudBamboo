@@ -22,6 +22,9 @@
   color: #999999;
   font-size: 24rpx;
 }
+.btn-area{
+  display: flex;
+}
 .switch-company-error{
   margin-top: 300rpx;
 }

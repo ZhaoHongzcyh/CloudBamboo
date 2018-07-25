@@ -2,8 +2,8 @@
 <!-- 脚步导航 -->
   <view class="footernavigator">
     <block wx:for="{{url}}">
-      <view class="footermodule" data-url="{{item.href}}" bindtap="pageJump">
-        <image src="{{item.state? item.activeUrl:item.staticUrl}}" class="footerimg"></image>
+      <view class="footermodule" data-index="{{index}}" data-url="{{item.href}}" bindtap="pageJump">
+        <image src="{{num==index? item.activeUrl:item.staticUrl}}" class="footerimg"></image>
         <view class="footertext">{{item.text}}</view>
       </view>
     </block>

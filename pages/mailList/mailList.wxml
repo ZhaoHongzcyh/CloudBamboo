@@ -1,13 +1,13 @@
 <view class="mail-list-content">
-  <mailList src="{{equipment.src}}" title="{{equipment.title}}"></mailList>
+  <mailList src="{{equipment.src}}" title="{{equipment.title}}" bindtap="alert"></mailList>
   <view class="list">
     <block wx:for="{{list}}">
-      <mailList src="{{item.src}}" title="{{item.title}}" num="{{item.num}}"></mailList>
+      <mailList src="{{item.src}}" title="{{item.title}}" num="{{item.num}}" bindtap="alert"></mailList>
     </block>
   </view>
   <view class="group">
-    <mailList src="{{group.src}}" title="{{group.title}}" num="{{group.num}}"></mailList>
+    <mailList src="{{group.src}}" title="{{group.title}}" num="{{group.num}}" bindtap="alert"></mailList>
   </view>
-  <!-- 脚步跳转 -->
-  <footNavigator></footNavigator>
+  <!-- app下载提示弹框 -->
+  <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>

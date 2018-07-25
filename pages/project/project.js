@@ -17,13 +17,13 @@ Page({
       }
     }
   },
-  onLoad:function(){
+  onLoad:function(options){
     this.getProjectCompany();
     this.popup = this.selectComponent("#popup");
   },
   // 打开app下载弹框
   alert:function(){
-    this.popup.showPopup()
+    this.popup.showPopup();
   },
   // 请求个人项目信息
   getProjectPerson:function(){

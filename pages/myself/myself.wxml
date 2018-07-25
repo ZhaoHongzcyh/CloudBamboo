@@ -1,28 +1,35 @@
-<view class="myself">
+<view class="myself" wx:if="{{list.length > 0?true:false}}">
   <view class="head">
     <image src="./img/head.png" class="headimg"></image>
-    <view class="user">张宝华</view>
-    <image class="bell" src="./img/bell.png"></image>
-    <image class="set" src="./img/set.png"></image>
+    <view class="user">{{userinfo.name}}</view>
+    <image class="bell" src="./img/bell.png" bindtap="alert"></image>
+    <image class="set" src="./img/set.png" bindtap="alert"></image>
   </view>
   <!-- 待我处理 -->
   <view class="waiting">
     <view class="wait-handle-head">
       <view class="wait-text">待我处理</view>
-      <view class="wait-num">10</view>
+      <view class="wait-num">{{list.length}}</view>
     </view>
-    <view class="wait-content">
+    <view class="wait-content" bindtap="alert" wx:for="{{list}}">
       <view class="radio-area">
         <radio class="radio" color="#409CF2"></radio>
       </view>
       <view class="wait-info">
-        <view class="wait-title">这里是显示十二个子</view>
-        <view class="wait-time">7月10日截至</view>
+        <view class="wait-title">{{item.title}}</view>
+        <view class="wait-time">{{item.endDate == null? '未设置截至时间': item.endDate + '截至'}}</view>
       </view>
       <image class="handle-img" src="./img/head.png"></image>
-      <view class="handle-name">李浩东</view>
+      <view class="handle-name">{{item.managerName}}</view>
     </view>
   </view>
-  <!-- 脚步导航 -->
-  <footNavigator></footNavigator>
 </view>
+<!-- 无数据情况 -->
+<view class="no-task" wx:if="{{list.length == 0}}">
+  <view class="no-content">
+    <image src="./img/no-project.png" class="no-project-img"></image>
+    <view class="no-project-text">没有待处理的任务</view>
+  </view>
+</view>
+<!-- app下载弹框 -->
+<popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>

@@ -1,5 +1,5 @@
 <!--common/team/team.wxml-->
-<view class="switch-team" bindtap="switchCompany">
+<view class="switch-team" bindtap="switchCompany" data-id="{{defaultteam}}">
     <view class="company-logo-area">
       <image src="{{src}}" class="companyLogo"></image>
     </view>

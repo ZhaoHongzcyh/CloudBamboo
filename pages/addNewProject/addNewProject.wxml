@@ -21,7 +21,7 @@
    <view>
     <view class="title">项目成员({{user.length}})</view>
     <view class="add-user">
-      <view class="add-btn">
+      <view class="add-btn" bindtap="alert">
         <image src="./img/add-user.png" class="add-img"></image>
       </view>
       <block wx:for="{{user}}">
@@ -37,7 +37,7 @@
     </view>
     <view class="project">
       <view class="config">开始时间</view>
-      <view class="value">2017-06-03</view>
+      <view class="value">--</view>
     </view>
     <view class="project">
       <view class="config">结束时间</view>
@@ -48,4 +48,10 @@
       <view class="value">个人项目</view>
     </view>
   </view>
+  <!-- 完成按钮 -->
+  <view class="add-company-btn" bindtap="alert">
+    完成
+  </view>
+  <!-- app下载弹框 -->
+  <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>

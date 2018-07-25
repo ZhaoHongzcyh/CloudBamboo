@@ -4,6 +4,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
+    defaultteam:{
+      type:String,
+      value:""
+    },
     src:{
       type:String,
       value:""
@@ -32,13 +36,15 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    switchCompany:function(){
+    switchCompany:function(e){
+      var id = e.currentTarget.dataset.id;
       this.setData({
         checked:!this.data.checked
       })
       var bool = this.data.checked? true:false;
       var obj = {
-        isChoose:bool
+        isChoose:bool,
+        id:id
       }
       this.triggerEvent('switchCompany',obj);
     }

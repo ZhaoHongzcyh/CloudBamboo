@@ -5,7 +5,7 @@
     <view class="select-all" bindtap="selectAll">全选</view>
   </view>
   <view class="search">
-    <view class="search-img-btn">
+    <view class="search-img-btn" bindtap="alert">
       <image src="./img/search.png" class="search-img"></image>
     </view>
     <view class="search-input">
@@ -41,12 +41,10 @@
   </view>
   <!-- 更多操作 -->
   <view class="footer-more" wx:if="{{more && selectnum}}">
-    <view class="copyto more">复制到</view>
-    <view class="rename more" wx:if="{{selectnum == 1}}">重命名</view>
+    <view class="copyto more" bindtap="alert">复制到</view>
+    <view class="rename more" wx:if="{{selectnum == 1}}" bindtap="alert">重命名</view>
     <view class="cancelfun more" bindtap="cancelmore">取消</view>
   </view>
-  <!-- 脚步导航 -->
-  <footNavigator wx:if="{{selectnum>0? false: true}}"></footNavigator>
   <!-- 提示弹框 -->
   <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>

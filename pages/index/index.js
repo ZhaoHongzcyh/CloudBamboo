@@ -46,6 +46,8 @@ Page({
   onReady: function () {
     //获得popup组件
     this.popup = this.selectComponent("#popup");
+    // 隐藏底部导航
+    // wx.hideTabBar({})
   },
   alert:function(){
     this.popup.showPopup()
@@ -336,7 +338,9 @@ Page({
         console.log("登录")
         console.log(res);
         var handleInfo = api.handleLogoinInfo(res);
+        console.log("开始重定向")
         if (handleInfo.msg == 'handle success'){
+          console.log("重定向中")
           wx.redirectTo({
             url: '/pages/company/company',
           })
@@ -372,16 +376,19 @@ Page({
 
   // 发起注册请求
   userRegister:function(){
-    if (this.data.isClickRegisterBtn){
+    if (!this.data.isClickRegisterBtn){
       return false;
     }
     var register = this.data.register;
     var obj = {
       userName:register.phone,
-      password:util.hexMD5(register.password)
+      password:util.hexMD5(register.password),
+      valiCode: register.verification
     }
     var address = app.ip + "tw/userService/regist";
+    console.log(obj);
     api.request(obj, address, "post", false).then(res => {
+      console.log(res);
       this.setData({
         registerAlert: {
           state: 1,
@@ -391,18 +398,6 @@ Page({
     }).catch(e=>{
       console.log(e);
     })
-    console.log("登录")
-    if(register.verification != this.data.verification){
-      this.setData({
-        registerAlert:{
-          state:1,
-          content:"验证码错误"
-        }
-      })
-    }
-    else{
-      
-    }
   },
 
   // 隐藏注册弹框
@@ -418,7 +413,7 @@ Page({
   getCode:function(){
     var phone = this.data.register.phone;
     var phoneReg = /^1\d{10}$/img;
-    if(phoneReg.test(phone)){
+    if(!phoneReg.test(phone)){
       return false;
     }
     var obj = {

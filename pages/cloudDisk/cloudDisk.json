@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "云盘",
   "usingComponents": {
     "file":"/common/fileList/fileList",
     "popup": "/common/popup/popup",
