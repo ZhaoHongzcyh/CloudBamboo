@@ -24,7 +24,7 @@
    </view>
   </view>
   <!-- 添加按钮 -->
-  <view class="add-company-btn" bindtap="alert">
+  <view class="add-company-btn" bindtap="addCompany">
     完成
   </view>
    <!-- app下载提示弹框 -->

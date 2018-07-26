@@ -1,3 +1,10 @@
+@import "/pages/tabBar/tabBar.wxss";
+.myself{
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 98rpx);
+  overflow: auto;
+}
 .head{
   display: flex;
   height: 88rpx;
@@ -14,6 +21,9 @@
   font-size: 32rpx;
   margin-left: 14rpx;
   flex: 2;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .bell{
   width: 36rpx;
@@ -78,8 +88,13 @@
 }
 .wait-title{
   height: 27rpx;
+  line-height: 27rpx;
+  width: 334rpx;
   color: #666666;
   font-size: 28rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .wait-time{
   height: 40rpx;
@@ -99,12 +114,16 @@
   border-radius: 50%;
 }
 .handle-name{
+  width: 90rpx;
   font-size: 28rpx;
   height: 27rpx;
   line-height: 27rpx;
   color: rgba(102,102,102,1);
   margin-left: 18rpx;
   margin-right: 30rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 /* 无任务数据样式 */
 .no-content{

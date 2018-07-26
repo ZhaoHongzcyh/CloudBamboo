@@ -11,7 +11,7 @@
 }
 .headImg{
   width: 52rpx;
-  height: 41rpx;
+  height: 52rpx;
 }
 .file-info{
   margin-left: 21rpx;
@@ -19,9 +19,13 @@
 }
 .file-name{
   height: 27rpx;
+  width: 241rpx;
   line-height: 27rpx;
   color: #333333;
   font-size: 28rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .size-time{
   display: flex;

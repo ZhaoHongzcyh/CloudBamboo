@@ -1,3 +1,11 @@
+/* 引入脚部分导航样式 */
+@import "/pages/tabBar/tabBar.wxss";
+.cloudDisk{
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 98rpx);
+  overflow: auto;
+}
 .file-select-info{
   display: flex;
   align-items: center;

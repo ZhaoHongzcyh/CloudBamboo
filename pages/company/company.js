@@ -4,6 +4,7 @@ const api = require("../../api/common.js");
 const company = require("../../api/company.js");
 Page({
   data:{
+    url:{},//脚部导航数据
     company:{
       name:"公司名称",
       logo:"./img/company.png"
@@ -39,6 +40,10 @@ Page({
     this.getCompanyInfo();
     this.getUserTeam();
     this.flushTime();
+    // 更新导航数据
+    this.setData({
+      url: app.globalData.tabbar
+    })
   },
   // 下拉刷新
   onPullDownRefresh: function (e) {
@@ -110,7 +115,7 @@ Page({
   },
   // 切换公司
   switchCompany:function(){
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/companyList/companyList',
     });
   },
@@ -118,6 +123,15 @@ Page({
   addCompany:function(){
     wx.navigateTo({
       url: '/pages/addCompany/addCompany'
+    })
+  },
+  // 导航跳转
+  pageJump: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var url = e.currentTarget.dataset.url;
+    app.editTabBar(index);
+    wx.redirectTo({
+      url: url,
     })
   }
 })

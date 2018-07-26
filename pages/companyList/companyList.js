@@ -3,6 +3,7 @@ const api = require("../../api/common.js");
 Page({
   data:{
     companyListData:[],
+    defaultteamId: wx.getStorageSync("defaultTaskTeam"),
     isHasCompany:0,//0:未加入任何公司，1：已经加入公司，2：公司切换失败
   },
   onReady:function(){
@@ -67,7 +68,10 @@ Page({
           companyListData:ary
         })
         // 更新本地缓存中的defaultTaskTeam
-        wx.setStorageSync("defaultTaskTeam", taskId)
+        wx.setStorageSync("defaultTaskTeam", taskId);
+        wx.redirectTo({
+          url: '/pages/company/company',
+        })
       }
     }).catch(e=>{
       console.log(e);

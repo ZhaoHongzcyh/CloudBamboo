@@ -2,6 +2,7 @@ const app = getApp();
 const api = require("../../api/common.js");
 Page({
   data:{
+    url:{},//脚步导航数据
     list:[],
     urlLine:true,//路由切换，下划线样式
     progress:["草稿","未开始","进行中","完成","暂停","终止","撤销","删除"],
@@ -20,6 +21,11 @@ Page({
   onLoad:function(options){
     this.getProjectCompany();
     this.popup = this.selectComponent("#popup");
+    // 更新导航数据
+    this.setData({
+      url: app.globalData.tabbar
+    })
+    console.log("导航数据");
   },
   // 打开app下载弹框
   alert:function(){
@@ -52,8 +58,6 @@ Page({
       // 请求个人项目
     }
     api.request(obj,address,"post",true).then(res=>{
-      console.log("项目列表");
-      console.log(res);
       if(this.data.urlLine){
         this.handleProject(res);
       }
@@ -68,19 +72,30 @@ Page({
   handleProject:function(res){
     var data = res.data.data
     var list = [];
-    if(res.data.code == 200 && res.data.data.length != 0){
+    
+    if(res.data.code == 200 && data.length != 0){
       // 将数据排序
-      for(var i = 0; i < res.data.data.length; i++){
-        if(res.data.data[i].taskBo == null){
-            list.push(res.data.data[i])
+      for(var i = 0; i < data.length; i++){
+        var obj = {
+          isShowCompany: false,
+          summaryBean: data[i].summaryBean,
+          taskBo: data[i].taskBo,
+          isShowChild:true
+        }
+        if(obj.taskBo == null){
+            list.push(obj)
         }
         else{
-          list.unshift(res.data.data[i])
+          list.unshift(obj)
         }
       }
+      list[0].isShowCompany = true;
       this.setData({
         list:list
       })
+      console.log("逻辑");
+      console.log(this.data.list)
+
     }
     else if(res.data.code == 402){
       wx.redirectTo({
@@ -104,6 +119,34 @@ Page({
   jump:function(){
     wx.navigateTo({
       url: '/pages/addNewProject/addNewProject',
+    })
+  },
+  // 导航跳转
+  pageJump: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var url = e.currentTarget.dataset.url;
+    app.editTabBar(index);
+    wx.redirectTo({
+      url: url,
+    })
+  },
+  // 折叠与展开项目列表
+  watchProject:function(e){
+    var index = e.currentTarget.dataset.index;
+    var ary = this.data.list;
+    ary[index].isShowCompany = !ary[index].isShowCompany;
+    this.setData({
+      list:ary
+    })
+  },
+  // 折叠与展开子项目
+  watchChild:function(e){
+    var index = e.currentTarget.dataset.index;
+    var ary = this.data.list;
+    console.log(index);
+    ary[index].isShowChild = !ary[index].isShowChild;
+    this.setData({
+      list: ary
     })
   }
 })

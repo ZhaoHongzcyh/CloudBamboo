@@ -3,6 +3,7 @@ const app = getApp();
 const api = require("../../api/common.js");
 Page({
   data:{
+    url:{},//脚步导航数据
     sortRule:"name",//文件排序规则：name:按照文件名排序，time:按照时间排序
     fileData:[],//文件数据
     selectedFile:[],
@@ -15,6 +16,10 @@ Page({
     this.getFileList();
     // 弹框节点
     this.popup = this.selectComponent("#popup");
+    // 更新导航数据
+    this.setData({
+      url: app.globalData.tabbar
+    })
   },
   // 显示弹框
   alert: function () {
@@ -109,6 +114,7 @@ Page({
       selectStatus:selectStatus,
       selectnum:0
     })
+    wx.showTabBar({});
   },
   // 更多
   moreFun:function(){
@@ -124,5 +130,13 @@ Page({
   },
   getSearchContent:function(e){
     // console.log(e);
+  },
+  pageJump: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var url = e.currentTarget.dataset.url;
+    app.editTabBar(index);
+    wx.redirectTo({
+      url: url,
+    })
   }
 })

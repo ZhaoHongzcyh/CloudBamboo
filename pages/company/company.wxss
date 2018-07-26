@@ -1,5 +1,10 @@
+/* 引入脚部分导航样式 */
+@import "/pages/tabBar/tabBar.wxss";
 .company {
-  position: relative;
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 98rpx);
+  overflow: auto;
   background-color:rgba(245,245,245,1);
 }
 .company-head{

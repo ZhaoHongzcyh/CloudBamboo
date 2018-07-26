@@ -42,7 +42,7 @@ var listConfig = {
       {
         "id": 1,
         "src":"/pages/company/img/company-project.png",
-        "title":"公司项目"
+        "title":"成员动态"
       }
     ]
 }

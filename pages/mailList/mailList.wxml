@@ -1,13 +1,16 @@
+<!-- 导入导航模板 -->
+<import src="/pages/tabBar/tabBar.wxml"/>
+<template is="tabBar" data="{{url}}"></template>
 <view class="mail-list-content">
-  <mailList src="{{equipment.src}}" title="{{equipment.title}}" bindtap="alert"></mailList>
+  <!-- <mailList src="{{equipment.src}}" title="{{equipment.title}}" bindtap="alert"></mailList> -->
   <view class="list">
-    <block wx:for="{{list}}">
-      <mailList src="{{item.src}}" title="{{item.title}}" num="{{item.num}}" bindtap="alert"></mailList>
+    <block wx:for="{{list}}" wx:key="{{item.id}}">
+      <mailList title="{{item.team.tname}}" num="{{item.personList.length}}" bindtap="alert"></mailList>
     </block>
   </view>
-  <view class="group">
+  <!-- <view class="group">
     <mailList src="{{group.src}}" title="{{group.title}}" num="{{group.num}}" bindtap="alert"></mailList>
-  </view>
+  </view> -->
   <!-- app下载提示弹框 -->
   <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>

@@ -50,10 +50,11 @@ var handleLogoinInfo = function(info){
       }
       catch(e){
         console.log("用户基本信息储存异常");
+        return {code:400,msg:"error"}
       }
       return {
         code:200,
-        msg:"handle success"
+        msg:"success"
       }
     }
     else{
@@ -70,12 +71,12 @@ var handleAttendance = function(data){
   var goWork = {
     time:"--:--",
     status:true,
-    title:"未打卡"
+    title:"上班打卡"
   };
   var offWork = {
     time:"--:--",
     status:true,
-    title:"未打卡"
+    title:"下班打卡"
   }
   if(data.workType == 1){
     goWork.time = data.workShift.match(timeReg);
@@ -88,9 +89,9 @@ var handleAttendance = function(data){
     goWork.title = "补登打卡"
   }
   else if (data.workType == 3) {
-    offWork.time = "--:--";
-    offWork.status = false;
-    offWork.title = "缺卡"
+    goWork.time = "--:--";
+    goWork.status = false;
+    goWork.title = "缺卡"
   }
 
   if(data.closingType == 1){
@@ -171,8 +172,15 @@ var getData = function(){
 
 // 将选中的公司列表清空  切换公司模块
 var clearCompanyList = function(ary){
+  var defaultId = wx.getStorageSync("defaultTaskTeam");
   for(var i =0; i < ary.length; i++){
-    ary[i].checked = false;
+    
+    if(ary[i].id == defaultId){
+      ary[i].checked = true;
+    }
+    else{
+      ary[i].checked = false;
+    }
   }
   return ary;
 }
@@ -194,11 +202,21 @@ var choosedCompany = function(ary,index){
 var cloudDiskDataClean = function(dat){
     var folder = [];//存放文件夹数据
     var file = [];//存放普通文件
+    console.log(dat);
     // 整理时间格式
     for(var i = 0; i < dat.length; i++){
       var year = dat[i].createDate.split("T")[0];
       var date = dat[i].createDate.match(/T(\d|\:){1,20}\d{1,40}/)[0].split("T")[1];
-      dat[i].createDate = year + " " + date
+      dat[i].createDate = year + " " + date;
+      // 整理文件大小格式
+      var style=["M","KB"];
+      var num = dat[i].asize/(1024*1024);
+      if(num > 0.1){
+        dat[i].asize = (num + "").toString().substring(0,4) + "M"
+      }
+      else if(num < 0.1){
+        dat[i].asize = (num*1024 + "").toString().substring(0,4) + "kb"
+      }
     }
     for(var i =0; i<dat.length; i++){
       if(dat[i].atype == 0){

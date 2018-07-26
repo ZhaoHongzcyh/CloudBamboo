@@ -1,0 +1,10 @@
+  <template name="tabBar">
+    <view class="footernavigator">
+      <block wx:for="{{url.list}}">
+        <view class="footermodule" data-url="{{item.pagePath}}" data-index="{{index}}" bindtap="pageJump">
+          <image src="{{item.selected? item.selectedIconPath : item.iconPath}}" class="footerimg"></image>
+          <view class="{{item.selected? 'urlfooterColor':'urlfootertext'}}">{{item.text}}</view>
+        </view>
+      </block>
+    </view>
+  </template>

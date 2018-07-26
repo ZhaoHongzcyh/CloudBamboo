@@ -1,8 +1,13 @@
+@import "/pages/tabBar/tabBar.wxss";
 .project{
   position: absolute;
+  right:0rpx;
   width: 100%;
-  height:100%;
-  background:rgba(245,245,245,1);
+  height:calc(100% - 98rpx);
+  overflow: auto;
+  /* background:rgba(245,245,245,1); */
+  /* background-color:red; */
+  border: 1rpx solid black;
 }
 /* 路由样式 */
 .project-classification{
@@ -43,6 +48,9 @@
   line-height: 27rpx;
   flex: 2;
   color: #333333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .select{
   margin: 25rpx 27rpx;
@@ -54,7 +62,7 @@
 /* 项目信息样式 */
 .project-info{
   width: 702rpx;
-  height: 212rpx;
+  /* height: 212rpx; */
   margin:20rpx 24rpx;
   margin-bottom: 1rpx;
   border-radius: 6rpx;
@@ -80,10 +88,14 @@
 .project-name{
   margin-left: 21rpx;
   height: 31rpx;
+  width: 200rpx;
   line-height: 31rpx;
   font-size: 32rpx;
   flex: 2;
   text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .project-sign{
   margin-left: 32rpx;
@@ -103,6 +115,9 @@
   line-height: 23rpx;
   font-size: 24rpx;
   color: #999999;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .charger{
   color: #333333;
@@ -130,16 +145,22 @@
   border-radius: 5rpx;
   background: linear-gradient(to right,#927EFA,#F583ED);
 }
+.no-timeout{
+  background: linear-gradient(to right, #6786FE,#26CFFD);
+}
 .istimeout{
   height: 22rpx;
   line-height: 22rpx;
-  margin-left: 55rpx;
+  margin-left: 15rpx;
   font-size: 24rpx;
   color: #FD4C45;
 }
+.notimeout{
+  color:#666666;
+}
 /* 二级项目样式 */
 .sublist{
-  margin-top: 0rpx;
+  margin-top: 10rpx;
 }
 .second-level-project{
   width: 680rpx;

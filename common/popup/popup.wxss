@@ -1,6 +1,6 @@
 /* component/popup.wxss */
 .wx-popup {
-  position: absolute;
+  position: fixed;
   z-index: 3;
   left: 0;
   top: 0;

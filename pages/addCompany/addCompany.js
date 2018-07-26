@@ -1,11 +1,12 @@
 const app = getApp();
+const api = require("../../api/common.js");
 Page({
   data:{
     isShowTextPlaceholder:true,
     companyName:"",
     memberList:[
       {
-        name:"admin",
+        name:"我",
         role:1,//1:管理员，0：普通用户
         head:"./img/head.png"//头像路径
       }
@@ -45,6 +46,20 @@ Page({
     memberList.splice(index,1);
     this.setData({
       memberList:memberList
+    })
+  },
+  // 添加团队
+  addCompany:function(){
+    var address = app.ip + "tc/taskTeamService/addTaskTeam";
+    var title = this.data.companyName;
+    api.request({title},address,"post",true).then(res=>{
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        wx.setStorageSync("defaultTaskTeam", res.data.data.id);
+        wx.redirectTo({
+          url: '/pages/company/company',
+        })
+      }
     })
   }
 })

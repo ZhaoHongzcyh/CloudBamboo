@@ -1,4 +1,7 @@
-<view>
+<!-- 导入导航模板 -->
+<import src="/pages/tabBar/tabBar.wxml"/>
+<template is="tabBar" data="{{url}}"></template>
+<view class="cloudDisk">
   <view class="file-select-info" wx:if="{{selectnum>0? true: false}}">
     <view class="cancel" bindtap="cancel">取消</view>
     <view class="select-num">已选择{{selectnum}}个</view>
@@ -18,19 +21,19 @@
   </block>
   <!-- 底部文件操作弹框 -->
   <view class="footer-alert" wx:if="{{selectnum>0? true: false}}">
-    <view class="download operation">
+    <view class="download operation" bindtap="alert">
       <image src="./img/download.png" class="footerimg"></image>
       <view class="footertext">下载</view>
     </view>
-    <view class="share operation">
+    <view class="share operation" bindtap="alert">
       <image src="./img/share.png" class="footerimg"></image>
       <view class="footertext">分享</view>
     </view>
-    <view class="move operation">
+    <view class="move operation" bindtap="alert">
       <image src="./img/move.png" class="footerimg"></image>
       <view class="footertext">移动</view>
     </view>
-    <view class="delete operation">
+    <view class="delete operation" bindtap="alert">
       <image src="./img/delete.png" class="footerimg"></image>
       <view class="footertext">删除</view>
     </view>

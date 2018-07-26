@@ -1,3 +1,6 @@
+<!-- 导入导航模板 -->
+<import src="/pages/tabBar/tabBar.wxml"/>
+<template is="tabBar" data="{{url}}"></template>
 <view class="company">
 <!-- 公司名称区域 -->
   <view class="company-head">
@@ -21,13 +24,13 @@
       <view class="company-goToWork">
         <view class="company-clock">上班打卡时间：</view>
         <view class="{{attendance.goWork.status? 'punch-clock-time-off':'punch-clock-time'}}">{{attendance.goWork.time}}</view>
-        <view class="{{attendance.goWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}">上班打卡</view>
+        <view class="{{attendance.goWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}" bindtap="alert">{{attendance.goWork.title}}</view>
       </view>
       <!-- 下班那考情 -->
       <view class="company-goOffWork">
         <view class="company-clock">下班打卡时间：</view>
         <view class="{{attendance.offWork.status? 'punch-clock-time-off':'punch-clock-time'}}">{{attendance.offWork.time}}</view>
-        <view class="{{attendance.offWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}">下班打卡</view>
+        <view class="{{attendance.offWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}" bindtap="alert">{{attendance.offWork.title}}</view>
       </view>
     </view>
   </view>

@@ -2,6 +2,7 @@ const app = getApp();
 const api = require("../../api/common.js");
 Page({
   data:{
+    url:{},//导航数据
     userinfo:{
       name:""
     },
@@ -10,6 +11,10 @@ Page({
   onLoad:function(){
     this.popup = this.selectComponent("#popup");
     this.getTask();
+    // 更新导航数据
+    this.setData({
+      url: app.globalData.tabbar
+    })
   },
   // 打开app下载弹框
   alert: function () {
@@ -41,6 +46,15 @@ Page({
       this.getUserInfo();
     }).catch(e=>{
       console.log(e);
+    })
+  },
+  // 导航跳转
+  pageJump: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var url = e.currentTarget.dataset.url;
+    app.editTabBar(index);
+    wx.redirectTo({
+      url: url,
     })
   }
 })

@@ -5,6 +5,7 @@ const util = require("./MD5.js");
 const api = require("../../api/common.js");
 Page({
   data: {
+    url:{},
     logoinState:true,//true:代表注册，false:渲染注册
     dataRole:1,//1:登录界面，0：注册界面
     registerAlert:{
@@ -47,7 +48,8 @@ Page({
     //获得popup组件
     this.popup = this.selectComponent("#popup");
     // 隐藏底部导航
-    // wx.hideTabBar({})
+    wx.hideTabBar({})
+    
   },
   alert:function(){
     this.popup.showPopup()
@@ -321,31 +323,56 @@ Page({
 
   // 发起登录请求
   userLogoin:function(){
-    this.setData({
-      isLogoing:false
-    });
+    
+    // this.setData({
+    //   isLogoing:false
+    // });
     var obj = {
       userName:this.data.logoin.phone,
       password:util.hexMD5(this.data.logoin.password)
     }
     console.log(obj);
     if (this.data.isClickLogoinBtn){
+      wx.showToast({
+        title: '执行',
+        icon: 'success',
+        duration: 1000
+      })
       var address = app.ip + "tw/userService/login";
       api.request(obj,address,"post",false).then(res=>{
-        this.setData({
-          isLogoing: false
-        });
+        // this.setData({
+        //   isLogoing: false
+        // });
+        wx.showToast({
+          title: '请求',
+          icon: 'success',
+          duration: 2000
+        })
         console.log("登录")
         console.log(res);
         var handleInfo = api.handleLogoinInfo(res);
-        console.log("开始重定向")
-        if (handleInfo.msg == 'handle success'){
-          console.log("重定向中")
+        wx.showToast({
+          title: '开始',
+          icon: 'success',
+          duration: 2000
+        })
+        if (handleInfo.msg == 'success'){
+          console.log("开始重定向")
+          wx.showToast({
+            title: '成功',
+            icon: 'success',
+            duration: 2000
+          })
           wx.redirectTo({
-            url: '/pages/company/company',
+            url: '/pages/company/company'
           })
         }
         else{
+          wx.showToast({
+            title: '失败',
+            icon: 'success',
+            duration: 2000
+          })
           var logoin = this.data.logoin
           this.setData({
             logoinAlert:{
@@ -453,6 +480,13 @@ Page({
       })
     }
     this.getVerificationCode();
-    
+  },
+  pageJump: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var url = e.currentTarget.dataset.url;
+    app.editTabBar(index);
+    wx.redirectTo({
+      url: url,
+    })
   }
 })

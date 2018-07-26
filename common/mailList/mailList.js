@@ -6,7 +6,7 @@ Component({
   properties: {
     src:{
       type:String,
-      value:""
+      value:"/pages/mailList/img/head.png"
     },
     title:{
       type:String,
