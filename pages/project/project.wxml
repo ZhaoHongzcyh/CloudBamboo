@@ -60,16 +60,16 @@
             <!-- 进度条信息 -->
             <view class="progress" wx:if="{{child.summaryBean.endDate != null}}">
               <view class="process-bg">
-                <view class="progress-bar {{child.summaryBean.daysRemaining>0? 'no-timeout':'has-timeout'}}" style="width:100%;"></view>
+                <view class="progress-bar {{child.summaryBean.daysRemaining>0? 'no-timeout':'has-timeout'}}" style="width:{{child.summaryBean.progress}}%;"></view>
               </view>
               <!-- 是否超期 -->
-              <view class="istimeout notimeout" wx:if="{{child.summaryBean.daysRemaining>0? true:false}}">
-                <view wx:if="{{child.summaryBean.tstate != 3}}">还剩{{child.summaryBean.daysRemaining}}
+              <view class="istimeout notimeout">
+                <view wx:if="{{child.summaryBean.tstate!=3 && child.summaryBean.daysRemaining>0}}">还剩{{child.summaryBean.daysRemaining}}
                 {{child.summaryBean.daysRemaining>999 ? '+':''}}
                 天
                 </view>
                 <view wx:if="{{child.summaryBean.tstate==3}}" class="notimeout">
-          {{child.summaryBean.daysRemaining>999? '历时999+天':'历时'+child.summaryBean.daysRemaining+'天'}}
+          {{(-1)*child.summaryBean.daysRemaining>999? '历时999+天':'历时'+(-1)*child.summaryBean.daysRemaining+'天'}}
                 </view>
               </view>
               <view class="istimeout" wx:if="{{child.summaryBean.daysRemaining<0}}">
