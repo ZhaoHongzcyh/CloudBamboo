@@ -3,6 +3,7 @@ const api = require("../../api/common.js");
 Page({
   data:{
     url:{},//脚步导航数据
+    userId: wx.getStorageSync("tcUserId"),//用于计算用户是否在某项目中
     list:[],
     urlLine:true,//路由切换，下划线样式
     progress:["草稿","未开始","进行中","完成","暂停","终止","撤销","删除"],
@@ -58,6 +59,8 @@ Page({
       // 请求个人项目
     }
     api.request(obj,address,"post",true).then(res=>{
+      console.log("公司");
+      console.log(res);
       if(this.data.urlLine){
         this.handleProject(res);
       }
@@ -72,15 +75,27 @@ Page({
   handleProject:function(res){
     var data = res.data.data
     var list = [];
-    
+    var userid = this.data.userId;
+    console.log(res);
     if(res.data.code == 200 && data.length != 0){
       // 将数据排序
       for(var i = 0; i < data.length; i++){
         var obj = {
+          isInProject:false,
           isShowCompany: false,
           summaryBean: data[i].summaryBean,
           taskBo: data[i].taskBo,
           isShowChild:true
+        }
+        console.log("测试");
+        if(data[i].taskBo != null){
+          for (var j = 0; j < data[i].taskBo.list.length; j++) {
+            for (var k = 0; k < data[i].taskBo.list[j].memberBeans.length; k++) {
+              if (userid == data[i].taskBo.list[j].memberBeans[k].resourceId) {
+                obj.isInProject = true;
+              }
+            }
+          }
         }
         if(obj.taskBo == null){
             list.push(obj)
@@ -95,7 +110,6 @@ Page({
       })
       console.log("逻辑");
       console.log(this.data.list)
-
     }
     else if(res.data.code == 402){
       wx.redirectTo({
@@ -106,14 +120,19 @@ Page({
   // 处理请求个人项目信息
   handlePerson:function(res){
     var list = [];
+    var data = res.data.data;
+    console.log("个人项目");
+    console.log(res);
     if(res.data.code == 200){
-      for(var i = 0; i < res.data.data.list.length; i++){
-        list.push(res.data.data.list[i])
+      for(var i = 0; i < data.list.length; i++){
+        data.list[i].isShowChild = false;
+        list.push(data.list[i])
       }
     }
     this.setData({
       list:list
     })
+    console.log(list);
   },
   // 跳转到添加新项目
   jump:function(){

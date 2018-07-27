@@ -1,10 +1,10 @@
 <!-- 添加新项目 -->
-<view class="add-new-project">
+<view class="add-new-project" wx:if="{{!showProjectGroup}}">
   <view>
     <view class="title">项目名称</view>
     <view class="input">
       <view class="textarea">
-        <textarea class="introduction" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
+        <textarea class="introduction" bindinput="getProjectName" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
       </view>
     </view>
   </view>
@@ -13,7 +13,7 @@
     <view class="title">项目描述</view>
     <view class="input">
       <view class="textarea">
-        <textarea class="introduction" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
+        <textarea class="introduction" bindinput="getProjectInfo" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
       </view>
     </view>
   </view>
@@ -31,27 +31,65 @@
   </view>
   <!-- 项目级别 -->
   <view class="project-config">
-    <view class="project">
+    <view class="project" bindtap="switchsleve">
       <view class="config">项目级别</view>
-      <view class="value">普通</view>
+      <view class="value">{{important[selectimportant]}}</view>
     </view>
     <view class="project">
       <view class="config">开始时间</view>
-      <view class="value">--</view>
+      <picker mode="date" bindchange="startDate" class="value">
+        <view>
+          {{startDate}}
+        </view>
+    </picker>
     </view>
     <view class="project">
       <view class="config">结束时间</view>
-      <view class="value">--</view>
+      <picker mode="date" class="value" start="{{startDate}}"  bindchange="setEndDate">
+        <view wx:if="{{endDate != ''}}">
+          {{endDate}}
+        </view>
+        <view wx:if="{{endDate == ''}}">
+          --:--:--
+        </view>
+    </picker>
     </view>
-    <view class="project">
+    <view class="project" bindtap="switchProjectGroup">
       <view class="config">项目所属</view>
-      <view class="value">个人项目</view>
+      <view class="value">{{projectGroup}}</view>
     </view>
   </view>
   <!-- 完成按钮 -->
-  <view class="add-company-btn" bindtap="alert">
+  <view class="add-company-btn" bindtap="addNewProject">
     完成
   </view>
   <!-- app下载弹框 -->
   <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+  <!-- 项目重要程度 -->
+  <view class="project-sleve" wx:if="{{showsleve}}">
+    <block wx:for="{{important}}">
+      <view data-role="{{index}}" class="sleve" bindtap="selectSeleve">{{item}}</view>
+    </block>
+    
+  </view>
+</view>
+<!-- 选择项目所属 -->
+<view wx:if="{{showProjectGroup}}" class="grouplist">
+  <block wx:for="{{company}}">
+    <view class="project-list {{index==0? 'self':''}}" data-ownerType="{{index==0? '10000003':'40010001'}}" data-title="{{item.title}}" data-index="{{index}}" data-id="{{item.id}}" bindtap="selectGroup">
+      <view class="companyImg">
+        <image src="{{index==0? './img/company-head.png':'./img/company-img.png'}}" class="headImg"></image>
+      </view>
+      <view class="company">
+        <view class="company-name">{{item.title}}</view>
+        <view class="chart" wx:if="{{index != 0}}">
+          <view class="charter">负责人:</view>
+          <view class="charter">{{item.ownerName}}</view>
+        </view>
+      </view>
+      <view class="radio-area" wx:if="{{item.checked && showProjectGroup}}">
+        <radio class="radio" color="#409CF2" checked="{{item.checked}}"></radio>
+      </view>
+    </view>
+  </block>
 </view>

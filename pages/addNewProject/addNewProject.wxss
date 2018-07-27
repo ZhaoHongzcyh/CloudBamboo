@@ -85,3 +85,66 @@
   text-align: center;
   background-color: #409CF2;
 }
+
+/* 项目级别 */
+.project-sleve{
+  position: fixed;
+  width: 100%;
+  bottom: 0rpx;
+  background-color: rgba(240,240,240,1);
+  text-align: center;
+}
+.sleve{
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+/* 项目分组列表 */
+.grouplist{
+  margin: 0rpx;
+  background-color: rgba(245,245,245,1);
+}
+.project-list{
+  display: flex;
+  align-items: center;
+  height: 120rpx;
+  background-color: white;
+  border-bottom: 1rpx solid #DBDBDB;
+}
+.self{
+  margin-top: 21rpx;
+  margin-bottom: 21rpx;
+}
+.companyImg{
+  margin-left: 31rpx;
+}
+.headImg{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+.company-name{
+  height: 27rpx;
+  line-height: 27rpx;
+  color: #333333;
+  font-size: 28rpx;
+}
+.company{
+  margin-left: 20rpx;
+}
+.chart{
+  display: flex;
+}
+.charter{
+  font-size: 24rpx;
+  color: #999999;
+}
+.radio-area{
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  flex: 3;
+  text-align: right;
+}
+.radio{
+  margin-right: 30rpx;
+}

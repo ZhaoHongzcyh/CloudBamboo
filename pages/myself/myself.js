@@ -2,6 +2,7 @@ const app = getApp();
 const api = require("../../api/common.js");
 Page({
   data:{
+    headimg: app.ip + "tc/spaceService/showPersonIcon/"+ wx.getStorageSync("tcUserId") + "/100/100",
     url:{},//导航数据
     userinfo:{
       name:""
@@ -38,10 +39,13 @@ Page({
   getTask:function(){
     var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
     api.request({},address,"post",true).then(res=>{
+      console.log("任务")
+      console.log(res);
       var list = api.handleTask(res);
       this.setData({
         list:list
       })
+      console.log(list);
       // 请求用户信息
       this.getUserInfo();
     }).catch(e=>{

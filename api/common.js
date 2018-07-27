@@ -22,7 +22,10 @@ var request = function(data={},url="localhost",method="post",bool){
       else{
          obj = {
            url: url,
-           header: data,
+           header: {
+             proxyUserToken:token
+           },
+           data:data,
            method:method,
            success: function (res) {
              resolve(res);
@@ -252,6 +255,17 @@ var fileNameSort = function(dat){
 var handleTask = function(res){
   var list = [];
   var ary = [];
+  var dat = new Date();
+  var year = dat.getFullYear();
+  var month = dat.getMonth() + 1;
+  var today = dat.getDate();
+  if(month < 10){
+    month =  "0" + "" + month;
+  }
+  if(today < 10){
+    today = "0" + "" + today;
+  }
+  var today = Number(year + month + today);
   ary.sort(function(a,b){
     return compareTime(a,b);
   })
@@ -261,7 +275,13 @@ var handleTask = function(res){
       if(ary[i].endDate != null){
         var str = ary[i].endDate.split("T");
         str = str[0].split("-");
-        console.log(str);
+        ary[i].endTime = str.join("");
+        if (Number(str.join("")) >= today){
+          ary[i].isTimeOut = false;
+        }
+        else{
+          ary[i].isTimeOut = true;
+        }
         str = str[1] + "月" + str[2] + "日";
         ary[i].endDate = str;
         list.unshift(ary[i])

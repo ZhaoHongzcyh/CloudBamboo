@@ -1,15 +1,14 @@
 {
   "pages":[
+    "pages/myself/myself",
     "pages/project/project",
+    "pages/addNewProject/addNewProject",
+    "pages/index/index",
     "pages/addCompany/addCompany",
     "pages/company/company",
     "pages/mailList/mailList",
-    "pages/index/index",
-    
     "pages/tabBar/tabBar",
     
-    "pages/addNewProject/addNewProject",
-    "pages/myself/myself",
     "pages/cloudDisk/cloudDisk",
     "pages/companyList/companyList"
     

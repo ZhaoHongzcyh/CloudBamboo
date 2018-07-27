@@ -33,12 +33,18 @@
             <view class="charger">{{item.manager.personName}}</view>
           </view>
           <!-- 进度条信息 -->
-          <view class="progress">
+          <view class="progress" wx:if="{{item.summaryBean.endDate != null}}">
             <view class="process-bg">
-              <view class="progress-bar" style="width:100%;"  wx:if="{{item.summaryBean.daysRemaining===null? false:true}}"></view>
+              <view class="progress-bar {{item.summaryBean.daysRemaining>0? 'no-timeout':'has-timeout'}}" style="width:{{item.summaryBean.progress}}%;"  wx:if="{{item.summaryBean.daysRemaining===null? false:true}}"></view>
             </view>
-            <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining>0? true:false}}">还剩{{item.summaryBean.daysRemaining}}天</view>
-            <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining<0? true:false}}">超期{{item.summaryBean.daysRemaining*(-1)}}天</view>
+            <view class="istimeout notimeout" wx:if="{{item.summaryBean.daysRemaining>0? true:false}}">
+              还剩
+              {{item.summaryBean.daysRemaining>999? '999+':item.summaryBean.daysRemaining}}
+              天
+            </view>
+            <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining<0? true:false}}">
+              {{item.summaryBean.daysRemaining*(-1)<=90? '超期' + item.summaryBean.daysRemaining*(-1)+'天' : '严重超期'}}
+            </view>
             <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining===null? true:false}}">未设置</view>
           </view>
         </block>
@@ -46,11 +52,11 @@
       
       <!-- 公司项目 -->
       <block wx:if="{{item.isShowCompany}}">
-        <view class="project-info" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" bindtap="alert" wx:for-index="comopanyProIndex">
-          <block >
+        <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" bindtap="alert" wx:for-index="comopanyProIndex">
+          <block >{{item.summaryBean.important}}
             <view class="single-project">
               <view class="isprogress">{{progress[child.summaryBean.tstate]}}</view>
-              <view class="project-name">{{child.summaryBean.title}}</view>
+              <view class="project-name {{item.isInProject? '':'notmembers'}}">{{child.summaryBean.title}}</view>
             </view>
             <!-- 负责人信息 -->
             <view class="project-charge">
@@ -64,8 +70,8 @@
               </view>
               <!-- 是否超期 -->
               <view class="istimeout notimeout">
-                <view wx:if="{{child.summaryBean.tstate!=3 && child.summaryBean.daysRemaining>0}}">还剩{{child.summaryBean.daysRemaining}}
-                {{child.summaryBean.daysRemaining>999 ? '+':''}}
+                <view wx:if="{{child.summaryBean.tstate!=3 && child.summaryBean.daysRemaining>0}}">
+                还剩{{child.summaryBean.daysRemaining>999? '999+':child.summaryBean.daysRemaining}}
                 天
                 </view>
                 <view wx:if="{{child.summaryBean.tstate==3}}" class="notimeout">
@@ -105,7 +111,7 @@
         
       <!-- 二级项目信息/个人项目 -->
       <view class="sublist" wx:if="{{!urlLine}}" bindtap="alert">
-          <block wx:for="{{item.subList}}" wx:for-item="sublist">
+          <block wx:for="{{item.subList}}" wx:for-item="sublist" wx:if="{{item.isShowChild}}">
             <view class="second-level-project">
               <view class="second-level">
                 <image src="./img/second-level.png" class="second-title-img"></image>
@@ -113,9 +119,10 @@
               </view>
             </view>
           </block>
-        <view class="second-up" wx:if="{{item.subList.length>0? true:false}}">
-            <image src="./img/select-up.png" class="second-select-up"></image>
-          </view>
+        <view class="second-up" wx:if="{{item.subList.length>0? true:false}}" data-index="{{index}}" catchtap="watchChild">
+            <image src="./img/select-up.png" wx:if="{{item.isShowChild}}" class="second-select-up"></image>
+            <image src="./img/select-down.png" wx:if="{{!item.isShowChild}}" class="second-select-up"></image>
+        </view>
       </view> 
     </view>
   </block>

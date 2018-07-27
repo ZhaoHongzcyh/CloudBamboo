@@ -338,8 +338,10 @@ Page({
         icon: 'success',
         duration: 1000
       })
+      console.log(obj);
+      console.log("登录")
       var address = app.ip + "tw/userService/login";
-      api.request(obj,address,"post",false).then(res=>{
+      api.request(obj,address,"post",true).then(res=>{
         // this.setData({
         //   isLogoing: false
         // });

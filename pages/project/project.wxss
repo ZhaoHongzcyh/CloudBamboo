@@ -69,6 +69,14 @@
   background-color:white;
   border: 1rpx solid #DBDBDB;
 }
+/* 重要项目 */
+.important{
+  border-left: 4rpx solid #FFAF38;
+}
+/* 非常重要 */
+.veryimportant{
+  border-left: 4rpx solid #FF4F3E;
+}
 .single-project{
   display: flex;
   align-items: center;
@@ -96,6 +104,10 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+/* 非主项目成员，主项目名称颜色 */
+.notmembers{
+  color: #999999;
 }
 .project-sign{
   margin-left: 32rpx;

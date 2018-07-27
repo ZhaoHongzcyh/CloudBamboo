@@ -7,8 +7,9 @@ var handleUserInfo = function(info){
     // wx.setStorageSync("teamName", info.curUser.teamName);//组织名称
     // wx.setStorageSync("isOrgCorporationAdmin", info.isOrgCorporationAdmin);//是否管理员
   }
+  var defaultTaskTeam = wx.getStorageSync("defaultTaskTeam")
   for(var i =0; i<info.list.length;i++){
-    if (info.list[i].id == wx.getStorageSync("defaultTaskTeam")){
+    if (info.list[i].id == defaultTaskTeam){
       return {
         cname: info.list[i].title,
         cicon: ""//单位logo

@@ -3,7 +3,7 @@
 <template is="tabBar" data="{{url}}"></template>
 <view class="myself" wx:if="{{list.length > 0?true:false}}">
   <view class="head">
-    <image src="./img/head.png" class="headimg"></image>
+    <image src="{{headimg}}" class="headimg" bindtap="alert"></image>
     <view class="user">{{userinfo.name}}</view>
     <image class="bell" src="./img/bell.png" bindtap="alert"></image>
     <image class="set" src="./img/set.png" bindtap="alert"></image>
@@ -14,13 +14,13 @@
       <view class="wait-text">待我处理</view>
       <view class="wait-num">{{list.length}}</view>
     </view>
-    <view class="wait-content" bindtap="alert" wx:for="{{list}}">
-      <view class="radio-area">
-        <radio class="radio" color="#409CF2"></radio>
+    <view class="wait-content {{item.emergencyGrade == 2? 'error':''}} {{item.emergencyGrade == 1? 'warning':''}}" bindtap="alert" wx:for="{{list}}">
+      <view class="radio-area" bindtap="alert">
+        <radio class="radio" color="#409CF2" disabled  bindtap="alert"></radio>
       </view>
       <view class="wait-info">
         <view class="wait-title">{{item.title}}</view>
-        <view class="wait-time">{{item.endDate == null? '未设置截至时间': item.endDate + '截至'}}</view>
+        <view class="wait-time {{item.isTimeOut? 'timeout': ''}}" wx:if="{{item.endDate != null}}">{{item.endDate + '截止'}}</view>
       </view>
       <image class="handle-img" src="./img/head.png"></image>
       <view class="handle-name">{{item.managerName}}</view>
