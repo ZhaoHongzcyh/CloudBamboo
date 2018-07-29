@@ -323,58 +323,30 @@ Page({
 
   // 发起登录请求
   userLogoin:function(){
+    this.setData({
+      isLogoing:false,
+      logoinAlert:{
+        state:0,
+        content:"登录中..."
+      }
+    })
     
-    // this.setData({
-    //   isLogoing:false
-    // });
     var obj = {
       userName:this.data.logoin.phone,
       password:util.hexMD5(this.data.logoin.password)
     }
     console.log(obj);
     if (this.data.isClickLogoinBtn){
-      wx.showToast({
-        title: '执行',
-        icon: 'success',
-        duration: 1000
-      })
-      console.log(obj);
-      console.log("登录")
       var address = app.ip + "tw/userService/login";
       api.request(obj,address,"post",true).then(res=>{
-        // this.setData({
-        //   isLogoing: false
-        // });
-        wx.showToast({
-          title: '请求',
-          icon: 'success',
-          duration: 2000
-        })
-        console.log("登录")
-        console.log(res);
+        console.log("登录成功")
         var handleInfo = api.handleLogoinInfo(res);
-        wx.showToast({
-          title: '开始',
-          icon: 'success',
-          duration: 2000
-        })
-        if (handleInfo.msg == 'success'){
-          console.log("开始重定向")
-          wx.showToast({
-            title: '成功',
-            icon: 'success',
-            duration: 2000
-          })
+        if (handleInfo.code == '200'){
           wx.redirectTo({
             url: '/pages/company/company'
           })
         }
         else{
-          wx.showToast({
-            title: '失败',
-            icon: 'success',
-            duration: 2000
-          })
           var logoin = this.data.logoin
           this.setData({
             logoinAlert:{
@@ -399,6 +371,18 @@ Page({
             console.log(this.data.logoin)
           }, 1500)
         }
+      }).catch(e=>{
+        this.setData({
+          logoinAlert:{
+           state:0,
+           content:"登录失败..."
+         }
+        })
+        setTimeout(()=>{
+          this.setData({
+            isLogoing:true
+          })
+        },3000)
       })
     }
   },
@@ -414,6 +398,12 @@ Page({
       password:util.hexMD5(register.password),
       valiCode: register.verification
     }
+    this.setData({
+      registerAlert: {
+        state: 1,
+        content: "注册中..."
+      }
+    })
     var address = app.ip + "tw/userService/regist";
     console.log(obj);
     api.request(obj, address, "post", false).then(res => {
@@ -425,7 +415,12 @@ Page({
         }
       })
     }).catch(e=>{
-      console.log(e);
+      this.setData({
+        registerAlert: {
+          state: 1,
+          content: "注册失败..."
+        }
+      })
     })
   },
 

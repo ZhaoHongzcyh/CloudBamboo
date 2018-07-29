@@ -1,7 +1,8 @@
 {
   "pages":[
-    "pages/project/project",
     "pages/index/index",
+    "pages/project/project",
+    
     
     "pages/myself/myself",
     "pages/addNewProject/addNewProject",

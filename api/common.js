@@ -13,7 +13,7 @@ var request = function(data={},url="localhost",method="post",bool){
            success: function (res) {
              resolve(res);
            },
-           error: function (err) {
+           fail: function (err) {
              reject(err)
            }
          }
@@ -30,11 +30,10 @@ var request = function(data={},url="localhost",method="post",bool){
            success: function (res) {
              resolve(res);
            },
-           error: function (err) {
+           fail: function (err) {
              reject(err)
            }
          };
-         console.log("请求")
          wx.request(obj);
        }
      })

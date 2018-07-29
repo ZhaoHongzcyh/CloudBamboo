@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="system" wx:if="{{isLogoing}}">
+<view class="system">
   <view class="system_public">
     <view class="imgBamboo">
     <!-- 云竹图片 -->
@@ -83,11 +83,11 @@
   <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>
 <view wx:if="{{!isLogoing}}">
-  <logoinAlert src="/pages/index/img/logoin-loading.png" animate="true" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+   <logoinAlert src="/pages/index/img/logoin-loading.png" animate="true" bgcolor="rgba(0,0,0,1)" alertText="{{logoinAlert.content}}"></logoinAlert> 
 </view>
 <view wx:if="{{registerAlert.state == 1}}">
-  <logoinAlert src="/pages/index/img/close-icon.png" bind:hideAlert="hideAlert" alertText="{{registerAlert.content}}" animate="0" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+  <logoinAlert src="/pages/index/img/close-icon.png" bind:hideAlert="hideAlert" alertText="{{registerAlert.content}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>
 <view wx:if="{{logoinAlert.state == 1}}">
-  <logoinAlert src="/pages/index/img/close-icon.png" alertText="{{logoinAlert.content}}" animate="0" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+  <logoinAlert src="/pages/index/img/close-icon.png" alertText="{{logoinAlert.content}}" animate="{{isLogoing}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>
