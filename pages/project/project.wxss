@@ -5,9 +5,7 @@
   width: 100%;
   height:calc(100% - 98rpx);
   overflow: auto;
-  /* background:rgba(245,245,245,1); */
-  /* background-color:red; */
-  border: 1rpx solid black;
+  background:rgba(245,245,245,1);
 }
 /* 路由样式 */
 .project-classification{

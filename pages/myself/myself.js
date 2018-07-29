@@ -33,6 +33,7 @@ Page({
       this.setData({
         userinfo:userinfo
       })
+      wx.stopPullDownRefresh()
     })
   },
   // 请求任务
@@ -45,7 +46,6 @@ Page({
       this.setData({
         list:list
       })
-      console.log(list);
       // 请求用户信息
       this.getUserInfo();
     }).catch(e=>{
@@ -60,5 +60,10 @@ Page({
     wx.redirectTo({
       url: url,
     })
-  }
+  },
+  // 下拉刷新
+  onPullDownRefresh: function (e) {
+    console.log("刷新")
+    this.onLoad();
+  },
 })

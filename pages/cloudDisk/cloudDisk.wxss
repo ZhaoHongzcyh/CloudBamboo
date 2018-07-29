@@ -8,6 +8,11 @@
 }
 .file-select-info{
   display: flex;
+  z-index: 4;
+  position: fixed;
+  top: 0rpx;
+  width: 100%;
+  background-color: white;
   align-items: center;
   height: 88rpx;
   opacity: 0;
@@ -48,6 +53,7 @@
 .search-input{
   width: 650rpx;
   margin-left: 21rpx;
+  margin-right: 12rpx;
   border-radius: 30rpx;
   display: flex;
   align-items: center;
@@ -63,6 +69,7 @@
   width: 95%;
   height: 60rpx;
   margin: auto;
+  margin-left: 12rpx;
   font-size: 28rpx;
   color: #AAAAAA;
 }

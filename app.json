@@ -1,9 +1,11 @@
 {
   "pages":[
-    "pages/myself/myself",
     "pages/project/project",
-    "pages/addNewProject/addNewProject",
     "pages/index/index",
+    
+    "pages/myself/myself",
+    "pages/addNewProject/addNewProject",
+    
     "pages/addCompany/addCompany",
     "pages/company/company",
     "pages/mailList/mailList",

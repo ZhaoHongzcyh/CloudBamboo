@@ -1,6 +1,9 @@
 <!-- 导入导航模板 -->
 <import src="/pages/tabBar/tabBar.wxml"/>
-<template is="tabBar" data="{{url}}"></template>
+<view  wx:if="{{!more && !selectnum}}">
+  <template is="tabBar" data="{{url}}"></template>
+</view>
+
 <view class="cloudDisk">
   <view class="file-select-info" wx:if="{{selectnum>0? true: false}}">
     <view class="cancel" bindtap="cancel">取消</view>
@@ -11,9 +14,9 @@
     <view class="search-img-btn" bindtap="alert">
       <image src="./img/search.png" class="search-img"></image>
     </view>
-    <view class="search-input">
+    <view class="search-input" bindtap="alert">
       <image src="./img/searchbtn.png" class="magnifier"></image>
-      <input bindinput="getSearchContent" type="text" class="search-text" value="{{input}}"/>
+      <input bindinput="getSearchContent" placeholder="请输入关键字搜索文件或文件夹" type="text" class="search-text" disabled='false'/>
     </view>
   </view>
   <block wx:for="{{fileData}}">

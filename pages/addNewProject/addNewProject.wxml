@@ -25,7 +25,7 @@
         <image src="./img/add-user.png" class="add-img"></image>
       </view>
       <block wx:for="{{user}}">
-        <adduser item="{{item}}" binddelete="delete" data-index="{{index}}"></adduser>
+        <adduser item="{{item}}" binddelete="delete" data-index="{{index}}" bindtap="alert"></adduser>
       </block>
     </view>
   </view>

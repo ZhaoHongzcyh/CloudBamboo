@@ -23,6 +23,10 @@ Page({
       url: app.globalData.tabbar
     })
   },
+  // 下拉刷新
+  onPullDownRefresh: function (e) {
+    this.getGroup();
+  },
   // app下载弹框
   alert: function () {
     this.popup.showPopup()
@@ -33,14 +37,6 @@ Page({
   onReady: function () {
     this.getGroup();
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
   /**
    * 页面上拉触底事件的处理函数
    */
@@ -65,6 +61,7 @@ Page({
           list:res.data.data
         })
       }
+      wx.stopPullDownRefresh();//关闭下拉刷新
     })
   }
 })

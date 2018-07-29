@@ -21,6 +21,10 @@ Page({
       url: app.globalData.tabbar
     })
   },
+  // 下拉刷新
+  onPullDownRefresh: function (e) {
+    this.onLoad();
+  },
   // 显示弹框
   alert: function () {
     this.popup.showPopup()
@@ -47,6 +51,7 @@ Page({
         fileData:list,
         selectStatus: selectStatus
       })
+      wx.stopPullDownRefresh();//关闭下拉刷新
     }).catch(e=>{
       console.log(e)
     })

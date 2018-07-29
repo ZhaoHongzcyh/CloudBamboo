@@ -36,6 +36,12 @@ Page({
     this.getStartDate();
     this.getProjectList();
   },
+  // 下拉刷新
+  onPullDownRefresh: function (e) {
+    console.log("刷新")
+    // this.onLoad()
+    wx.stopPullDownRefresh();//关闭下拉刷新
+  },
   getStartDate:function(){
     var d = new Date();
     var date = d.getDate();
@@ -94,6 +100,10 @@ Page({
         
       }
     }
+    if(this.data.title == "" || this.data.title == null){
+      return false;
+    }
+    
     api.request(obj,address,"post",false).then(res=>{
       this.handleAddEnd(res);
     }).catch(e=>{

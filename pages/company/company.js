@@ -47,8 +47,8 @@ Page({
   },
   // 下拉刷新
   onPullDownRefresh: function (e) {
-    console.log("刷新")
-    this.onLoad()
+    this.onLoad();
+    this.getCompanyId();
   },
   // app下载弹框
   alert: function () {
@@ -100,7 +100,8 @@ Page({
           name:handleInfo.cname.split(";")[0],
           cicon: handleInfo.cicon
         }
-      })
+      });
+      wx.stopPullDownRefresh();//关闭下拉刷新
     }).catch(e=>{
       console.log(e);
     })
@@ -132,6 +133,14 @@ Page({
     app.editTabBar(index);
     wx.redirectTo({
       url: url,
+    })
+  },
+  // 获取公司ID
+  getCompanyId:function(){
+    var address = app.ip + "tw/userService/getUserInfo";
+    api.request({},address,"post",true).then(res=>{
+      console.log("获取公司ID");
+      console.log(res);
     })
   }
 })

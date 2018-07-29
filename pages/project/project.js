@@ -26,7 +26,10 @@ Page({
     this.setData({
       url: app.globalData.tabbar
     })
-    console.log("导航数据");
+  },
+  // 下拉刷新
+  onPullDownRefresh: function (e) {
+    this.onLoad();
   },
   // 打开app下载弹框
   alert:function(){
@@ -67,6 +70,7 @@ Page({
       else{
         this.handlePerson(res);
       }
+      wx.stopPullDownRefresh();//关闭下拉刷新
     }).catch(e=>{
       console.log(e);
     })
@@ -91,6 +95,7 @@ Page({
         if(data[i].taskBo != null){
           for (var j = 0; j < data[i].taskBo.list.length; j++) {
             for (var k = 0; k < data[i].taskBo.list[j].memberBeans.length; k++) {
+              data[i].taskBo.list[j].isShowChild = false;
               if (userid == data[i].taskBo.list[j].memberBeans[k].resourceId) {
                 obj.isInProject = true;
               }
@@ -161,9 +166,25 @@ Page({
   // 折叠与展开子项目
   watchChild:function(e){
     var index = e.currentTarget.dataset.index;
+    var childIndex = e.currentTarget.dataset.childindex;
     var ary = this.data.list;
-    console.log(index);
     ary[index].isShowChild = !ary[index].isShowChild;
+    if (ary[index].taskBo){
+      ary[index].taskBo.list[childIndex].isShowChild = !ary[index].taskBo.list[childIndex].isShowChild;
+    }
+    else{
+      ary[index].isShowChild = !(ary[index].isShowChild);
+      console.log(ary[index].isShowChild);
+    }
+    this.setData({
+      list: ary
+    })
+  },
+  // 个人项目的折叠于展开
+  watchPersonChild:function(e){
+    var index = e.currentTarget.dataset.index;
+    var ary = this.data.list;
+    ary[index].isShowChild = !(ary[index].isShowChild);
     this.setData({
       list: ary
     })
