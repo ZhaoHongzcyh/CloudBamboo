@@ -2,6 +2,10 @@ const app = getApp();
 const api = require("../../api/common.js");
 Page({
   data:{
+    info:{
+      state:0,
+      content:""
+    },
     isShowTextPlaceholder:true,
     companyName:"",
     memberList:[
@@ -51,14 +55,56 @@ Page({
   // 添加团队
   addCompany:function(){
     var address = app.ip + "tc/taskTeamService/addTaskTeam";
-    var title = this.data.companyName;
-    api.request({title},address,"post",true).then(res=>{
+    var name = encodeURI(this.data.companyName);
+    var obj = {
+      title:name
+    }
+    api.request(obj,address,"post",true).then(res=>{
       console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.setStorageSync("defaultTaskTeam", res.data.data.id);
         wx.redirectTo({
           url: '/pages/company/company',
         })
+      }
+      else{
+        if(res.data.code == 419){
+          this.setData({
+            info: {
+              state: 1,
+              content: "公司数量太多"
+            }
+          })
+        }
+        else if(res.data.code == 414){
+          console.log("无法为空")
+          this.setData({
+            info: {
+              state: 1,
+              content: res.data.message
+            }
+          })
+        }
+        else{
+          this.setData({
+            info: {
+              state: 1,
+              content: res.data.message
+            }
+          })
+        }
+        setTimeout(()=>{
+          this.setData({info:{state:0,content:""}})
+        },2000)
+      }
+    })
+  },
+  // 隐藏弹框
+  hideAlert:function(){
+    this.setData({
+      info:{
+        state:0,
+        content:""
       }
     })
   }

@@ -15,8 +15,8 @@
       <view class="wait-num">{{list.length}}</view>
     </view>
     <view class="wait-content {{item.emergencyGrade == 2? 'error':''}} {{item.emergencyGrade == 1? 'warning':''}}" bindtap="alert" wx:for="{{list}}">
-      <view class="radio-area" bindtap="alert">
-        <radio class="radio" color="#409CF2" disabled  bindtap="alert"></radio>
+      <view class="radio-area" catchtap="alert">
+        <!-- <radio class="radio" color="#409CF2"  bindtap="radioAlert" checked='{{false}}'></radio> -->
       </view>
       <view class="wait-info">
         <view class="wait-title">{{item.title}}</view>

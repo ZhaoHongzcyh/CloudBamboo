@@ -60,36 +60,36 @@ App({
         {
           "pagePath": "/pages/myself/myself",
           "text": "我的",
-          "iconPath": "/common/footerNavigator/img/myself.png",
-          "selectedIconPath": "/common/footerNavigator/img/myself-active.png",
+          "iconPath": "/pages/tabBar/img/myself.png",
+          "selectedIconPath": "/pages/tabBar/img/myself-active.png",
           selected: false
         },
         {
           "pagePath": "/pages/project/project",
           "text": "项目",
-          "iconPath": "/common/footerNavigator/img/project.png",
-          "selectedIconPath": "/common/footerNavigator/img/project-active.png",
+          "iconPath": "/pages/tabBar/img/project.png",
+          "selectedIconPath": "/pages/tabBar/img/project-active.png",
           selected: false
         },
         {
           "pagePath": "/pages/company/company",
           "text": "公司",
-          "iconPath": "/common/footerNavigator/img/company.png",
-          "selectedIconPath": "/common/footerNavigator/img/company-active.png",
+          "iconPath": "/pages/tabBar/img/company.png",
+          "selectedIconPath": "/pages/tabBar/img/company-active.png",
           selected: true
         },
         {
           "pagePath": "/pages/cloudDisk/cloudDisk",
           "text": "云盘",
-          "iconPath": "/common/footerNavigator/img/cloudDisk.png",
-          "selectedIconPath": "/common/footerNavigator/img/cloudDisk-active.png",
+          "iconPath": "/pages/tabBar/img/cloudDisk.png",
+          "selectedIconPath": "/pages/tabBar/img/cloudDisk-active.png",
           selected: false
         },
         {
           "pagePath": "/pages/mailList/mailList",
           "text": "通讯录",
-          "iconPath": "/common/footerNavigator/img/mailList.png",
-          "selectedIconPath": "/common/footerNavigator/img/mailList-active.png",
+          "iconPath": "/pages/tabBar/img/mailList.png",
+          "selectedIconPath": "/pages/tabBar/img/mailList-active.png",
           selected: false
         }
       ],

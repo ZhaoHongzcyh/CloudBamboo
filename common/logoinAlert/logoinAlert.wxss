@@ -5,8 +5,7 @@
   left: 0;
   bottom: 10%;
   width: 100%;
-  border: 1rpx solid red;
-  background-color: red;
+  /* background-color: white; */
 }
 .logoinAlert-container{
   width: 250rpx;
@@ -25,7 +24,7 @@
 
 .logoinAlert-loading{
   width: 34rpx;
-  height: 29rpx;
+  height: 34rpx;
   line-height: 80rpx;
 }
 

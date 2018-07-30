@@ -11,6 +11,7 @@
 }
 .workbench-text{
   height: 23rpx;
+  line-height: 23rpx;
   color: #666666;
   font-size: 24rpx;
   text-align: center;

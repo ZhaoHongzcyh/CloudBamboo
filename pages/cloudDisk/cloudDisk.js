@@ -24,6 +24,10 @@ Page({
   // 下拉刷新
   onPullDownRefresh: function (e) {
     this.onLoad();
+    this.setData({
+      selectnum:0,
+      more: false
+    })
   },
   // 显示弹框
   alert: function () {

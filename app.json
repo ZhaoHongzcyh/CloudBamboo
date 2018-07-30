@@ -1,19 +1,17 @@
 {
   "pages":[
+    "pages/companyList/companyList",
     "pages/index/index",
-    "pages/project/project",
-    
-    
-    "pages/myself/myself",
-    "pages/addNewProject/addNewProject",
+    "pages/downApp/downApp",
     
     "pages/addCompany/addCompany",
     "pages/company/company",
+    "pages/project/project",
+    "pages/myself/myself",
+    "pages/addNewProject/addNewProject",
     "pages/mailList/mailList",
     "pages/tabBar/tabBar",
-    
-    "pages/cloudDisk/cloudDisk",
-    "pages/companyList/companyList"
+    "pages/cloudDisk/cloudDisk"
     
   ],
   "window":{

@@ -4,6 +4,7 @@
   height: 88rpx;
   display: flex;
   align-items: center;
+  margin-top: 2rpx;
 }
 .head-content{
   margin-top: 10rpx;

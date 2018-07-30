@@ -98,6 +98,7 @@
   height: 28rpx;
   width: 600rpx;
   top: 17rpx;
+  color: #666666;
 }
 
 .eyes{

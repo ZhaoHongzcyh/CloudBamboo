@@ -19,6 +19,7 @@
 }
 .file-name{
   height: 27rpx;
+  line-height: 27rpx;
   width: 241rpx;
   line-height: 27rpx;
   color: #333333;

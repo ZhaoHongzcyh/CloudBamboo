@@ -16,12 +16,12 @@ Page({
     listConfig:{},
     attendance:{
       goWork:{
-        time:"--:--",
+        time:"00:00",
         status:true,
         title:"未打卡"
       },
       offWork:{
-        time:"--:--",
+        time:"00:00",
         status:true,
         title:"未打卡"
       }
@@ -78,6 +78,7 @@ Page({
       }
     }).catch(e=>{
       console.log(e);
+      wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
   // 查询公司信息
@@ -104,6 +105,7 @@ Page({
       wx.stopPullDownRefresh();//关闭下拉刷新
     }).catch(e=>{
       console.log(e);
+      wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
   getUserTeam:function(){
@@ -112,6 +114,8 @@ Page({
     api.request(obj,address,"post",true).then(res=>{
       console.log("团队信息");
       console.log(res)
+    }).catch(e=>{
+      wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
   // 切换公司
@@ -132,7 +136,7 @@ Page({
     var url = e.currentTarget.dataset.url;
     app.editTabBar(index);
     wx.redirectTo({
-      url: url,
+      url: url
     })
   },
   // 获取公司ID

@@ -5,7 +5,6 @@ var request = function(data={},url="localhost",method="post",bool){
   return new Promise(function(resolve,reject){
       if (bool) {
          data.proxyUserToken = token;
-         console.log(data)
          obj = {
            url: url,
            method:method,
@@ -43,7 +42,9 @@ var request = function(data={},url="localhost",method="post",bool){
 var handleLogoinInfo = function(info){
   console.log(info);
     if(info.data.code == 200 && info.data.result){
+      console.log("登录信息")
       info = info.data;
+      console.log(info);
       try{
         wx.setStorageSync("appKey", info.data.appKey);
         wx.setStorageSync("proxyUserToken", info.data.proxyUserToken);
@@ -71,19 +72,19 @@ var handleLogoinInfo = function(info){
 var handleAttendance = function(data){
   var timeReg = /\d{2}:\d{2}/img;
   var goWork = {
-    time:"--:--",
+    time:"--：--",
     status:true,
     title:"上班打卡"
   };
   var offWork = {
-    time:"--:--",
+    time:"--：--",
     status:true,
     title:"下班打卡"
   }
   if(data.workType == 1){
     goWork.time = data.workShift.match(timeReg);
-    goWork.status = false;
-    goWork.title = "正常打卡"
+    goWork.status = true;
+    goWork.title = "更新打卡"
   }
   else if(data.workType == 2){
     goWork.time = data.workShift.match(timeReg);
@@ -91,15 +92,15 @@ var handleAttendance = function(data){
     goWork.title = "补登打卡"
   }
   else if (data.workType == 3) {
-    goWork.time = "--:--";
+    goWork.time = "--：--";
     goWork.status = false;
     goWork.title = "缺卡"
   }
 
   if(data.closingType == 1){
     offWork.time = data.closingTime.match(timeReg);
-    offWork.status = false;
-    offWork.title = "正常打卡"
+    offWork.status = true;
+    offWork.title = "更新打卡"
   }
   else if (data.closingType == 2){
     offWork.time = data.closingTime.match(timeReg);
@@ -107,7 +108,7 @@ var handleAttendance = function(data){
     offWork.title = "补登打卡"
   }
   else if (data.closingType == 3){
-    offWork.time = "--:--";
+    offWork.time = "--：--";
     offWork.status = false;
     offWork.title = "缺卡"
   }

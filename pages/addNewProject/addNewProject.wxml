@@ -13,7 +13,7 @@
     <view class="title">项目描述</view>
     <view class="input">
       <view class="textarea">
-        <textarea class="introduction" bindinput="getProjectInfo" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
+        <textarea class="introduction" bindinput="getProjectInfo" placeholder='项目描述' placeholder-class="placeholder"></textarea>
       </view>
     </view>
   </view>
@@ -70,7 +70,7 @@
     <block wx:for="{{important}}">
       <view data-role="{{index}}" class="sleve" bindtap="selectSeleve">{{item}}</view>
     </block>
-    
+    <view class="sleve cancelSleve" bindtap="cancelSleve">取消</view>
   </view>
 </view>
 <!-- 选择项目所属 -->
@@ -92,4 +92,11 @@
       </view>
     </view>
   </block>
+</view>
+<!-- 蒙版层 -->
+<view class="model" wx:if="{{showsleve}}" bindtap="cancelSleve">
+</view>
+<!-- 提示弹框 -->
+<view wx:if="{{newproject.state == 1}}">
+  <logoinAlert src="/pages/index/img/close-icon.png" bind:hideAlert="hideAlert" alertText="{{newproject.content}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>

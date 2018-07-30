@@ -65,5 +65,10 @@ Page({
   onPullDownRefresh: function (e) {
     console.log("刷新")
     this.onLoad();
+    console.log(this.data.headimg)
   },
+  // 点击状态栏的弹框
+  radioAlert:function(e){
+    console.log(e);
+  }
 })

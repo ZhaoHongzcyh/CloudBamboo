@@ -41,7 +41,7 @@ var listConfig = {
     "analysis": [
       {
         "id": 1,
-        "src":"/pages/company/img/company-project.png",
+        "src":"/pages/company/img/member.png",
         "title":"成员动态"
       }
     ]

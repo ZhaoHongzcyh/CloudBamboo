@@ -56,6 +56,12 @@ Component({
         flag: !this.data.flag
       })
     },
+    // 跳转到app下载页面
+    downApp:function(){
+      wx.navigateTo({
+        url: '/pages/downApp/downApp'
+      })
+    },
     /*
     * 内部私有方法建议以下划线开头
     * triggerEvent 用于触发事件

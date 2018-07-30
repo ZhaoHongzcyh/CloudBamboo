@@ -4,6 +4,10 @@ const util = require('../../utils/util.js')
 const api = require("../../api/common.js");
 Page({
   data: {
+    newproject:{
+      state:0,
+      content:""
+    },
     title:null,//项目名称
     description:null,//项目介绍
     startDate:"",
@@ -19,7 +23,7 @@ Page({
     company:[],//公司列表
     user: [
       {
-        name: "admin",
+        name: "我",
         role: 1,//1:管理员，0：普通用户
         head: "./img/head.png"//头像路径
       }
@@ -80,6 +84,7 @@ Page({
   },
   // 发送新建项目请求
   addNewProject:function(e){
+    console.log("x")
     var address = app.ip + "tc/taskService/addOrUpdateTask";
     var endTime = "";
     if(this.data.endDate != ""){
@@ -87,6 +92,20 @@ Page({
     }
     else{
       endTime = null;
+    }
+    if(this.data.title == "" || this.data.title == null){
+      this.setData({
+        newproject:{
+          state:1,
+          content:"请填写项目名称"
+        }
+      })
+      setTimeout(()=>{
+        this.setData({
+          newproject:{state:0,content:""}
+        })
+      },1500)
+      return false;
     }
      var obj = {
       "summaryBean": {
@@ -108,8 +127,8 @@ Page({
       this.handleAddEnd(res);
     }).catch(e=>{
       console.log(e);
+      
     })
-    console.log(obj)
   },
   // 项目添加成功之后
   handleAddEnd:function(res){
@@ -125,15 +144,26 @@ Page({
           }
       }
       app.globalData.tabbar.list = url;
+      app.editTabBar(1);
       wx.redirectTo({
-        url: '/pages/company/company',
+        url: '/pages/project/project',
       })
     }
     else{
-      wx.showToast({
-        title: "项目添加失败",
-        icon:"none"
+      this.setData({
+        newproject:{
+          state:1,
+          content: res.data.message
+        }
       })
+      setTimeout(()=>{
+        this.setData({
+          newproject:{
+            state:0,
+            content:""
+          }
+        })
+      },1500)
     }
   },
   // 更新项目名称
@@ -153,7 +183,8 @@ Page({
   startDate:function(e){
    var value = e.detail.value;
     this.setData({
-      startDate:value
+      startDate:value,
+      endDate:""
     })
   },
   setEndDate:function(e){
@@ -243,6 +274,21 @@ Page({
       defaultTeamId:id,
       projectGroup:title,
       company: company
+    })
+  },
+  // 隐藏注册弹框
+  hideAlert: function () {
+    this.setData({
+      newproject: {
+        state: 0,
+        content: ""
+      }
+    })
+  },
+  // 隐藏项目级别选择列表
+  cancelSleve:function(){
+    this.setData({
+      showsleve: false
     })
   }
 })

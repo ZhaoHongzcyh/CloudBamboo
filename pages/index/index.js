@@ -6,6 +6,7 @@ const api = require("../../api/common.js");
 Page({
   data: {
     url:{},
+    logoinCode:null,//微信登录code
     logoinState:true,//true:代表注册，false:渲染注册
     dataRole:1,//1:登录界面，0：注册界面
     registerAlert:{
@@ -50,6 +51,42 @@ Page({
     // 隐藏底部导航
     wx.hideTabBar({})
     
+  },
+  onLoad:function(){
+    //this.getLogoinCode();
+  },
+  // 下拉刷新
+  onPullDownRefresh:function () {
+    console.log("测试")
+    this.getLogoinCode();
+  },
+  // 获取登录code
+  getLogoinCode:function(){
+    console.log("获取")
+    wx.login({
+      success:(res)=>{
+        console.log(res);
+        this.setData({
+          logoinCode:res.code
+        })
+        this.logoinBindCode();
+        wx.stopPullDownRefresh();//关闭下拉刷新
+      },
+      fail:(e)=>{
+        console.log(e);
+        wx.stopPullDownRefresh();//关闭下拉刷新
+      }
+    })
+  },
+  // 登录与绑定
+  logoinBindCode:function(){
+    console.log(this.data.logoinCode)
+    var address = app.ip + "tc/weChat/authorizationCode/" + this.data.logoinCode;
+    var obj = { code: this.data.logoinCode};
+    api.request(obj,address,"get",false).then(res=>{
+      console.log("绑定");
+      console.log(res);
+    })
   },
   alert:function(){
     this.popup.showPopup()
@@ -323,20 +360,19 @@ Page({
 
   // 发起登录请求
   userLogoin:function(){
-    this.setData({
-      isLogoing:false,
-      logoinAlert:{
-        state:0,
-        content:"登录中..."
-      }
-    })
-    
     var obj = {
       userName:this.data.logoin.phone,
       password:util.hexMD5(this.data.logoin.password)
     }
     console.log(obj);
     if (this.data.isClickLogoinBtn){
+      this.setData({
+        isLogoing: false,
+        logoinAlert: {
+          state: 0,
+          content: "登录中..."
+        }
+      })
       var address = app.ip + "tw/userService/login";
       api.request(obj,address,"post",true).then(res=>{
         console.log("登录成功")
@@ -372,6 +408,7 @@ Page({
           }, 1500)
         }
       }).catch(e=>{
+        console.log(e);
         this.setData({
           logoinAlert:{
            state:0,
@@ -382,7 +419,7 @@ Page({
           this.setData({
             isLogoing:true
           })
-        },3000)
+        },2000)
       })
     }
   },

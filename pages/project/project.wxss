@@ -140,7 +140,7 @@
 .progress{
   display: flex;
   align-items: center;
-  margin: 31rpx 0rpx 0rpx 36rpx;
+  margin: 31rpx 0rpx 46rpx 36rpx;
 }
 .process-bg{
   position:relative;
