@@ -1,12 +1,9 @@
 {
   "pages":[
-    "pages/project/project",
     "pages/index/index",
-    
+    "pages/project/project",
     
     "pages/cloudDisk/cloudDisk",
-    
-    
     "pages/company/company",
     "pages/companyList/companyList",
     "pages/downApp/downApp",
