@@ -59,7 +59,6 @@
 }
 .scrollview{
   height: calc(100% - 98rpx);
-  border: 1rpx solid black;
 }
 /* 项目信息样式 */
 .project-info{
@@ -261,4 +260,41 @@
   margin-top: 50rpx;
   color: white;
   background-color: #409CF2;
+}
+/* 加载更多 */
+.loadmore{
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  animation: loading 3s infinite;
+}
+/* 加载动画 */
+.loading{
+  width: 200rpx;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  border-radius:6rpx;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  color: white;
+  background-color: rgba(0,0,0,1);
+}
+.loadmore{
+  margin-right: 10rpx;
+}
+@keyframes loading{
+  0%{
+    transform:rotateZ(0);
+  }
+  50%{
+    transform: rotateZ(180);
+  }
+  100%{
+    transform: rotateZ(360);
+  }
 }

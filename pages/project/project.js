@@ -2,6 +2,9 @@ const app = getApp();
 const api = require("../../api/common.js");
 Page({
   data:{
+    start:1,//当前需要加载的页数
+    pageSize:20,//每一页加载的数据长度
+    loadMore:false,//是否加载更多
     url:{},//脚步导航数据
     userId: wx.getStorageSync("tcUserId"),//用于计算用户是否在某项目中
     list:[],
@@ -33,7 +36,23 @@ Page({
   },
   // 上拉触顶
   loadMore:function(){
-    console.log("上拉触顶")
+    this.setData({
+      loadMore:true
+    });
+    if (this.data.urlLine){
+      // 请求公司数据
+      this.getProjectInfo('company')
+    }
+    else{
+      // 请求个人数据
+      this.getProjectInfo('person');
+    }
+    // 请求更多数据
+    setTimeout(()=>{
+      this.setData({
+        loadMore:false
+      })
+    },2000)
   },
   // 打开app下载弹框
   alert:function(){
@@ -43,14 +62,16 @@ Page({
   getProjectPerson:function(){
     this.getProjectInfo('person');
     this.setData({
-      urlLine:false
+      urlLine:false,
+      start:1
     })
   },
   // 请求公司项目
   getProjectCompany:function(){
     this.getProjectInfo('company')
     this.setData({
-      urlLine:true
+      urlLine:true,
+      start:1
     })
   },
   // 请求项目信息
@@ -59,16 +80,24 @@ Page({
     var address = app.ip + 'tc/taskTeamService/listMyTeamTask'
     // 请求个人项目
     if(core == 'person'){
-      obj.ownerType = 10000003;
+      obj = {
+        ownerType: 10000003,
+        start:1,
+        pageSize: this.data.start * this.data.pageSize
+      }
       address = app.ip + "tc/taskService/findTaskBos"
     }
     else{
       // 请求公司项目
-      obj = {start:1,pageSize:20}
+      obj = {start:1,pageSize:this.data.start * this.data.pageSize};
+      console.log(obj)
+      console.log("数据");
+      console.log(this.data)
     }
     api.request(obj,address,"post",true).then(res=>{
-      console.log("公司");
-      console.log(res);
+      this.setData({
+        start: this.data.start + 1
+      })
       if(this.data.urlLine){
         this.handleProject(res);
       }

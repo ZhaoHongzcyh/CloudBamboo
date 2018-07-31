@@ -130,6 +130,10 @@
         </view> 
       </view>
     </block>
+    <view class="loading" wx:if="{{loadMore}}">
+      <image src="./img/logoin-loading.png" class="loadmore"></image>
+      加载更多
+    </view>
   </scroll-view>
   <!-- 添加公司 -->
   <view class="add-project" bindtap="jump">+</view>
