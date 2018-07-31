@@ -18,12 +18,14 @@ Page({
       goWork:{
         time:"00:00",
         status:true,
-        title:"未打卡"
+        title:"上班打卡",
+        code:0
       },
       offWork:{
         time:"00:00",
         status:true,
-        title:"未打卡"
+        title:"下班打卡",
+        code:0
       }
     },//考勤配置：status:打卡按钮是否可点击
     companyList:[]//公司列表

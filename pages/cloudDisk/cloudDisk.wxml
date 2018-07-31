@@ -47,10 +47,14 @@
   </view>
   <!-- 更多操作 -->
   <view class="footer-more" wx:if="{{more && selectnum}}">
+    <view class="copyto more" bindtap="alert">移动到</view>
     <view class="copyto more" bindtap="alert">复制到</view>
     <view class="rename more" wx:if="{{selectnum == 1}}" bindtap="alert">重命名</view>
     <view class="cancelfun more" bindtap="cancelmore">取消</view>
   </view>
   <!-- 提示弹框 -->
   <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+  <!-- 蒙版层 -->
+  <view class="model" wx:if="{{more && selectnum}}" bindtap="cancelmore">
+  </view>
 </view>

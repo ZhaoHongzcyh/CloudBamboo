@@ -7,126 +7,130 @@
     <view class="project-url {{urlLine? '':'current-url'}}" bindtap="getProjectPerson">个人项目</view>
   </view>
   <!-- 项目数据 -->
-  <block wx:for="{{list}}" wx:for-item="item">
-    <view class="project-data">
-      <view class="company-name" wx:if="{{urlLine}}">
-        <image src="./img/company-img.png" class="company-img"  ></image>
-        <view class="companyname">{{item.summaryBean.title}}</view>
-        <view class="select" wx:if="{{item.taskBo.list.length>0? true:false}}" data-index="{{index}}" catchtap="watchProject">
-          <image src="./img/select-up.png" class="select-img" wx:if="{{item.isShowCompany}}"></image>
-          <image src="./img/select-down.png" class="select-img" wx:if="{{!item.isShowCompany}}"></image>
+  <scroll-view class="scrollview" scroll-y="{{true}}" bindscrolltolower="loadMore">
+    <block wx:for="{{list}}" wx:for-item="item">
+      <view class="project-data">
+        <view class="company-name" wx:if="{{urlLine}}">
+          <image src="./img/company-img.png" class="company-img"  ></image>
+          <view class="companyname">{{item.summaryBean.title}}</view>
+          <view class="select" wx:if="{{item.taskBo.list.length>0? true:false}}" data-index="{{index}}" catchtap="watchProject">
+            <image src="./img/select-up.png" class="select-img" wx:if="{{item.isShowCompany}}"></image>
+            <image src="./img/select-down.png" class="select-img" wx:if="{{!item.isShowCompany}}"></image>
+          </view>
         </view>
-      </view>
-      <!-- 个人项目 -->
-      <view class="project-info" wx:if="{{!urlLine}}" bindtap="alert">
-        <block >
-          <view class="single-project">
-            <view class="isprogress">{{progress[item.summaryBean.tstate]}}</view>
-            <view class="project-name">{{item.summaryBean.title}}</view>
-            <view class="project-sign">
-              <!-- <image src="./img/project_top.png" class="projecttop"></image> -->
-            </view>
-          </view>
-          <!-- 负责人信息 -->
-          <view class="project-charge">
-            <view class="charge">负责人</view>
-            <view class="charger">{{item.manager.personName}}</view>
-          </view>
-          <!-- 进度条信息 -->
-          <view class="progress" wx:if="{{item.summaryBean.endDate != null}}">
-            <view class="process-bg">
-              <view class="progress-bar {{item.summaryBean.daysRemaining>0? 'no-timeout':'has-timeout'}}" style="width:{{item.summaryBean.progress}}%;"  wx:if="{{item.summaryBean.daysRemaining===null? false:true}}"></view>
-            </view>
-            <view class="istimeout notimeout" wx:if="{{item.summaryBean.daysRemaining>=0? true:false}}">
-              还剩
-              {{item.summaryBean.daysRemaining>999? '999+':item.summaryBean.daysRemaining}}
-              天
-            </view>
-            <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining<0? true:false}}">
-              {{item.summaryBean.daysRemaining*(-1)<=90? '超期' + item.summaryBean.daysRemaining*(-1)+'天' : '严重超期'}}
-            </view>
-            <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining===null? true:false}}">未设置</view>
-          </view>
-        </block>
-      </view>
-      
-      <!-- 公司项目 -->
-      <block wx:if="{{item.isShowCompany}}">
-        <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" bindtap="alert" wx:for-index="comopanyProIndex">
-          <block >
+        <!-- 个人项目 -->
+        <view class="project-info" wx:if="{{!urlLine}}" bindtap="alert">
+          <view class="father-project">
             <view class="single-project">
-              <view class="isprogress">{{progress[child.summaryBean.tstate]}}</view>
-              <view class="project-name {{item.isInProject? '':'notmembers'}}">{{child.summaryBean.title}}</view>
+              <view class="isprogress">{{progress[item.summaryBean.tstate]}}</view>
+              <view class="project-name">{{item.summaryBean.title}}</view>
+              <view class="project-sign">
+                <!-- <image src="./img/project_top.png" class="projecttop"></image> -->
+              </view>
             </view>
             <!-- 负责人信息 -->
             <view class="project-charge">
               <view class="charge">负责人</view>
-              <view class="charger">{{child.summaryBean.managerName}}</view>
+              <view class="charger">{{item.manager.personName}}</view>
             </view>
             <!-- 进度条信息 -->
-            <view class="progress" wx:if="{{child.summaryBean.endDate != null}}">
+            <view class="progress" wx:if="{{item.summaryBean.endDate != null}}">
               <view class="process-bg">
-                <view class="progress-bar {{child.summaryBean.daysRemaining>0? 'no-timeout':'has-timeout'}}" style="width:{{child.summaryBean.progress}}%;"></view>
+                <view class="progress-bar {{item.summaryBean.daysRemaining>0? 'no-timeout':'has-timeout'}}" style="width:{{item.summaryBean.progress}}%;"  wx:if="{{item.summaryBean.daysRemaining===null? false:true}}"></view>
               </view>
-              <!-- 是否超期 -->
-              <view class="istimeout notimeout">
-                <view wx:if="{{child.summaryBean.tstate!=3 && child.summaryBean.daysRemaining>=0}}">
-                还剩{{child.summaryBean.daysRemaining>999? '999+':child.summaryBean.daysRemaining}}
+              <view class="istimeout notimeout" wx:if="{{item.summaryBean.daysRemaining>=0? true:false}}">
+                还剩
+                {{item.summaryBean.daysRemaining>999? '999+':item.summaryBean.daysRemaining}}
                 天
-                </view>
-                <view wx:if="{{child.summaryBean.tstate==3}}" class="notimeout">
-          {{(-1)*child.summaryBean.daysRemaining>999? '历时999+天':'历时'+(-1)*child.summaryBean.daysRemaining+'天'}}
-                </view>
               </view>
-              <view class="istimeout" wx:if="{{child.summaryBean.daysRemaining<0}}">
-                <block wx:if="{{child.summaryBean.tstate!=3}}">
-                {{
-                  child.summaryBean.daysRemaining>= -90? '超期' + child.summaryBean.daysRemaining*(-1) + '天':'严重超期'
-                }}
-               </block>
-                </view>
-              <view class="istimeout" wx:if="{{child.summaryBean.daysRemaining==null? true:false}}">未设置</view>
+              <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining<0? true:false}}">
+                {{item.summaryBean.daysRemaining*(-1)<=90? '超期' + item.summaryBean.daysRemaining*(-1)+'天' : '严重超期'}}
+              </view>
+              <view class="istimeout" wx:if="{{item.summaryBean.daysRemaining===null? true:false}}">未设置</view>
             </view>
-          </block>
-
-          <!-- 二级项目信息/公司 -->
-          <view class="sublist" wx:if="{{urlLine}}" bindtap="alert">
-            <block wx:for="{{child.subList}}" wx:for-item="childItem" wx:for-index="childIndex">
-                <view class="second-level-project" wx:if="{{child.isShowChild}}">
-                  <view class="second-level" catchtap="alert">
-                  
-                    <image src="./img/second-level.png" class="second-title-img"></image>
-                    <view class="second-level-name">{{childItem.summaryBean.title}}</view>
-                  </view>
-                </view>
-                <!-- 当子项目有数据且是最后一个子项目则显示上拉按钮 -->{{}}
-                <view catchtap="watchChild" data-childIndex="{{comopanyProIndex}}" class="second-up" wx:if="{{childIndex == child.subList.length-1}}" data-index="{{index}}">
-                  <image src="./img/select-up.png" class="second-select-up" wx:if="{{child.isShowChild}}"></image>
-                  <image src="./img/select-down.png" class="second-select-up" wx:if="{{!child.isShowChild}}"></image>
-                </view>
-            </block>
-            
           </view>
         </view>
-      </block>
         
-      <!-- 二级项目信息/个人项目 -->
-      <view class="sublist" wx:if="{{!urlLine}}" bindtap="alert">
-          <block wx:for="{{item.subList}}" wx:for-item="sublist" wx:if="{{item.isShowChild}}">
-            <view class="second-level-project">
-              <view class="second-level">
-                <image src="./img/second-level.png" class="second-title-img"></image>
-                <view class="second-level-name">{{sublist.summaryBean.title}}</view>
+        <!-- 公司项目 -->
+        <block wx:if="{{item.isShowCompany}}">
+          <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" bindtap="alert" wx:for-index="comopanyProIndex">
+            <view class="father-project">
+              <view class="single-project">
+                <view class="isprogress">{{progress[child.summaryBean.tstate]}}</view>
+                <view class="project-name {{item.isInProject? '':'notmembers'}}">{{child.summaryBean.title}}</view>
+              </view>
+              <!-- 负责人信息 -->
+              <view class="project-charge">
+                <view class="charge">负责人</view>
+                <view class="charger">{{child.summaryBean.managerName}}</view>
+              </view>
+              <!-- 进度条信息 -->
+              <view class="progress" wx:if="{{child.summaryBean.endDate != null}}">
+                <view class="process-bg">
+                  <view class="progress-bar {{child.summaryBean.daysRemaining>0? 'no-timeout':'has-timeout'}}" style="width:{{child.summaryBean.progress}}%;"></view>
+                </view>
+                <!-- 是否超期 -->
+                <view class="istimeout notimeout">
+                  <view wx:if="{{child.summaryBean.tstate!=3 && child.summaryBean.daysRemaining>=0}}">
+                  还剩{{child.summaryBean.daysRemaining>999? '999+':child.summaryBean.daysRemaining}}
+                  天
+                  </view>
+                  <view wx:if="{{child.summaryBean.tstate==3}}" class="notimeout">
+            {{(-1)*child.summaryBean.daysRemaining>999? '历时999+天':'历时'+(-1)*child.summaryBean.daysRemaining+'天'}}
+                  </view>
+                </view>
+                <view class="istimeout" wx:if="{{child.summaryBean.daysRemaining<0}}">
+                  <block wx:if="{{child.summaryBean.tstate!=3}}">
+                  {{
+                    child.summaryBean.daysRemaining>= -90? '超期' + child.summaryBean.daysRemaining*(-1) + '天':'严重超期'
+                  }}
+                </block>
+                  </view>
+                <view class="istimeout" wx:if="{{child.summaryBean.daysRemaining==null? true:false}}">未设置</view>
               </view>
             </view>
-          </block>
-        <view class="second-up" wx:if="{{item.subList.length>0? true:false}}" data-index="{{index}}" catchtap="watchPersonChild">
-            <image src="./img/select-up.png" wx:if="{{item.isShowChild}}" class="second-select-up"></image>
-            <image src="./img/select-down.png" wx:if="{{!item.isShowChild}}" class="second-select-up"></image>
-        </view>
-      </view> 
-    </view>
-  </block>
+
+            <!-- 二级项目信息/公司 -->
+            <block wx:if="{{child.subList.length>0}}">
+              <view class="sublist" wx:if="{{urlLine}}" bindtap="alert">
+                <block wx:for="{{child.subList}}" wx:for-item="childItem" wx:for-index="childIndex">
+                    <view class="second-level-project" wx:if="{{child.isShowChild}}">
+                      <view class="second-level" catchtap="alert">
+                      
+                        <image src="./img/second-level.png" class="second-title-img"></image>
+                        <view class="second-level-name">{{childItem.summaryBean.title}}</view>
+                      </view>
+                    </view>
+                    <!-- 当子项目有数据且是最后一个子项目则显示上拉按钮 -->{{}}
+                    <view catchtap="watchChild" data-childIndex="{{comopanyProIndex}}" class="second-up" wx:if="{{childIndex == child.subList.length-1}}" data-index="{{index}}">
+                      <image src="./img/select-up.png" class="second-select-up" wx:if="{{child.isShowChild}}"></image>
+                      <image src="./img/select-down.png" class="second-select-up" wx:if="{{!child.isShowChild}}"></image>
+                    </view>
+                </block>
+                
+              </view>
+            </block>
+          </view>
+        </block>
+          
+        <!-- 二级项目信息/个人项目 -->
+        <view class="sublist" wx:if="{{!urlLine}}" bindtap="alert">
+            <block wx:for="{{item.subList}}" wx:for-item="sublist" wx:if="{{item.isShowChild}}">
+              <view class="second-level-project">
+                <view class="second-level">
+                  <image src="./img/second-level.png" class="second-title-img"></image>
+                  <view class="second-level-name">{{sublist.summaryBean.title}}</view>
+                </view>
+              </view>
+            </block>
+          <view class="second-up" wx:if="{{item.subList.length>0? true:false}}" data-index="{{index}}" catchtap="watchPersonChild">
+              <image src="./img/select-up.png" wx:if="{{item.isShowChild}}" class="second-select-up"></image>
+              <image src="./img/select-down.png" wx:if="{{!item.isShowChild}}" class="second-select-up"></image>
+          </view>
+        </view> 
+      </view>
+    </block>
+  </scroll-view>
   <!-- 添加公司 -->
   <view class="add-project" bindtap="jump">+</view>
   

@@ -1,15 +1,17 @@
 /* common/logoinAlert/logoinAlert.wxss */
 .logoinAlert{
   position: fixed;
-  z-index: 3;
+  z-index: 10;
   left: 0;
   bottom: 10%;
   width: 100%;
   /* background-color: white; */
 }
 .logoinAlert-container{
-  width: 250rpx;
+  position: absolute;
   height: 80rpx;
+  left: 50%;
+  transform: translate(-50%);
   margin: auto;
   border-radius: 8rpx;
   text-align: center;
@@ -25,7 +27,7 @@
 .logoinAlert-loading{
   width: 34rpx;
   height: 34rpx;
-  line-height: 80rpx;
+  /* line-height: 80rpx; */
 }
 
 .logoinAlert-Text{

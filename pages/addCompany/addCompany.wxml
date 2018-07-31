@@ -19,7 +19,7 @@
       <view class="addText">添加</view>
     </view>
     <block wx:for="{{memberList}}">
-      <adduser item="{{item}}" data-index="{{index}}" binddelete="delete"></adduser>
+      <adduser bindtap="alert" item="{{item}}" data-index="{{index}}" binddelete="delete"></adduser>
     </block>
    </view>
   </view>

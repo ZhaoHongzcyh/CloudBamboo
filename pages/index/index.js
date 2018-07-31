@@ -53,7 +53,24 @@ Page({
     
   },
   onLoad:function(){
-    //this.getLogoinCode();
+    this.getLogoinCode();
+    this.autoAddLogoin();
+  },
+  // 自动填写登录信息
+  autoAddLogoin:function(){
+    var info = api.autoAddLogoinInfo();
+    
+    if(info != false){
+      this.setData({
+        logoin:info,
+        isClickLogoinBtn:true,
+        logoinPlaceholder: {
+          phone: false,
+          password: false
+        }
+      })
+      console.log(this.data.logoin)
+    }
   },
   // 下拉刷新
   onPullDownRefresh:function () {
@@ -69,7 +86,7 @@ Page({
         this.setData({
           logoinCode:res.code
         })
-        this.logoinBindCode();
+        this.validateCode(res.code);
         wx.stopPullDownRefresh();//关闭下拉刷新
       },
       fail:(e)=>{
@@ -78,16 +95,21 @@ Page({
       }
     })
   },
-  // 登录与绑定
-  logoinBindCode:function(){
-    console.log(this.data.logoinCode)
-    var address = app.ip + "tc/weChat/authorizationCode/" + this.data.logoinCode;
-    var obj = { code: this.data.logoinCode};
-    api.request(obj,address,"get",false).then(res=>{
-      console.log("绑定");
+  // 发送code
+  validateCode:function(logoinCode){
+    var address = app.ip + "tc/weChat/authorizationCode/" + logoinCode;
+    var obj = {code:logoinCode};
+    console.log(logoinCode);
+    console.log(address);
+    api.sendCode(obj,address,"get").then(res=>{
+      console.log("验证结果");
       console.log(res);
-    })
+    }).catch(e=>{
+      console.log(e);
+    });
+
   },
+  // 弹框
   alert:function(){
     this.popup.showPopup()
   },
@@ -117,6 +139,7 @@ Page({
         phone: true,
         password: true
       },
+      logoin:{},
       registerPlaceholder: {
         phone: true,
         verification: true,
@@ -208,7 +231,7 @@ Page({
     this.setData({
       logoin:logoin
     })
-    this.validatorLogoinInfo(logoin);
+    this.validatorLogoinInfo(this.data.logoin);
   },
 
   // 验证码倒计时
@@ -321,10 +344,18 @@ Page({
 
   // 验证用户登录信息格式，是否合法，以此改变登录按钮样式
   validatorLogoinInfo:function(info){
+    console.log(info);
     var phoneReg = /^1\d{10}$/img;
     var pwdReg = /^\w{6,20}$/
     var validatorPhone = phoneReg.test(info.phone);
-    var validatorPwd = pwdReg.test(info.password);
+    var validatorPwd = false;
+    if(!info.password){
+      validatorPwd = false;
+    }
+    else{
+      var validatorPwd = pwdReg.test(info.password);
+    }
+    
     if (validatorPhone && validatorPwd){
         console.log(true)
         this.setData({
@@ -378,6 +409,9 @@ Page({
         console.log("登录成功")
         var handleInfo = api.handleLogoinInfo(res);
         if (handleInfo.code == '200'){
+          // 储存用户的登录信息
+          wx.setStorageSync("userName",obj.userName);
+          wx.setStorageSync("password", this.data.logoin.password);
           wx.redirectTo({
             url: '/pages/company/company'
           })
@@ -388,6 +422,10 @@ Page({
             logoinAlert:{
               state:1,
               content:handleInfo.msg
+            },
+            logoinPlaceholder: {
+              phone: false,
+              password: false
             },
             logoin:{},
             isLogoing:true
@@ -405,7 +443,7 @@ Page({
               isClickLogoinBtn:false
             })
             console.log(this.data.logoin)
-          }, 1500)
+          }, 2000)
         }
       }).catch(e=>{
         console.log(e);
@@ -474,6 +512,7 @@ Page({
   getCode:function(){
     var phone = this.data.register.phone;
     var phoneReg = /^1\d{10}$/img;
+    console.log(phone);
     if(!phoneReg.test(phone)){
       return false;
     }
@@ -487,7 +526,7 @@ Page({
     else{
       console.log(obj)
       var address = app.ip + "neteasy/sms/sendCode";
-      api.request(obj, address, "post", false).then(res => {
+      api.request(obj, address, "post", true).then(res => {
         console.log(res);
         if(res.statusCode == 200 && res.data.code != 101){
           this.setData({

@@ -1,23 +1,25 @@
 {
   "pages":[
-    "pages/companyList/companyList",
     "pages/index/index",
-    "pages/downApp/downApp",
-    
-    "pages/addCompany/addCompany",
-    "pages/company/company",
     "pages/project/project",
+    
+    "pages/cloudDisk/cloudDisk",
+    
+    
+    "pages/company/company",
+    "pages/companyList/companyList",
+    "pages/downApp/downApp",
+    "pages/addCompany/addCompany",
     "pages/myself/myself",
     "pages/addNewProject/addNewProject",
     "pages/mailList/mailList",
-    "pages/tabBar/tabBar",
-    "pages/cloudDisk/cloudDisk"
-    
+    "pages/tabBar/tabBar"
   ],
   "window":{
     "navigationBarTitleText": "云竹协作",
     "navigationBarBackgroundColor": "#409CF2",
     "navigationBarTextStyle":"white",
-    "enablePullDownRefresh":true
+    "enablePullDownRefresh":true,
+    "onReachBottomDistance":0
   }
 }

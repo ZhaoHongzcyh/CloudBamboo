@@ -23,13 +23,13 @@
   <view class="logoinForm" wx:if="{{logoinState}}" >
     <form>
       <view class="phoneNumber commoninput">
-        <input type="number" maxlength='11' class="user input" bindinput="getLogoInfo" value="{{login.phone}}" data-role="user"/>
+        <input type="number" maxlength='11' class="user input" bindinput="getLogoInfo" value="{{logoin.phone}}" data-role="user"/>
         <view class="placeholder" wx:if="{{logoinPlaceholder.phone}}">
           请输入手机号
         </view>
       </view>
       <view class="password commoninput">
-        <input type="{{isShowlogoinPwd? 'text':'password'}}" maxlength='20' class="pwd input" value="{{login.password}}" bindinput="getLogoInfo" data-role="pwd"/>
+        <input password="{{!isShowlogoinPwd}}" maxlength='20' class="pwd input" value="{{logoin.password}}" bindinput="getLogoInfo" data-role="pwd"/>
         <view class="placeholder" wx:if="{{logoinPlaceholder.password}}">
           请输入密码
         </view>
@@ -63,7 +63,7 @@
         </view>
       </view>
       <view class="password commoninput">
-        <input type="{{isShowRegisterPwd? 'text':'password'}}" maxlength='20' minlength="6" class="pwd input" bindinput="getRegisterInfo" value="{{register.password}}" data-role="password"/>
+        <input password="{{!isShowRegisterPwd}}" maxlength='20' minlength="6" class="pwd input" bindinput="getRegisterInfo" value="{{register.password}}" data-role="password"/>
         <view class="placeholder Verification" wx:if="{{registerPlaceholder.password}}">
           请输入6-20位字母或数字的密码
         </view>
@@ -89,5 +89,5 @@
   <logoinAlert src="/pages/index/img/close-icon.png" bind:hideAlert="hideAlert" alertText="{{registerAlert.content}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>
 <view wx:if="{{logoinAlert.state == 1}}">
-  <logoinAlert src="/pages/index/img/close-icon.png" alertText="{{logoinAlert.content}}" animate="{{isLogoing}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+  <logoinAlert src="/pages/index/img/close-icon.png" animate="{{false}}" alertText="{{logoinAlert.content}}"  bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>

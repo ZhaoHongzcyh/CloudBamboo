@@ -3,7 +3,7 @@
   <view class='logoinAlert-container' style="background:{{bgcolor}}">
     <!-- <view class="wx-popup-title">{{title}}</view> -->
     <view class="wx-logoinAlert-con" bindtap="hide">
-      <image src="{{src}}" class="logoinAlert-loading" class="{{animate? 'logoinAlert-animate logoinAlert-loading':'logoinAlert-loading'}}"></image>
+      <image src="{{src}}" class="{{animate? 'logoinAlert-animate logoinAlert-loading':'logoinAlert-loading'}}"></image>
       <text class="logoinAlert-Text">{{alertText}}</text>
     </view>
   </view>

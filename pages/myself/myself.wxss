@@ -2,7 +2,7 @@
 .myself{
   position: absolute;
   width: 100%;
-  height: calc(100% - 98rpx);
+  height: calc(100% - 110rpx);
   overflow: auto;
 }
 .head{
@@ -159,8 +159,8 @@
 }
 /* 处理等级 */
 .error{
-  border-left: 4rpx solid #FF4F3E;
+  border-left: 7rpx solid #FF4F3E;
 }
 .warning{
-  border-left: 4rpx solid #FFAF38;
+  border-left: 7rpx solid #FFAF38;
 }

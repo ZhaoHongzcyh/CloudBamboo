@@ -38,6 +38,24 @@ var request = function(data={},url="localhost",method="post",bool){
      })
 }
 
+// 发送小程序Code与验证
+var sendCode = function (data = {}, url = "localhost", method = "post"){
+  return new Promise(function(resolve,reject){
+    var obj = {
+      url: url,
+      method: method,
+      data: data,
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function (err) {
+        reject(err)
+      }
+    }
+    wx.request(obj);
+  })
+  
+}
 // 处理登录成功之后返回信息
 var handleLogoinInfo = function(info){
   console.log(info);
@@ -68,50 +86,79 @@ var handleLogoinInfo = function(info){
     }
 }
 
+// 自动填写登录信息
+var autoAddLogoinInfo = function(){
+  var phone = wx.getStorageSync("userName");
+  var password= wx.getStorageSync("password");
+  if(phone == "" || phone == null){
+    return false;
+  }
+  else if(password == "" || password == null){
+    return false;
+  }
+  else{
+    return { phone, password };
+  }
+  
+}
 // 处理考勤信息
 var handleAttendance = function(data){
   var timeReg = /\d{2}:\d{2}/img;
   var goWork = {
-    time:"--：--",
+    time:"--:--",
     status:true,
-    title:"上班打卡"
+    title:"上班打卡",
+    code:0
   };
   var offWork = {
-    time:"--：--",
+    time:"--:--",
     status:true,
-    title:"下班打卡"
+    title:"下班打卡",
+    code:0
   }
   if(data.workType == 1){
     goWork.time = data.workShift.match(timeReg);
     goWork.status = true;
-    goWork.title = "更新打卡"
+    goWork.title = "上班打卡";
+    goWork.code = 1;
   }
   else if(data.workType == 2){
     goWork.time = data.workShift.match(timeReg);
     goWork.status = false;
-    goWork.title = "补登打卡"
+    goWork.title = "补登打卡",
+    goWork.code = 2;
   }
   else if (data.workType == 3) {
-    goWork.time = "--：--";
+    goWork.time = " 缺卡";
     goWork.status = false;
-    goWork.title = "缺卡"
+    goWork.title = "上班打卡";
+    goWork.code = 3;
   }
 
+  if(data.workType == 0){
+    offWork.status = false;
+    goWork.code = 0;
+  }
   if(data.closingType == 1){
     offWork.time = data.closingTime.match(timeReg);
     offWork.status = true;
-    offWork.title = "更新打卡"
+    offWork.title = "更新打卡";
+    offWork.code = 1;
   }
   else if (data.closingType == 2){
     offWork.time = data.closingTime.match(timeReg);
     offWork.status = false;
-    offWork.title = "补登打卡"
+    offWork.title = "补登打卡";
+    offWork.code = 2
   }
   else if (data.closingType == 3){
-    offWork.time = "--：--";
+    offWork.time = "--:--";
     offWork.status = false;
-    offWork.title = "缺卡"
+    offWork.title = "缺卡";
+    offWork.code = 3;
   }
+
+
   var obj = {
     goWork,
     offWork
@@ -320,5 +367,7 @@ module.exports = {
   cloudDiskDataClean,
   fileNameSort,
   handleTask,
-  compareTime
+  compareTime,
+  sendCode,
+  autoAddLogoinInfo
 }

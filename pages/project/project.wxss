@@ -57,6 +57,10 @@
   width: 32rpx;
   height: 32rpx;
 }
+.scrollview{
+  height: calc(100% - 98rpx);
+  border: 1rpx solid black;
+}
 /* 项目信息样式 */
 .project-info{
   width: 702rpx;
@@ -64,8 +68,12 @@
   margin:20rpx 24rpx;
   margin-bottom: 1rpx;
   border-radius: 6rpx;
-  background-color:white;
+  background-color:rgba(245,245,245,1);
   border: 1rpx solid #DBDBDB;
+}
+.father-project{
+  background-color: white;
+  border: 1rpx solid white;
 }
 /* 重要项目 */
 .important{
@@ -119,6 +127,7 @@
 .project-charge{
   display: flex;
   margin-left: 36rpx;
+  margin-bottom: 33rpx;
 }
 .charge{
   height: 23rpx;
@@ -170,7 +179,9 @@
 }
 /* 二级项目样式 */
 .sublist{
-  margin-top: 10rpx;
+  width: 680rpx;
+  margin: auto;
+  margin-top: 12rpx;
 }
 .second-level-project{
   width: 680rpx;

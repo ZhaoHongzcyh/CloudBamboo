@@ -31,6 +31,10 @@ Page({
   onPullDownRefresh: function (e) {
     this.onLoad();
   },
+  // 上拉触顶
+  loadMore:function(){
+    console.log("上拉触顶")
+  },
   // 打开app下载弹框
   alert:function(){
     this.popup.showPopup();
@@ -53,13 +57,14 @@ Page({
   getProjectInfo:function(core){
     var obj = {};
     var address = app.ip + 'tc/taskTeamService/listMyTeamTask'
-    // 请求公司项目
+    // 请求个人项目
     if(core == 'person'){
       obj.ownerType = 10000003;
       address = app.ip + "tc/taskService/findTaskBos"
     }
     else{
-      // 请求个人项目
+      // 请求公司项目
+      obj = {start:1,pageSize:20}
     }
     api.request(obj,address,"post",true).then(res=>{
       console.log("公司");

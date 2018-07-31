@@ -46,6 +46,7 @@ App({
     this.globalData.tabbar.list = tabBar;
   },
   globalData:{
+    headimg:null,//用户头像地址
     userInfo: null,
     company: {
       name: "公司名称",

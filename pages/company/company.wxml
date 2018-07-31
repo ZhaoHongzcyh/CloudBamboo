@@ -23,13 +23,14 @@
       <!-- 上班考情 -->
       <view class="company-goToWork">
         <view class="company-clock">上班打卡时间：</view>
-        <view class="{{attendance.goWork.status? 'punch-clock-time':'punch-clock-time-off'}}">{{attendance.goWork.time}}</view>
-        <view class="{{attendance.goWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}" bindtap="alert">{{attendance.goWork.title}}</view>
+        <view class="attend {{attendance.goWork.code == 3? 'error': ''}} {{attendance.goWork.status? 'punch-clock-time':'punch-clock-time-off'}}">{{attendance.goWork.time}}</view>
+        <view wx:if="{{attendance.goWork.code != 1}}" class="{{attendance.goWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}" bindtap="alert">{{attendance.goWork.title}}</view>
+        <view wx:if="{{attendance.goWork.code == 1}}" class="{{attendance.goWork.status? 'punch-card punch-card-btn-off':'punch-card-btn punch-card'}}" bindtap="alert">{{attendance.goWork.title}}</view>
       </view>
       <!-- 下班那考情 -->
       <view class="company-goOffWork">
         <view class="company-clock">下班打卡时间：</view>
-        <view class="{{attendance.offWork.status? 'punch-clock-time':'punch-clock-time-off'}}">{{attendance.offWork.time}}</view>
+        <view class="attend {{attendance.offWork.status? 'punch-clock-time':'punch-clock-time-off'}}">{{attendance.offWork.time}}</view>
         <view class="{{attendance.offWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}" bindtap="alert">{{attendance.offWork.title}}</view>
       </view>
     </view>

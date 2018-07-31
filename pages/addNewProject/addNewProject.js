@@ -39,6 +39,21 @@ Page({
     })
     this.getStartDate();
     this.getProjectList();
+    this.checkHeadUrl();
+  },
+  // 检查是否可以获得头像路径信息
+  checkHeadUrl:function(){
+    var tcUserId = wx.getStorageSync("tcUserId");
+    var ary = this.data.user;
+    if(tcUserId == "" || tcUserId == null){
+      
+    }
+    else{
+      ary[0].head = app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100";
+    }
+    this.setData({
+      user:ary
+    })
   },
   // 下拉刷新
   onPullDownRefresh: function (e) {

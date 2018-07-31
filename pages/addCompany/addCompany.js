@@ -12,7 +12,7 @@ Page({
       {
         name:"我",
         role:1,//1:管理员，0：普通用户
-        head:"./img/head.png"//头像路径
+        head:app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"//头像路径
       }
     ]
   },
@@ -86,6 +86,9 @@ Page({
           })
         }
         else{
+          if (res.data.message == null || res.data.message == "" || res.data.message == undefined){
+            res.data.message = "新建公司失败"
+          }
           this.setData({
             info: {
               state: 1,
@@ -97,6 +100,16 @@ Page({
           this.setData({info:{state:0,content:""}})
         },2000)
       }
+    }).catch(e=>{
+      this.setData({
+        info: {
+          state: 1,
+          content: "服务异常，请稍后再试"
+        }
+      })
+      setTimeout(()=>{
+        this.setData({info:{state:0,content:""}})
+      },2000)
     })
   },
   // 隐藏弹框
