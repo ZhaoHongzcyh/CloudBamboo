@@ -65,6 +65,9 @@ Page({
   onPullDownRefresh: function (e) {
     console.log("刷新")
     this.onLoad();
+    this.setData({
+      headimg: app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"
+    })
     console.log(this.data.headimg)
   },
   // 点击状态栏的弹框

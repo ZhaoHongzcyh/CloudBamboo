@@ -82,14 +82,14 @@ Page({
     if(core == 'person'){
       obj = {
         ownerType: 10000003,
-        start:1,
+        start:0,
         pageSize: this.data.start * this.data.pageSize
       }
       address = app.ip + "tc/taskService/findTaskBos"
     }
     else{
       // 请求公司项目
-      obj = {start:1,pageSize:this.data.start * this.data.pageSize};
+      obj = {start:0,pageSize:this.data.start * this.data.pageSize};
       console.log(obj)
       console.log("数据");
       console.log(this.data)

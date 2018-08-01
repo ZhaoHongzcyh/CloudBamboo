@@ -5,6 +5,7 @@ const util = require("./MD5.js");
 const api = require("../../api/common.js");
 Page({
   data: {
+    VerificatResult:false,//小程序code验证结果
     url:{},
     logoinCode:null,//微信登录code
     logoinState:true,//true:代表注册，false:渲染注册
@@ -45,16 +46,17 @@ Page({
     verificationBtnText:'获取验证码',//验证码按钮文字
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  onReady: function () {
+  onLoad:function(){
     //获得popup组件
     this.popup = this.selectComponent("#popup");
-    // 隐藏底部导航
-    wx.hideTabBar({})
+    this.getLogoinCode();
     
   },
-  onLoad:function(){
-    this.getLogoinCode();
+  codeError:function(){
     this.autoAddLogoin();
+    this.setData({
+      VerificatResult:true
+    })
   },
   // 自动填写登录信息
   autoAddLogoin:function(){
@@ -102,10 +104,21 @@ Page({
     console.log(logoinCode);
     console.log(address);
     api.sendCode(obj,address,"get").then(res=>{
-      console.log("验证结果");
+      console.log("code验证信息")
       console.log(res);
-    }).catch(e=>{
-      console.log(e);
+      var handleInfo = api.handleLogoinInfo(res);
+      if (handleInfo.code == '200') {
+        wx.redirectTo({
+          url: '/pages/company/company'
+        })
+      }
+      else {
+        console.log("code验证失败")
+        this.codeError();
+      }
+    }).catch((e)=>{
+      console.log("code 验证异常")
+        this.codeError();
     });
 
   },
@@ -407,12 +420,14 @@ Page({
       var address = app.ip + "tw/userService/login";
       api.request(obj,address,"post",true).then(res=>{
         console.log("登录成功")
+        console.log(res);
         var handleInfo = api.handleLogoinInfo(res);
         if (handleInfo.code == '200'){
           // 储存用户的登录信息
           wx.setStorageSync("userName",obj.userName);
           wx.setStorageSync("password", this.data.logoin.password);
-          wx.redirectTo({
+          
+          wx.reLaunch({
             url: '/pages/company/company'
           })
         }

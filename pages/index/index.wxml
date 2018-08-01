@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="system">
+<view class="system" wx:if="{{VerificatResult}}">
   <view class="system_public">
     <view class="imgBamboo">
     <!-- 云竹图片 -->
