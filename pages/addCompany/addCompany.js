@@ -78,10 +78,11 @@ Page({
         }
         else if(res.data.code == 414){
           console.log("无法为空")
+          console.log(res.data)
           this.setData({
             info: {
               state: 1,
-              content: res.data.message
+              content: "公司名称无法为空"
             }
           })
         }

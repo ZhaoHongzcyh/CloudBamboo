@@ -5,6 +5,7 @@ const util = require("./MD5.js");
 const api = require("../../api/common.js");
 Page({
   data: {
+    opendid:null,//小程序opendid
     VerificatResult:false,//小程序code验证结果
     url:{},
     logoinCode:null,//微信登录code
@@ -42,8 +43,10 @@ Page({
     isShowRegisterPwd:false,//注册密码是否可见
     isClickLogoinBtn:false,//登录按钮是否可点击
     isClickRegisterBtn:false,//注册按钮是否可点击
+    readCondiction:true,//用户是否勾选服务协议
     countTime: 60,//倒计时间隔
     verificationBtnText:'获取验证码',//验证码按钮文字
+    registerTime:null,//验证码倒计时
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad:function(){
@@ -71,20 +74,16 @@ Page({
           password: false
         }
       })
-      console.log(this.data.logoin)
     }
   },
   // 下拉刷新
   onPullDownRefresh:function () {
-    console.log("测试")
     this.getLogoinCode();
   },
   // 获取登录code
   getLogoinCode:function(){
-    console.log("获取")
     wx.login({
       success:(res)=>{
-        console.log(res);
         this.setData({
           logoinCode:res.code
         })
@@ -92,7 +91,6 @@ Page({
         wx.stopPullDownRefresh();//关闭下拉刷新
       },
       fail:(e)=>{
-        console.log(e);
         wx.stopPullDownRefresh();//关闭下拉刷新
       }
     })
@@ -101,10 +99,7 @@ Page({
   validateCode:function(logoinCode){
     var address = app.ip + "tc/weChat/authorizationCode/" + logoinCode;
     var obj = {code:logoinCode};
-    console.log(logoinCode);
-    console.log(address);
     api.sendCode(obj,address,"get").then(res=>{
-      console.log("code验证信息")
       console.log(res);
       var handleInfo = api.handleLogoinInfo(res);
       if (handleInfo.code == '200') {
@@ -113,11 +108,12 @@ Page({
         })
       }
       else {
-        console.log("code验证失败")
+        this.setData({
+          opendid:res.data.data.openid
+        })
         this.codeError();
       }
     }).catch((e)=>{
-      console.log("code 验证异常")
         this.codeError();
     });
 
@@ -261,9 +257,13 @@ Page({
       });
       return false;
     }
-    setTimeout(function(){
+    var registerTime = setTimeout(function () {
       that.getVerificationCode()
-    },1000)
+    }, 1000);
+    this.setData({
+      registerTime: registerTime
+    })
+    
   },
 
   // 切换登录密码可见状态
@@ -357,7 +357,6 @@ Page({
 
   // 验证用户登录信息格式，是否合法，以此改变登录按钮样式
   validatorLogoinInfo:function(info){
-    console.log(info);
     var phoneReg = /^1\d{10}$/img;
     var pwdReg = /^\w{6,20}$/
     var validatorPhone = phoneReg.test(info.phone);
@@ -370,7 +369,6 @@ Page({
     }
     
     if (validatorPhone && validatorPwd){
-        console.log(true)
         this.setData({
           isClickLogoinBtn:true
         })
@@ -390,7 +388,7 @@ Page({
     var validatorPhone = phoneReg.test(info.phone);
     var validatorPwd = pwdReg.test(info.password);
     var validatorVerification = verificationReg.test(info.verification);
-    if (validatorPhone && validatorPwd && validatorVerification){
+    if (validatorPhone && validatorPwd && validatorVerification && this.data.readCondiction){
       this.setData({
         isClickRegisterBtn:true
       })
@@ -408,7 +406,9 @@ Page({
       userName:this.data.logoin.phone,
       password:util.hexMD5(this.data.logoin.password)
     }
-    console.log(obj);
+    if(this.data.opendid != null){
+      obj.opendId = this.data.opendid;
+    }
     if (this.data.isClickLogoinBtn){
       this.setData({
         isLogoing: false,
@@ -419,8 +419,6 @@ Page({
       })
       var address = app.ip + "tw/userService/login";
       api.request(obj,address,"post",true).then(res=>{
-        console.log("登录成功")
-        console.log(res);
         var handleInfo = api.handleLogoinInfo(res);
         if (handleInfo.code == '200'){
           // 储存用户的登录信息
@@ -457,11 +455,9 @@ Page({
               },
               isClickLogoinBtn:false
             })
-            console.log(this.data.logoin)
           }, 2000)
         }
       }).catch(e=>{
-        console.log(e);
         this.setData({
           logoinAlert:{
            state:0,
@@ -476,12 +472,23 @@ Page({
       })
     }
   },
-
+  // 切换勾选服务协议
+  switchCondiction:function(){
+    this.setData({
+      readCondiction: !this.data.readCondiction
+    })
+    if(!this.data.readCondiction){
+      this.setData({
+        isClickRegisterBtn: false
+      })
+    }
+  },
   // 发起注册请求
   userRegister:function(){
     if (!this.data.isClickRegisterBtn){
       return false;
     }
+    
     var register = this.data.register;
     var obj = {
       userName:register.phone,
@@ -495,9 +502,14 @@ Page({
       }
     })
     var address = app.ip + "tw/userService/regist";
-    console.log(obj);
-    api.request(obj, address, "post", false).then(res => {
-      console.log(res);
+    api.request(obj, address, "post", true).then(res => {
+      if(res.data.code == 200){
+        this.setData({
+          countTime:60,
+          verificationBtnText: "获取验证码"
+        });
+        clearTimeout(this.data.registerTime);
+      }
       this.setData({
         registerAlert: {
           state: 1,
@@ -527,23 +539,45 @@ Page({
   getCode:function(){
     var phone = this.data.register.phone;
     var phoneReg = /^1\d{10}$/img;
-    console.log(phone);
     if(!phoneReg.test(phone)){
+      if(phone == "" || phone == null){
+        this.setData({
+          registerAlert: {
+            state: 1,
+            content: "请先输入手机号码"
+          }
+        })
+      }
+      else{
+        this.setData({
+          registerAlert: {
+            state: 1,
+            content: "手机号格式错误"
+          }
+        })
+      }
+      setTimeout(() => {
+        this.setData({
+          registerAlert: {
+            state: 0,
+            content: ""
+          }
+        })
+      }, 1500)
       return false;
     }
     var obj = {
       mobile: phone,
       typeFlag: 100
     }
-    if(this.data.countTime < 60 || obj.phone){
+    if(this.data.countTime < 60 || obj.mobile == null){
       return false;
     }
     else{
-      console.log(obj)
       var address = app.ip + "neteasy/sms/sendCode";
       api.request(obj, address, "post", true).then(res => {
-        console.log(res);
         if(res.statusCode == 200 && res.data.code != 101){
+          this.getVerificationCode();
           this.setData({
             verification:res.data
           })
@@ -561,13 +595,13 @@ Page({
                 state: 0,
                 content: ""
               },
-              countTime:1
+              countTime:60
             })
           },1500)
         }
       })
     }
-    this.getVerificationCode();
+    
   },
   pageJump: function (e) {
     var index = e.currentTarget.dataset.index;

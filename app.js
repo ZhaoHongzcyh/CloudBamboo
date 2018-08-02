@@ -1,6 +1,7 @@
 //app.js
 App({
-  ip:"http://192.168.1.107:8082/tc_service/",
+  ip:"http://192.168.1.107:8082/tc_service/",//开发环境
+  // ip:"https://services.yzsaas.cn/",//生产环境
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
@@ -52,6 +53,8 @@ App({
       name: "公司名称",
       logo: "./img/company.png"
     },
+    projectName:null,//项目名称
+    projectDescript:null,//项目描述
     tabbar: {
       color: "#000000",
       selectedColor: "#0f87ff",

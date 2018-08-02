@@ -42,7 +42,6 @@ Page({
       folderId:1
     }
     api.request(obj,address,"post",true).then(res=>{
-      // console.log(res)
       var selectStatus = [];
       var dat = api.cloudDiskDataClean(res.data.data.list);
       var list = api.fileNameSort(dat);

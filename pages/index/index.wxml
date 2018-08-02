@@ -75,7 +75,7 @@
         <view class="btnText">注册</view>
       </view>
       <view class="treaty">
-        <checkbox color="gray" class="treatycheckbox"></checkbox>
+        <checkbox color="gray" class="treatycheckbox" checked="{{readCondiction}}" disabled='true' bindtap="switchCondiction"></checkbox>
         <text class="agreentreaty">我已阅读并同意<text class="treatyContent">服务协议</text></text>
       </view>
     </form>

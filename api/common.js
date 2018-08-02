@@ -58,11 +58,8 @@ var sendCode = function (data = {}, url = "localhost", method = "post"){
 }
 // 处理登录成功之后返回信息
 var handleLogoinInfo = function(info){
-  console.log(info);
     if(info.data.code == 200 && info.data.result){
-      console.log("登录信息")
       info = info.data;
-      console.log(info);
       try{
         wx.setStorageSync("appKey", info.data.appKey);
         wx.setStorageSync("proxyUserToken", info.data.proxyUserToken);
@@ -70,7 +67,6 @@ var handleLogoinInfo = function(info){
         wx.setStorageSync("tcUserId", info.data.proxyUserInfo.tcUserId);
       }
       catch(e){
-        console.log("用户基本信息储存异常");
         return {code:400,msg:"error"}
       }
       return {
@@ -252,7 +248,6 @@ var choosedCompany = function(ary,index){
 var cloudDiskDataClean = function(dat){
     var folder = [];//存放文件夹数据
     var file = [];//存放普通文件
-    console.log(dat);
     // 整理时间格式
     for(var i = 0; i < dat.length; i++){
       var year = dat[i].createDate.split("T")[0];
@@ -281,7 +276,6 @@ var cloudDiskDataClean = function(dat){
 
 // 云盘数据清洗，按照文件名排序
 var fileNameSort = function(dat){
-  console.log(dat);
   var folder = dat.folder.sort(function(a,b){
     a.title > b.title ? 1 : 0;
   });
@@ -295,7 +289,6 @@ var fileNameSort = function(dat){
   for(var i = 0; i < file.length; i++){
     list.push(file[i])
   }
-  console.log(list);
   return list;//按照文件名排序之后的数据
 }
 // 处理”我的“模块中请求的任务数据
@@ -331,11 +324,12 @@ var handleTask = function(res){
         }
         str = str[1] + "月" + str[2] + "日";
         ary[i].endDate = str;
-        list.unshift(ary[i])
+        //list.unshift(ary[i])
       }
       else{
-        list.push(ary[i]);
+        //list.push(ary[i]);
       }
+      list.push(ary[i]);
     }
   }
   return list;

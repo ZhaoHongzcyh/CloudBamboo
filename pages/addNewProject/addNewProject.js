@@ -8,7 +8,7 @@ Page({
       state:0,
       content:""
     },
-    title:null,//项目名称
+    title:app.globalData.projectName,//项目名称
     description:null,//项目介绍
     startDate:"",
     endDate:"",
@@ -187,6 +187,7 @@ Page({
     this.setData({
       title:value
     })
+    app.globalData.projectName = value;
   },
   // 更新项目描述
   getProjectInfo:function(e){

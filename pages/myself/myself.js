@@ -25,8 +25,6 @@ Page({
   getUserInfo:function(){
     var address = app.ip + "tw/userService/getUserInfo";
     api.request({},address,"post",true).then(res=>{
-      console.log(res);
-      console.log("用户详细信息")
       var userinfo = {
         name:res.data.data.curUser.pname
       }
@@ -40,8 +38,6 @@ Page({
   getTask:function(){
     var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
     api.request({},address,"post",true).then(res=>{
-      console.log("任务")
-      console.log(res);
       var list = api.handleTask(res);
       this.setData({
         list:list
@@ -63,12 +59,10 @@ Page({
   },
   // 下拉刷新
   onPullDownRefresh: function (e) {
-    console.log("刷新")
     this.onLoad();
     this.setData({
       headimg: app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"
     })
-    console.log(this.data.headimg)
   },
   // 点击状态栏的弹框
   radioAlert:function(e){

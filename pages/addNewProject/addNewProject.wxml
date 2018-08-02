@@ -4,7 +4,7 @@
     <view class="title">项目名称</view>
     <view class="input">
       <view class="textarea">
-        <textarea class="introduction" bindinput="getProjectName" placeholder='项目名称说明' placeholder-class="placeholder"></textarea>
+        <textarea class="introduction" bindinput="getProjectName" placeholder='项目名称说明' placeholder-class="placeholder" value="{{title}}"></textarea>
       </view>
     </view>
   </view>

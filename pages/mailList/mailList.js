@@ -55,7 +55,6 @@ Page({
   getGroup:function(){
     var address = app.ip + "tc/userContactService/getPersonContacts";
     api.request({},address,"post",true).then(res=>{
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({
           list:res.data.data

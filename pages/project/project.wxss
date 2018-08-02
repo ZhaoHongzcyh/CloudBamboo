@@ -3,6 +3,7 @@
   position: absolute;
   right:0rpx;
   width: 100%;
+  top: 0rpx;
   height:calc(100% - 98rpx);
   overflow: auto;
   background:rgba(245,245,245,1);

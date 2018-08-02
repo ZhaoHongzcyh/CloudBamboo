@@ -9,6 +9,7 @@ Page({
       name:"公司名称",
       logo:"./img/company.png"
     },
+    isGetCompany:false,//是否已经请求到公司数据
     time:{
       today:"",
       month:""
@@ -32,14 +33,14 @@ Page({
   },
   onReady:function(){
     // 弹框
-    this.popup = this.selectComponent("#company-popup");
+    
   },
   onLoad:function(options){
     this.setData({
       listConfig:listConfig.listConfig
     })
-    this.getWorkAttendance();
     this.getCompanyInfo();
+    this.getWorkAttendance();
     this.getUserTeam();
     this.flushTime();
     // 更新导航数据
@@ -54,6 +55,7 @@ Page({
   },
   // app下载弹框
   alert: function () {
+    this.popup = this.selectComponent("#company-popup");
     this.popup.showPopup()
   },
   // 更新时间
@@ -70,8 +72,6 @@ Page({
     }
     var address = app.ip + "tc/taskMemberService/findTaskMembershipAttendanceBean";
     api.request(obj,address,"post",true).then(res=>{
-      console.log("考情")
-      console.log(res);
       if(res.data.code == 200){
         var obj = api.handleAttendance(res.data.data);
         this.setData({
@@ -79,7 +79,6 @@ Page({
         })
       }
     }).catch(e=>{
-      console.log(e);
       wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
@@ -90,8 +89,6 @@ Page({
     //tc/taskTeamService/findTaskTeam
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj,address,"post",true).then(res=>{
-      console.log("公司")
-      console.log(res);
       if(res.data.code == 402){//session 过期，重定向到登录页面
         wx.redirectTo({
           url: '/pages/index/index',
@@ -102,11 +99,11 @@ Page({
         company:{
           name:handleInfo.cname.split(";")[0],
           cicon: handleInfo.cicon
-        }
+        },
+        isGetCompany:true
       });
       wx.stopPullDownRefresh();//关闭下拉刷新
     }).catch(e=>{
-      console.log(e);
       wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
@@ -114,17 +111,15 @@ Page({
     var obj = {};
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj,address,"post",true).then(res=>{
-      console.log("团队信息");
-      console.log(res)
     }).catch(e=>{
       wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
   // 切换公司
   switchCompany:function(){
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/companyList/companyList',
-    });
+    })
   },
   // 添加公司
   addCompany:function(){
@@ -145,8 +140,6 @@ Page({
   getCompanyId:function(){
     var address = app.ip + "tw/userService/getUserInfo";
     api.request({},address,"post",true).then(res=>{
-      console.log("获取公司ID");
-      console.log(res);
     })
   }
 })

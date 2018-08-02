@@ -216,3 +216,45 @@
   height: 81rpx;
   border-radius: 50%;
 }
+/* 公司数据请求失败 */
+.hasntCompany,.switch-company-error{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  text-align: center; 
+  margin: auto;
+  background-color: rgba(245,245,245,1);
+  /* width: 240rpx; */
+}
+.Hint{
+  margin-top: 300rpx;
+  text-align: center;
+}
+.HintImg{
+  width: 150rpx;
+  height: 150rpx;
+}
+.HintText{
+  margin-top:23rpx;
+  text-align: center;
+  color: #999999;
+  font-size: 24rpx;
+}
+.btn-area{
+  display: flex;
+}
+/* .switch-company-error{
+  margin-top: 300rpx;
+} */
+.switch-company-btn{
+  width: 300rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  color:white;
+  background-color: rgba(64,156,242,1);
+  border-radius: 36rpx;
+  margin: auto;
+  margin-top: 42rpx;
+  text-align: center;
+}

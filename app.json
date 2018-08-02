@@ -3,8 +3,8 @@
     "pages/index/index",
     "pages/project/project",
     
-    "pages/cloudDisk/cloudDisk",
     "pages/company/company",
+    "pages/cloudDisk/cloudDisk",
     "pages/companyList/companyList",
     "pages/downApp/downApp",
     "pages/addCompany/addCompany",

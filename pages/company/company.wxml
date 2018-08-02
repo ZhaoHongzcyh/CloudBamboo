@@ -1,7 +1,7 @@
 <!-- 导入导航模板 -->
 <import src="/pages/tabBar/tabBar.wxml"/>
 <template is="tabBar" data="{{url}}"></template>
-<view class="company">
+<view class="company" wx:if="{{isGetCompany}}">
 <!-- 公司名称区域 -->
   <view class="company-head">
     <image src="./img/companyList.png" class="company-logo"></image>
@@ -74,7 +74,6 @@
   </view>
   <!-- app下载提示弹框 -->
   <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
-  
 </view>
 <view wx:if="{{switchCompany}}">
   <block wx:for="{{companyList}}">
@@ -84,3 +83,18 @@
 <!-- <view wx:if="{{junpLoading}}">
   <logoinAlert src="/pages/index/img/logoin-loading.png" alertText="正在跳转。。。" animate="1" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view> -->
+<!-- 未取得公司数据情况 -->
+<!-- 切换公司请求失败 -->
+  <view class="switch-company-error" wx:if="{{!isGetCompany}}">
+    <view class="Hint">
+        <image src="./img/noComapny.png" class="HintImg"></image>
+    </view>
+    <view class="HintText">
+        <view>很抱歉暂未获取到公司信息</view>
+        <view>你可选择切换公司或新建公司</view>
+    </view>
+    <view class="btn-area">
+      <view class="switch-company-btn" bindtap="switchCompany">切换公司</view>
+      <view class="switch-company-btn" bindtap="addCompany">新建公司</view>
+    </view>
+  </view>

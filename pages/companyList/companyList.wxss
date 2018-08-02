@@ -33,18 +33,3 @@ page{
 .btn-area{
   display: flex;
 }
-/* .switch-company-error{
-  margin-top: 300rpx;
-} */
-.switch-company-btn{
-  width: 300rpx;
-  height: 72rpx;
-  line-height: 72rpx;
-  font-size: 28rpx;
-  color:white;
-  background-color: rgba(64,156,242,1);
-  border-radius: 36rpx;
-  margin: auto;
-  margin-top: 42rpx;
-  text-align: center;
-}

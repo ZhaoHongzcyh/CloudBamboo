@@ -60,19 +60,21 @@ Page({
   },
   // 请求个人项目信息
   getProjectPerson:function(){
-    this.getProjectInfo('person');
     this.setData({
       urlLine:false,
-      start:1
+      start:1,
+      list:[]
     })
+    this.getProjectInfo('person');
   },
   // 请求公司项目
   getProjectCompany:function(){
-    this.getProjectInfo('company')
     this.setData({
       urlLine:true,
-      start:1
+      start:1,
+      list:[]
     })
+    this.getProjectInfo('company')
   },
   // 请求项目信息
   getProjectInfo:function(core){
@@ -90,9 +92,6 @@ Page({
     else{
       // 请求公司项目
       obj = {start:0,pageSize:this.data.start * this.data.pageSize};
-      console.log(obj)
-      console.log("数据");
-      console.log(this.data)
     }
     api.request(obj,address,"post",true).then(res=>{
       this.setData({
@@ -105,6 +104,8 @@ Page({
         this.handlePerson(res);
       }
       wx.stopPullDownRefresh();//关闭下拉刷新
+      console.log("猪蹄");
+      console.log(res);
     }).catch(e=>{
       console.log(e);
     })
@@ -114,7 +115,6 @@ Page({
     var data = res.data.data
     var list = [];
     var userid = this.data.userId;
-    console.log(res);
     if(res.data.code == 200 && data.length != 0){
       // 将数据排序
       for(var i = 0; i < data.length; i++){
@@ -125,7 +125,6 @@ Page({
           taskBo: data[i].taskBo,
           isShowChild:true
         }
-        console.log("测试");
         if(data[i].taskBo != null){
           for (var j = 0; j < data[i].taskBo.list.length; j++) {
             for (var k = 0; k < data[i].taskBo.list[j].memberBeans.length; k++) {
@@ -147,8 +146,6 @@ Page({
       this.setData({
         list:list
       })
-      console.log("逻辑");
-      console.log(this.data.list)
     }
     else if(res.data.code == 402){
       wx.redirectTo({
@@ -160,8 +157,6 @@ Page({
   handlePerson:function(res){
     var list = [];
     var data = res.data.data;
-    console.log("个人项目");
-    console.log(res);
     if(res.data.code == 200){
       for(var i = 0; i < data.list.length; i++){
         data.list[i].isShowChild = false;
@@ -171,7 +166,6 @@ Page({
     this.setData({
       list:list
     })
-    console.log(list);
   },
   // 跳转到添加新项目
   jump:function(){
@@ -208,7 +202,6 @@ Page({
     }
     else{
       ary[index].isShowChild = !(ary[index].isShowChild);
-      console.log(ary[index].isShowChild);
     }
     this.setData({
       list: ary
