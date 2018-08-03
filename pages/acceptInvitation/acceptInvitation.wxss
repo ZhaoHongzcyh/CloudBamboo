@@ -1,0 +1,36 @@
+/* pages/acceptInvitation/acceptInvitation.wxss */
+.acceptInvitation{
+  position: absolute;
+  width: 630rpx;
+  top: 140rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.userhead{
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+}
+.user{
+  color: #000000;
+  font-size: 40rpx;
+  margin-top: 42rpx;
+}
+.invitation{
+  color: #666666;
+  font-size: 26rpx;
+  margin-top: 36rpx;
+}
+/* 接受邀请按钮 */
+.acceptbtn{
+  margin-top: 74rpx;
+  width: 630rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius:40rpx;
+  text-align: center;
+  background-color: #409CF2;
+  color: #FFFFFF;
+  font-size: 34rpx;
+}

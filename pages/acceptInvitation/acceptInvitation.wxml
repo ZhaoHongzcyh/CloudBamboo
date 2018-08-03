@@ -1,0 +1,14 @@
+<!--pages/acceptInvitation/acceptInvitation.wxml-->
+<view class="acceptInvitation">
+  <view>
+    <image src="./img/head.png" class="userhead"></image>
+  </view>
+  <view class="user">
+    赵宏
+  </view>
+  <view class="invitation">
+    邀请你加入公司[上市吧有限公司]
+    <view>并成为TA的云竹协作好友</view>
+  </view>
+  <view class="acceptbtn">接受邀请</view>
+</view>

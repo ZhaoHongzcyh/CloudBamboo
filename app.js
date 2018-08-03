@@ -35,6 +35,34 @@ App({
       }
     })
   },
+  onShow:function(options){
+    this.getSceneValue(options);
+  },
+  // 获取场景值
+  getSceneValue:function(options){
+    console.log("小程序场景值");
+    console.log(options);
+    console.log(this.globalData);
+    if(options.scene != 1036){
+      this.globalData.isByAppEntry = true;
+      var sceneObject = this.globalData.Invitation;
+      // app分享的场景对象内容
+          sceneObject = {
+            url: options.query.url,
+            inviterId: options.query.inviterId,
+            departmentId: options.query.departmentId,
+            urlType: options.query.urlType,
+            cid: null//暂定为null
+          }
+      // sceneObject = {
+      //   inviterId: 7375661788028946278,
+      //   departmentId: 2478533579694555719,
+      //   urlType: 1,
+      //   cid: null//暂定为null
+      // }
+      this.globalData.Invitation = sceneObject;
+    }
+  },
   // 编辑tabbar
   editTabBar:function(index){
     var tabBar = this.globalData.tabbar.list;
@@ -47,12 +75,15 @@ App({
     this.globalData.tabbar.list = tabBar;
   },
   globalData:{
-    headimg:null,//用户头像地址
-    userInfo: null,
-    company: {
-      name: "公司名称",
-      logo: "./img/company.png"
+    isByAppEntry:true,
+    Invitation:{
+      cid:null,//用户单位ID
+      inviterId:null,//邀请人id
+      departmentId:null,//邀请人公司部门id,或者项目id
+      urlType:null,//链接邀请类型0:公司邀请 1：项目邀请 2:多人聊天邀请
     },
+    // headimg:null,//用户头像地址
+    // userInfo: null,
     projectName:null,//项目名称
     projectDescript:null,//项目描述
     tabbar: {

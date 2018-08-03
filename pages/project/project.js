@@ -129,8 +129,10 @@ Page({
           for (var j = 0; j < data[i].taskBo.list.length; j++) {
             for (var k = 0; k < data[i].taskBo.list[j].memberBeans.length; k++) {
               data[i].taskBo.list[j].isShowChild = false;
+              console.log(data[i].taskBo.list[j].memberBeans[k].resourceId);
               if (userid == data[i].taskBo.list[j].memberBeans[k].resourceId) {
-                obj.isInProject = true;
+                obj.isInProject = true; 
+                console.log("相等")
               }
             }
           }

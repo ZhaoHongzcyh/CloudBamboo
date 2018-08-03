@@ -6,7 +6,7 @@ const api = require("../../api/common.js");
 Page({
   data: {
     opendid:null,//小程序opendid
-    VerificatResult:false,//小程序code验证结果
+    VerificatResult:true,//小程序code验证结果
     url:{},
     logoinCode:null,//微信登录code
     logoinState:true,//true:代表注册，false:渲染注册
@@ -50,9 +50,10 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad:function(){
+    console.log("小程序onload")
     //获得popup组件
     this.popup = this.selectComponent("#popup");
-    this.getLogoinCode();
+    //this.getLogoinCode();//验证用户是否绑定协作
     
   },
   codeError:function(){
@@ -99,6 +100,10 @@ Page({
   validateCode:function(logoinCode){
     var address = app.ip + "tc/weChat/authorizationCode/" + logoinCode;
     var obj = {code:logoinCode};
+    // 判断用户是否通过App链接邀请进入
+    if (app.globalData.isByAppEntry) {
+      obj = Object.assign({}, obj, app.globalData.Invitation);
+    }
     api.sendCode(obj,address,"get").then(res=>{
       console.log(res);
       var handleInfo = api.handleLogoinInfo(res);
@@ -409,6 +414,12 @@ Page({
     if(this.data.opendid != null){
       obj.opendId = this.data.opendid;
     }
+    // 判断用户是否通过链接邀请进入
+    if (app.globalData.isByAppEntry){
+      obj = Object.assign({}, obj, app.globalData.Invitation);
+    }
+    console.log("登录信息");
+    console.log(obj);
     if (this.data.isClickLogoinBtn){
       this.setData({
         isLogoing: false,
@@ -420,12 +431,14 @@ Page({
       var address = app.ip + "tw/userService/login";
       api.request(obj,address,"post",true).then(res=>{
         var handleInfo = api.handleLogoinInfo(res);
+        console.log("服务器返回");
+        console.log(res);
         if (handleInfo.code == '200'){
           // 储存用户的登录信息
           wx.setStorageSync("userName",obj.userName);
           wx.setStorageSync("password", this.data.logoin.password);
-          
-          wx.reLaunch({
+          console.log("登录成功")
+          wx.redirectTo({
             url: '/pages/company/company'
           })
         }
@@ -477,11 +490,8 @@ Page({
     this.setData({
       readCondiction: !this.data.readCondiction
     })
-    if(!this.data.readCondiction){
-      this.setData({
-        isClickRegisterBtn: false
-      })
-    }
+    
+    this.validatorRegisterInfo(this.data.register);
   },
   // 发起注册请求
   userRegister:function(){
@@ -609,6 +619,13 @@ Page({
     app.editTabBar(index);
     wx.redirectTo({
       url: url,
+    })
+  },
+  // 阅读协议
+  readAgreement:function(){
+    console.log("条船")
+    wx.navigateTo({
+      url: '/pages/Agreement/Agreement',
     })
   }
 })

@@ -1,0 +1,2 @@
+<!--pages/Agreement/Agreement.wxml-->
+<web-view src="http://xz.yzsaas.cn/document.html"></web-view>
