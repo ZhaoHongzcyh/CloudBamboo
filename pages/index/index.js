@@ -6,7 +6,9 @@ const api = require("../../api/common.js");
 Page({
   data: {
     opendid:null,//小程序opendid
-    VerificatResult:true,//小程序code验证结果
+    VerificatResult:false,//小程序code验证结果
+    share:false,//是否通过分享登录
+    shareScene:{},//分享场景信息
     url:{},
     logoinCode:null,//微信登录code
     logoinState:true,//true:代表注册，false:渲染注册
@@ -50,16 +52,38 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad:function(){
-    console.log("小程序onload")
     //获得popup组件
     this.popup = this.selectComponent("#popup");
-    //this.getLogoinCode();//验证用户是否绑定协作
+    if (!app.globalData.isByAppEntry){
+      this.getLogoinCode();//验证用户是否绑定协作
+    }
+    else{
+      this.setData({
+        VerificatResult:true
+      })
+      // 请求链接分享所需要的数据
+      this.getShareData();
+    }
     
   },
   codeError:function(){
     this.autoAddLogoin();
     this.setData({
       VerificatResult:true
+    })
+  },
+  // 请求链接分享的数据
+  getShareData:function(){
+    var address = app.ip + "tc/taskDepartmentService/dpmmInvite/" + app.globalData.Invitation.url;
+    api.request({}, address, "post", true).then(res => {
+      if (res.data.code == 200 && res.data.result) {
+        this.setData({
+          shareScene: res.data.data,
+          share:true
+        })
+      }
+    }).catch(e => {
+      console.log(e);
     })
   },
   // 自动填写登录信息
@@ -105,7 +129,6 @@ Page({
       obj = Object.assign({}, obj, app.globalData.Invitation);
     }
     api.sendCode(obj,address,"get").then(res=>{
-      console.log(res);
       var handleInfo = api.handleLogoinInfo(res);
       if (handleInfo.code == '200') {
         wx.redirectTo({
@@ -415,11 +438,15 @@ Page({
       obj.opendId = this.data.opendid;
     }
     // 判断用户是否通过链接邀请进入
-    if (app.globalData.isByAppEntry){
-      obj = Object.assign({}, obj, app.globalData.Invitation);
+    if (this.data.share){
+      var scene = {
+        // inviterId: this.data.shareScene.initiator,
+        departmentId: this.data.shareScene.departmentId,
+        urlType: this.data.shareScene.urlType,
+        code: this.data.logoinCode
+      }
+      obj = Object.assign({}, obj, scene);
     }
-    console.log("登录信息");
-    console.log(obj);
     if (this.data.isClickLogoinBtn){
       this.setData({
         isLogoing: false,
@@ -431,16 +458,13 @@ Page({
       var address = app.ip + "tw/userService/login";
       api.request(obj,address,"post",true).then(res=>{
         var handleInfo = api.handleLogoinInfo(res);
-        console.log("服务器返回");
-        console.log(res);
         if (handleInfo.code == '200'){
           // 储存用户的登录信息
           wx.setStorageSync("userName",obj.userName);
           wx.setStorageSync("password", this.data.logoin.password);
-          console.log("登录成功")
-          wx.redirectTo({
-            url: '/pages/company/company'
-          })
+            wx.redirectTo({
+              url: '/pages/company/company'
+            })
         }
         else{
           var logoin = this.data.logoin
@@ -623,7 +647,6 @@ Page({
   },
   // 阅读协议
   readAgreement:function(){
-    console.log("条船")
     wx.navigateTo({
       url: '/pages/Agreement/Agreement',
     })

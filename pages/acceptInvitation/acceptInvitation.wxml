@@ -4,11 +4,14 @@
     <image src="./img/head.png" class="userhead"></image>
   </view>
   <view class="user">
-    赵宏
+    {{shareScene.initiatorName}}
   </view>
   <view class="invitation">
-    邀请你加入公司[上市吧有限公司]
+    邀请你加入{{shareScene.urlType == 0? '公司':''}}
+    {{shareScene.urlType == 1? '项目':''}}
+    {{shareScene.urlType == 2? '多人聊天':''}}
+    [{{shareScene.teamName}}]
     <view>并成为TA的云竹协作好友</view>
   </view>
-  <view class="acceptbtn">接受邀请</view>
+  <view class="acceptbtn" bindtap="getLogoinCode">接受邀请</view>
 </view>

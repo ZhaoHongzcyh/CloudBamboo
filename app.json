@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/acceptInvitation/acceptInvitation",
     "pages/index/index",
+    "pages/acceptInvitation/acceptInvitation",
     "pages/project/project",
     "pages/company/company",
     "pages/cloudDisk/cloudDisk",

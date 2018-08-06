@@ -104,8 +104,6 @@ Page({
         this.handlePerson(res);
       }
       wx.stopPullDownRefresh();//关闭下拉刷新
-      console.log("猪蹄");
-      console.log(res);
     }).catch(e=>{
       console.log(e);
     })
@@ -129,10 +127,8 @@ Page({
           for (var j = 0; j < data[i].taskBo.list.length; j++) {
             for (var k = 0; k < data[i].taskBo.list[j].memberBeans.length; k++) {
               data[i].taskBo.list[j].isShowChild = false;
-              console.log(data[i].taskBo.list[j].memberBeans[k].resourceId);
               if (userid == data[i].taskBo.list[j].memberBeans[k].resourceId) {
                 obj.isInProject = true; 
-                console.log("相等")
               }
             }
           }
