@@ -57,7 +57,6 @@ Page({
   },
   // 下拉刷新
   onPullDownRefresh: function (e) {
-    console.log("刷新")
     // this.onLoad()
     wx.stopPullDownRefresh();//关闭下拉刷新
   },
@@ -99,7 +98,6 @@ Page({
   },
   // 发送新建项目请求
   addNewProject:function(e){
-    console.log("x")
     var address = app.ip + "tc/taskService/addOrUpdateTask";
     var endTime = "";
     if(this.data.endDate != ""){
@@ -228,8 +226,6 @@ Page({
     var obj = {};
     var address = app.ip + 'tc/taskTeamService/findTaskTeam'
     api.request(obj, address, "post", true).then(res => {
-      console.log("公司");
-      console.log(res);
       var data = res.data.data.list
       var teamId = wx.getStorageSync("defaultTaskTeam");
       data.unshift({
@@ -257,8 +253,6 @@ Page({
   getUserInfo:function(){
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request({},address,"post",true).then(res=>{
-      console.log("用户信息");
-      console.log(res);
     })
   },
   // 切换项目所属

@@ -135,6 +135,9 @@
   line-height: 27rpx;
   color: #333333;
   font-size: 28rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .company{
   margin-left: 20rpx;

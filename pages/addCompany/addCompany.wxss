@@ -13,6 +13,7 @@
 }
 .new-company-name{
   position: relative;
+  height: 120rpx;
   background-color: white;
 }
 .textPlaceholder{
@@ -25,8 +26,10 @@
   font-size: 28rpx;
 }
 .input-company-name{
-  margin-left: 41rpx;
-  height: 120rpx;
+  position: absolute;
+  left: 41rpx;
+  top: 24rpx;
+  height: 96rpx;
   width: 100%;
   color: #666666;
   font-size: 28rpx;

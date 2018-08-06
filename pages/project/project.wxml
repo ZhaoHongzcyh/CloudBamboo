@@ -57,7 +57,7 @@
             <view class="father-project">
               <view class="single-project">
                 <view class="isprogress">{{progress[child.summaryBean.tstate]}}</view>
-                <view class="project-name {{item.isInProject? '':'notmembers'}}">{{child.summaryBean.title}}</view>
+                <view class="project-name {{child.isInProject? '':'notmembers'}}">{{child.summaryBean.title}}</view>
               </view>
               <!-- 负责人信息 -->
               <view class="project-charge">

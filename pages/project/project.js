@@ -117,7 +117,7 @@ Page({
       // 将数据排序
       for(var i = 0; i < data.length; i++){
         var obj = {
-          isInProject:false,
+          // isInProject:false,
           isShowCompany: false,
           summaryBean: data[i].summaryBean,
           taskBo: data[i].taskBo,
@@ -125,10 +125,12 @@ Page({
         }
         if(data[i].taskBo != null){
           for (var j = 0; j < data[i].taskBo.list.length; j++) {
+            data[i].taskBo.list[j].isInProject = false
             for (var k = 0; k < data[i].taskBo.list[j].memberBeans.length; k++) {
               data[i].taskBo.list[j].isShowChild = false;
               if (userid == data[i].taskBo.list[j].memberBeans[k].resourceId) {
-                obj.isInProject = true; 
+                // obj.isInProject = true; 
+                data[i].taskBo.list[j].isInProject = true
               }
             }
           }
