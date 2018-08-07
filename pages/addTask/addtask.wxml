@@ -1,0 +1,30 @@
+<!--新建任务页面-->
+<view class="addtask">
+  <view>
+    <view>任务计划名称</view>
+    <textarea class="taskname" placeholder='请输入任务计划名称' maxlength='30' value="{{taskName}}" bindinput="getTaskName"></textarea>
+  </view>
+  <view>
+    <view class="set-time">
+      <view class="time-title">开始时间</view>
+      <picker mode="date" bindchange="startDate" class="timevalue">
+        <view>
+          {{startDate}}
+        </view>
+      </picker>
+    </view>
+    <view class="set-time">
+      <view class="time-title">结束时间</view>
+      <picker  mode="date" start="{{startDate}}" bindchange="endDate" class="timevalue">
+        <view>
+          {{endDate==""? '--:--' : endDate}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <!-- 完成按钮 -->
+  <view>
+    <view class="submit" bindtap="submit">完成</view>
+  </view>
+</view>
+

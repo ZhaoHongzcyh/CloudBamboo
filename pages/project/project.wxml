@@ -53,7 +53,7 @@
         
         <!-- 公司项目 -->
         <block wx:if="{{item.isShowCompany}}">
-          <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" bindtap="alert" wx:for-index="comopanyProIndex">
+          <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" bindtap="entryProject" wx:for-index="comopanyProIndex" data-id="{{child.summaryBean.id}}">
             <view class="father-project">
               <view class="single-project">
                 <view class="isprogress">{{progress[child.summaryBean.tstate]}}</view>

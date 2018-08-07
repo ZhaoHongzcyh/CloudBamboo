@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "ibutton": "/common/iview/button/index",
+    "Input": "/common/iview/input/index"
+  }
+}

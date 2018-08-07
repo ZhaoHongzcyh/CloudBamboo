@@ -1,0 +1,36 @@
+<!--项目详情页面。包括 任务、文件、动态、记账-->
+<view>
+  <!-- 采单列表 -->
+  <view class="menu-list">
+    <view class="menu" wx:for="{{menu}}" wx:key="{{item.title}}" data-index="{{index}}" bindtap="switchMenu">
+      <view class="task menuText">{{item.title}}</view>
+      <view class="menuline" wx:if="{{item.select}}"></view>
+    </view>
+  </view>
+  
+  <!-- 任务列表区域 -->
+  <view class="task-list" wx:if="{{menu[0].select}}">
+    <view>新建任务</view>
+    <view wx:for="{{taskList}}" wx:for-item="plan">
+      <view class="single-task" wx:for="{{plan.itemList}}" wx:for-item="item" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo">
+        <view class="radio-area">
+          <radio class="radio" color="#409CF2"  bindtap="radioAlert"></radio>
+        </view>
+        <view class="task-info">
+          <view class="taskname">{{item.title}}</view>
+          <view class="task-time">{{item.endDate}}</view>
+        </view>
+        <image class="task-img" src="./img/head.png"></image>
+        <view class="tasker">{{item.managerName}}</view>
+      </view>
+    </view>
+    <view class="addTaskPlan" bindtap="addTaskPlan">新建任务计划</view>
+  </view>
+
+  <!-- 文件列表区域 -->
+  <view wx:if="{{menu[1].select}}">
+    <view wx:for="{{fileList}}" bindtap="entryFolder" data-parentId="{{item.parentId}}">
+        <file item="{{item}}" bindtap="selectFile"></file>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+<!--pages/ivew/ivew.wxml-->
+<view>
+  <ibutton type="primary" shape="circle" bind:click="test">这是一个按钮</ibutton>
+  <Input class="input" title="密码" type="password" placeholder="密码"></Input>
+</view>
+

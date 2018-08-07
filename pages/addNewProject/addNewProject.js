@@ -61,18 +61,8 @@ Page({
     wx.stopPullDownRefresh();//关闭下拉刷新
   },
   getStartDate:function(){
-    var d = new Date();
-    var date = d.getDate();
-    var month = d.getMonth() + 1;
-    if(month < 10){
-      month = "" + 0 + month
-    }
-    if(date < 10){
-      date = "" + 0 + date;
-    }
-    var year = d.getFullYear();
     this.setData({
-      startDate:year + "-" + month + "-" + date
+      startDate:api.nowTime()
     })
   },
   alert: function () {

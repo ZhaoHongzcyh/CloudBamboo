@@ -38,6 +38,29 @@ var request = function(data={},url="localhost",method="post",bool){
      })
 }
 
+// 通过body发送参数
+var sendDataByBody = function (data,url,method,isCheck=true) {
+  var token = wx.getStorageSync("proxyUserToken");
+  return new Promise(function (resolve, reject) {
+    var obj = {
+      url: url,
+      method: method,
+      data: data,
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function (err) {
+        reject(err)
+      }
+    }
+    if(isCheck){
+      obj.header = {
+        proxyUserToken:token
+      }
+    }
+    wx.request(obj);
+  })
+}
 // 发送小程序Code与验证
 var sendCode = function (data = {}, url = "localhost", method = "post"){
   return new Promise(function(resolve,reject){
@@ -351,6 +374,21 @@ var compareTime = function(startTime, endTime) {
     return 0;
   }
 }
+
+var nowTime = function() {
+  var d = new Date();
+  var date = d.getDate();
+  var month = d.getMonth() + 1;
+  if (month < 10) {
+    month = "" + 0 + month
+  }
+  if (date < 10) {
+    date = "" + 0 + date;
+  }
+  var year = d.getFullYear();
+  return year + "-" + month + "-" + date;
+}
+
 module.exports = {
   request,
   handleLogoinInfo,
@@ -363,5 +401,7 @@ module.exports = {
   handleTask,
   compareTime,
   sendCode,
-  autoAddLogoinInfo
+  autoAddLogoinInfo,
+  nowTime,
+  sendDataByBody
 }

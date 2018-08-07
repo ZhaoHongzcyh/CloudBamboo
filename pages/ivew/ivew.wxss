@@ -1,0 +1,4 @@
+/* pages/ivew/ivew.wxss */
+.input{
+  border: 1rpx solid red;
+}

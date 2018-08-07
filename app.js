@@ -1,7 +1,7 @@
 //app.js
 App({
-  // ip:"http://192.168.1.107:8082/tc_service/",//开发环境
-  ip:"https://services.yzsaas.cn/",//生产环境
+  ip:"http://192.168.1.107:8082/tc_service/",//开发环境
+  // ip:"https://services.yzsaas.cn/",//生产环境
   // ip:"http://192.168.1.79:8082/tc_service/",
   onLaunch: function () {
   },

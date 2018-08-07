@@ -1,10 +1,14 @@
 {
   "pages": [
+    "pages/project/project",
+    "pages/addTask/addtask",
+    
+    "pages/cloudDisk/cloudDisk",
+    "pages/subproject/subproject",
+    "pages/ivew/ivew",
     "pages/index/index",
     "pages/acceptInvitation/acceptInvitation",
-    "pages/project/project",
     "pages/company/company",
-    "pages/cloudDisk/cloudDisk",
     "pages/companyList/companyList",
     "pages/downApp/downApp",
     "pages/addCompany/addCompany",

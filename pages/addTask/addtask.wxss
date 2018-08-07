@@ -1,0 +1,19 @@
+/* pages/addTask/addtask.wxss */
+page{
+  background-color: azure;
+}
+.set-time{
+  display: flex;
+  background-color: white;
+}
+.time-title{
+}
+.timevalue{
+  flex:2;
+  text-align: right;
+}
+.submit{
+  border: 1rpx solid black;
+  text-align: center;
+  background-color: gray;
+}

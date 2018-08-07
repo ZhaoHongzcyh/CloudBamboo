@@ -9,7 +9,6 @@ Page({
     VerificatResult:false,//小程序code验证结果
     share:false,//是否通过分享登录
     shareScene:{},//分享场景信息
-    url:{},
     logoinCode:null,//微信登录code
     logoinState:true,//true:代表注册，false:渲染注册
     dataRole:1,//1:登录界面，0：注册界面

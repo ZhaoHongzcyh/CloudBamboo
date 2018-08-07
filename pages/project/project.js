@@ -98,6 +98,7 @@ Page({
         start: this.data.start + 1
       })
       if(this.data.urlLine){
+        
         this.handleProject(res);
       }
       else{
@@ -146,6 +147,8 @@ Page({
       this.setData({
         list:list
       })
+      console.log("公司");
+      console.log(list);
     }
     else if(res.data.code == 402){
       wx.redirectTo({
@@ -214,6 +217,14 @@ Page({
     ary[index].isShowChild = !(ary[index].isShowChild);
     this.setData({
       list: ary
+    })
+  },
+  // 获取项目详细信息
+  entryProject: function (e) {
+    var id = e.currentTarget.dataset.id;
+    console.log(id);
+    wx.navigateTo({
+      url: '/pages/subproject/subproject?id=' + id,
     })
   }
 })
