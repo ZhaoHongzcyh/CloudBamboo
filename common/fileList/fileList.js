@@ -26,7 +26,6 @@ Component({
    */
   methods: {
     selectFile:function(e){
-      console.log(e);
       var info = {e}
       this.triggerEvent("select",info);
     }

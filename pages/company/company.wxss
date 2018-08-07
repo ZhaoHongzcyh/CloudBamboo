@@ -27,9 +27,13 @@
 /*公司名称  */
 .company-name{
   height: 27rpx;
+  width: calc(100% - 86rpx);
   line-height: 27rpx;
   color: #666666;
   font-size: 28rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 /* 切换公司按钮 */
 .company-switch{
