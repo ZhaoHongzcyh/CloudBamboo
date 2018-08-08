@@ -1,0 +1,14 @@
+/* pages/taskDetails/taskdetails.wxss */
+.task-head{
+  display: flex;
+}
+.taskbtn{
+  flex: 2;
+  text-align: center;
+}
+.info{
+  display: flex;
+}
+.task-action{
+  display:flex;
+}

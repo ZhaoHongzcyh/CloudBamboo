@@ -12,7 +12,7 @@
   <view class="task-list" wx:if="{{menu[0].select}}">
     <view>新建任务</view>
     <view wx:for="{{taskList}}" wx:for-item="plan">
-      <view class="single-task" wx:for="{{plan.itemList}}" wx:for-item="item" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo">
+      <view class="single-task" wx:for="{{plan.itemList}}" wx:for-item="item" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
         <view class="radio-area">
           <radio class="radio" color="#409CF2"  bindtap="radioAlert"></radio>
         </view>

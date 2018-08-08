@@ -1,0 +1,5 @@
+<!--任务描述-->
+<import src="../../../wxParse/wxParse.wxml"/> 
+<view>
+  <template is="wxParse" data="{{wxParseData:description.nodes}}" /> 
+</view>

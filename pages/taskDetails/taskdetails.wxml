@@ -1,0 +1,62 @@
+<!--任务详情页面-->
+<view>
+  <view class="task-head">
+    <view>{{task.itemBean.title}}</view>
+    <view class="edit taskbtn" bindtap="edittask">编辑任务</view>
+    <view class="taskbtn" bindtap="copytask">复制任务</view>
+    <view class="taskbtn">删除任务</view>
+  </view>
+  <!-- 任务名称或任务概述 -->
+  <view>
+    <view>
+    </view>
+    <view>{{task.itemBean.title}}</view>
+  </view>
+  <!-- 任务基础信息 -->
+  <view>
+    <view class="info" bindtap="watchDescript">
+      <view>任务描述</view>
+      <view>{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+    </view>
+    <view class="info">
+      <view>执行人</view>
+      <view>{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+    </view>
+    <view class="info">
+      <view>参与人</view>
+      <view bindtap="getParticipants">{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+    </view>
+    <view class="info">
+      <view>紧急程度</view>
+      <view>{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+    </view>
+    <view class="info">
+      <view>开始时间</view>
+      <view>{{task.itemBean.startDate.split("T")[0]}}</view>
+    </view>
+    <view class="info">
+      <view>结束时间</view>
+      <view>
+        {{task.itemBean.endDate == null? '--:--':task.itemBean.endDate}}
+      </view>
+    </view>
+  </view>
+  <!-- 附件列表 -->
+  <view>
+    <view>显示所有附件</view>
+    <block wx:for="{{task.arcList}}">
+      <file item="{{item}}"></file>
+    </block>
+    <view>
+      附件
+    </view>
+  </view>
+  <!-- 任务动态 -->
+  <view>
+    <view wx:for="{{task.actionList}}" class="task-action">
+      <view style="border: 1rpx solid red;">{{item.personName}}</view>
+      <view>{{item.descript}}</view>
+    </view>
+  </view>
+</view>
+

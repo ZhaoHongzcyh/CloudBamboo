@@ -1,0 +1,6 @@
+<view>
+  <view wx:for="{{memberlist}}">
+      <image src=""></image>
+      <view>{{item.personName}}</view>
+  </view>
+</view>

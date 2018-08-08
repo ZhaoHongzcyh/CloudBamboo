@@ -73,6 +73,7 @@ Page({
       }
     })
   },
+  
   handleTask: function (ary) {
     var list = [];
     var dat = new Date();
@@ -153,8 +154,12 @@ Page({
   getPlanInfo: function (e) {
     console.log(e);
     var parentTitle = e.currentTarget.dataset.parenttitle;
-    // 明天继续
+    var id = e.currentTarget.dataset.singleid;
+    wx.navigateTo({
+      url: '/pages/taskDetails/taskdetails?id=' + id,
+    })
   },
+  
   // 进入文件夹
   entryFolder: function (e) {
     var parentId = e.currentTarget.dataset.parentid;
@@ -183,7 +188,7 @@ Page({
     // 通过不同采单，调用不同的函数
     switch(index){
       case 0:
-        this.selectTask();
+        this.selectPlanList(this.data.taskId);
         break;
       case 1:
         this.selectFile();

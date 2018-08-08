@@ -1,0 +1,2 @@
+/* pages/taskDetails/taskdescription/taskdescription.wxss */
+@import "../../../wxParse/wxParse.wxss";

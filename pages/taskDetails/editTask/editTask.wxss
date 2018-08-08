@@ -1,0 +1,11 @@
+/* pages/taskDetails/editTask/editTask.wxss */
+.info{
+  display: flex;
+}
+.infoimg{
+  width: 30rpx;
+  height: 30rpx;
+}
+.searchList{
+  display: flex;
+}

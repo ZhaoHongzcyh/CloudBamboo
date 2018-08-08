@@ -2,7 +2,6 @@
   "pages": [
     "pages/project/project",
     "pages/addTask/addtask",
-    
     "pages/cloudDisk/cloudDisk",
     "pages/subproject/subproject",
     "pages/ivew/ivew",
@@ -16,8 +15,12 @@
     "pages/addNewProject/addNewProject",
     "pages/mailList/mailList",
     "pages/tabBar/tabBar",
-    "pages/Agreement/Agreement"
-    
+    "pages/Agreement/Agreement",
+    "pages/taskDetails/taskdetails",
+    "pages/taskDetails/participants/participants",
+    "pages/taskDetails/taskdescription/taskdescription",
+    "pages/taskDetails/editTask/editTask",
+    "pages/taskDetails/copyTask/copytask"
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",

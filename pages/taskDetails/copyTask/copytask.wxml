@@ -1,0 +1,16 @@
+<!--pages/taskDetails/copyTask/copytask.wxml-->
+<view>
+  <view>
+    <image src=""></image>
+    <view>复制任务到以下任务计划</view>
+  </view>
+  <!-- 任务分类列表 -->
+  <view>
+    <view>
+      <block>
+        <view>任务计划名称</view>
+        <view>---------</view>
+      </block>
+    </view>
+  </view>
+</view>
