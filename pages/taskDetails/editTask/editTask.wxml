@@ -1,5 +1,5 @@
 <!--pages/taskDetails/editTask/editTask.wxml-->
-<view wx:if="{{!isAddMember}}">
+<view wx:if="{{!isAddMember && !isChangeImplement}}">
   <!-- head -->
   <view>
     <view>{{task.itemBean.title}}</view>
@@ -9,12 +9,12 @@
   </view>
   <!-- 任务基础信息 -->
   <view>
-    <view class="info">
+    <view class="info" bindtap="switchImplementer">
       <image src="" class="infoimg"></image>
       <view>执行人</view>
       <image src="" class="infoimg"></image>
     </view>
-    <view class="info">
+    <view class="info" bindtap="swithAddMember">
       <image src="" class="infoimg"></image>
       <view>参与人</view>
       <view>添加</view>
@@ -36,24 +36,64 @@
     <view class="info">
       <image src="" class="infoimg"></image>
       <view>结束时间</view>
-      <picker mode="date" start="{{startDate}}"  bindchange="endDate" class="timevalue">
+      <picker mode="date" start="{{startDate}}"  bindchange="setendDate" class="timevalue">
         <view>
           {{endDate == null? '--:--' : endDate}}
         </view>
       </picker>
     </view>
   </view>
+  <!-- 底部功能选择区 -->
+  <view>
+    <view>
+      <view>添加本地文件</view>
+    </view>
+    <view>
+      <view>添加在线文件</view>
+    </view>
+    <view>
+      <switch checked="{{taskObj.visibilityType==1?true:false}}" bindchange="setWatchArea"/>
+      仅参与者可见
+    </view>
+  </view>
   <view bindtap="modifyTask">保存</view>
 </view>
 <!-- 添加参与人 -->
 <view wx:if="{{isAddMember}}">
+  <view class="headmenu">
+    <view class="cancel" bindtap="cancelAdd">取消</view>
+    <view class="title">添加参与人 {{memberid.length + '人'}}</view>
+    <view class="sureadd" bindtap="sureAdd">完成</view>
+  </view>
+  <view class="search">
+    <input placeholder='搜索联系人' type="text" bindinput="searchMember"/>
+    <view wx:if="{{searchMatch.length>0}}">
+      <block wx:for="{{searchMatch}}">
+        <view class="searchList" bindtap="selectMember" data-index="{{index}}" data-selectid="{{item.resourceId}}">
+          <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.resourceId+'/100/100'}}" class="userphoto"></image>
+          <view>{{item.personName}}</view>
+          <radio checked="{{item.selected}}"/>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view wx:for="{{memberlist}}">
+    <view>{{item.personName}}</view>
+    <view>
+      <radio/>
+    </view>
+  </view>
+</view>
+<!-- 更改执行人 -->
+<view wx:if="{{isChangeImplement}}">
+  <view>执行人</view>
   <view>
     <input placeholder='搜索联系人' type="text" bindinput="searchMember"/>
     <view wx:if="{{searchMatch.length>0}}">
       <block wx:for="{{searchMatch}}">
-        <view class="searchList" data-personid="{{item.personId}}" bindtap="addMember">
+        <view class="searchList" data-personid="{{item.personId}}" bindtap="switchImplementer">
           <image src="" class="head"></image>
-          <view>{{item.name}}</view>
+          <view>{{item.personName}}</view>
         </view>
       </block>
     </view>

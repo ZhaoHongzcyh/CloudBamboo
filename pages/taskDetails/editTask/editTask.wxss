@@ -1,4 +1,7 @@
 /* pages/taskDetails/editTask/editTask.wxss */
+page{
+  background-color: gray;
+}
 .info{
   display: flex;
 }
@@ -8,4 +11,27 @@
 }
 .searchList{
   display: flex;
+}
+.selectMember{
+  border: 1rpx solid red;
+}
+/* 添加参与人 */
+.headmenu{
+  position: fixed;
+  display: flex;
+  top: 0rpx;
+  justify-content: center;
+}
+.search{
+  position:relative;
+  margin-top: 80rpx;
+}
+.userphoto{
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  border: 1rpx solid red;
+}
+input{
+  border: 1rpx solid black;
 }
