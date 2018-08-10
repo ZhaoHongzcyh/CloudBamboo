@@ -20,7 +20,8 @@
     "pages/taskDetails/participants/participants",
     "pages/taskDetails/taskdescription/taskdescription",
     "pages/taskDetails/editTask/editTask",
-    "pages/taskDetails/copyTask/copytask"
+    "pages/taskDetails/copyTask/copytask",
+    "pages/taskDetails/peopleList/peoplelist"
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",

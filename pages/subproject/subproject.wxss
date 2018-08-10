@@ -13,6 +13,21 @@
   border: 0rpx;
   border-top: 2rpx solid blue;
 }
+/* 任务筛选 */
+.screen{
+  display: flex;
+}
+.selectlist{
+  display: flex;
+}
+.selectimg{
+  width: 30rpx;
+  height: 30rpx;
+  border: 1rpx solid red;
+}
+.selectbtn{
+  display: flex;
+}
 /* 任务列表区域 */
 .single-task{
   border: 1rpx solid black;

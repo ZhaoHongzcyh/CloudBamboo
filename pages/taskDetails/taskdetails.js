@@ -13,7 +13,9 @@ Page({
     emergencyGrade:["闲置处理","正常处理","紧急处理"],
     relationPeople:[],//参与人信息
     isShowAllAction:false,//是否展示更多动态数据
-    partAction:null//部分动态
+    partAction:null,//部分动态
+    replyContent:null,//回复内容
+    calledPeople:null//在回复内容中被@的人员
   },
 
   /**
@@ -92,13 +94,51 @@ Page({
   // 复制任务
   copytask: function(){
     wx.navigateTo({
-      url: './copyTask/copytask?id=' + this.data.task.taskBean.id + "&taskid=" + this.data.task.itemBean.taskId,
+      url: './copyTask/copytask?id=' + this.data.task.taskBean.id + "&taskid=" + this.data.task.itemBean.id,
+    })
+  },
+  // 删除任务
+  deleteTask: function () {
+    var address = app.ip + "tc/schedule/itemService/delete";
+    var obj = {id:this.data.task.itemBean.id};
+    api.request(obj,address,"post",true).then(res=>{
+      if(res.data.code == 200 && res.data.result){
+        console.log("删除回复");
+        console.log(res);
+      }
+      else{
+        console.log("删除失败")
+      }
     })
   },
   // 展示所有任务动态
   showAllAction: function () {
     this.setData({
       isShowAllAction: !this.data.isShowAllAction
+    })
+  },
+  // 任务回复
+  reply: function (e) {
+    var reply = e.detail.value;
+    var length = reply.length;
+    console.log(e);
+    if(reply[e.detail.cursor-1] == "@"){
+      console.log("打开执行人与参与人列表");
+      wx.navigateTo({
+        url: './peopleList/peoplelist?taskid=' + this.data.task.itemBean.id + "&num=" + (e.detail.cursor - 1),
+      })
+    }
+    else {
+      console.log(reply);
+    }
+    var reg = /\<span*\<\/span$/g
+    if(reply.match(reg)){
+      var replyAry = reply.split("@");
+      replyAry = replyAry.splice(0, replyAry.length - 1);
+      reply = reply.replace(reg, replyAry.join("@"));
+    }
+    this.setData({
+      replyContent: reply
     })
   }
 })

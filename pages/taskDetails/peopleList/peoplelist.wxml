@@ -1,0 +1,7 @@
+<!--pages/taskDetails/peopleList/peoplelist.wxml-->
+<view>
+  <view>人员参与人列表</view>
+  <view wx:for="{{memberList}}">
+    <view data-personid="{{item.personId}}" data-item="{{item}}" bindtap="selected">{{item.personName}}</view>
+  </view>
+</view>

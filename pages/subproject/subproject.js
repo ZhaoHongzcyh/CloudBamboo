@@ -33,6 +33,53 @@ Page({
         select: false
       }
     ],
+    taskSelect:[
+      {
+        src:"",
+        title:"未完成的任务",
+        status:false
+      },
+      {
+        src: "",
+        title: "已完成的任务",
+        status: false
+      },
+      {
+        src: "",
+        title: "我执行的任务",
+        status: false
+      },
+      {
+        src: "",
+        title: "我参与的任务",
+        status: false
+      }
+    ],
+    
+    stopTime:[
+      {
+        title:"所有时间",
+        state: "all"
+      },
+      {
+        title: "今天",
+        state:"today"
+      },
+      {
+        title:"明天",
+        state:"tomorrow"
+      },
+      {
+        title:"本周",
+        state:"afterWeek"
+      },
+      {
+        title: "本周以后",
+        state:"afterOneWeek"
+      }
+    ],//截止时间
+    isSwitchSelectTask: false,//是否执行任务筛选
+    isShowStopTime: false,//是否显示截止时间选择器
     taskList:[],//任务列表数据
     parentId:0,//文档父ID，默认为0
     funList: ["switchMenu","selectFile"],
@@ -109,6 +156,41 @@ Page({
       }
     return list;
   },
+  // 任务筛选
+  switchSelectTask: function () {
+    this.setData({
+      isShowStopTime:false,
+      isSwitchSelectTask: !this.data.isSwitchSelectTask
+    })
+  },
+  // 截止时间
+  switchStopTime: function () {
+    this.setData({
+      isShowStopTime: !this.data.isShowStopTime,
+      isSwitchSelectTask: false
+    })
+  },
+  // 获取任务筛选的条件
+  getSelectCondiction: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var taskSelect = JSON.stringify(this.data.taskSelect);//深度复制
+    taskSelect = JSON.parse(taskSelect);
+    taskSelect[index].status = !taskSelect[index].status;
+    this.setData({
+      taskSelect
+    })
+  },
+  // 重置筛选条件
+  resetChoose: function () {
+    var taskSelect = this.data.taskSelect;
+    taskSelect.map((item,index)=>{
+      item.status = false;
+    });
+    this.setData({
+      taskSelect
+    })
+  },
+  
   // 通过项目id查找任务
   selectTask:function () {
     var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
@@ -119,6 +201,9 @@ Page({
       var task = handle.handleTask(res);
       if(task.status){
         var list = api.handleTask(res);
+        if (this.data.isSwitchSelectTask || this.data.isShowStopTime){//判断是否存在筛选条件
+
+        }
         this.setData({
           taskList:list
         })
@@ -129,6 +214,10 @@ Page({
         })
       }
     })
+  },
+  // 通过 任务筛选条件  筛选任务
+  selectTaskByTask: function () {
+
   },
   // 通过项目id查找文件列表
   selectFile: function () {

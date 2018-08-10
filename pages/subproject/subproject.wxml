@@ -10,6 +10,36 @@
   
   <!-- 任务列表区域 -->
   <view class="task-list" wx:if="{{menu[0].select}}">
+    <!-- 任务筛选区域 -->
+    <view>
+      <view>
+        <view class="screen">
+          <view bindtap="switchSelectTask">任务筛选</view>
+          <view bindtap="switchStopTime">截止时间</view>
+        </view>
+        <!-- 任务筛选条件列表 -->
+        <view wx:if="{{isSwitchSelectTask}}">
+          <view wx:for="{{taskSelect}}" class="selectlist" data-index="{{index}}" bindtap="getSelectCondiction">
+            <view>
+              <image src="{{item.src}}" class="selectimg"></image>
+            </view>
+            <view>{{item.title}}</view>
+            <view><radio checked="{{item.status}}"/></view>
+          </view>
+          <view class="selectbtn">
+            <view bindtap="resetChoose">重置</view>
+            <view>确定</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 截止时间筛选列表 -->
+      <view wx:if="{{isShowStopTime}}">
+        <view wx:for="{{stopTime}}" data-state="{{item.state}}">{{item.title}}</view>
+      </view>
+    </view>
+    
+    <!-- 任务新建区域 -->
     <view>新建任务</view>
     <view wx:for="{{taskList}}" wx:for-item="plan">
       <view class="single-task" wx:for="{{plan.itemList}}" wx:for-item="item" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
