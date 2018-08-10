@@ -112,6 +112,9 @@ Page({
         for(var i = 0; i < data.length; i++){
           data[i].itemList = this.handleTask(data[i].itemList)
         }
+        if (this.data.isSwitchSelectTask || this.data.isShowStopTime) {//判断是否存在筛选条件
+          // 通过筛选条件筛选任务
+        }
         this.setData({
           taskList:data
         });
@@ -156,6 +159,18 @@ Page({
       }
     return list;
   },
+
+  // 通过 任务筛选条件  筛选任务
+  selectTaskByTask: function (data,taskCondiction,timeCondiction) {
+    if (taskCondiction){
+      // 通过任务条件筛选
+      var taskSelect = this.data.taskSelect;
+    }
+    else{
+      // 通过任务截止时间筛选
+    }
+  },
+
   // 任务筛选
   switchSelectTask: function () {
     this.setData({
@@ -163,6 +178,7 @@ Page({
       isSwitchSelectTask: !this.data.isSwitchSelectTask
     })
   },
+
   // 截止时间
   switchStopTime: function () {
     this.setData({
@@ -170,6 +186,7 @@ Page({
       isSwitchSelectTask: false
     })
   },
+
   // 获取任务筛选的条件
   getSelectCondiction: function (e) {
     var index = e.currentTarget.dataset.index;
@@ -180,6 +197,7 @@ Page({
       taskSelect
     })
   },
+
   // 重置筛选条件
   resetChoose: function () {
     var taskSelect = this.data.taskSelect;
@@ -201,9 +219,7 @@ Page({
       var task = handle.handleTask(res);
       if(task.status){
         var list = api.handleTask(res);
-        if (this.data.isSwitchSelectTask || this.data.isShowStopTime){//判断是否存在筛选条件
-
-        }
+        
         this.setData({
           taskList:list
         })
@@ -215,10 +231,7 @@ Page({
       }
     })
   },
-  // 通过 任务筛选条件  筛选任务
-  selectTaskByTask: function () {
-
-  },
+  
   // 通过项目id查找文件列表
   selectFile: function () {
     var address = app.ip + "tc/taskService/findTaskArcTree";
@@ -239,6 +252,7 @@ Page({
       }
     })
   },
+
   // 获得任务详情
   getPlanInfo: function (e) {
     console.log(e);
@@ -258,6 +272,7 @@ Page({
     });
     this.selectFile();
   },
+
   // 切换菜单列表
   switchMenu: function (e) {
     var index = e.currentTarget.dataset.index;
@@ -286,6 +301,7 @@ Page({
       break;
     }
   },
+
   // 新建任务计划
   addTaskPlan: function () {
     wx.navigateTo({
