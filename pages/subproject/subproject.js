@@ -59,23 +59,28 @@ Page({
     stopTime:[
       {
         title:"所有时间",
-        state: "all"
+        state: "all",
+        timeType:null
       },
       {
         title: "今天",
-        state:"today"
+        state:"today",
+        timeType:1,
       },
       {
         title:"明天",
-        state:"tomorrow"
+        state:"tomorrow",
+        timeType:2
       },
       {
         title:"本周",
-        state:"afterWeek"
+        state:"afterWeek",
+        timeType:3
       },
       {
         title: "本周以后",
-        state:"afterOneWeek"
+        state:"afterOneWeek",
+        timeType:0
       }
     ],//截止时间
     isSwitchSelectTask: false,//是否执行任务筛选
@@ -83,7 +88,8 @@ Page({
     taskList:[],//任务列表数据
     parentId:0,//文档父ID，默认为0
     funList: ["switchMenu","selectFile"],
-    fileList:[]//文件列表
+    fileList:[],//文件列表
+    timeType:null//截止时间类型
   },
 
   /**
@@ -159,7 +165,54 @@ Page({
       }
     return list;
   },
-
+  // 查询所有计划条目，然后筛选
+  selectAllPlan: function () {
+    var address = app.ip + "tc/schedule/itemService/findMyItemList";
+    var obj = {};
+    var taskSelect = this.data.taskSelect;
+    var isComplete = null;
+    if(taskSelect[0].status){
+      isComplete = 0;
+      obj = {status:0}
+    }
+    else if(taskSelect[1].status){
+      isComplete = 1;
+      obj = { status: 1}
+    }
+    if (taskSelect[1].status && taskSelect[0].status){
+      obj = { }
+    }
+    if (taskSelect[2].status){
+      this.selectJoinTask(obj);
+      return false;
+    }
+    if (this.data.isShowStopTime){
+      obj = {timeType:this.data.timeType}
+    }
+    obj.taskId = this.data.taskId;
+    api.request(obj,address,"post",true).then(res=>{
+      console.log("统计条目");
+      console.log(res);
+    })
+  },
+  // 查询我执行的任务
+  selectJoinTask: function(obj) {
+    obj.taskId = this.data.taskId
+    var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
+    api.request(obj,address,"post",true).then(res=>{
+      console.log("我执行的任务");
+      console.log(obj)
+      console.log(res);
+    })
+  },
+  // 通过截至时间筛选
+  selectTaskByTime: function(e){
+    var timeType = e.currentTarget.dataset.timetype;
+    this.setData({
+      timeType:timeType
+    });
+    this.selectAllPlan();
+  },
   // 通过 任务筛选条件  筛选任务
   selectTaskByTask: function (data,taskCondiction,timeCondiction) {
     if (taskCondiction){
@@ -306,6 +359,12 @@ Page({
   addTaskPlan: function () {
     wx.navigateTo({
       url: '/pages/addTask/addtask?resourceId=' + this.data.taskId,
+    })
+  },
+  // 新建任务
+  newTask: function () {
+    wx.navigateTo({
+      url: '/pages/taskDetails/editTask/editTask?id=' + this.data.taskId,
     })
   }
 })

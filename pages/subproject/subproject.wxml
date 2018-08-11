@@ -28,20 +28,21 @@
           </view>
           <view class="selectbtn">
             <view bindtap="resetChoose">重置</view>
-            <view>确定</view>
+            <view bindtap="selectAllPlan">确定</view>
           </view>
         </view>
       </view>
       
       <!-- 截止时间筛选列表 -->
       <view wx:if="{{isShowStopTime}}">
-        <view wx:for="{{stopTime}}" data-state="{{item.state}}">{{item.title}}</view>
+        <view wx:for="{{stopTime}}" bindtap="selectTaskByTime" data-timetype="{{item.timeType}}" data-state="{{item.state}}">{{item.title}}</view>
       </view>
     </view>
     
     <!-- 任务新建区域 -->
-    <view>新建任务</view>
     <view wx:for="{{taskList}}" wx:for-item="plan">
+      <view>{{plan.summaryBean.title}}</view>
+      <view bindtap="newTask">新建任务</view>
       <view class="single-task" wx:for="{{plan.itemList}}" wx:for-item="item" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
         <view class="radio-area">
           <radio class="radio" color="#409CF2"  bindtap="radioAlert"></radio>
