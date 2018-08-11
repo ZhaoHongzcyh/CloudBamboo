@@ -362,7 +362,8 @@ Page({
     })
   },
   // 新建任务
-  newTask: function () {
+  newTask: function (e) {
+    var title = e.currentTarget.dataset.title;
     wx.navigateTo({
       url: '/pages/taskDetails/editTask/editTask?id=' + this.data.taskId,
     })
