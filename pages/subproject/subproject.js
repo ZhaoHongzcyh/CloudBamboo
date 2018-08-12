@@ -364,8 +364,9 @@ Page({
   // 新建任务
   newTask: function (e) {
     var title = e.currentTarget.dataset.title;
+    var id = e.currentTarget.dataset.planid;
     wx.navigateTo({
-      url: '/pages/taskDetails/editTask/editTask?id=' + this.data.taskId,
+      url: '/pages/taskDetails/newTask/newtask?planid=' + id + "&title=" + title +"&id=" + this.data.taskId,
     })
   }
 })

@@ -1,0 +1,85 @@
+<!--pages/taskDetails/newTask/newtask.wxml-->
+<view wx:if="{{!isShowImplement && !isShowAddMember}}">
+  <view>
+    <view>{{title}}</view>
+  </view>
+  <view>
+    <textarea placeholder='请输入任务名称'></textarea>
+  </view>
+  <!-- 任务基本信息 -->
+  <view>
+    <view class="newtaskinfo" bindtap="implementer">
+      <view></view>
+      <view>执行人</view>
+      <view></view>
+    </view>
+    <view class="newtaskinfo" bindtap="getAddMemberList">
+      <view></view>
+      <view>参与人</view>
+      <view></view>
+    </view>
+    <view class="newtaskinfo">
+      <view></view>
+      <view>紧急程度</view>
+      <view></view>
+    </view>
+    <view class="newtaskinfo">
+      <view></view>
+      <view>开始时间</view>
+      <view></view>
+    </view>
+    <view class="newtaskinfo">
+      <view></view>
+      <view>结束时间</view>
+      <view></view>
+    </view>
+  </view>
+  <!-- 上传文件列表区域 -->
+  <view>
+  </view>
+  <!-- 底部功能区 -->
+  <view class="fileUpload">
+    <view>添加本地文件</view>
+    <view>添加在线文件</view>
+    <view>仅参与者可见</view>
+    <view>所有成员可见</view>
+  </view>
+  <!-- 任务提交按钮 -->
+  <view>完成</view>
+</view>
+<!-- 执行人列表 -->
+<view wx:if="{{isShowImplement}}">
+  <view>
+    <input type="text" placeholder='搜索联系人' bindinput="matchList"/>
+  </view>
+  <view wx:if="{{matchList.length > 0}}">
+    <view wx:for="{{matchList}}">
+      <view wx:if="{{item.relationType != 1}}" data-item="{{item.list}}" bindtap="setImplement">{{item.personName}}</view>
+    </view>
+  </view>
+  <view wx:for="{{task.memberBeanList}}">
+    <view data-item="{{item}}" wx:if="{{item.relationType != 1}}" bindtap="setImplement">{{item.personName}}</view>
+  </view>
+</view>
+<!-- 参与人列表 -->
+<view wx:if="{{isShowAddMember}}">
+  <view>
+    <input type="text" placeholder="搜索联系人" bindinput="matchAddMember"/>
+  </view>
+  <view>
+    <view wx:for="{{searchList}}" class="searchlist">
+      <view>{{item.personName}}</view>
+      <view>
+        <radio checked='{{item.selected}}'/>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{addMemberList.length>0}}">
+    <view class="addMemberList" wx:for="{{addMemberList}}" data-index="{{index}}" wx:if="{{item.relationType != 1}}"> 
+      <view>{{item.personName}}</view>
+      <view>
+        <radio checked='{{item.selected}}'/>
+      </view>
+    </view>
+  </view>
+</view>

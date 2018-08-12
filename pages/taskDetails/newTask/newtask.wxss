@@ -1,0 +1,10 @@
+/* pages/taskDetails/newTask/newtask.wxss */
+.newtaskinfo{
+  display: flex;
+}
+.addMemberList,.searchlist{
+  display: flex;
+}
+.fileUpload{
+  display: flex;
+}

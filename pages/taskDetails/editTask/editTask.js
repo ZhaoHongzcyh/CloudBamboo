@@ -31,10 +31,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      taskId:options.id
+      taskId: options.id
     })
-    console.log("任务id");
-    console.log(options.id);
     this.selectPlan(options.id)
   },
   // 根据ID查找任务

@@ -21,7 +21,8 @@
     "pages/taskDetails/taskdescription/taskdescription",
     "pages/taskDetails/editTask/editTask",
     "pages/taskDetails/copyTask/copytask",
-    "pages/taskDetails/peopleList/peoplelist"
+    "pages/taskDetails/peopleList/peoplelist",
+    "pages/taskDetails/newTask/newtask"
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",
