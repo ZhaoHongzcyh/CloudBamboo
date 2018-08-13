@@ -4,48 +4,72 @@
     <view>{{title}}</view>
   </view>
   <view>
-    <textarea placeholder='请输入任务名称'></textarea>
+    <textarea placeholder='请输入任务名称' bindinput="getTaskName" value="{{taskName}}"></textarea>
   </view>
   <!-- 任务基本信息 -->
   <view>
     <view class="newtaskinfo" bindtap="implementer">
       <view></view>
       <view>执行人</view>
-      <view></view>
+      <view>
+        <image class="impImg" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + Implement.resourceId + '/100/100'}}"></image>
+      </view>
     </view>
-    <view class="newtaskinfo" bindtap="getAddMemberList">
+    <view class="newtaskinfo" bindtap="showAddMember">
       <view></view>
       <view>参与人</view>
       <view></view>
     </view>
-    <view class="newtaskinfo">
+    <view class="newtaskinfo" bindtap="setEmergencyGrade">
       <view></view>
       <view>紧急程度</view>
-      <view></view>
+      <view>{{emergencyGrade[emergency].title}}</view>
     </view>
     <view class="newtaskinfo">
       <view></view>
       <view>开始时间</view>
-      <view></view>
+      <view>
+        <picker mode="date"  bindchange="setStartDate" class="timevalue">
+        <view>
+          {{startDate}}
+        </view>
+      </picker>
+      </view>
     </view>
     <view class="newtaskinfo">
       <view></view>
       <view>结束时间</view>
-      <view></view>
+      <view>
+        <picker mode="date" start="{{startDate}}"  bindchange="setEndDate" class="timevalue">
+          <view>
+            {{endDate==null? '--:--':endDate}}
+          </view>
+        </picker>
+      </view>
     </view>
   </view>
   <!-- 上传文件列表区域 -->
   <view>
+    <view wx:for="{{tempFilePath}}">
+      <image src="{{item}}" class="fileList"></image>
+      <view bindtap="deleteImg" data-index="{{index}}">删除</view>
+    </view>
   </view>
   <!-- 底部功能区 -->
   <view class="fileUpload">
-    <view>添加本地文件</view>
+    <view bindtap="uploadFile">添加本地文件</view>
     <view>添加在线文件</view>
     <view>仅参与者可见</view>
     <view>所有成员可见</view>
   </view>
   <!-- 任务提交按钮 -->
-  <view>完成</view>
+  <view bindtap="addTask">完成</view>
+  <!-- 任务紧急程度采单选项 -->
+  <view wx:if="{{isShowEmergency}}">
+    <view wx:for="{{emergencyGrade}}" data-item="{{item}}" data-state="{{item.state}}" bindtap="getEmergencyGrade">
+      {{item.title}}
+    </view>
+  </view>
 </view>
 <!-- 执行人列表 -->
 <view wx:if="{{isShowImplement}}">
@@ -58,7 +82,7 @@
     </view>
   </view>
   <view wx:for="{{task.memberBeanList}}">
-    <view data-item="{{item}}" wx:if="{{item.relationType != 1}}" bindtap="setImplement">{{item.personName}}</view>
+    <view data-item="{{item}}" bindtap="setImplement">{{item.personName}}</view>
   </view>
 </view>
 <!-- 参与人列表 -->
@@ -67,7 +91,7 @@
     <input type="text" placeholder="搜索联系人" bindinput="matchAddMember"/>
   </view>
   <view>
-    <view wx:for="{{searchList}}" class="searchlist">
+    <view wx:for="{{searchList}}" class="searchlist" data-item="{{item}}" bindtap="selectAddMember" data-index="{{index}}">
       <view>{{item.personName}}</view>
       <view>
         <radio checked='{{item.selected}}'/>
@@ -75,11 +99,12 @@
     </view>
   </view>
   <view wx:if="{{addMemberList.length>0}}">
-    <view class="addMemberList" wx:for="{{addMemberList}}" data-index="{{index}}" wx:if="{{item.relationType != 1}}"> 
+    <view class="addMemberList" wx:for="{{addMemberList}}" data-item="{{item}}" data-index="{{index}}" bindtap="selectAddMember" wx:if="{{item.relationType != 1}}"> 
       <view>{{item.personName}}</view>
       <view>
         <radio checked='{{item.selected}}'/>
       </view>
     </view>
   </view>
+  <view bindtap="showAddMember">确定</view>
 </view>

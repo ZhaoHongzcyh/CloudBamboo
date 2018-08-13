@@ -51,7 +51,8 @@
           <view class="taskname">{{item.title}}</view>
           <view class="task-time">{{item.endDate}}</view>
         </view>
-        <image class="task-img" src="./img/head.png"></image>
+        manager
+        <image class="task-img" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
         <view class="tasker">{{item.managerName}}</view>
       </view>
     </view>

@@ -8,3 +8,13 @@
 .fileUpload{
   display: flex;
 }
+.fileList{
+  width: 40rpx;
+  height: 40rpx;
+  border: 1rpx solid red;
+}
+/* 执行人头像 */
+.impImg{
+  width: 50rpx;
+  height: 50rpx;
+}

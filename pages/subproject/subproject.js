@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    app:app,
     item:{
       atype:0,
       title:"文件夹",
@@ -212,16 +213,6 @@ Page({
       timeType:timeType
     });
     this.selectAllPlan();
-  },
-  // 通过 任务筛选条件  筛选任务
-  selectTaskByTask: function (data,taskCondiction,timeCondiction) {
-    if (taskCondiction){
-      // 通过任务条件筛选
-      var taskSelect = this.data.taskSelect;
-    }
-    else{
-      // 通过任务截止时间筛选
-    }
   },
 
   // 任务筛选
