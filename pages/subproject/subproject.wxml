@@ -7,7 +7,7 @@
       <view class="menuline" wx:if="{{item.select}}"></view>
     </view>
   </view>
-  
+
   <!-- 任务列表区域 -->
   <view class="task-list" wx:if="{{menu[0].select}}">
     <!-- 任务筛选区域 -->
@@ -51,7 +51,6 @@
           <view class="taskname">{{item.title}}</view>
           <view class="task-time">{{item.endDate}}</view>
         </view>
-        manager
         <image class="task-img" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
         <view class="tasker">{{item.managerName}}</view>
       </view>

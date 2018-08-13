@@ -119,14 +119,9 @@ Page({
         for(var i = 0; i < data.length; i++){
           data[i].itemList = this.handleTask(data[i].itemList)
         }
-        if (this.data.isSwitchSelectTask || this.data.isShowStopTime) {//判断是否存在筛选条件
-          // 通过筛选条件筛选任务
-        }
         this.setData({
           taskList:data
         });
-        console.log("设置");
-        console.log(data);
       }
     })
   },
@@ -168,32 +163,51 @@ Page({
   },
   // 查询所有计划条目，然后筛选
   selectAllPlan: function () {
-    var address = app.ip + "tc/schedule/itemService/findMyItemList";
+    var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
     var obj = {};
     var taskSelect = this.data.taskSelect;
     var isComplete = null;
-    if(taskSelect[0].status){
-      isComplete = 0;
-      obj = {status:0}
+    if (this.data.isSwitchSelectTask){
+      if (taskSelect[0].status) {
+        isComplete = 0;
+        obj = { status: 0 }
+      }
+      else if (taskSelect[1].status) {
+        isComplete = 1;
+        obj = { status: 1 }
+      }
+      if (taskSelect[1].status && taskSelect[0].status) {
+        obj = {}
+      }
+      if (taskSelect[2].status) {
+        this.selectJoinTask(obj);
+        return false;
+      }
     }
-    else if(taskSelect[1].status){
-      isComplete = 1;
-      obj = { status: 1}
-    }
-    if (taskSelect[1].status && taskSelect[0].status){
-      obj = { }
-    }
-    if (taskSelect[2].status){
-      this.selectJoinTask(obj);
-      return false;
-    }
+    
     if (this.data.isShowStopTime){
       obj = {timeType:this.data.timeType}
+      this.setData({
+        isShowStopTime: false
+      })
     }
+    obj.resourceType = 10010001,
+    obj.resourceId = this.data.taskId;
     obj.taskId = this.data.taskId;
+    console.log("请求")
+    console.log(obj);
     api.request(obj,address,"post",true).then(res=>{
       console.log("统计条目");
       console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var data = res.data.data.list;
+        for (var i = 0; i < data.length; i++) {
+          data[i].itemList = this.handleTask(data[i].itemList)
+        }
+        this.setData({
+          taskList:res.data.data.list
+        })
+      }
     })
   },
   // 查询我执行的任务
@@ -202,7 +216,7 @@ Page({
     var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
     api.request(obj,address,"post",true).then(res=>{
       console.log("我执行的任务");
-      console.log(obj)
+      console.log(obj);
       console.log(res);
     })
   },
