@@ -92,10 +92,10 @@
 
             <!-- 二级项目信息/公司 -->
             <block wx:if="{{child.subList.length>0}}">
-              <view class="sublist" wx:if="{{urlLine}}" bindtap="alert">
+              <view class="sublist" wx:if="{{urlLine}}">
                 <block wx:for="{{child.subList}}" wx:for-item="childItem" wx:for-index="childIndex">
-                    <view class="second-level-project" wx:if="{{child.isShowChild}}">
-                      <view class="second-level" catchtap="alert">
+                    <view class="second-level-project" wx:if="{{child.isShowChild}}" bindtap="entryProject" data-id="{{childItem.summaryBean.id}}">
+                      <view class="second-level">
                       
                         <image src="./img/second-level.png" class="second-title-img"></image>
                         <view class="second-level-name">{{childItem.summaryBean.title}}</view>

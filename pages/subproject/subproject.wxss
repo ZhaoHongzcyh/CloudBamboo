@@ -1,45 +1,184 @@
 /* pages/subproject/subproject.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
 .menu-list{
   display: flex;
   justify-content: center;
+  justify-items: center;
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #666666;
+  background-color: rgba(255,255,255,1);
 }
 .menu{
+  position: relative;
+  padding: 0rpx;
   width: 25%;
+  height: 80rpx;
   text-align: center;
+}
+.menuText{
+  height: 26rpx;
+  margin-top: 20rpx;
+}
+.textcolor{
+  color: #409CF2;
 }
 .menuline{
   width: 80%;
   margin: auto;
-  border: 0rpx;
-  border-top: 2rpx solid blue;
+  margin-top: 10rpx;
+  border-top: 4rpx solid #409CF2;
 }
 /* 任务筛选 */
 .screen{
-  display: flex;
+  display:flex;
+  height: 100rpx;
+  align-items: center;
 }
+.screenCondiction{
+  font-size: 28rpx;
+  height: 27rpx;
+  padding: 0rpx;
+  display: flex;
+  color: #666666;
+}
+.taskScreen{
+  margin-left: 30rpx;
+}
+.stoptime{
+  margin-left: 39rpx;
+}
+/* 三角形 */
+.triangle{
+  border: 0rpx;
+  border-top: 10rpx solid #666666;
+  border-right: 10rpx solid #666666;
+}
+/* 任务计划 */
+.planlist{
+  position: relative;
+  width: 710rpx;
+  border-radius: 5rpx;
+  margin: auto;
+  margin-top: 18rpx;
+  background-color:rgba(255,255,255,1);
+}
+.planName{
+  color: #333333;
+  font-size: 28rpx;
+  height: 82rpx;
+  width: 100%;
+  display: table-cell;
+  vertical-align: middle;
+}
+/* 新建任务 */
+.newTaskBtn{
+  color: #409CF2;
+  font-size: 28rpx;
+  height: 80rpx;
+  width: 100%;
+  margin-left: 30rpx;
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #EBECF0;
+}
+.single-task{
+  display: flex;
+  align-items: center;
+  height: 120rpx;
+  border-bottom: 1rpx solid #EBECF0;
+}
+.radio-area{
+  margin-left: 30rpx;
+}
+.normalcolor{
+  border-left: 4rpx solid #FFAF38;
+}
+.urgentcolor{
+  border-left: 4rpx solid #FF4F3E;
+}
+.task-info{
+  margin-left: 24rpx;
+  width: 334rpx;
+}
+.taskname{
+  color: #666666;
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.tasktime{
+  height: 40rpx;
+  width: 176rpx;
+  margin-top: 8rpx;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  border-radius: 3rpx;
+  color: white;
+  font-size: 24rpx;
+}
+.offtimeout{
+  background-color: #409CF2;
+}
+.timeout{
+  background-color: #FF7474;
+}
+.taskimg{
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+}
+.tasker{
+  color: #666666;
+  font-size: 28rpx;
+  margin-left: 18rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+/* 任务筛选区域 */
 .selectlist{
   display: flex;
 }
 .selectimg{
-  width: 30rpx;
-  height: 30rpx;
-  border: 1rpx solid red;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
 }
 .selectbtn{
   display: flex;
 }
-/* 任务列表区域 */
-.single-task{
-  border: 1rpx solid black;
+/* 新建任务清单 */
+.addTaskPlan{
   display: flex;
   align-items: center;
+  width: 710rpx;
+  height: 80rpx;
+  margin: auto;
+  margin-top: 20rpx;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  color: #409CF2;
+  font-size: 28rpx;
 }
-.task-img{
-  width: 40rpx;
-  height: 40rpx;
+.plus{
+  padding:0rpx;
+  width: 32rpx;
+  height: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #409CF2;
+  border-radius:50%;
+  font-size: 28rpx;
+  margin-right: 19rpx;
 }
-.taskname{
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+/* 文件列表区域 */
+.filelist{
+  margin-top: 10rpx;
 }

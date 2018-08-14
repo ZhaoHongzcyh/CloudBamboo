@@ -3,7 +3,7 @@
   <!-- 采单列表 -->
   <view class="menu-list">
     <view class="menu" wx:for="{{menu}}" wx:key="{{item.title}}" data-index="{{index}}" bindtap="switchMenu">
-      <view class="task menuText">{{item.title}}</view>
+      <view class="task menuText {{item.select? 'textcolor':''}}">{{item.title}}</view>
       <view class="menuline" wx:if="{{item.select}}"></view>
     </view>
   </view>
@@ -14,8 +14,11 @@
     <view>
       <view>
         <view class="screen">
-          <view bindtap="switchSelectTask">任务筛选</view>
-          <view bindtap="switchStopTime">截止时间</view>
+          <view bindtap="switchSelectTask" class="screenCondiction taskScreen">
+            任务筛选
+            <view class="triangle"></view>
+          </view>
+          <view bindtap="switchStopTime" class="screenCondiction stoptime">截止时间</view>
         </view>
         <!-- 任务筛选条件列表 -->
         <view wx:if="{{isSwitchSelectTask}}">
@@ -40,26 +43,31 @@
     </view>
     
     <!-- 任务新建区域 -->
-    <view wx:for="{{taskList}}" wx:for-item="plan">
-      <view>{{plan.summaryBean.title}}</view>
-      <view bindtap="newTask" data-planid="{{plan.summaryBean.id}}" data-title="{{plan.summaryBean.title}}">新建任务</view>
-      <view class="single-task" wx:for="{{plan.itemList}}" wx:for-item="item" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
+    <view wx:for="{{taskList}}" wx:for-item="plan" class="planlist">
+      <view class="planName" data-index="{{index}}" bindtap="fold">
+        {{plan.summaryBean.title}}
+      </view>
+      <view wx:if="{{plan.fold}}" bindtap="newTask" class="newTaskBtn" data-planid="{{plan.summaryBean.id}}" data-title="{{plan.summaryBean.title}}">新建任务</view>
+      <view wx:if="{{plan.fold}}" class="single-task {{item.emergencyGrade==1? 'normalcolor':''}} {{item.emergencyGrade==2? 'urgentcolor':''}}" wx:for="{{plan.itemList}}" wx:for-item="item" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
         <view class="radio-area">
           <radio class="radio" color="#409CF2"  bindtap="radioAlert"></radio>
         </view>
         <view class="task-info">
           <view class="taskname">{{item.title}}</view>
-          <view class="task-time">{{item.endDate}}</view>
+          <view class="tasktime {{item.isTimeOut? 'timeout':'offtimeout'}}">{{item.endDate}}</view>
         </view>
-        <image class="task-img" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
+        <image class="taskimg" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
         <view class="tasker">{{item.managerName}}</view>
       </view>
     </view>
-    <view class="addTaskPlan" bindtap="addTaskPlan">新建任务计划</view>
+    <view class="addTaskPlan" bindtap="addTaskPlan">
+      <view class="plus">+</view>
+      <view class="plustitle">新建任务清单</view>
+      </view>
   </view>
 
   <!-- 文件列表区域 -->
-  <view wx:if="{{menu[1].select}}">
+  <view wx:if="{{menu[1].select}}" class="filelist">
     <view wx:for="{{fileList}}" bindtap="entryFolder" data-parentId="{{item.parentId}}">
         <file item="{{item}}" bindtap="selectFile"></file>
     </view>

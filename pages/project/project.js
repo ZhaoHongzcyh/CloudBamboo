@@ -94,6 +94,8 @@ Page({
       obj = {start:0,pageSize:this.data.start * this.data.pageSize};
     }
     api.request(obj,address,"post",true).then(res=>{
+      console.log("公司项目")
+      console.log(res);
       this.setData({
         start: this.data.start + 1
       })

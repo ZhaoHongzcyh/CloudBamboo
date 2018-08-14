@@ -11,6 +11,7 @@ Page({
     planid:null,
     title:null,
     taskId:null,//项目id
+    uploadId:null,//文件上传id
     emergencyGrade: [
       {
         title:"闲置处理",
@@ -36,6 +37,8 @@ Page({
     searchList:null,//搜索列表
     Implement:null,//执行人
     visibilityType:0,//可见范围
+    visibility:["所有成员可见","参与人可见"],
+    isShowReadPower:false,//是否展示成员可见列表
     isShowImplement:false,//是否展示执行人选择
     isShowAddMember: false,//是否展示参与人
     isShowEmergency:false//是否展示任务紧急程度
@@ -147,6 +150,26 @@ Page({
       emergency:state,
       isShowEmergency:false
     })
+  },
+  // 取消选择紧急程度
+  cancelUrgency: function () {
+    this.setData({
+      isShowEmergency:false
+    })
+  },
+  // 显示/关闭成员是否可见选项
+  switchPowerMenu: function () {
+    this.setData({
+      isShowReadPower: !this.data.isShowReadPower
+    })
+  },
+  // 设置可见范围
+  setvisibilityType: function (e) {
+    var visibilityType = e.currentTarget.dataset.visibilitytype;
+    this.setData({
+      visibilityType: visibilityType
+    });
+    this.switchPowerMenu();
   },
   // 匹配用于搜索的内容
   matchList: function (e) {
@@ -282,8 +305,8 @@ Page({
     }
     this.setData({ addMemberList, searchList})
   },
-  // 文件上传
-  uploadFile: function (){
+  // 选择文件
+  chooseFile: function (){
     var tempFilePath = this.data.tempFilePath;
     wx.chooseImage({
       count:6,
@@ -301,11 +324,55 @@ Page({
   handleUploadData: function (data) {
     var tempFilePath = this.data.tempFilePath;
     for(var i = 0; i < data.length; i++){
-      tempFilePath.push(data[i]);
+      var obj = {
+        src:data[i],
+        name:"文件",
+        progress:0
+      }
+      tempFilePath.push(obj);
     }
     this.setData({
       tempFilePath:tempFilePath
     })
+  },
+  // 上传图片
+  upImg: function (index=0) {
+    var data = this.data.tempFilePath;
+    var token = wx.getStorageSync("proxyUserToken");
+    if(index < data.length){
+      // 开始上传文件
+      var uploadTask = wx.uploadFile({
+        url: app.ip + "tc/schedule/itemService/uploadLocalArc",
+        filePath: data[index].src,
+        header: {
+          "content-type": "multipart/form-data",
+          proxyUserToken: token,
+          id: this.data.uploadId
+        },
+        name: "file",
+        success: (res)=>{
+          console.log("上传结果");
+          res.data = JSON.parse(res.data);
+          // 将文件重命名
+          data[index].name = res.data.data[0].title;
+          // this.setData({
+          //   tempFilePath: data
+          // })
+          console.log(res);
+          this.upImg(index+1);
+        }
+      })
+      // 监听上传进度
+      uploadTask.onProgressUpdate(res=>{
+        console.log("上传进度");
+        data[index].progress = res.progress;
+        this.setData({
+          tempFilePath:data
+        })
+        console.log(res.progress);
+      })
+    }
+    
   },
   // 删除图片
   deleteImg: function (e) {
@@ -350,6 +417,9 @@ Page({
       console.log("任务添加结果");
       console.log(res);
       if(res.data.code == 200 && res.data.result){
+        this.setData({
+          uploadId:res.data.data.itemBean.id
+        })
         // 返回上一级，并将新添加的数据添加到任务列表中
         var page = getCurrentPages();
         var prevpage = page[page.length - 2];
@@ -368,6 +438,10 @@ Page({
         prevpage.setData({
           taskList:taskList
         })
+        // 调用文件上传
+        if(this.data.tempFilePath.length > 0){
+          this.upImg();
+        }
         wx.navigateBack();
       }
       else{

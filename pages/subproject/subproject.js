@@ -97,11 +97,20 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // options.id = 2367595934324706275;
+    // 2367595934324706275
+    console.log("架子啊");
+    console.log(options);
     this.setData({
-      taskId: options.id
+      taskId: "2367595934324706275"//options.id
     })
-    this.selectTask();
-    this.selectPlanList(options.id);
+    // this.selectTask();
+    this.selectPlanList("2367595934324706275");
+    // this.selectPlanList(options.id);
+  },
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    this.onLoad();
   },
   // 查找计划清单
   selectPlanList: function(id) {
@@ -117,6 +126,13 @@ Page({
       if(res.data.code == 200 && res.data.result){
         data = res.data.data.list;
         for(var i = 0; i < data.length; i++){
+          // 用于初始化任务折叠效果
+          if(i == 0){
+            data[i].fold = true;//显示子任务
+          }
+          else{
+            data[i].fole = false;//隐藏子任务
+          }
           data[i].itemList = this.handleTask(data[i].itemList)
         }
         this.setData({
@@ -372,6 +388,21 @@ Page({
     var id = e.currentTarget.dataset.planid;
     wx.navigateTo({
       url: '/pages/taskDetails/newTask/newtask?planid=' + id + "&title=" + title +"&id=" + this.data.taskId,
+    })
+  },
+  // 任务折叠效果
+  fold: function (e) {
+    console.log(e);
+    var index = e.currentTarget.dataset.index;
+    var taskList = this.data.taskList;
+    var taskList = this.data.taskList;
+    for(var i = 0; i < taskList.length; i++){
+      if(i == index){
+        taskList[i].fold = !taskList[i].fold;
+      }
+    }
+    this.setData({
+      taskList:taskList
     })
   }
 })

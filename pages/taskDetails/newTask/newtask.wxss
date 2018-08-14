@@ -1,6 +1,169 @@
 /* pages/taskDetails/newTask/newtask.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+.planHead{
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+  background-color: rgba(255,255,255,1);
+}
+.textarea{
+  margin-top: 20rpx;
+}
+.planName{
+  font-size: 28rpx;
+  margin-left: 40rpx;
+  color: #333333;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+/* 任务名称输入区域 */
+.inputTaskName{
+  height: 120rpx;
+  width: 100%;
+  background-color: white;
+}
+.placeholder{
+  color: #AAAAAA;
+  font-size: 28rpx;
+  margin-left: 41rpx;
+  margin-top: 24rpx;
+}
+/* 任务基本信息 */
+.taskconfig{
+  margin-top: 20rpx;
+}
 .newtaskinfo{
   display: flex;
+  align-items: center;
+  height: 80rpx;
+  background-color: white;
+  border-bottom: 1rpx solid rgba(219,219,219,1);
+}
+.listTitle{
+  color: #333333;
+  font-size: 28rpx;
+  margin-left: 41rpx;
+  flex: 1;
+}
+/* 执行人头像 */
+.impImg{
+  width: 52rpx;
+  height: 52rpx;
+  margin-right: 40rpx;
+  border-radius: 50%;
+}
+/* 紧急程度 */
+.urgentGrade{
+  font-size: 28rpx;
+  margin-right: 40rpx;
+}
+.normal{
+  color: #FFAF38;
+}
+.urgent{
+  color: #FF4F3E;
+}
+/* 时间 */
+.time{
+  color: #409CF2;
+  font-size: 28rpx;
+  margin-right: 40rpx;
+}
+.add{
+  font-size: 28rpx;
+  margin-right: 40rpx;
+  color: #999999;
+}
+/* 可见范围 */
+.visibleRange{
+  color: #409CF2;
+  font-size: 28rpx;
+  margin-right: 40rpx;
+}
+/* 完成按钮 */
+.finishBtn{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 40rpx;
+  width: 670rpx;
+  height: 72rpx;
+  border-radius: 36rpx;
+  font-size: 32rpx;
+  color: white;
+  background-color: #409CF2;
+}
+/* 紧急程度列表 */
+.listUrgency{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0rpx;
+  background-color: rgba(0,0,0,0.7);
+}
+.model{
+  position: absolute;
+  width: 100%;
+  bottom: 0rpx;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  border: 1rpx solid red;
+}
+.singleUrgency{
+  height: 70rpx;
+  font-size: 32rpx;
+  background-color: white;
+}
+/* 文件列表 */
+.filelist{
+  margin-top: 20rpx;
+}
+.filearea{
+  display: flex;
+  align-items: center;
+  background-color: white;
+  height: 112rpx;
+  margin-bottom: 2rpx; 
+}
+.fileinfo{
+  margin-left: 23rpx;
+  flex: 2;
+}
+.fileimg{
+  width: 48rpx;
+  height: 51rpx;
+  margin-left: 42rpx;
+}
+.fileName{
+  color: #333333;
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.progress{
+  margin-top: 13rpx;
+  font-size: 20rpx;
+  color: #FC4C45;
+  background-color:#AAAAAA;
+}
+/* 删除附件按钮 */
+.deleteImg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 40rpx;
+  border-radius: 50%;
+  border: 1rpx solid #73BBFF;
+  color: #73BBFF;
+  transform: rotateZ(45deg);
 }
 .addMemberList,.searchlist{
   display: flex;
@@ -8,13 +171,4 @@
 .fileUpload{
   display: flex;
 }
-.fileList{
-  width: 40rpx;
-  height: 40rpx;
-  border: 1rpx solid red;
-}
-/* 执行人头像 */
-.impImg{
-  width: 50rpx;
-  height: 50rpx;
-}
+
