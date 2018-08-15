@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "file": "/common/fileList/fileList"
+    "file": "/common/fileList/fileList",
+    "popup": "/common/popup/popup"
   }
 }

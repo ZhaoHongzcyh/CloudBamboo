@@ -9,6 +9,9 @@ Page({
    */
   data: {
     app:app,
+    alert:{
+      content:"权限不够"
+    },
     item:{
       atype:0,
       title:"文件夹",
@@ -26,11 +29,11 @@ Page({
         select: false
       },
       {
-        title: "动态",
+        title: "成员",
         select: false
       },
       {
-        title: "记账",
+        title: "设置",
         select: false
       }
     ],
@@ -107,17 +110,23 @@ Page({
     // this.selectTask();
     this.selectPlanList("2367595934324706275");
     // this.selectPlanList(options.id);
+    this.popup = this.selectComponent("#popup");
   },
   // 下拉刷新
   onPullDownRefresh: function () {
     this.onLoad();
+  },
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
   },
   // 查找计划清单
   selectPlanList: function(id) {
     var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
     var obj = {
       resourceType: 10010001,
-      resourceId:id
+      resourceId:id,
+      orderType:"DESC"
     }
     api.request(obj,address,"post",true).then(res=>{
       console.log("计划清单");
@@ -404,5 +413,50 @@ Page({
     this.setData({
       taskList:taskList
     })
+  },
+
+  // 切换任务状态(已完成/未完成)
+  switchTaskState: function (e) {
+    var taskid = e.currentTarget.dataset.taskid;
+    var parentnum = e.currentTarget.dataset.parentsnum;
+    var selfnum = parseInt(e.currentTarget.dataset.selfnum);
+    var taskList = this.data.taskList;
+    var status = e.currentTarget.dataset.status;
+    status = status == 0 ? 1 : 0;
+    var obj = taskList[parentnum].itemList[selfnum];
+    obj.status = status;
+    obj = JSON.stringify(obj);
+    obj = JSON.parse(obj);
+    delete obj.endDate;
+    delete obj.endTime;
+    delete obj.isTimeOut;
+    // 发送更改状态请求，
+    var address = app.ip + "tc/schedule/itemService/update";
+    // 权限检测
+    if(!this.handlePower(obj.manager)){
+      status = status == 0 ? 1 : 0;
+      taskList[parentnum].itemList[selfnum].status = status;
+      this.setData({ taskList })
+      this.alert();
+      return false;
+    }
+    api.sendDataByBody(obj, address, "post", true).then(res => {
+      console.log("修改结果");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        taskList[parentnum].itemList[selfnum].status = status;
+        this.setData({taskList})
+      }
+    })
+  },
+  // 权限判断
+  handlePower: function (manager) {
+    var creatorid = wx.getStorageSync("tcUserId");
+    if (creatorid == manager){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 })

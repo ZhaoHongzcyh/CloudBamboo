@@ -29,7 +29,12 @@ Component({
     // 弹窗底部提示文字
     footer:{
       type:String,
-      value:"足部提示"
+      value:"null"
+    },
+    // 是否为普通弹窗
+    isAlert:{
+      type:Boolean,
+      value:false
     }
   },
 
@@ -58,9 +63,14 @@ Component({
     },
     // 跳转到app下载页面
     downApp:function(){
-      wx.navigateTo({
-        url: '/pages/downApp/downApp'
-      })
+      if (this.data.isAlert){
+        this.hidePopup();
+      }
+      else{
+        wx.navigateTo({
+          url: '/pages/downApp/downApp'
+        })
+      }
     },
     /*
     * 内部私有方法建议以下划线开头

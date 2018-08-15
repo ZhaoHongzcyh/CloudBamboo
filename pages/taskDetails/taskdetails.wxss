@@ -1,6 +1,21 @@
 /* pages/taskDetails/taskdetails.wxss */
+page{
+ background-color: rgba(245,245,245,1);
+}
 .task-head{
   display: flex;
+  align-items: center;
+  background-color: white;
+}
+
+.tasktitle{
+  display: flex;
+  align-items: center;
+}
+
+.taskstatus{
+  display: flex;
+  background-color: white;
 }
 .taskbtn{
   flex: 2;
@@ -8,7 +23,37 @@
 }
 .info{
   display: flex;
+  aling-items: center;
+  background-color: white;
+  border-bottom: 1rpx solid gray;
 }
+
+.infotitle{
+  font-size: 28rpx;
+}
+
+.imphead{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+}
+
+/* 参与人头像 */
+.memberphoto{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+  margin-left: -10rpx;
+}
+.time{
+  color:#409CF2;
+}
+
+.common_title{
+  flex: 2;
+  text-align: right;
+}
+
 .task-action{
   display:flex;
 }

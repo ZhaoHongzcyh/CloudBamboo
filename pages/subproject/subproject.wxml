@@ -48,13 +48,13 @@
         {{plan.summaryBean.title}}
       </view>
       <view wx:if="{{plan.fold}}" bindtap="newTask" class="newTaskBtn" data-planid="{{plan.summaryBean.id}}" data-title="{{plan.summaryBean.title}}">新建任务</view>
-      <view wx:if="{{plan.fold}}" class="single-task {{item.emergencyGrade==1? 'normalcolor':''}} {{item.emergencyGrade==2? 'urgentcolor':''}}" wx:for="{{plan.itemList}}" wx:for-item="item" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
-        <view class="radio-area">
-          <radio class="radio" color="#409CF2"  bindtap="radioAlert"></radio>
+      <view wx:if="{{plan.fold}}" class="single-task {{item.emergencyGrade==1? 'normalcolor':''}} {{item.emergencyGrade==2? 'urgentcolor':''}}" wx:for="{{plan.itemList}}" wx:for-item="item" wx:for-index="childnum" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
+        <view class="radio-area" data-parentsnum="{{index}}" data-status="{{item.status}}" data-selfnum="{{childnum}}" data-taskid="{{item.id}}" catchtap='switchTaskState' data-manager="{{item.manager}}">
+          <radio class="radio" color="#409CF2"  bindtap="radioAlert" checked="{{item.status==0? false : true}}"></radio>
         </view>
         <view class="task-info">
           <view class="taskname">{{item.title}}</view>
-          <view class="tasktime {{item.isTimeOut? 'timeout':'offtimeout'}}">{{item.endDate}}</view>
+          <view wx:if="{{item.endDate==null? false : true}}" class="tasktime {{item.isTimeOut? 'timeout':'offtimeout'}}">{{item.endDate}}</view>
         </view>
         <image class="taskimg" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
         <view class="tasker">{{item.managerName}}</view>
@@ -62,7 +62,7 @@
     </view>
     <view class="addTaskPlan" bindtap="addTaskPlan">
       <view class="plus">+</view>
-      <view class="plustitle">新建任务清单</view>
+      <view class="plustitle">新建任务计划</view>
       </view>
   </view>
 
@@ -72,4 +72,7 @@
         <file item="{{item}}" bindtap="selectFile"></file>
     </view>
   </view>
+
+   <!-- 弹框 -->
+<popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

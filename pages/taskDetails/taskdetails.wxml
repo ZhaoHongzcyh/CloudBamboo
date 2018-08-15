@@ -7,37 +7,43 @@
     <view class="taskbtn">删除任务</view>
   </view>
   <!-- 任务名称或任务概述 -->
-  <view>
-    <view>
-      <radio checked="{{task.itemBean.status==0? false:true}}"/>
+  <view class="taskstatus">
+    <view bindtap="switchStatus" data-status="{{task.itemBean.status}}">
+      <radio checked="{{task.itemBean.status==0? false:true}}" color="#409CF2"/>
     </view>
     <view>{{task.itemBean.title}}</view>
   </view>
   <!-- 任务基础信息 -->
   <view>
     <view class="info" bindtap="watchDescript">
-      <view>任务描述</view>
-      <view>{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+      <view class="infotitle">任务描述</view>
+      <view class="common_title">{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
     </view>
     <view class="info">
-      <view>执行人</view>
-      <view>{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+      <view class="infotitle">执行人</view>
+      <view class="common_title">
+        <image class="imphead" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + task.itemBean.manager + '/100/100'}}"></image>
+      </view>
     </view>
     <view class="info">
-      <view>参与人</view>
-      <view bindtap="getParticipants">{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+      <view class="infotitle">参与人</view>
+      <view bindtap="getParticipants" class="common_title">
+        <block wx:for="{{task.memberList}}">
+          <image class="memberphoto" wx:if="{{item.relationType == 2}}" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.personId + '/100/100'}}"></image>
+        </block>
+      </view>
     </view>
     <view class="info">
-      <view>紧急程度</view>
-      <view>{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+      <view class="infotitle">紧急程度</view>
+      <view class="common_title">{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
     </view>
     <view class="info">
-      <view>开始时间</view>
-      <view>{{task.itemBean.startDate}}</view>
+      <view class="infotitle">开始时间</view>
+      <view class="time common_title">{{task.itemBean.startDate}}</view>
     </view>
     <view class="info">
-      <view>结束时间</view>
-      <view>
+      <view class="infotitle">结束时间</view>
+      <view class="time common_title">
         {{task.itemBean.endDate == null? '--:--':task.itemBean.endDate}}
       </view>
     </view>
@@ -46,11 +52,8 @@
   <view>
     <view>显示所有附件</view>
     <block wx:for="{{task.arcList}}">
-      <file item="{{item}}"></file>
+      <file isdownload="{{true}}" item="{{item}}" bind:download="downloadFile"></file>
     </block>
-    <view>
-      附件
-    </view>
   </view>
   <!-- 任务动态 -->
   <view>
@@ -68,5 +71,8 @@
     <rich-text nodes="{{replyContent}}"></rich-text>
     <view>发布</view>
   </view>
+  <!-- 弹框 -->
+<popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>
+
 

@@ -8,6 +8,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    app:app,
+    alert:{
+      state:false,
+      content:"权限不够"
+    },
     taskId:null,
     task:null, //任务信息
     emergencyGrade:["闲置处理","正常处理","紧急处理"],
@@ -22,10 +27,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.popup = this.selectComponent("#popup");
     this.setData({
       taskId:options.id
     })
     this.selectPlanChild(options.id);
+  },
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
   },
   // 当页面重载
   onUnload: function(){
@@ -87,9 +97,16 @@ Page({
   },
   // 编辑任务
   edittask: function () {
-    wx.navigateTo({
-      url: './editTask/editTask?id=' + this.data.taskId,
-    })
+    // 查询权限
+    var power = this.handlePower();
+    if(power){
+      wx.navigateTo({
+        url: './editTask/editTask?id=' + this.data.taskId,
+      })
+    }
+    else{
+      this.alert();
+    }
   },
   // 复制任务
   copytask: function(){
@@ -139,6 +156,95 @@ Page({
     }
     this.setData({
       replyContent: reply
+    })
+  },
+  // 权限判定
+  handlePower: function () {
+    var personid = wx.getStorageSync("tcUserId");//this.data.task.itemBean.manager;
+    var creatorId = this.data.task.itemBean.manager;//创建者id；
+    if (creatorId == personid){
+      return true;
+    }
+    else{
+      return false;
+    }
+  },
+  // 切换任务状态（已完成/未完成）
+  switchStatus: function (e) {
+    // 权限判定
+    var status = e.currentTarget.dataset.status;
+    status = status == 0 ? 1 : 0; 
+    var power = this.handlePower();
+    if(power){
+      this.sendStatus(status);
+    }
+    else{
+      var task = this.data.task;
+      task.itemBean.status = status == 0 ? 1 : 0;
+      this.setData({
+        task:task
+      })
+      this.alert();
+    }
+  },
+  // 发送切换(已完成/未完成)请求
+  sendStatus: function (status) {
+    var itemBean = JSON.stringify(this.data.task.itemBean);
+    itemBean = JSON.parse(itemBean);
+    delete itemBean.endDate;
+    delete itemBean.startDate;
+    itemBean.status = status;
+    var address = app.ip + "tc/schedule/itemService/update";
+    api.sendDataByBody(itemBean,address,"post",true).then(res=>{
+      console.log("状态修改结果");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var task = this.data.task
+        task.itemBean.status = status;
+        this.setData({
+          task:task
+        })
+      }
+      else{
+        // 弹框
+        var alert = this.data.alert;
+        alert.content = "状态更改失败";
+        this.setData({
+          alert:alert
+        });
+        this.alert();
+      }
+    })
+  },
+  // 附件下载
+  downloadFile: function (e) {
+    console.log(e);
+    var id = e.detail.id;
+    var address = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + id;
+    
+    var obj = {
+      arcIds:[id]
+    }
+    wx.downloadFile({
+      url:address,
+      success:(res)=>{
+        console.log("文件下载");
+        console.log(res);
+        if(res.statusCode == 200){
+          // 持久保存文件
+          wx.saveFile({
+            tempFilePath: res.tempFilePath,
+            success:(res)=>{
+              console.log("保存成功");
+              console.log(res.savedFilePath);
+              this.setData({
+                alert:{content:"下载成功"}
+              })
+              this.alert()
+            }
+          })
+        }
+      }
     })
   }
 })

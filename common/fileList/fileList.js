@@ -11,6 +11,10 @@ Component({
     checked:{
       type:Boolean,
       value:false
+    },
+    isdownload:{
+      type:Boolean,
+      value:false
     }
   },
 
@@ -28,6 +32,10 @@ Component({
     selectFile:function(e){
       var info = {e}
       this.triggerEvent("select",info);
+    },
+    downloadFile: function (e) {
+      var item = e.currentTarget.dataset.item;
+      this.triggerEvent("download",item);
     }
   }
 })

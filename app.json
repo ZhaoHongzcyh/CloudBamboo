@@ -1,9 +1,11 @@
 {
   "pages": [
+    
     "pages/subproject/subproject",
     "pages/index/index",
-    "pages/project/project",
     "pages/addTask/addtask",
+    "pages/project/project",
+    
     "pages/cloudDisk/cloudDisk",
     
     "pages/ivew/ivew",

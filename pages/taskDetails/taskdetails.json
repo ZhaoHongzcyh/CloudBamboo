@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "任务详情",
   "usingComponents": {
-    "file": "/common/fileList/fileList"
+    "file": "/common/fileList/fileList",
+    "popup": "/common/popup/popup"
   }
 }
