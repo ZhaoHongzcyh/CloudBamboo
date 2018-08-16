@@ -105,11 +105,11 @@ Page({
     console.log("架子啊");
     console.log(options);
     this.setData({
-      taskId: "2367595934324706275"//options.id
+      taskId: options.id
     })
     // this.selectTask();
-    this.selectPlanList("2367595934324706275");
-    // this.selectPlanList(options.id);
+    // this.selectPlanList("2367595934324706275");
+    this.selectPlanList(options.id);
     this.popup = this.selectComponent("#popup");
   },
   // 下拉刷新
@@ -341,9 +341,30 @@ Page({
     console.log(e);
     var parentTitle = e.currentTarget.dataset.parenttitle;
     var id = e.currentTarget.dataset.singleid;
-    wx.navigateTo({
-      url: '/pages/taskDetails/taskdetails?id=' + id,
+    var tcUserId = wx.getStorageSync("tcUserId");
+    // 判断用户是否可以进入该任务
+    var address = app.ip + "tc/schedule/itemService/isGetIntoItem";
+    api.request({id},address,"post",true).then(res=>{
+      console.log("进入权限");
+      if(res.data.code == 200 && res.data.result){
+        for(var i = 0; i < res.data.data.memberList.length; i++){
+          if (tcUserId == res.data.data.memberList[i].personId){
+             wx.navigateTo({
+              url: '/pages/taskDetails/taskdetails?id=' + id,
+            })
+            return false;
+          }
+        }
+        this.alert();
+      }
+      else{
+        this.setData({
+          alert:{content:"加载失败"}
+        })
+        this.alert();
+      }
     })
+    
   },
   
   // 进入文件夹

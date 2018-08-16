@@ -13,14 +13,20 @@ Page({
       state:false,
       content:"权限不够"
     },
+    doloading:[],//正在进行下载的文件
     taskId:null,
     task:null, //任务信息
+    timeline:null,//时间轴数据
     emergencyGrade:["闲置处理","正常处理","紧急处理"],
     relationPeople:[],//参与人信息
     isShowAllAction:false,//是否展示更多动态数据
     partAction:null,//部分动态
     replyContent:null,//回复内容
-    calledPeople:null//在回复内容中被@的人员
+    calledPeople:null,//在回复内容中被@的人员
+    showfile:{
+      state:false,
+      data:null
+    }//需要被展示的文件
   },
 
   /**
@@ -55,6 +61,9 @@ Page({
         handle.data.arcList = api.fileNameSort(handle.data.arcList);
         handle.data.arcList = this.setFileSrc(handle.data.arcList,app);
         handle.data.itemBean.startDate = handle.data.itemBean.startDate.split("T")[0];
+        for(var i = 0; i < handle.data.actionList.length; i++){
+          handle.data.actionList[i].createDate = handle.data.actionList[i].createDate.split("T")[0];
+        }
         try{
           handle.data.itemBean.endDate = handle.data.itemBean.endDate.split("T")[0];
         }
@@ -63,6 +72,10 @@ Page({
         }
         this.setData({
           task:handle.data,
+          showfile:{
+            state:false,
+            data: handle.data.arcList.slice(0, 2)
+          },
           partAction: handle.data.actionList.slice(0,3)
         })
         console.log(this.data.task)
@@ -134,6 +147,26 @@ Page({
       isShowAllAction: !this.data.isShowAllAction
     })
   },
+  // 显示所有文件
+  showallfile: function () {
+    var showfile = this.data.showfile;
+    if(showfile.state){
+      this.setData({
+        showfile:{
+          state:false,
+          data:this.data.task.arcList.slice(0,2)
+        }
+      })
+    }
+    else{
+      this.setData({
+        showfile:{
+          state: true,
+          data:this.data.task.arcList
+        }
+      })
+    }
+  },  
   // 任务回复
   reply: function (e) {
     var reply = e.detail.value;
@@ -147,12 +180,6 @@ Page({
     }
     else {
       console.log(reply);
-    }
-    var reg = /\<span*\<\/span$/g
-    if(reply.match(reg)){
-      var replyAry = reply.split("@");
-      replyAry = replyAry.splice(0, replyAry.length - 1);
-      reply = reply.replace(reg, replyAry.join("@"));
     }
     this.setData({
       replyContent: reply
@@ -182,7 +209,8 @@ Page({
       var task = this.data.task;
       task.itemBean.status = status == 0 ? 1 : 0;
       this.setData({
-        task:task
+        task:task,
+        alert:{content:"权限不够"}
       })
       this.alert();
     }
@@ -221,11 +249,7 @@ Page({
     console.log(e);
     var id = e.detail.id;
     var address = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + id;
-    
-    var obj = {
-      arcIds:[id]
-    }
-    wx.downloadFile({
+    let downloadTask = wx.downloadFile({
       url:address,
       success:(res)=>{
         console.log("文件下载");
@@ -245,6 +269,45 @@ Page({
           })
         }
       }
+    })
+    // 文件下载进度监听
+  },
+  // 判断文件是否正处于下载中
+  fileIsDownloading: function (id) {
+    var downloading = this.data.downloading;
+    if(downloading.indexOf(id) < 0){
+      downloading.push(id);
+      this.setData({
+        downloading
+      })
+      return true;
+    }
+    else{
+      // 调用提示信息
+      return false;
+    }
+  },
+  // 计划条目评价
+  evaluate: function (e) {
+    console.log(e);
+    console.log("评价")
+    var address = app.ip + "tc/schedule/itemService/estimateItem";
+    var head = {
+      id: this.data.taskId
+    };
+    var personid = [];
+    console.log(this.data.calledPeople);
+    if(this.data.calledPeople != null){
+      for (var i = 0; i < this.data.calledPeople.length; i++) {
+        personid.push(this.data.calledPeople[i].personId);
+      }
+    }
+    var body = { personIds: personid, descript: encodeURI(this.data.replyContent)}
+    api.customRequest(head,body,address,"post",true).then(res=>{
+      console.log("评论");
+      console.log(res);
+    }).catch(e=>{
+      console.log(e);
     })
   }
 })

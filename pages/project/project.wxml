@@ -19,8 +19,8 @@
           </view>
         </view>
         <!-- 个人项目 -->
-        <view class="project-info" wx:if="{{!urlLine}}" bindtap="alert">
-          <view class="father-project">
+        <view class="project-info" wx:if="{{!urlLine}}">
+          <view class="father-project" data-id="{{item.summaryBean.id}}" bindtap="entryProject">
             <view class="single-project">
               <view class="isprogress">{{progress[item.summaryBean.tstate]}}</view>
               <view class="project-name">{{item.summaryBean.title}}</view>
@@ -114,9 +114,9 @@
         </block>
           
         <!-- 二级项目信息/个人项目 -->
-        <view class="sublist" wx:if="{{!urlLine}}" bindtap="alert">
+        <view class="sublist" wx:if="{{!urlLine}}">
             <block wx:for="{{item.subList}}" wx:for-item="sublist" wx:if="{{item.isShowChild}}">
-              <view class="second-level-project">
+              <view class="second-level-project" data-id="{{sublist.summaryBean.id}}" bindtap="entryProject">
                 <view class="second-level">
                   <image src="./img/second-level.png" class="second-title-img"></image>
                   <view class="second-level-name">{{sublist.summaryBean.title}}</view>

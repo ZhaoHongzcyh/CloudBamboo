@@ -1,23 +1,31 @@
 <!--任务详情页面-->
 <view>
   <view class="task-head">
-    <view>{{task.itemBean.title}}</view>
-    <view class="edit taskbtn" bindtap="edittask">编辑任务</view>
-    <view class="taskbtn" bindtap="copytask">复制任务</view>
-    <view class="taskbtn">删除任务</view>
+    <view class="headtitle">{{task.itemBean.title}}</view>
+    <view class="edit taskbtn" bindtap="edittask">
+      <image src="./img/edit.png" class="headimg"></image>
+    </view>
+    <view class="taskbtn" bindtap="copytask">
+      <image src="./img/copy.png" class="headimg"></image>
+    </view>
+    <view class="taskbtn">
+      <image src="./img/delete.png" class="headimg"></image>
+    </view>
   </view>
   <!-- 任务名称或任务概述 -->
   <view class="taskstatus">
-    <view bindtap="switchStatus" data-status="{{task.itemBean.status}}">
+    <view bindtap="switchStatus" class="radio" data-status="{{task.itemBean.status}}">
       <radio checked="{{task.itemBean.status==0? false:true}}" color="#409CF2"/>
     </view>
-    <view>{{task.itemBean.title}}</view>
+    <view class="taskname">{{task.itemBean.title}}</view>
   </view>
   <!-- 任务基础信息 -->
-  <view>
+  <view class="basicinfo">
     <view class="info" bindtap="watchDescript">
       <view class="infotitle">任务描述</view>
-      <view class="common_title">{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+      <view class="common_title">
+        <image src="./img/open.png" class="openimg"></image>
+      </view>
     </view>
     <view class="info">
       <view class="infotitle">执行人</view>
@@ -31,7 +39,9 @@
         <block wx:for="{{task.memberList}}">
           <image class="memberphoto" wx:if="{{item.relationType == 2}}" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.personId + '/100/100'}}"></image>
         </block>
+        <image src="./img/open.png" class="openimg"></image>
       </view>
+      
     </view>
     <view class="info">
       <view class="infotitle">紧急程度</view>
@@ -49,27 +59,23 @@
     </view>
   </view>
   <!-- 附件列表 -->
-  <view>
-    <view>显示所有附件</view>
-    <block wx:for="{{task.arcList}}">
+  <view class="file">
+    <view class="showallfile" bindtap="showallfile">{{showfile.state? '收起所有附件' : '显示所有附件'}}</view>
+    <block wx:for="{{showfile.data}}">
       <file isdownload="{{true}}" item="{{item}}" bind:download="downloadFile"></file>
     </block>
   </view>
   <!-- 任务动态 -->
   <view>
-    <view wx:if="{{!isShowAllAction}}" bindtap="showAllAction">显示所有任务动态</view>
-    <view wx:for="{{ isShowAllAction? task.actionList:partAction}}" class="task-action">
-      <view style="border: 1rpx solid red;">{{item.personName}}</view>
-      <view>{{item.descript}}</view>
-    </view>
+    <view wx:if="{{!isShowAllAction}}" class="showAllAction" bindtap="showAllAction">显示所有任务动态</view>
+    <timeline data="{{isShowAllAction? task.actionList:partAction}}"/>
   </view>
   <!-- 评论回复区域 -->
-  <view>
-    <textarea placeholder="回复任务，可以@成员" bindinput="reply" style="border:1rpx solid red">
+  <view class="reply">
+    <textarea placeholder-class='replyplace' placeholder="回复任务，可以@成员" value="{{replyContent}}" class="replyinput" bindinput="reply" >
       
     </textarea>
-    <rich-text nodes="{{replyContent}}"></rich-text>
-    <view>发布</view>
+    <view bindtap="evaluate" class="submit">发布</view>
   </view>
   <!-- 弹框 -->
 <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>

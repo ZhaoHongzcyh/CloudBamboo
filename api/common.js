@@ -61,6 +61,30 @@ var sendDataByBody = function (data,url,method,isCheck=true) {
     wx.request(obj);
   })
 }
+
+// 自定义头部数据与body数据请求
+var customRequest = function (head,body,address,method="post",bool=true) { 
+  return new Promise(function (resolve,reject) {
+    var token = wx.getStorageSync("proxyUserToken");
+    if(bool){
+      head.proxyUserToken = token;
+    }
+    var obj = {
+      url: address,
+      method: method,
+      header:head,
+      data: body,
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function (err) {
+        reject(err)
+      }
+    }
+    wx.request(obj);
+  })
+}
+
 // 发送小程序Code与验证
 var sendCode = function (data = {}, url = "localhost", method = "post"){
   return new Promise(function(resolve,reject){
@@ -403,5 +427,6 @@ module.exports = {
   sendCode,
   autoAddLogoinInfo,
   nowTime,
-  sendDataByBody
+  sendDataByBody,
+  customRequest
 }

@@ -4,8 +4,35 @@ page{
 }
 .task-head{
   display: flex;
+  height: 80rpx;
   align-items: center;
   background-color: white;
+}
+
+.headtitle{
+  width: 391rpx;
+  margin-left: 40rpx;
+  color: #333333;
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+/* 三个按钮图标 */
+.taskbtn{
+  margin-left: 39rpx;
+  text-align: center;
+}
+
+.edit{
+  margin-left: 101rpx;
+}
+
+.headimg{
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
 }
 
 .tasktitle{
@@ -13,51 +40,134 @@ page{
   align-items: center;
 }
 
+/* 任务状态 */
 .taskstatus{
   display: flex;
+  height: 117rpx;
+  align-items: center;
+  margin-top: 20rpx;
   background-color: white;
 }
-.taskbtn{
-  flex: 2;
-  text-align: center;
+
+.radio{
+  margin-left: 40rpx;
 }
+
+.taskname{
+  margin-left: 20rpx;
+  font-size: 32rpx;
+  color: #333333;
+}
+
+/* 基础信息 */
+.basicinfo{
+  margin-top: 30rpx;
+}
+
 .info{
   display: flex;
-  aling-items: center;
+  height: 80rpx;
+  align-items: center;
   background-color: white;
-  border-bottom: 1rpx solid gray;
+  border-bottom: 1rpx solid #DBDBDB;
 }
 
 .infotitle{
   font-size: 28rpx;
+  color: #333333;
+  margin-left: 40rpx;
 }
 
 .imphead{
-  width: 50rpx;
-  height: 50rpx;
+  width: 52rpx;
+  height: 52rpx;
   border-radius: 50%;
 }
 
 /* 参与人头像 */
+.openimg{
+  width: 14rpx;
+  height: 28rpx;
+  margin-left: 22rpx;
+}
 .memberphoto{
-  width: 50rpx;
-  height: 50rpx;
+  width: 52rpx;
+  height: 52rpx;
+  line-height: 52rpx;
   border-radius: 50%;
   margin-left: -10rpx;
 }
 .time{
   color:#409CF2;
+  font-size: 28rpx;
 }
 
 .common_title{
   flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 28rpx;
+  margin-right: 41rpx;
   text-align: right;
 }
 
+/* 附件区域 */
+.file{
+  margin-top: 30rpx;
+}
+.showallfile{
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  padding-left: 41rpx;
+  background-color: white;
+  color: #409CF2;
+  border-bottom: 1rpx solid rgba(219,219,219,1);
+}
 .task-action{
   display:flex;
 }
 textarea{
-  opacity:0;
   background-color:rgba(255,255,255,1);
+}
+/* 显示所有动态按钮 */
+.showAllAction{
+  height: 80rpx;
+  line-height: 80rpx;
+  margin-top: 30rpx;
+  padding-left: 41rpx;
+  border-bottom: 1rpx solid #DBDBDB;
+  color: #409CF2;
+  background-color: white;
+  font-size: 28rpx;
+}
+/* 评论区域 */
+.reply{
+  display: flex;
+  height: 98rpx;
+  align-items: center;
+  background-color: white;
+}
+.replyinput{
+  height: 70rpx;
+  width: 510rpx;
+  margin-left: 24rpx;
+  border:1rpx solid #AAAAAA;
+}
+.replyplace{
+  color: #AAAAAA;
+  font-size: 28rpx;
+  margin: 21rpx 0rpx;
+}
+.submit{
+  width: 168rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  margin-left: 24rpx;
+  color: white;
+  text-align: center;
+  background-color: #409CF2;
 }

@@ -1,0 +1,32 @@
+<!--pages/line/line.wxml-->
+<view>
+  <view wx:for="{{data}}">
+    <view class="timeline">
+      <view class="line" wx:if="{{index != data.length-1}}"></view>
+      <view class="circle">
+        <view class="circle_o"></view>
+      </view>
+      <view class="content">
+        <view class="time">{{item.createDate}}</view>
+        <view class="action">
+          <image wx:if="{{item.behType == 10002001}}" src="/pages/taskDetails/img/add.png" class="actionImg"></image>
+          <image wx:elif="{{item.behType == 10002001}}" src="/pages/taskDetails/img/message.png" class="actionImg"></image>
+          <image wx:elif="{{item.behType == 10002001}}" src="/pages/taskDetails/img/editaction.png" class="actionImg"></image>
+          <image wx:else="{{item.behType == 10002001}}" src="/pages/taskDetails/img/add.png" class="actionImg"></image>
+          <view class="actioninfo">
+            {{item.behType == 10001001 ? '回复任务': '' }}
+            {{item.behType == 10002001 ? '新建任务' : '' }}
+            {{item.behType == 10004008 ? '气泡通知': '' }}
+            {{item.behType == 10002015 ? '任务编辑' : ''}}
+            {{item.behType == 10002009 ? '重启任务' : ''}}
+            {{item.behType == 10002010 ? '已完成任务' : ''}}
+            {{item.behType == null ? '回复任务' : ''}}
+          </view>
+        </view>
+        <view class="actiondescript">
+          {{item.ext1==null? item.descript : item.ext1}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -71,7 +71,7 @@ Page({
     console.log(item.personName)
     console.log(replyContent);
     replyContent = replyContent.split("");
-    replyContent[this.data.num] = "<span style='color:red'>@" + item.personName + "</span>";
+    replyContent[this.data.num] = " @" + item.personName + " ";
     replyContent = replyContent.join("");
     // replyContent = replyContent.replace(reg,);
     prevPage.setData({

@@ -58,3 +58,7 @@
   height: 40rpx;
   text-align: center;
 }
+.download{
+  width: 40rpx;
+  height: 40rpx;
+}

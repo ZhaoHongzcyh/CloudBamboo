@@ -1,15 +1,11 @@
 {
   "pages": [
-    
-    "pages/subproject/subproject",
     "pages/index/index",
+    "pages/subproject/subproject",
     "pages/addTask/addtask",
     "pages/project/project",
-    
     "pages/cloudDisk/cloudDisk",
-    
     "pages/ivew/ivew",
-    
     "pages/acceptInvitation/acceptInvitation",
     "pages/company/company",
     "pages/companyList/companyList",
@@ -27,6 +23,7 @@
     "pages/taskDetails/copyTask/copytask",
     "pages/taskDetails/peopleList/peoplelist",
     "pages/taskDetails/newTask/newtask"
+    
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",
