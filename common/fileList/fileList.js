@@ -15,6 +15,10 @@ Component({
     isdownload:{
       type:Boolean,
       value:false
+    },
+    isdelete:{
+      type:Boolean,
+      value:false
     }
   },
 
@@ -36,6 +40,10 @@ Component({
     downloadFile: function (e) {
       var item = e.currentTarget.dataset.item;
       this.triggerEvent("download",item);
+    },
+    deletedFile: function (e) {
+      var item = e.currentTarget.dataset.item;
+      this.triggerEvent("delete",item);
     }
   }
 })

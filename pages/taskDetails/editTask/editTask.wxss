@@ -1,13 +1,78 @@
 /* pages/taskDetails/editTask/editTask.wxss */
 page{
-  background-color: gray;
+  background-color: rgba(245,245,245,1);
 }
+/* 任务名称 */
+.task{
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+  color: #333333;
+  font-size: 28rpx;
+  background-color: white;
+}
+
+.taskname{
+  width: 504rpx;
+  margin-left: 40rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.open{
+  width: 14rpx;
+  height: 28rpx;
+  margin-left: 152rpx;
+}
+
+/* 输入框区域 */
+.area{
+  margin-top: 20rpx;
+}
+
+.areainput{
+  height: 120rpx;
+  width: 100%;
+  background-color: white;
+}
+
+.areaplace{
+  font-size: 28rpx;
+  color: #AAAAAA;
+}
+
+/* 任务基础信息 */
+.taskConfig{
+  margin-top: 20rpx;
+}
+
 .info{
   display: flex;
+  height: 80rpx;
+  align-items: center;
+  background-color: white;
+  border-bottom: 1rpx solid #DBDBDB;
 }
+
+.common_ope{
+  color: #333333;
+  font-size: 28rpx;
+  margin-left: 41rpx;
+}
+
+.common_at{
+  flex: 2;
+  text-align: right;
+  color: #409CF2;
+  font-size: 28rpx;
+  padding-right: 40rpx;
+}
+
 .infoimg{
-  width: 30rpx;
-  height: 30rpx;
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
 }
 .searchList{
   display: flex;
@@ -16,22 +81,29 @@ page{
   border: 1rpx solid red;
 }
 /* 添加参与人 */
+.memberlist,.searchList{
+  display: flex;
+}
+
+.userphoto{
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  border: 1rpx solid red;
+}
+
 .headmenu{
   position: fixed;
   display: flex;
   top: 0rpx;
   justify-content: center;
 }
+
 .search{
   position:relative;
   margin-top: 80rpx;
 }
-.userphoto{
-  width: 40rpx;
-  height: 40rpx;
-  border-radius: 50%;
-  border: 1rpx solid red;
-}
+
 input{
   border: 1rpx solid black;
 }

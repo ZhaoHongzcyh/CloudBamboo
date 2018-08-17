@@ -146,15 +146,18 @@ textarea{
 .reply{
   display: flex;
   height: 98rpx;
+  margin-top: 30rpx;
   align-items: center;
   background-color: white;
 }
+
 .replyinput{
   height: 70rpx;
   width: 510rpx;
   margin-left: 24rpx;
   border:1rpx solid #AAAAAA;
 }
+
 .replyplace{
   color: #AAAAAA;
   font-size: 28rpx;

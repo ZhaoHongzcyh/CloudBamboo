@@ -2,59 +2,73 @@
 <view wx:if="{{!isAddMember && !isChangeImplement}}">
   <!-- head -->
   <view>
-    <view>{{task.itemBean.title}}</view>
-    <view>
-      <textarea placeholder='请输入任务名称' bindinput='changeTaskName'></textarea>
+    <view class="task">
+      <view class="taskname">{{task.itemBean.title}}</view>
+      <image class="open" src="../img/open.png"></image>
+    </view>
+    <view class="area">
+      <textarea placeholder='请输入任务名称' placeholder-class='areaplace' class="areainput" bindinput='changeTaskName'></textarea>
     </view>
   </view>
   <!-- 任务基础信息 -->
-  <view>
+  <view class="taskConfig">
     <view class="info" bindtap="switchImplementer">
-      <image src="" class="infoimg"></image>
-      <view>执行人</view>
-      <image src="" class="infoimg"></image>
+      <view class="operator common_ope">执行人</view>
+      <view class="common_at">
+        <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + mission.personId + '/100/100'}}" class="infoimg"></image>
+      </view>
     </view>
     <view class="info" bindtap="swithAddMember">
-      <image src="" class="infoimg"></image>
-      <view>参与人</view>
-      <view>添加</view>
+      <view class="common_ope">参与人</view>
+      <view class="common_at">添加</view>
     </view>
     <view class="info">
-      <image src="" class="infoimg"></image>
-      <view>紧急程度:</view>
-      <view>{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
+      <view class="common_ope">紧急程度:</view>
+      <view class="common_at">{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
     </view>
     <view class="info">
-      <image src="" class="infoimg"></image>
-      <view>开始时间</view>
-      <picker mode="date"  bindchange="startDate" class="timevalue">
+      <view class="common_ope">开始时间</view>
+      <picker mode="date"  bindchange="startDate" class="timevalue common_at">
         <view>
           {{startDate}}
         </view>
       </picker>
     </view>
     <view class="info">
-      <image src="" class="infoimg"></image>
-      <view>结束时间</view>
-      <picker mode="date" start="{{startDate}}"  bindchange="setendDate" class="timevalue">
+      <view class="common_ope">结束时间</view>
+      <picker mode="date" start="{{startDate}}"  bindchange="setendDate" class="timevalue common_at">
         <view>
           {{endDate == null? '--:--' : endDate}}
         </view>
       </picker>
     </view>
+    <!-- 添加附件 -->
+    <view class="info" bindtap="chooseFile">
+      <view class="common_ope">添加本地文件</view>
+      <view class="common_at">添加</view>
+    </view>
+    <view class="info">
+      <view class="common_ope">添加在线文件</view>
+      <view class="common_at">添加</view>
+    </view>
+    <!-- 可见范围 -->
+    <view class="info">
+      <view class="common_ope">可见范围</view>
+      <view class="common_at">添加</view>
+    </view>
   </view>
   <!-- 底部功能选择区 -->
   <view>
     <view>
-      <view>添加本地文件</view>
-    </view>
-    <view>
-      <view>添加在线文件</view>
-    </view>
-    <view>
       <switch checked="{{taskObj.visibilityType==1?true:false}}" bindchange="setWatchArea"/>
       仅参与者可见
     </view>
+  </view>
+  <!-- 文件列表 -->
+  <view>
+    <block wx:for="{{task.arcList}}">
+      <file isdelete="{{true}}" item="{{item}}" isdownload="{{false}}"/>
+    </block>
   </view>
   <view bindtap="modifyTask">保存</view>
 </view>
@@ -66,39 +80,48 @@
     <view class="sureadd" bindtap="sureAdd">完成</view>
   </view>
   <view class="search">
-    <input placeholder='搜索联系人' type="text" bindinput="searchMember"/>
+    <input placeholder='搜索联系人' type="text" bindinput="matchMember"/>
     <view wx:if="{{searchMatch.length>0}}">
       <block wx:for="{{searchMatch}}">
-        <view class="searchList" bindtap="selectMember" data-index="{{index}}" data-selectid="{{item.resourceId}}">
-          <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.resourceId+'/100/100'}}" class="userphoto"></image>
+        <view wx:if="{{item.personId != mission.personId && item.relationType != 1}}" class="searchList" bindtap="selectMember" class="memberlist" data-index="{{index}}" data-selectid="{{item.personId}}">
+          <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
           <view>{{item.personName}}</view>
-          <radio checked="{{item.selected}}"/>
+          <view>
+            <radio checked="{{item.selected}}"/>
+          </view>
         </view>
       </block>
     </view>
   </view>
-  <view wx:for="{{memberlist}}">
-    <view>{{item.personName}}</view>
-    <view>
-      <radio/>
+  <block wx:for="{{memberlist}}">
+    <view class="memberlist" bindtap="selectMember" data-selectid="{{item.personId}}" wx:if="{{item.relationType != 1 && item.personId != mission.personId}}">
+      <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
+      <view>{{item.personName}}</view>
+      <view>
+        <radio checked="{{item.selected}}"/>
+      </view>
     </view>
-  </view>
+  </block>
+  <view>完成</view>
 </view>
 <!-- 更改执行人 -->
 <view wx:if="{{isChangeImplement}}">
   <view>执行人</view>
   <view>
-    <input placeholder='搜索联系人' type="text" bindinput="searchMember"/>
+    <input placeholder='搜索联系人' type="text" bindinput="matchMember"/>
     <view wx:if="{{searchMatch.length>0}}">
       <block wx:for="{{searchMatch}}">
-        <view class="searchList" data-personid="{{item.personId}}" bindtap="switchImplementer">
-          <image src="" class="head"></image>
+        <view class="searchList" data-personid="{{item.personId}}" data-item="{{item}}" wx:if="{{item.personId != mission.personId}}" bindtap="changeExecutor"  wx:if="{{item.personId != mission.personId && item.relationType != 1}}">
+          <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
           <view>{{item.personName}}</view>
         </view>
       </block>
     </view>
   </view>
-  <view wx:for="{{memberlist}}">
-    <view>{{item.personName}}</view>
-  </view>
+  <block wx:for="{{memberlist}}">
+    <view class="memberlist" bindtap="changeExecutor" data-item="{{item}}" wx:if="{{item.personId != mission.personId && item.relationType != 1}}">
+      <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
+      <view>{{item.personName}}</view>
+    </view>
+  </block>
 </view>

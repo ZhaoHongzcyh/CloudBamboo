@@ -51,7 +51,11 @@
     <radio wx:if="{{!isdownload}}" class="radio" data-item="{{item}}" catchtap="selectFile" color="rgb(64,156,242)" data-ownerId="{{item.ownerId}}" data-parentId="{{item.parentId}}" data-ownerType="{{item.ownerType}}" data-id="{{item.id}}" checked="{{checked}}"></radio>
     <!-- 用于文件下载 -->
     <view wx:if="{{isdownload}}" class="radio" data-item="{{item}}" catchtap="downloadFile">
-      <image src="/pages/taskDetails/img/down.png" class="download"></image>
+      <image wx:if="{{isdownload}}" src="/pages/taskDetails/img/down.png" class="download"></image>
+    </view>
+    <!-- 用于文件删除 -->
+    <view wx:if="{{isdelete}}" class="radio" data-item="{{item}}" catchtap="deletedFile">
+      删除
     </view>
   </view>
 </view>
