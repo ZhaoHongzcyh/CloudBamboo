@@ -138,6 +138,7 @@ Page({
     this.setData({
       isChangeImplement: !this.data.isChangeImplement
     })
+    this.searchMember()
   },
   // 更改执行人
   changeExecutor: function (e) {
@@ -159,10 +160,11 @@ Page({
       isAddMember: !this.data.isAddMember,
       searchMatch: [],
     })
-    // this.searchMember();
+    this.searchMember();
   },
   // 匹配执行人
   matchMember: function (e) {
+    console.log(e);
     var value = e.detail.value;
     var memberlist = this.data.memberlist;
     var searchMatch = [];
@@ -262,8 +264,11 @@ Page({
   },
   // 勾选已经在任务中的人员
   selectHasInTask: function (data) {
+    console.log("执行");
+    console.log(data);
     var memberlist = this.data.memberlist;
     for(var i = 0; i < data.length; i++){
+      console.log(i);
       var obj = {
         personId:data[i].resourceId,
         personName:data[i].personName,
@@ -272,16 +277,20 @@ Page({
       if(data[i].relationType != 1){
         // 验证是否存在相同的用户
         var end = false;
-        for(var j = 0; j < memberlist.length; i++){
+        for(var j = 0; j < memberlist.length; j++){
           if(memberlist.personId == obj.personId){
             end = true;
           }
+          console.log(j);
         }
         if(!end){
           memberlist.push(obj);
         }
       }
     }
+    console.log("这是");
+    console.log("memberlist")
+    console.log(memberlist)
     this.setData({
       memberlist
     })
