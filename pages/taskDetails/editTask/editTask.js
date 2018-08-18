@@ -24,7 +24,10 @@ Page({
     resourceId:null,
     title:null,//任务名称
     taskObj:{},//任务对象
-    mission:null//责任人信息
+    mission:null,//责任人信息
+    isShowRange:false,//是否展示可见范围列表
+    range:["所有成员可见","参与人可见"],
+    rangenum:0
   },
 
   /**
@@ -110,32 +113,18 @@ Page({
   },
   // 设置结束时间
   setendDate: function(e){
-    console.log("结束hi时间")
     var endDate = e.detail.value;
     var taskObj = this.data.taskObj;
-    taskObj.endDate = endDate + "T08:53:34.892+0800";
+    taskObj.endDate = endDate + "T00:00:00.000+0800";
     this.setData({
       taskObj:taskObj,
       endDate: endDate
     })
   },
-  // 设置可见范围
-  setWatchArea: function (e) {
-    console.log(e);
-    var taskObj = this.data.taskObj;
-    if(e.detail.value){
-      taskObj.visibilityType = 1;
-    }
-    else{
-      taskObj.visibilityType = 0;
-    }
-    this.setData({
-      taskObj:taskObj
-    })
-  },
   // 选择改变执行人采单
   switchImplementer: function () {
     this.setData({
+      searchMatch:[],
       isChangeImplement: !this.data.isChangeImplement
     })
     this.searchMember()
@@ -221,6 +210,8 @@ Page({
   // 选择参与人
   selectMember: function(e){
     var hasSelectId = this.data.memberid;
+    hasSelectId = JSON.stringify(hasSelectId);
+    hasSelectId = JSON.parse(hasSelectId);
     // hasSelectId = hasSelectId.split(",")
     var selectId = e.currentTarget.dataset.selectid;
     var index = e.currentTarget.dataset.index;
@@ -272,18 +263,19 @@ Page({
       var obj = {
         personId:data[i].resourceId,
         personName:data[i].personName,
-        selected:false
+        selected:false,
+        relationType:2
       }
       if(data[i].relationType != 1){
         // 验证是否存在相同的用户
         var end = false;
         for(var j = 0; j < memberlist.length; j++){
-          if(memberlist.personId == obj.personId){
+          if(memberlist[j].personId == obj.personId){
             end = true;
           }
-          console.log(j);
         }
         if(!end){
+          // memberlist
           memberlist.push(obj);
         }
       }
@@ -304,6 +296,30 @@ Page({
   // 修改任务
   modifyTask: function(){
     var scheduleItemBean = this.data.taskObj;
+    scheduleItemBean.manager = this.data.mission.personId;
+    // taskObj.participant = 
+    console.log("参与人");
+    var participant = [];//参与人
+    // 确认参与人
+    this.data.memberlist.map((item,index)=>{
+      if (item.relationType != 1 && item.personId != this.data.mission.personId && item.selected){
+        participant.push(item.personId);
+      }
+    })
+    if (participant.length > 0){
+      scheduleItemBean.participant = participant;
+    }
+    else{
+      scheduleItemBean.participant = [this.data.mission.personId];
+    }
+
+    console.log(scheduleItemBean);
+    if (scheduleItemBean.endDate != null && scheduleItemBean.endDate.split("T").length < 2){
+      scheduleItemBean.endDate = scheduleItemBean.endDate + "T00:00:00.000+0800";
+    }
+    if (scheduleItemBean.startDate != null && scheduleItemBean.startDate.split("T").length < 2) {
+      scheduleItemBean.startDate = scheduleItemBean.startDate + "T00:00:00.000+0800";
+    }
     // scheduleItemBean.participant = this.data.hasSelectId
     console.log(scheduleItemBean)
     var address = app.ip + "tc/schedule/itemService/update";
@@ -316,7 +332,9 @@ Page({
         var task = prevPage.data.task
         task.itemBean = scheduleItemBean
         task.itemBean.startDate = task.itemBean.startDate.split("T")[0];
-        task.itemBean.endDate = task.itemBean.endDate.split("T")[0];
+        if (task.itemBean.endDate != null && task.itemBean.endDate.split("T").length == 2) {
+          task.itemBean.endDate = task.itemBean.endDate.split("T")[0];
+        }
         prevPage.setData({
           task: task
         })
@@ -399,5 +417,33 @@ Page({
         // })
         // console.log(res.progress);
       })
-    }
+    },
+    // 删除图片
+  deletefile: function (e) {
+    var detail = e.detail;
+    var address = app.ip + "tc/schedule/itemService/deleteItemArc";
+    var obj = {
+      arcIds: [detail.id]
+      }
+    console.log(e);
+    api.sendDataByBody(obj, address, "post", true).then(res=>{
+      console.log(res);
+    })
+  },
+    // 控制可见范围
+  controlRange: function (e) {
+    this.setData({
+      isShowRange: !this.data.isShowRange
+    })
+  },
+  selectRange: function (e) {
+    var role = e.currentTarget.dataset.role;
+    var taskObj = this.data.taskObj;
+    taskObj.visibilityType = role
+    console.log(taskObj);
+    this.setData({
+      rangenum:parseInt(role),
+      isShowRange: !this.data.isShowRange
+    });
+  }
 })

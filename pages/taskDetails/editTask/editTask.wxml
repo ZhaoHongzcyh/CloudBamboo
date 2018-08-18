@@ -52,25 +52,28 @@
       <view class="common_at">添加</view>
     </view>
     <!-- 可见范围 -->
-    <view class="info">
+    <view class="info" bindtap="controlRange">
       <view class="common_ope">可见范围</view>
-      <view class="common_at">添加</view>
-    </view>
-  </view>
-  <!-- 底部功能选择区 -->
-  <view>
-    <view>
-      <switch checked="{{taskObj.visibilityType==1?true:false}}" bindchange="setWatchArea"/>
-      仅参与者可见
+      <view class="common_at">{{range[rangenum]}}</view>
     </view>
   </view>
   <!-- 文件列表 -->
   <view>
     <block wx:for="{{task.arcList}}">
-      <file isdelete="{{true}}" item="{{item}}" isdownload="{{false}}"/>
+      <file isdelete="{{true}}" item="{{item}}" isdownload="{{false}}" bind:delete="deletefile"/>
     </block>
   </view>
-  <view bindtap="modifyTask">保存</view>
+  <view bindtap="modifyTask" class="save">保存</view>
+  <!-- 可见范围列表 -->
+  <view class="rangelist" hidden='{{!isShowRange}}'>
+    <view class="range" data-role="0" bindtap="selectRange">
+      所有成员可见
+    </view>
+    <view class="range" data-role="1" bindtap="selectRange">
+      仅参与者可见
+    </view>
+    <view class="range" bindtap="controlRange">取消</view>
+  </view>
 </view>
 <!-- 添加参与人 -->
 <view wx:if="{{isAddMember}}">

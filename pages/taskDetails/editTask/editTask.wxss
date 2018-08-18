@@ -107,3 +107,33 @@ page{
 input{
   border: 1rpx solid black;
 }
+
+/* 保存按钮 */
+
+.save{
+  width: 500rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 28rpx;
+  border-radius: 5rpx;
+  margin: auto;
+  margin-top: 20rpx;
+  color: white;
+  text-align: center;
+  background-color: rgba(23,145,224,1);
+}
+
+/* 可见范围 */
+.rangelist{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+}
+.range{
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: center;
+  font-size: 28rpx;
+  background-color: white;
+  margin-top: 2rpx;
+}
