@@ -22,7 +22,7 @@
         <view class="wait-title">{{item.title}}</view>
         <view class="wait-time {{item.isTimeOut? 'timeout': ''}}" wx:if="{{item.endDate != null}}">{{item.endDate + '截止'}}</view>
       </view>
-      <image class="handle-img" src="./img/head.png"></image>
+      <image class="handle-img" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
       <view class="handle-name">{{item.managerName}}</view>
     </view>
   </view>

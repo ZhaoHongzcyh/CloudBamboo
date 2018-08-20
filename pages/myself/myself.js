@@ -2,6 +2,7 @@ const app = getApp();
 const api = require("../../api/common.js");
 Page({
   data:{
+    app:app,
     headimg: app.ip + "tc/spaceService/showPersonIcon/"+ wx.getStorageSync("tcUserId") + "/100/100",
     url:{},//导航数据
     userinfo:{
