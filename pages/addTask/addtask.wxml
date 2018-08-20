@@ -25,5 +25,7 @@
   <view>
     <view class="submit" bindtap="submit">完成</view>
   </view>
+  <!-- 弹框 -->
+  <popup id="popup" isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>
 

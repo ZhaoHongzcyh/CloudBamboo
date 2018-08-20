@@ -1,1 +1,6 @@
-{}
+{
+  "navigationBarTitleText": "复制任务",
+  "usingComponents": {
+    "popup": "/common/popup/popup"
+  }
+}

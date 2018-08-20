@@ -42,6 +42,7 @@ page{
   height: 27rpx;
   padding: 0rpx;
   display: flex;
+  align-items: center;
   color: #666666;
 }
 .taskScreen{
@@ -50,11 +51,29 @@ page{
 .stoptime{
   margin-left: 39rpx;
 }
-/* 三角形 */
+
 .triangle{
-  border: 0rpx;
-  border-top: 10rpx solid #666666;
-  border-right: 10rpx solid #666666;
+  width: 20rpx;
+  height: 12rpx;
+  margin-left: 15rpx;
+}
+/* 按照时间筛选 */
+.stoptimelist{
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-bottom: 1rpx solid #666666;
+  background-color: white;
+  font-size: 28rpx;
+  color: #666666;
+}
+.timetitle{
+  margin-left: 41rpx;
+  width: 119rpx;
+}
+.timeradio{
+  margin-left: 510rpx;
 }
 /* 任务计划 */
 .planlist{
@@ -72,6 +91,9 @@ page{
   width: 100%;
   display: table-cell;
   vertical-align: middle;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 /* 新建任务 */
 .newTaskBtn{
@@ -101,7 +123,7 @@ page{
 }
 .task-info{
   margin-left: 24rpx;
-  width: 334rpx;
+  width: 306rpx;
 }
 .taskname{
   color: #666666;
@@ -130,12 +152,14 @@ page{
 .taskimg{
   width: 48rpx;
   height: 48rpx;
+  margin-left: 138rpx;
   border-radius: 50%;
 }
 .tasker{
   color: #666666;
   font-size: 28rpx;
   margin-left: 18rpx;
+  width: 100rpx;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -143,15 +167,63 @@ page{
 /* 任务筛选区域 */
 .selectlist{
   display: flex;
+  height: 100rpx;
+  align-items: center;
+  font-size: 28rpx;
+  color: #666666;
+  background-color: white;
+}
+.myaction{
+  margin-top: 30rpx;
 }
 .selectimg{
-  width: 48rpx;
-  height: 48rpx;
+  width: 28rpx;
+  height: 28rpx;
+  margin-left: 40rpx;
   border-radius: 50%;
+}
+.selecttitle{
+  margin-left: 34rpx;
+}
+.selectradio{
+  margin-left: 400rpx;
 }
 .selectbtn{
   display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 45rpx;
+  margin-bottom: 30rpx;
 }
+.reset{
+  background-color: white;
+}
+
+.btn{
+  width: 315rpx;
+  height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+  border: 1rpx solid #409CF2;
+  color: #409CF2;
+  text-align: center;
+  line-height: 72rpx;
+}
+
+.sure{
+  background-color: #409CF2;
+  color: white;
+  margin-left: 40rpx;
+}
+/* 影音层 */
+.model{
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+}
+
 /* 新建任务清单 */
 .addTaskPlan{
   display: flex;

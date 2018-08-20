@@ -21,7 +21,6 @@ page{
   display: flex;
   align-items: center;
   height: 80rpx;
-  border-bottom: 1rpx solid red;
   background-color: white;
 }
 .time-title{
@@ -39,9 +38,13 @@ page{
   text-align: right;
 }
 .submit{
-  border: 1rpx solid black;
   text-align: center;
   color: white;
   margin-top: 30rpx;
+  font-size: 28rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 20rpx;
+  letter-spacing: 10rpx;
   background-color: #409cf2;
 }

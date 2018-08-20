@@ -62,3 +62,12 @@
   width: 40rpx;
   height: 40rpx;
 }
+/* 删除按钮 */
+.deletebtn{
+  border-radius: 50%;
+  border: 1rpx solid #73BBFF;
+  color: #73BBFF;
+  text-align: center;
+  line-height: 40rpx;
+  transform:rotateZ(45deg);
+}

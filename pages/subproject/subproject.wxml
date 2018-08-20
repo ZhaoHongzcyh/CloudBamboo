@@ -15,30 +15,41 @@
       <view>
         <view class="screen">
           <view bindtap="switchSelectTask" class="screenCondiction taskScreen">
-            任务筛选
-            <view class="triangle"></view>
+            <view>任务筛选</view>
+            <image src="./img/row.png" class="triangle">
+            </image>
           </view>
-          <view bindtap="switchStopTime" class="screenCondiction stoptime">截止时间</view>
+          <view bindtap="switchStopTime" class="screenCondiction stoptime">
+            <view>截止时间</view>
+            <image src="./img/row.png" class="triangle"></image>
+          </view>
         </view>
         <!-- 任务筛选条件列表 -->
-        <view wx:if="{{isSwitchSelectTask}}">
-          <view wx:for="{{taskSelect}}" class="selectlist" data-index="{{index}}" bindtap="getSelectCondiction">
+        <view wx:if="{{isSwitchSelectTask}}"  catchtouchmove='stopmove'>
+          <view wx:for="{{taskSelect}}" class="selectlist {{index==2? 'myaction':''}}" data-index="{{index}}" bindtap="getSelectCondiction">
             <view>
               <image src="{{item.src}}" class="selectimg"></image>
             </view>
-            <view>{{item.title}}</view>
-            <view><radio checked="{{item.status}}"/></view>
+            <view class="selecttitle">{{item.title}}</view>
+            <view class="selectradio"><radio checked="{{item.status}}" color="#409CF2"/></view>
           </view>
           <view class="selectbtn">
-            <view bindtap="resetChoose">重置</view>
-            <view bindtap="selectAllPlan">确定</view>
+            <view bindtap="resetChoose" class="btn reset">重置</view>
+            <view bindtap="selectAllPlan" class="btn sure">确定</view>
           </view>
+          <view class="model"></view>
         </view>
       </view>
       
       <!-- 截止时间筛选列表 -->
-      <view wx:if="{{isShowStopTime}}">
-        <view wx:for="{{stopTime}}" bindtap="selectTaskByTime" data-timetype="{{item.timeType}}" data-state="{{item.state}}">{{item.title}}</view>
+      <view wx:if="{{isShowStopTime}}" catchtouchmove='stopmove'>
+        <view wx:for="{{stopTime}}" class="stoptimelist" bindtap="selectTaskByTime" data-timetype="{{item.timeType}}" data-state="{{item.state}}">
+          <view class="timetitle">{{item.title}}</view>
+          <view class="timeradio">
+            <radio/>
+          </view>
+        </view>
+        <view class="model"></view>
       </view>
     </view>
     

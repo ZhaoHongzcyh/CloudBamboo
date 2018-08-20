@@ -1,0 +1,14 @@
+  <!-- 模态框 -->
+  <view class="model" wx:if="{{isShow}}">
+    <view class="content">
+      <view class="body">
+        <view>
+          {{title.content}}
+        </view>
+      </view>
+      <view class="footer">
+        <view class="sureadd" bindtap="sure">确定</view>
+        <view class="reset" bindtap="hide">取消</view>
+      </view>
+    </view>
+  </view>

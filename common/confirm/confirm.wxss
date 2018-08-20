@@ -1,0 +1,43 @@
+/* common/confirm/confirm.wxss */
+.model{
+  position: fixed;
+  top: 0rpx;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+.content{
+  width: 650rpx;
+  height: 350rpx;
+  font-size: 28rpx;
+  margin: auto;
+  margin-top: 40%;
+  border-radius: 25rpx;
+  text-align: center;
+  background-color: white;
+}
+.body{
+  height: 270rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer{
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+  font-size: 28rpx;
+  border-top: 1rpx solid red;
+}
+.sureadd{
+  width: 50%;
+  text-align: center;
+  color: #999999;
+  border-right: 1rpx solid red;
+}
+.reset{
+  width: 50%;
+  text-align: center;
+  color: #409CF2;
+}

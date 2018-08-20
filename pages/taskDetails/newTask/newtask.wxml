@@ -91,6 +91,9 @@
       <view class="singleUrgency" bindtap="switchPowerMenu">取消</view>
     </view>
   </view>
+
+  <!-- 弹框 -->
+  <popup id="popup" content="{{alert.content}}" isAlert="{{true}}" footer="确定"></popup>
 </view>
 <!-- 执行人列表 -->
 <view wx:if="{{isShowImplement}}">

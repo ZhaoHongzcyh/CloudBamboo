@@ -1,16 +1,17 @@
 <!--pages/taskDetails/copyTask/copytask.wxml-->
 <view>
-  <view>
-    <image src=""></image>
-    <view>复制任务到以下任务计划</view>
+  <view class="head">
+    <image src="./img/copy.png" class="copyimg"></image>
+    <view class="copytitle">复制任务到以下任务计划</view>
   </view>
   <!-- 任务分类列表 -->
   <view>
-    <view>
+    <view class="planlist">
       <block wx:for="{{planList}}">
         <view data-id="{{item.summaryBean.id}}" bindtap="copyTask">{{item.summaryBean.title}}</view>
-        <view>---------</view>
       </block>
     </view>
   </view>
+  <!-- 弹框 -->
+  <popup id="popup" content="{{alert.content}}" isAlert="{{true}}" footer="确定"></popup>
 </view>

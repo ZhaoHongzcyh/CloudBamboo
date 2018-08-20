@@ -1,1 +1,22 @@
 /* pages/taskDetails/participants.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+.member{
+  display: flex;
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #333333;
+  align-items: center;
+  border-bottom: 1rpx solid #999999;
+  background-color: white;
+}
+.userhead{
+  width: 52rpx;
+  height: 52rpx;
+  margin-left: 40rpx;
+  border-radius: 50%;
+}
+.username{
+  margin-left: 30rpx;
+}

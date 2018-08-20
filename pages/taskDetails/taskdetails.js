@@ -34,10 +34,11 @@ Page({
    */
   onLoad: function (options) {
     this.popup = this.selectComponent("#popup");
+    this.confirm = this.selectComponent("#confirm")
     this.setData({
       taskId:options.id
     })
-    this.selectPlanChild(options.id);
+    
   },
   // 弹框
   alert: function () {
@@ -46,6 +47,8 @@ Page({
   // 当页面重载
   onUnload: function(){
     console.log("页面重载")
+  },
+  onShow:function(){
     this.selectPlanChild(this.data.taskId);
   },
   // 根据ID查找计划条目
@@ -309,5 +312,50 @@ Page({
     }).catch(e=>{
       console.log(e);
     })
-  }
+  },
+  // 打开对话弹框
+  openConfirm: function (){
+    this.confirm.show();
+  },
+  // 删除任务请求
+  deletetask: function () {
+    this.confirm.hide();
+    var address = app.ip + "tc/schedule/itemService/delete";
+    var id = this.data.taskId;
+    api.request({id},address,"POST",true).then(res=>{
+      console.log("删除");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        wx.navigateBack({
+          delta: 1
+        })
+      }
+      else{
+        this.setData({
+          alert:{content:"任务删除失败"}
+        });
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({
+        alert: { content: "任务删除失败" }
+      });
+      this.alert();
+    })
+  },
+  //确认删除
+  sure:function () {
+    var power = this.handlePower();
+    if(power){
+      this.deletetask();
+    }
+    else{
+      this.setData({
+        alert:{
+          content:"权限不够"
+        }
+      })
+      this.alert();
+    }
+  } 
 })

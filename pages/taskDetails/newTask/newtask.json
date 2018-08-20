@@ -1,1 +1,6 @@
-{}
+{
+  "navigationBarTitleText": "任务详情",
+  "usingComponents": {
+    "popup": "/common/popup/popup"
+  }
+}

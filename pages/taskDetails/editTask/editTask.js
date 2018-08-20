@@ -27,17 +27,25 @@ Page({
     mission:null,//责任人信息
     isShowRange:false,//是否展示可见范围列表
     range:["所有成员可见","参与人可见"],
-    rangenum:0
+    rangenum:0,
+    alert:{
+      content:"更新失败"
+    }
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.popup = this.selectComponent("#popup");
     this.setData({
       taskId: options.id
     })
     this.selectPlan(options.id)
+  },
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
   },
   // 根据ID查找任务
   selectPlan: function (id) {
@@ -327,19 +335,13 @@ Page({
       console.log("修改任务");
       console.log(res);
       if(res.data.code == 200 && res.data.result){
-        var pages = getCurrentPages();
-        var prevPage = pages[pages.length - 2];
-        var task = prevPage.data.task
-        task.itemBean = scheduleItemBean
-        task.itemBean.startDate = task.itemBean.startDate.split("T")[0];
-        if (task.itemBean.endDate != null && task.itemBean.endDate.split("T").length == 2) {
-          task.itemBean.endDate = task.itemBean.endDate.split("T")[0];
-        }
-        prevPage.setData({
-          task: task
-        })
         wx.navigateBack();
       }
+      else{
+        this.alert();
+      }
+    }).catch(e=>{
+      this.alert();
     })
   },
   // 选择文件
@@ -348,8 +350,6 @@ Page({
     wx.chooseImage({
       count: 6,
       success: (res) => {
-        console.log("文件列表");
-        console.log(res);
         this.upImg(res.tempFilePaths[0]);
       },
       fail: (err) => {
@@ -422,13 +422,29 @@ Page({
   deletefile: function (e) {
     var detail = e.detail;
     var address = app.ip + "tc/schedule/itemService/deleteItemArc";
-    var obj = {
-      arcIds: [detail.id]
-      }
-    console.log(e);
-    api.sendDataByBody(obj, address, "post", true).then(res=>{
+    var arcIds = [detail.id]
+    // var head = { proxyUserToken: wx.getStorageSync("proxyUserToken"), 'content-type':"application/x-www-form-urlencoded"};
+    api.customRequest({}, arcIds,address,"POST",true).then(res=>{
       console.log(res);
+      var task = JSON.stringify(this.data.task);
+      task = JSON.parse(task);
+      var index = null
+      if(res.data.code == 200 && res.data.result){
+        for (var i = 0; i < task.arcList.length; i++){
+          if (task.arcList[i].id == detail.id){
+            index = i;
+          }
+        }
+        task.arcList.splice(index,1);
+        console.log(task);
+        this.setData({
+          task:task
+        })
+      }
     })
+    // api.sendDataByBody(obj, address, "post", true).then(res=>{
+    //   console.log(res);
+    // })
   },
     // 控制可见范围
   controlRange: function (e) {

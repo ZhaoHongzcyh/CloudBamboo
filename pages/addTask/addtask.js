@@ -10,7 +10,10 @@ Page({
     taskName:null,//任务计划名称
     startDate:null,//任务开始时间
     endDate:"",
-    resourceId:null//所属资源ID
+    resourceId:null,//所属资源ID
+    alert:{
+      content:"新建任务计划失败"
+    }
   },
 
   /**
@@ -18,10 +21,15 @@ Page({
    */
   onLoad: function (options) {
     console.log(options);
+    this.popup = this.selectComponent("#popup");
     this.setData({
       resourceId: options.resourceId
     })
     this.getStartDate()
+  },
+  // 弹框
+  alert: function () {
+    this.popup.showPopup();
   },
   // 初始化任务开始时间
   getStartDate: function () {
@@ -55,7 +63,7 @@ Page({
   submit: function(){
     var address = app.ip + "tc/schedule/summaryService/add";
     var scheduleSummaryBean = {
-      title: encodeURI(this.data.taskName),
+      title: this.data.taskName,//encodeURI(this.data.taskName),
       resourceType: 10010001,//所属资源类型
       resourceId: this.data.resourceId,//所属资源ID
       startDate: this.data.startDate + "T00:00:00.000+0800"//开始时间
@@ -70,13 +78,14 @@ Page({
       console.log("新建任务");
       console.log(res);
       if(res.data.code == 200 && res.data.result){
-        
+        wx.navigateBack()
       }
       else{
-
+        this.alert();
       }
     }).catch(e=>{
       console.log(e);
+      this.alert();
     })
   }
 })

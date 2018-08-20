@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "编辑任务",
   "usingComponents": {
     "file": "/common/fileList/fileList",
     "popup": "/common/popup/popup"

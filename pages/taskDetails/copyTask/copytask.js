@@ -7,6 +7,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    alert:{
+      content:"复制失败"
+    },
     taskId:null,//任务id
     sourceId:null,//源id
     planList:null//计划分类列表
@@ -16,13 +19,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("复制");
-    console.log(options);
+    this.popup = this.selectComponent("#popup");
     this.setData({
       taskId:options.id,
       sourceId:options.taskid
     });
     this.loadPlanList();
+  },
+  // 弹框
+  alert: function () {
+    this.popup.showPopup();
   },
   // 加载计划列表
   loadPlanList: function(){
@@ -65,6 +71,14 @@ Page({
     api.request(obj,address,"post",true).then(res=>{
       console.log("复制信息");
       console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        wx.navigateBack({
+          delta:2
+        })
+      }
+      else{
+        this.alert();
+      }
     })
   }
 })

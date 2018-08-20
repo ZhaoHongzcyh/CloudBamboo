@@ -39,22 +39,22 @@ Page({
     ],
     taskSelect:[
       {
-        src:"",
+        src:"./img/notdown.png",
         title:"未完成的任务",
         status:false
       },
       {
-        src: "",
+        src: "./img/hasdown.png",
         title: "已完成的任务",
         status: false
       },
       {
-        src: "",
+        src: "./img/mydo.png",
         title: "我执行的任务",
         status: false
       },
       {
-        src: "",
+        src: "./img/myadd.png",
         title: "我参与的任务",
         status: false
       }
@@ -109,8 +109,11 @@ Page({
     })
     // this.selectTask();
     // this.selectPlanList("2367595934324706275");
-    this.selectPlanList(options.id);
+    
     this.popup = this.selectComponent("#popup");
+  },
+  onShow:function () {
+    this.selectPlanList(this.data.taskId);
   },
   // 下拉刷新
   onPullDownRefresh: function () {
@@ -346,6 +349,7 @@ Page({
     var address = app.ip + "tc/schedule/itemService/isGetIntoItem";
     api.request({id},address,"post",true).then(res=>{
       console.log("进入权限");
+      console.log(res);
       if(res.data.code == 200 && res.data.result){
         for(var i = 0; i < res.data.data.memberList.length; i++){
           if (tcUserId == res.data.data.memberList[i].personId){
@@ -479,5 +483,8 @@ Page({
     else{
       return false;
     }
+  },
+  // 滚动穿透问题
+  stopmove:function (e) {
   }
 })

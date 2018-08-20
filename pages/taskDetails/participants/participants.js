@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    app:app,
     taskId:null,
     task:null,
     memberlist:[]//参与人
@@ -39,6 +40,8 @@ Page({
             memberlist.push(item);
           }
         })
+        console.log("___________");
+        console.log(memberlist);
         this.setData({
           task: handle.data,
           memberlist: memberlist

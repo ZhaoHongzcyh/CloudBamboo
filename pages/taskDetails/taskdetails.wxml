@@ -8,7 +8,7 @@
     <view class="taskbtn" bindtap="copytask">
       <image src="./img/copy.png" class="headimg"></image>
     </view>
-    <view class="taskbtn">
+    <view class="taskbtn" bindtap="openConfirm">
       <image src="./img/delete.png" class="headimg"></image>
     </view>
   </view>
@@ -79,6 +79,8 @@
   </view>
   <!-- 弹框 -->
 <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+<!-- 对话弹框 -->
+<confirm id="confirm" bindsure="sure"></confirm>
 </view>
 
 

@@ -74,6 +74,9 @@
     </view>
     <view class="range" bindtap="controlRange">取消</view>
   </view>
+
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>
 <!-- 添加参与人 -->
 <view wx:if="{{isAddMember}}">

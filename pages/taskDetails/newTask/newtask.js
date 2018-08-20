@@ -26,6 +26,9 @@ Page({
         state:2
       }
     ],
+    alert:{
+      content:"新建任务失败"
+    },
     task:null,
     taskName:null,//用户输入的任务名称
     startDate:api.nowTime(),//开始时间
@@ -48,12 +51,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.popup = this.selectComponent("#popup");
     this.setData({
       planid:options.planid,
       title:options.title,
       taskId:options.id
     });
     this.initImplementer();
+  },
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
   },
   // 初始化执行人信息
   initImplementer:function(){
@@ -352,6 +360,7 @@ Page({
         name: "file",
         success: (res)=>{
           console.log("上传结果");
+          console.log(res);
           res.data = JSON.parse(res.data);
           // 将文件重命名
           data[index].name = res.data.data[0].title;
@@ -371,6 +380,9 @@ Page({
         })
         console.log(res.progress);
       })
+    }
+    else{
+      wx.navigateBack();
     }
     
   },
@@ -420,33 +432,35 @@ Page({
         this.setData({
           uploadId:res.data.data.itemBean.id
         })
-        // 返回上一级，并将新添加的数据添加到任务列表中
-        var page = getCurrentPages();
-        var prevpage = page[page.length - 2];
-        var taskList = prevpage.data.taskList;
-        for(var i = 0; i < taskList.length; i++){
-          if(taskList[i].summaryBean.id == res.data.data.itemBean.resourceId){
-            res.data.data.itemBean.managerName = this.data.Implement.personName;
-            res.data.data.itemBean.endDate = prevpage.handleTask([res.data.data.itemBean])[0].endDate;
+        // // 返回上一级，并将新添加的数据添加到任务列表中
+        // var page = getCurrentPages();
+        // var prevpage = page[page.length - 2];
+        // var taskList = prevpage.data.taskList;
+        // for(var i = 0; i < taskList.length; i++){
+        //   if(taskList[i].summaryBean.id == res.data.data.itemBean.resourceId){
+        //     res.data.data.itemBean.managerName = this.data.Implement.personName;
+        //     res.data.data.itemBean.endDate = prevpage.handleTask([res.data.data.itemBean])[0].endDate;
             
-            taskList[i].itemList.push(res.data.data.itemBean);
-            break;
-          }
-        }
+        //     taskList[i].itemList.push(res.data.data.itemBean);
+        //     break;
+        //   }
+        // }
         
-        // return false;
-        prevpage.setData({
-          taskList:taskList
-        })
-        // 调用文件上传
+        // // return false;
+        // prevpage.setData({
+        //   taskList:taskList
+        // })
+        // // 调用文件上传
         if(this.data.tempFilePath.length > 0){
           this.upImg();
         }
-        wx.navigateBack();
+        //wx.navigateBack();
       }
       else{
-
+        this.alert();
       }
+    }).catch(e=>{
+      this.alert();
     })
   }
 })

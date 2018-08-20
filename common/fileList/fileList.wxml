@@ -54,8 +54,8 @@
       <image wx:if="{{isdownload}}" src="/pages/taskDetails/img/down.png" class="download"></image>
     </view>
     <!-- 用于文件删除 -->
-    <view wx:if="{{isdelete}}" class="radio" data-item="{{item}}" catchtap="deletedFile">
-      删除
+    <view wx:if="{{isdelete}}" class="radio deletebtn" data-item="{{item}}" catchtap="deletedFile">
+      +
     </view>
   </view>
 </view>
