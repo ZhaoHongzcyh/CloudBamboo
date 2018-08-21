@@ -1,6 +1,12 @@
 <view>
-  <view wx:for="{{memberlist}}" class="member">
+  <view wx:for="{{memberlist}}" class="member" wx:if="{{memberlist.length>0}}">
       <image class="userhead" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.personId + '/100/100'}}"></image>
       <view class="username">{{item.personName}}</view>
+  </view>
+  <view wx:if="{{memberlist.length == 0}}">
+    <view class="nopeople">
+      <image src="./img/nopeople.png" class="nopeopleimg"></image>
+      <view class="title">还没有任何参与人</view>
+    </view>
   </view>
 </view>

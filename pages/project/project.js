@@ -224,7 +224,6 @@ Page({
   // 获取项目详细信息
   entryProject: function (e) {
     var id = e.currentTarget.dataset.id;
-    console.log(id);
     wx.navigateTo({
       url: '/pages/subproject/subproject?id=' + id,
     })

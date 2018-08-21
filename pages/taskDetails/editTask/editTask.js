@@ -180,9 +180,26 @@ Page({
   },
   // 确定添加参与人
   sureAdd: function() {
+    var scheduleItemBean = this.data.taskObj;
+    scheduleItemBean.manager = this.data.mission.personId;
+    console.log("参与人");
+    var participant = [];//参与人
+
+    this.data.memberlist.map((item, index) => {
+      if (item.relationType != 1 && item.personId != this.data.mission.personId && item.selected) {
+        participant.push(item.personId);
+      }
+    })
+    if (participant.length > 0) {
+      scheduleItemBean.participant = participant;
+    }
+    else {
+      scheduleItemBean.participant = [this.data.mission.personId];
+    }
     this.setData({
-      hasSelectId:this.data.memberid,
-      isAddMember: !this.data.isAddMember
+      hasSelectId: this.data.memberid,
+      isAddMember: !this.data.isAddMember,
+      taskObj: scheduleItemBean
     })
   },
   // 取消添加参与人
@@ -305,21 +322,7 @@ Page({
   modifyTask: function(){
     var scheduleItemBean = this.data.taskObj;
     scheduleItemBean.manager = this.data.mission.personId;
-    // taskObj.participant = 
-    console.log("参与人");
-    var participant = [];//参与人
-    // 确认参与人
-    this.data.memberlist.map((item,index)=>{
-      if (item.relationType != 1 && item.personId != this.data.mission.personId && item.selected){
-        participant.push(item.personId);
-      }
-    })
-    if (participant.length > 0){
-      scheduleItemBean.participant = participant;
-    }
-    else{
-      scheduleItemBean.participant = [this.data.mission.personId];
-    }
+    
 
     console.log(scheduleItemBean);
     if (scheduleItemBean.endDate != null && scheduleItemBean.endDate.split("T").length < 2){

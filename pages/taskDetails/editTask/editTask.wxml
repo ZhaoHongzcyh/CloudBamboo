@@ -20,7 +20,12 @@
     </view>
     <view class="info" bindtap="swithAddMember">
       <view class="common_ope">参与人</view>
-      <view class="common_at">添加</view>
+      <view class="common_at" wx:if="{{false}}">添加</view>
+      <view class="common_at">
+        <block wx:for="{{taskObj.participant}}">
+          <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item + '/100/100'}}" class="memberphoto"></image>
+        </block>
+      </view>
     </view>
     <view class="info">
       <view class="common_ope">紧急程度:</view>
@@ -80,46 +85,46 @@
 </view>
 <!-- 添加参与人 -->
 <view wx:if="{{isAddMember}}">
-  <view class="headmenu">
+  <!-- <view class="headmenu">
     <view class="cancel" bindtap="cancelAdd">取消</view>
     <view class="title">添加参与人 {{memberid.length + '人'}}</view>
     <view class="sureadd" bindtap="sureAdd">完成</view>
-  </view>
+  </view> -->
   <view class="search">
-    <input placeholder='搜索联系人' type="text" bindinput="matchMember"/>
+    <input placeholder='搜索联系人' type="text" bindinput="matchMember" placeholder-class='placematch' class="matchMember"/>
     <view wx:if="{{searchMatch.length>0}}">
       <block wx:for="{{searchMatch}}">
-        <view wx:if="{{item.personId != mission.personId && item.relationType != 1}}" class="searchList" bindtap="selectMember" class="memberlist" data-index="{{index}}" data-selectid="{{item.personId}}">
+        <view wx:if="{{item.personId != mission.personId && item.relationType != 1 && item.relationType != 0}}" class="memberlist" bindtap="selectMember" class="memberlist" data-index="{{index}}" data-selectid="{{item.personId}}">
           <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
-          <view>{{item.personName}}</view>
-          <view>
-            <radio checked="{{item.selected}}"/>
+          <view class="username">{{item.personName}}</view>
+          <view class="userarea">
+            <radio checked="{{item.selected}}" color="#409CF2"/>
           </view>
         </view>
       </block>
     </view>
   </view>
   <block wx:for="{{memberlist}}">
-    <view class="memberlist" bindtap="selectMember" data-selectid="{{item.personId}}" wx:if="{{item.relationType != 1 && item.personId != mission.personId}}">
+    <view class="memberlist" bindtap="selectMember" data-selectid="{{item.personId}}" wx:if="{{item.relationType != 0 && item.relationType != 1 && item.personId != mission.personId}}">
       <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
-      <view>{{item.personName}}</view>
-      <view>
-        <radio checked="{{item.selected}}"/>
+      <view class="username">{{item.personName}}</view>
+      <view class="userarea">
+        <radio checked="{{item.selected}}" color="#409CF2"/>
       </view>
     </view>
   </block>
-  <view>完成</view>
+  <view bindtap="sureAdd" class="save">完成</view>
 </view>
 <!-- 更改执行人 -->
 <view wx:if="{{isChangeImplement}}">
-  <view>执行人</view>
+  <!-- <view>执行人</view> -->
   <view>
-    <input placeholder='搜索联系人' type="text" bindinput="matchMember"/>
+    <input placeholder='搜索联系人' type="text" bindinput="matchMember" placeholder-class='placematch' class="matchMember"/>
     <view wx:if="{{searchMatch.length>0}}">
       <block wx:for="{{searchMatch}}">
-        <view class="searchList" data-personid="{{item.personId}}" data-item="{{item}}" wx:if="{{item.personId != mission.personId}}" bindtap="changeExecutor"  wx:if="{{item.personId != mission.personId && item.relationType != 1}}">
-          <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
-          <view>{{item.personName}}</view>
+        <view class="memberlist" data-personid="{{item.personId}}" data-item="{{item}}" wx:if="{{item.personId != mission.personId}}" bindtap="changeExecutor"  wx:if="{{item.personId != mission.personId && item.relationType != 1}}">
+          <image  src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
+          <view class="username">{{item.personName}}</view>
         </view>
       </block>
     </view>
@@ -127,7 +132,7 @@
   <block wx:for="{{memberlist}}">
     <view class="memberlist" bindtap="changeExecutor" data-item="{{item}}" wx:if="{{item.personId != mission.personId && item.relationType != 1}}">
       <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
-      <view>{{item.personName}}</view>
+      <view class="username">{{item.personName}}</view>
     </view>
   </block>
 </view>

@@ -9,6 +9,12 @@ Page({
    */
   data: {
     app:app,
+    powerId:null,
+    power: {
+      manager: null,
+      adminGroups: null,//项目管理员组
+      teamAdminGroups: null//团队项目管理员组
+    },//权限数据
     alert:{
       state:false,
       content:"权限不够"
@@ -33,12 +39,63 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log("详情");
+    console.log(options);
     this.popup = this.selectComponent("#popup");
     this.confirm = this.selectComponent("#confirm")
     this.setData({
-      taskId:options.id
+      taskId:options.taskId,
+      powerId:options.powerId
     })
-    
+    this.searchPowerData(options.powerId)
+  },
+  // 查询权限数据
+  searchPowerData: function (id) {
+    var address = app.ip + "tc/taskService/findTaskBOById";
+    api.request({ taskId: id }, address, "POST", true).then(res => {
+      console.log("项目权限");
+      console.log(res);
+      if (res.data.code == 200 && res.data.result) {
+        var summaryBean = res.data.data.summaryBean;
+        var power = {
+          manager: summaryBean.manager,
+          adminGroups: summaryBean.adminGroups,
+          teamAdminGroups: summaryBean.teamAdminGroups
+        }
+        this.setData({ power });
+      }
+      else {
+        console.log("异常")
+      }
+    }).catch(e => {
+      console.log(e);
+    })
+  },
+  // 权限判断
+  handlePower: function () {
+    var userId = wx.getStorageSync("tcUserId");
+    var end = false;
+    var power = this.data.power;
+    console.log("鉴别");
+    console.log(power);
+    for (var i = 0; i < power.adminGroups.length; i++) {
+      if (userId == power.adminGroups[i]) {
+        end = true;
+      }
+    }
+    if (!end) {
+      for (var i = 0; i < power.teamAdminGroups.length; i++) {
+        if (userId == power.teamAdminGroups[i]) {
+          end = true;
+        }
+      }
+      if (!end) {
+        if (userId == power.manager) {
+          end = true;
+        }
+      }
+    }
+    return end;
   },
   // 弹框
   alert: function () {
@@ -126,9 +183,15 @@ Page({
   },
   // 复制任务
   copytask: function(){
-    wx.navigateTo({
-      url: './copyTask/copytask?id=' + this.data.task.taskBean.id + "&taskid=" + this.data.task.itemBean.id,
-    })
+    if(this.handlePower){
+      wx.navigateTo({
+        url: './copyTask/copytask?id=' + this.data.task.taskBean.id + "&taskid=" + this.data.task.itemBean.id,
+      })
+    }
+    else{
+      this.setData({alert:{content:"权限不够"}});
+      this.alert();
+    }
   },
   // 删除任务
   deleteTask: function () {
@@ -146,9 +209,11 @@ Page({
   },
   // 展示所有任务动态
   showAllAction: function () {
-    this.setData({
-      isShowAllAction: !this.data.isShowAllAction
-    })
+    if (this.data.task.actionList.length > 3){
+      this.setData({
+        isShowAllAction: !this.data.isShowAllAction
+      })
+    }
   },
   // 显示所有文件
   showallfile: function () {
@@ -174,30 +239,18 @@ Page({
   reply: function (e) {
     var reply = e.detail.value;
     var length = reply.length;
-    console.log(e);
-    if(reply[e.detail.cursor-1] == "@"){
-      console.log("打开执行人与参与人列表");
-      wx.navigateTo({
-        url: './peopleList/peoplelist?taskid=' + this.data.task.itemBean.id + "&num=" + (e.detail.cursor - 1),
-      })
-    }
-    else {
-      console.log(reply);
-    }
+    // if(reply[e.detail.cursor-1] == "@"){
+    //   console.log("打开执行人与参与人列表");
+    //   wx.navigateTo({
+    //     url: './peopleList/peoplelist?taskid=' + this.data.task.itemBean.id + "&num=" + (e.detail.cursor - 1),
+    //   })
+    // }
+    // else {
+    //   console.log(reply);
+    // }
     this.setData({
       replyContent: reply
     })
-  },
-  // 权限判定
-  handlePower: function () {
-    var personid = wx.getStorageSync("tcUserId");//this.data.task.itemBean.manager;
-    var creatorId = this.data.task.itemBean.manager;//创建者id；
-    if (creatorId == personid){
-      return true;
-    }
-    else{
-      return false;
-    }
   },
   // 切换任务状态（已完成/未完成）
   switchStatus: function (e) {
@@ -290,29 +343,7 @@ Page({
       return false;
     }
   },
-  // 计划条目评价
-  evaluate: function (e) {
-    console.log(e);
-    console.log("评价")
-    var address = app.ip + "tc/schedule/itemService/estimateItem";
-    var head = {
-      id: this.data.taskId
-    };
-    var personid = [];
-    console.log(this.data.calledPeople);
-    if(this.data.calledPeople != null){
-      for (var i = 0; i < this.data.calledPeople.length; i++) {
-        personid.push(this.data.calledPeople[i].personId);
-      }
-    }
-    var body = { personIds: personid, descript: encodeURI(this.data.replyContent)}
-    api.customRequest(head,body,address,"post",true).then(res=>{
-      console.log("评论");
-      console.log(res);
-    }).catch(e=>{
-      console.log(e);
-    })
-  },
+
   // 打开对话弹框
   openConfirm: function (){
     this.confirm.show();
@@ -357,5 +388,26 @@ Page({
       })
       this.alert();
     }
-  } 
+  } ,
+  // 评论任务
+  evaluate: function () {
+    var address = app.ip + "tc/schedule/itemService/estimateItem";
+    var obj = {id:this.data.taskId,descript:this.data.replyContent};
+    api.request(obj,address,"POST",true).then(res=>{
+      console.log("评论");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var task = this.data.task;
+        task.actionList.unshift(res.data.data);
+        this.setData({task})
+      }
+      else{
+        this.setData({alert:{content:"评论失败"}});
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({ alert: { content: "评论失败" } });
+      this.alert();
+    })
+  }
 })

@@ -9,6 +9,11 @@ Page({
    */
   data: {
     app:app,
+    power:{
+      manager:null,
+      adminGroups:null,//项目管理员组
+      teamAdminGroups:null//团队项目管理员组
+    },//权限数据
     alert:{
       content:"权限不够"
     },
@@ -93,36 +98,61 @@ Page({
     parentId:0,//文档父ID，默认为0
     funList: ["switchMenu","selectFile"],
     fileList:[],//文件列表
-    timeType:null//截止时间类型
+    timeType:null,//截止时间类型
+
+    // ---------------------------------------------------文件模块相关数据---------------------------------------------
+    isShowFileMenu:false,
+    chooseFileList:[],//已选文件列表
+    moreAction:false//是否展示文件更多操作
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // options.id = 2367595934324706275;
-    // 2367595934324706275
-    console.log("架子啊");
-    console.log(options);
-    this.setData({
-      taskId: options.id
-    })
-    // this.selectTask();
-    // this.selectPlanList("2367595934324706275");
-    
+    this.setData({ taskId: options.id})
     this.popup = this.selectComponent("#popup");
+    this.searchPowerData(options.id)
   },
+
   onShow:function () {
     this.selectPlanList(this.data.taskId);
   },
+
   // 下拉刷新
   onPullDownRefresh: function () {
     this.onLoad();
+  },
+
+  // 查询权限数据
+  searchPowerData: function (id) {
+    var address = app.ip + "tc/taskService/findTaskBOById";
+    api.request({ taskId: id }, address, "POST", true).then(res => {
+      console.log("项目权限");
+      console.log(res);
+      console.log(res.data.code,res.data.result)
+      if(res.data.code == 200 && res.data.result){
+        var summaryBean = res.data.data.summaryBean;
+        var power = {
+          manager:summaryBean.manager,
+          adminGroups: summaryBean.adminGroups,
+          teamAdminGroups: summaryBean.teamAdminGroups
+        }
+        this.setData({power});
+      }
+      else{
+        console.log("异常")
+      }
+    }).catch(e=>{
+      console.log(e);
+      console.log("数据请求异常")
+    })
   },
   // 弹框
   alert: function () {
     this.popup.showPopup()
   },
+
   // 查找计划清单
   selectPlanList: function(id) {
     var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
@@ -132,8 +162,6 @@ Page({
       orderType:"DESC"
     }
     api.request(obj,address,"post",true).then(res=>{
-      console.log("计划清单");
-      console.log(res);
       var data = null;
       if(res.data.code == 200 && res.data.result){
         data = res.data.data.list;
@@ -147,6 +175,8 @@ Page({
           }
           data[i].itemList = this.handleTask(data[i].itemList)
         }
+        console.log("任务列表");
+        console.log(res);
         this.setData({
           taskList:data
         });
@@ -180,15 +210,12 @@ Page({
           }
           str = str[1] + "月" + str[2] + "日";
           ary[i].endDate = str;
-          //list.unshift(ary[i])
-        }
-        else {
-          //list.push(ary[i]);
         }
         list.push(ary[i]);
       }
     return list;
   },
+
   // 查询所有计划条目，然后筛选
   selectAllPlan: function () {
     var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
@@ -230,12 +257,26 @@ Page({
       if(res.data.code == 200 && res.data.result){
         var data = res.data.data.list;
         for (var i = 0; i < data.length; i++) {
+          if(i == 0){
+            data[i].fold = true;
+          }
+          else{
+            data[i].fold = false;
+          }
           data[i].itemList = this.handleTask(data[i].itemList)
         }
         this.setData({
           taskList:res.data.data.list
         })
+        this.closeAllSelect();//关闭筛选框
       }
+      else{
+        this.setData({ alert: { content: "筛选失败" } });
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({alert:{content:"筛选失败"}});
+      this.alert();
     })
   },
   // 查询我执行的任务
@@ -243,9 +284,31 @@ Page({
     obj.taskId = this.data.taskId
     var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
     api.request(obj,address,"post",true).then(res=>{
-      console.log("我执行的任务");
-      console.log(obj);
-      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var taskList = this.data.taskList;
+        var list = res.data.data.list;
+        list = this.handleTask(list)
+        for (var i = 0; i < taskList.length; i++) {
+          taskList[i].itemList = [];
+        }
+
+        for (var i = 0; i < list.length; i++) {
+          for (var j = 0; j < taskList.length; j++) {
+            if (list[i].resourceId == taskList[j].summaryBean.id) {
+              taskList[j].itemList.push(list[i]);
+            }
+          }
+        }
+        this.setData({ taskList });
+        this.closeAllSelect();//关闭筛选框
+      }
+      else{
+        this.setData({alert:{content:"数据筛选失败"}});
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({ alert: { content: "数据筛选失败" } });
+      this.alert();
     })
   },
   // 通过截至时间筛选
@@ -264,7 +327,13 @@ Page({
       isSwitchSelectTask: !this.data.isSwitchSelectTask
     })
   },
-
+  // 关闭所有筛选器
+  closeAllSelect: function () {
+    this.setData({
+      isShowStopTime: false,
+      isSwitchSelectTask: false
+    })
+  },
   // 截止时间
   switchStopTime: function () {
     this.setData({
@@ -279,9 +348,7 @@ Page({
     var taskSelect = JSON.stringify(this.data.taskSelect);//深度复制
     taskSelect = JSON.parse(taskSelect);
     taskSelect[index].status = !taskSelect[index].status;
-    this.setData({
-      taskSelect
-    })
+    this.setData({taskSelect})
   },
 
   // 重置筛选条件
@@ -290,9 +357,7 @@ Page({
     taskSelect.map((item,index)=>{
       item.status = false;
     });
-    this.setData({
-      taskSelect
-    })
+    this.setData({ taskSelect})
   },
   
   // 通过项目id查找任务
@@ -300,8 +365,6 @@ Page({
     var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
     var obj = { taskId: this.data.taskId};
     api.request(obj, address, "post", true).then(res => {
-      console.log("项目任务");
-      console.log(res);
       var task = handle.handleTask(res);
       if(task.status){
         var list = api.handleTask(res);
@@ -328,7 +391,10 @@ Page({
       if(file.status){
         file = api.cloudDiskDataClean(file.data);
         file = api.fileNameSort(file);
-        console.log(file);
+        file.map((item,index)=>{
+          item.select = false;
+        })
+        console.log(file)
         this.setData({
           fileList:file
         })
@@ -341,21 +407,22 @@ Page({
 
   // 获得任务详情
   getPlanInfo: function (e) {
-    console.log(e);
     var parentTitle = e.currentTarget.dataset.parenttitle;
     var id = e.currentTarget.dataset.singleid;
+    wx.navigateTo({
+      url: '/pages/taskDetails/taskdetails?taskId=' + id + "&powerId=" + this.data.taskId,
+    });
+    return false;
     var tcUserId = wx.getStorageSync("tcUserId");
     // 判断用户是否可以进入该任务
     var address = app.ip + "tc/schedule/itemService/isGetIntoItem";
     api.request({id},address,"post",true).then(res=>{
-      console.log("进入权限");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         for(var i = 0; i < res.data.data.memberList.length; i++){
           if (tcUserId == res.data.data.memberList[i].personId){
-             wx.navigateTo({
-              url: '/pages/taskDetails/taskdetails?id=' + id,
-            })
+            //  wx.navigateTo({
+            //   url: '/pages/taskDetails/taskdetails?id=' + id + "&taskId=" + this.data.taskId,
+            // })
             return false;
           }
         }
@@ -458,7 +525,7 @@ Page({
     // 发送更改状态请求，
     var address = app.ip + "tc/schedule/itemService/update";
     // 权限检测
-    if(!this.handlePower(obj.manager)){
+    if(!this.handlePower()){
       status = status == 0 ? 1 : 0;
       taskList[parentnum].itemList[selfnum].status = status;
       this.setData({ taskList })
@@ -466,25 +533,71 @@ Page({
       return false;
     }
     api.sendDataByBody(obj, address, "post", true).then(res => {
-      console.log("修改结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         taskList[parentnum].itemList[selfnum].status = status;
         this.setData({taskList})
       }
     })
   },
+
   // 权限判断
-  handlePower: function (manager) {
-    var creatorid = wx.getStorageSync("tcUserId");
-    if (creatorid == manager){
-      return true;
+  handlePower: function () {
+    var userId = wx.getStorageSync("tcUserId");
+    var end = false;
+    var power = this.data.power;
+    console.log("鉴别");
+    console.log(power);
+    for (var i = 0; i < power.adminGroups.length; i++){
+      if (userId == power.adminGroups[i]){
+        end = true;
+      }
     }
-    else{
-      return false;
+    if(!end){
+      for (var i = 0; i < power.teamAdminGroups.length; i++){
+        if (userId == power.teamAdminGroups[i]){
+          end = true;
+        }
+      }
+      if(!end){
+        if(userId == power.manager){
+          end = true;
+        }
+      }
     }
+    return end;
   },
+
   // 滚动穿透问题
   stopmove:function (e) {
+  },
+
+  // ----------------------------------------------------任务文件模块函数-----------------------------------------------
+  // 监听用户选择文件/文件夹
+  checkOutFile: function (e) {
+    var num = e.currentTarget.dataset.num;
+    e = e.detail.e;
+    console.log(e);
+    var fileList = this.data.fileList;
+    var chooseFileList = this.data.chooseFileList;
+    var end = false;
+    console.log(num);
+    chooseFileList.map((item,index)=>{
+      if(item.id == e.currentTarget.dataset.id){
+        end = true;
+      }
+    })
+    console.log(fileList[num])
+    if(!end){
+      fileList[num].select = true;
+      chooseFileList.push(e.currentTarget.dataset.item)
+    }
+    else{
+      fileList[num].select = false;
+    }
+    this.setData({ chooseFileList, fileList});
+  },
+  // 更多操作
+  moreFun: function () {
+    this.setData({ moreAction: !this.data.moreAction})
   }
 })

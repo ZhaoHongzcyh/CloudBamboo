@@ -33,15 +33,14 @@
         <image class="imphead" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + task.itemBean.manager + '/100/100'}}"></image>
       </view>
     </view>
-    <view class="info">
+    <view class="info" bindtap="getParticipants">
       <view class="infotitle">参与人</view>
-      <view bindtap="getParticipants" class="common_title">
+      <view class="common_title">
         <block wx:for="{{task.memberList}}">
           <image class="memberphoto" wx:if="{{item.relationType == 2}}" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.personId + '/100/100'}}"></image>
         </block>
         <image src="./img/open.png" class="openimg"></image>
       </view>
-      
     </view>
     <view class="info">
       <view class="infotitle">紧急程度</view>

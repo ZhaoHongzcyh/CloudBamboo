@@ -182,8 +182,6 @@ Page({
   // 匹配用于搜索的内容
   matchList: function (e) {
     var value = e.detail.value;
-    console.log(value)
-    
     var matchList = [];
     var task = this.data.task;
     for (var i = 0; i < task.memberBeanList.length; i++){
@@ -195,15 +193,32 @@ Page({
     if(value == ""){
       matchList = [];
     }
+    console.log(matchList);
     this.setData({
       matchList
     })
   },
   // 显示参与人列表
   showAddMember: function () {
-    this.setData({
-      isShowAddMember: !this.data.isShowAddMember
-    })
+    if (this.data.isShowAddMember){
+      var participant = [];//参与人
+      for (var i = 0; i < this.data.addMemberList.length; i++) {
+        if (this.data.addMemberList[i].selected) {
+          participant.push(this.data.addMemberList[i].resourceId);
+        }
+      }
+      console.log(participant)
+      this.setData({
+        isShowAddMember: !this.data.isShowAddMember,
+        participant: participant
+      })
+    }
+    else{
+      this.setData({
+        isShowAddMember: !this.data.isShowAddMember
+      })
+    }
+    
   },
   // 获取参与人列表
   getAddMemberList: function () {
@@ -230,6 +245,7 @@ Page({
   // 设置执行人
   setImplement: function (e) {
     var item = e.currentTarget.dataset.item;
+    console.log(item);
     this.setData({
       Implement:item,
       isShowImplement: false,
@@ -280,6 +296,9 @@ Page({
           searchList.push(strObj);
         }
       }
+    }
+    if(value == ""){
+      searchList = [];
     }
     this.setData({
       searchList:searchList
@@ -454,7 +473,10 @@ Page({
         if(this.data.tempFilePath.length > 0){
           this.upImg();
         }
-        //wx.navigateBack();
+        else{
+          wx.navigateBack();
+        }
+        
       }
       else{
         this.alert();

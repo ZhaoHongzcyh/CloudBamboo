@@ -19,7 +19,11 @@
     <view class="newtaskinfo" bindtap="showAddMember">
       <view></view>
       <view class="listTitle">参与人</view>
-      <view></view>
+      <view class="addmember">
+        <block wx:for="{{participant}}">
+          <image class="memberphoto" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item + '/100/100'}}"></image>
+        </block>
+      </view>
     </view>
     <view class="newtaskinfo" bindtap="setEmergencyGrade">
       <view></view>
@@ -48,8 +52,8 @@
         </picker>
       </view>
     </view>
-    <view class="newtaskinfo">
-      <view class="listTitle" bindtap="chooseFile">本地附件</view>
+    <view class="newtaskinfo"  bindtap="chooseFile">
+      <view class="listTitle">本地附件</view>
       <view class="add">添加</view>
     </view>
     <view class="newtaskinfo">
@@ -98,37 +102,47 @@
 <!-- 执行人列表 -->
 <view wx:if="{{isShowImplement}}">
   <view>
-    <input type="text" placeholder='搜索联系人' bindinput="matchList"/>
+    <input type="text" placeholder='搜索联系人' bindinput="matchList" placeholder-class='placematch' class="matchMember"/>
   </view>
   <view wx:if="{{matchList.length > 0}}">
-    <view wx:for="{{matchList}}">
-      <view wx:if="{{item.relationType != 1}}" data-item="{{item.list}}" bindtap="setImplement">{{item.personName}}</view>
-    </view>
+    <block  wx:for="{{matchList}}">
+      <view class="memberlist" data-item="{{item}}" bindtap="setImplement"  wx:if="{{item.relationType != 1}}">
+        <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.resourceId+'/100/100'}}" class="userphoto"></image>
+        <view class="username" data-item="{{item}}">
+          {{item.personName}}
+        </view>
+      </view>
+    </block>
   </view>
-  <view wx:for="{{task.memberBeanList}}">
-    <view data-item="{{item}}" bindtap="setImplement">{{item.personName}}</view>
+  <view wx:for="{{task.memberBeanList}}" class="memberlist" data-item="{{item}}" bindtap="setImplement">
+    <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.resourceId+'/100/100'}}" class="userphoto"></image>
+    <view class="username">{{item.personName}}</view>
   </view>
 </view>
 <!-- 参与人列表 -->
 <view wx:if="{{isShowAddMember}}">
   <view>
-    <input type="text" placeholder="搜索联系人" bindinput="matchAddMember"/>
+    <input type="text" placeholder="搜索联系人" bindinput="matchAddMember" placeholder-class='placematch' class="matchMember"/>
   </view>
   <view>
-    <view wx:for="{{searchList}}" class="searchlist" data-item="{{item}}" bindtap="selectAddMember" data-index="{{index}}">
-      <view>{{item.personName}}</view>
-      <view>
-        <radio checked='{{item.selected}}'/>
+    <block wx:for="{{searchList}}">
+      <view class="searchlist memberlist" data-item="{{item}}" bindtap="selectAddMember" data-index="{{index}}">
+        <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.resourceId+'/100/100'}}" class="userphoto"></image>
+        <view class="username">{{item.personName}}</view>
+        <view>
+          <radio class="userarea" checked='{{item.selected}}'/>
+        </view>
       </view>
-    </view>
+    </block>
   </view>
   <view wx:if="{{addMemberList.length>0}}">
-    <view class="addMemberList" wx:for="{{addMemberList}}" data-item="{{item}}" data-index="{{index}}" bindtap="selectAddMember" wx:if="{{item.relationType != 1}}"> 
-      <view>{{item.personName}}</view>
+    <view class="addMemberList memberlist" wx:for="{{addMemberList}}" data-item="{{item}}" data-index="{{index}}" bindtap="selectAddMember" wx:if="{{item.relationType != 1}}"> 
+      <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.resourceId+'/100/100'}}" class="userphoto"></image>
+      <view class="username">{{item.personName}}</view>
       <view>
-        <radio checked='{{item.selected}}'/>
+        <radio class="userarea" checked='{{item.selected}}'/>
       </view>
     </view>
   </view>
-  <view bindtap="showAddMember">确定</view>
+  <view bindtap="showAddMember" class="save">确定</view>
 </view>

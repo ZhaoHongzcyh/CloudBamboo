@@ -65,7 +65,9 @@
         </view>
         <view class="task-info">
           <view class="taskname">{{item.title}}</view>
-          <view wx:if="{{item.endDate==null? false : true}}" class="tasktime {{item.isTimeOut? 'timeout':'offtimeout'}}">{{item.endDate}}</view>
+          <view wx:if="{{item.endDate==null? false : true}}" class="tasktime {{item.isTimeOut? 'timeout':'offtimeout'}}">
+            {{item.endDate + "截止"}}
+          </view>
         </view>
         <image class="taskimg" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
         <view class="tasker">{{item.managerName}}</view>
@@ -77,11 +79,50 @@
       </view>
   </view>
 
-  <!-- 文件列表区域 -->
+  <!-- ----------------------------------------------文件列表区域------------------------------------------------------------- -->
+
   <view wx:if="{{menu[1].select}}" class="filelist">
-    <view wx:for="{{fileList}}" bindtap="entryFolder" data-parentId="{{item.parentId}}">
-        <file item="{{item}}" bindtap="selectFile"></file>
+    <view wx:if="{{chooseFileList.length > 0}}" class="file-select-info">
+      <view class="cancel" bindtap="cancel">取消</view>
+      <view class="select-num">已选择{{chooseFileList.length}}个</view>
+      <view class="select-all" bindtap="selectAll">全选</view>
     </view>
+    <view wx:for="{{fileList}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" wx:key="{{item.id}}">
+        <file item="{{item}}" data-num="{{index}}" checked="{{item.select}}" bindtap="selectFile" bindselect="checkOutFile"></file>
+    </view>
+
+    <!--文件底部操作采单 -->
+    <view class="footer-alert" wx:if="{{chooseFileList.length>0}}">
+      <view class="download operation" bindtap="alert">
+        <image src="/pages/cloudDisk/img/download.png" class="footerimg"></image>
+        <view class="footertext">下载</view>
+      </view>
+      <view class="share operation" bindtap="alert">
+        <image src="/pages/cloudDisk/img/share.png" class="footerimg"></image>
+        <view class="footertext">分享</view>
+      </view>
+      <view class="delete operation" bindtap="alert">
+        <image src="/pages/cloudDisk/img/delete.png" class="footerimg"></image>
+        <view class="footertext">删除</view>
+      </view>
+      <view class="move operation" bindtap="alert">
+        <image src="/pages/cloudDisk/img/move.png" class="footerimg"></image>
+        <view class="footertext">移动</view>
+      </view>
+      <view class="more operation" bindtap="moreFun">
+        <image src="/pages/cloudDisk/img/more.png" class="footerimg"></image>
+        <view class="footertext">更多</view>
+      </view>
+    </view>
+    <!-- 更多操作 -->
+    <view class="footer-more" wx:if="{{moreAction && chooseFileList.length>0}}">
+      <view class="copyto more" bindtap="alert">移动到</view>
+      <view class="copyto more" bindtap="alert">复制到</view>
+      <view class="rename more" wx:if="{{chooseFileList.length == 1}}" bindtap="alert">重命名</view>
+      <view class="cancelfun more" bindtap="moreFun">取消</view>
+    </view>
+    <!-- 蒙版层 -->
+    <view class="moreModel" wx:if="{{moreAction && chooseFileList.length>0}}" bindtap="moreFun"></view>
   </view>
 
    <!-- 弹框 -->

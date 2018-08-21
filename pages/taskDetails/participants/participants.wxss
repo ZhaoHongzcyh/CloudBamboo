@@ -20,3 +20,20 @@ page{
 .username{
   margin-left: 30rpx;
 }
+/* 无参与人样式 */
+.nopeople{
+  width: 238rpx;
+  margin: auto;
+  margin-top: 300rpx;
+  text-align: center;
+}
+.nopeopleimg{
+  width: 150rpx;
+  height: 150rpx;
+  margin: auto;
+}
+.title{
+  margin-top: 29rpx;
+  font-size: 24rpx;
+  color: #999999;
+}

@@ -88,9 +88,7 @@ page{
   color: #333333;
   font-size: 28rpx;
   height: 82rpx;
-  width: 100%;
-  display: table-cell;
-  vertical-align: middle;
+  line-height: 82rpx;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -250,7 +248,98 @@ page{
   font-size: 28rpx;
   margin-right: 19rpx;
 }
-/* 文件列表区域 */
+/*----------------------------------------------------- 文件列表区域 ------------------------------------------------*/
 .filelist{
   margin-top: 10rpx;
+}
+
+.file-select-info{
+  display: flex;
+  z-index: 4;
+  position: fixed;
+  top: 0rpx;
+  width: 100%;
+  background-color: white;
+  align-items: center;
+  height: 88rpx;
+}
+
+.cancel{
+  height: 26rpx;
+  margin-left: 25rpx;
+  font-size: 28rpx;
+  color: #666666;
+}
+.select-num{
+  color: #333333;
+  font-size: 34rpx;
+  flex: 2;
+  text-align: center;
+}
+.select-all{
+  height: 26rpx;
+  margin-right: 24rpx;
+  font-size: 28rpx;
+  color: #666666;
+}
+
+/* 底部文件操作弹框 */
+.footer-alert{
+  position: fixed;
+  display: flex;
+  height: 98rpx;
+  bottom: 0rpx;
+  width: 100%;
+  transition: all 0.5s;
+  align-items: center;
+  background-color: rgba(64,156,242,1);
+}
+
+.operation{
+  width: 25%;
+  text-align: center;
+}
+.footerimg{
+  width: 42rpx;
+  height: 42rpx;
+}
+.footertext{
+  height: 19rpx;
+  line-height: 0rpx;
+  margin-top: 12rpx;
+  font-size: 20rpx;
+  color: #F8F8F8;
+}
+/* 文件更多操作 */
+.footer-more{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  z-index:5;
+  background-color: rgba(237,239,245,1);
+}
+.more{
+  margin-top: 15rpx;
+  font-size: 28rpx;
+  text-align: center;
+}
+.copyto,.rename{
+  height: 68rpx;
+  line-height: 68rpx;
+  margin-top: 3rpx;
+  background-color: white;
+}
+.cancelfun{
+  height: 68rpx;
+  line-height: 68rpx;
+  margin-top: 10rpx;
+  background-color: white;
+}
+.moreModel{
+  position: fixed;
+  z-index: 4;
+  top: 0rpx;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
 }

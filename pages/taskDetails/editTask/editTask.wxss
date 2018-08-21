@@ -83,13 +83,55 @@ page{
 /* 添加参与人 */
 .memberlist,.searchList{
   display: flex;
+  height: 100rpx;
+  margin-top: 16rpx;
+  align-items: center;
+  border-bottom: 1rpx solid #DBDBDB;
+  background-color: white;
+}
+
+.matchMember{
+  margin: auto;
+  margin-top: 10rpx;
+  width: 710rpx;
+  height: 60rpx;
+  background-color: white;
+  border-radius: 30rpx;
+}
+
+.placematch{
+  color: #AAAAAA;
+  font-size: 28rpx;
+  text-align: center;
 }
 
 .userphoto{
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 50%;
+  margin-left: 40rpx;
+}
+
+.username{
+  margin-left: 21rpx;
+  width: 180rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  color: #333333;
+  font-size: 28rpx;
+}
+
+.userarea{
+  margin-left: 369rpx;
+}
+
+.memberphoto{
   width: 52rpx;
   height: 52rpx;
+  line-height: 52rpx;
   border-radius: 50%;
-  border: 1rpx solid red;
+  margin-left: -10rpx;
 }
 
 .headmenu{
@@ -101,11 +143,7 @@ page{
 
 .search{
   position:relative;
-  margin-top: 80rpx;
-}
-
-input{
-  border: 1rpx solid black;
+  /* margin-top: 80rpx; */
 }
 
 /* 保存按钮 */

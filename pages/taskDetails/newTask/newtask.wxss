@@ -55,6 +55,16 @@ page{
   margin-right: 40rpx;
   border-radius: 50%;
 }
+.memberphoto{
+  width: 52rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  border-radius: 50%;
+  margin-left: -10rpx;
+}
+.addmember{
+  overflow: hidden;
+}
 /* 紧急程度 */
 .urgentGrade{
   font-size: 28rpx;
@@ -172,3 +182,62 @@ page{
   display: flex;
 }
 
+/* 执行人列表 */
+.memberlist{
+  display: flex;
+  height: 100rpx;
+  margin-top: 16rpx;
+  align-items: center;
+  border-bottom: 1rpx solid #DBDBDB;
+  background-color: white;
+}
+
+.matchMember{
+  margin: auto;
+  margin-top: 10rpx;
+  width: 710rpx;
+  height: 60rpx;
+  background-color: white;
+  border-radius: 30rpx;
+}
+
+.placematch{
+  color: #AAAAAA;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.userphoto{
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 50%;
+  margin-left: 40rpx;
+}
+
+.username{
+  margin-left: 21rpx;
+  width: 180rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  color: #333333;
+  font-size: 28rpx;
+}
+
+.userarea{
+  margin-left: 369rpx;
+}
+
+/*确定按钮  */
+.save{
+  width: 670rpx;
+  height: 72rpx;
+  line-height: 70rpx;
+  font-size: 28rpx;
+  border-radius: 32rpx;
+  margin: auto;
+  margin-top: 40rpx;
+  color: white;
+  text-align: center;
+  background-color: rgba(23,145,224,1);
+}
