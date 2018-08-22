@@ -1,8 +1,8 @@
 <!--pages/taskDetails/newTask/newtask.wxml-->
 <view wx:if="{{!isShowImplement && !isShowAddMember}}">
-  <view class="planHead">
+  <view class="planHead" bindtap="toPlanTeam">
     <view class="planName">{{title}}</view>
-    <view></view>
+    <image src="../img/open.png" class="openimg"></image>
   </view>
   <view class="textarea">
     <textarea class="inputTaskName" placeholder-class="placeholder" placeholder='请输入任务名称' bindinput="getTaskName" value="{{taskName}}"></textarea>
@@ -70,8 +70,8 @@
     <view wx:for="{{tempFilePath}}" class="filearea">
       <image src="{{item.src}}" class="fileimg"></image>
       <view class="fileinfo">
-        <view classw="fileName">{{item.name}}</view>
-        <view class="progress" style="width:{{item.progress*0.8 + '%'}}">{{item.progress + "%"}}</view>
+        <view class="fileName">{{item.name}}</view>
+        <view class="progress" style="text-align:center;width:{{item.progress*0.8 + '%'}}">{{item.progress + "%"}}</view>
       </view>
       <view bindtap="deleteImg" data-index="{{index}}" class="deleteImg">+</view>
     </view>
@@ -84,7 +84,7 @@
       <view wx:for="{{emergencyGrade}}" class="singleUrgency" data-item="{{item}}" data-state="{{item.state}}" bindtap="getEmergencyGrade">
       {{item.title}}
     </view>
-    <view class="singleUrgency" bindtap="cancelUrgency">取消</view>
+    <view class="singleUrgency resetUrgency" bindtap="cancelUrgency">取消</view>
     </view>
   </view>
   <!-- 成员是否可见选项列表 -->
@@ -130,7 +130,7 @@
         <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.resourceId+'/100/100'}}" class="userphoto"></image>
         <view class="username">{{item.personName}}</view>
         <view>
-          <radio class="userarea" checked='{{item.selected}}'/>
+          <radio class="userarea" checked='{{item.selected}}' color="#409CF2"/>
         </view>
       </view>
     </block>
@@ -140,7 +140,7 @@
       <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.resourceId+'/100/100'}}" class="userphoto"></image>
       <view class="username">{{item.personName}}</view>
       <view>
-        <radio class="userarea" checked='{{item.selected}}'/>
+        <radio class="userarea" checked='{{item.selected}}' color="#409CF2"/>
       </view>
     </view>
   </view>

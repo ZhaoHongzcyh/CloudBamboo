@@ -56,6 +56,10 @@ page{
 .taskname{
   margin-left: 20rpx;
   font-size: 32rpx;
+  width: 400rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
   color: #333333;
 }
 

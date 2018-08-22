@@ -1,0 +1,14 @@
+<!--pages/taskDetails/planTeam/planteam.wxml-->
+<view class="plancontent" wx:if="{{plan.length > 0}}">
+  <view wx:for="{{plan}}" data-item="{{item}}" class="plan" data-index="{{index}}" bindtap="getPlanInfo">
+    <view class="plantitle">{{item.summaryBean.title}}</view>
+    <radio class="planstatus" checked='{{item.select}}' color="#409CF2"/>
+  </view>
+</view>
+<view wx:if="{{plan==null}}">
+  <view class="downerror">
+    <image src="./img/noplan.png" class="error"></image>
+    <view class="title">网络不给力,加载失败!</view>
+    <view class="tryagain" bindtap="onShow">再试一次</view>
+  </view>
+</view>

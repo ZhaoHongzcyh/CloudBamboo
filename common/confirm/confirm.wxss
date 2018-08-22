@@ -28,16 +28,20 @@
   height: 80rpx;
   align-items: center;
   font-size: 28rpx;
-  border-top: 1rpx solid red;
+  border-top: 1rpx solid #DBDBDB;
 }
 .sureadd{
   width: 50%;
+  height: 80rpx;
+  line-height: 80rpx;
   text-align: center;
   color: #999999;
-  border-right: 1rpx solid red;
+  border-right: 1rpx solid #DBDBDB;
 }
 .reset{
   width: 50%;
+  height: 80rpx;
+  line-height: 80rpx;
   text-align: center;
   color: #409CF2;
 }

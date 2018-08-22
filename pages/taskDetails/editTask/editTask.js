@@ -26,7 +26,7 @@ Page({
     taskObj:{},//任务对象
     mission:null,//责任人信息
     isShowRange:false,//是否展示可见范围列表
-    range:["所有成员可见","参与人可见"],
+    range:["所有成员可见","仅参与人可见"],
     rangenum:0,
     alert:{
       content:"更新失败"
@@ -351,7 +351,7 @@ Page({
   chooseFile: function () {
     var tempFilePath = this.data.tempFilePath;
     wx.chooseImage({
-      count: 6,
+      count: 1,
       success: (res) => {
         this.upImg(res.tempFilePaths[0]);
       },

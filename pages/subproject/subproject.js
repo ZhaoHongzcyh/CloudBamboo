@@ -99,11 +99,16 @@ Page({
     funList: ["switchMenu","selectFile"],
     fileList:[],//文件列表
     timeType:null,//截止时间类型
-
+    isShowEditPlan:false,//是否显示编辑任务计划状态栏
+    needEditPlanId:null,
+    delPlanInfo:{title:null},
     // ---------------------------------------------------文件模块相关数据---------------------------------------------
     isShowFileMenu:false,
     chooseFileList:[],//已选文件列表
-    moreAction:false//是否展示文件更多操作
+    moreAction:false,//是否展示文件更多操作
+    preview:false,//是否开启预览模式
+    previewSrc:null,//预览资源路径
+    previewAtype:null//预览资源类型    
   },
 
   /**
@@ -112,16 +117,19 @@ Page({
   onLoad: function (options) {
     this.setData({ taskId: options.id})
     this.popup = this.selectComponent("#popup");
+    this.confirm = this.selectComponent("#confirm")
     this.searchPowerData(options.id)
   },
 
   onShow:function () {
     this.selectPlanList(this.data.taskId);
+    this.setData({ isShowEditPlan:false})
+    wx.stopPullDownRefresh();//关闭下拉刷新
   },
 
   // 下拉刷新
   onPullDownRefresh: function () {
-    this.onLoad();
+    this.onShow();
   },
 
   // 查询权限数据
@@ -152,7 +160,10 @@ Page({
   alert: function () {
     this.popup.showPopup()
   },
-
+  // 打开对话弹框
+  openConfirm: function () {
+    this.confirm.show();
+  },
   // 查找计划清单
   selectPlanList: function(id) {
     var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
@@ -181,6 +192,9 @@ Page({
           taskList:data
         });
       }
+      wx.stopPullDownRefresh();//关闭下拉刷新
+    }).catch(e=>{
+      console.log(e);
     })
   },
   
@@ -221,27 +235,35 @@ Page({
     var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
     var obj = {};
     var taskSelect = this.data.taskSelect;
-    var isComplete = null;
     if (this.data.isSwitchSelectTask){
       if (taskSelect[0].status) {
-        isComplete = 0;
-        obj = { status: 0 }
+        obj.status = 0;
       }
-      else if (taskSelect[1].status) {
-        isComplete = 1;
-        obj = { status: 1 }
+      if (taskSelect[1].status) {
+        obj.status = 1;
       }
-      if (taskSelect[1].status && taskSelect[0].status) {
-        obj = {}
+      if (taskSelect[0].status && taskSelect[1].status){
+        delete obj.status;
       }
-      if (taskSelect[2].status) {
-        this.selectJoinTask(obj);
-        return false;
+      if(taskSelect[2].status){
+        obj.memberRelType = 1;
       }
+      if (taskSelect[3].status){
+        obj.memberRelType = 2;
+      }
+      if (taskSelect[2].status && taskSelect[3].status){
+        obj.memberRelType = 0;
+      }
+      // if (taskSelect[2].status || taskSelect[3].status]) {
+      //   this.selectJoinTask(obj);
+      //   return false;
+      // }
     }
     
     if (this.data.isShowStopTime){
-      obj = {timeType:this.data.timeType}
+      if(this.data.timeType != null){
+        obj = { timeType: this.data.timeType }
+      }
       this.setData({
         isShowStopTime: false
       })
@@ -382,7 +404,22 @@ Page({
   },
   
   // 通过项目id查找文件列表
-  selectFile: function () {
+  selectFile: function (e) {
+    if(e != undefined){
+      var atype = e.currentTarget.dataset.atype
+      if (atype == 7 || atype == 10 || atype == 9) {
+        var previewSrc = e.currentTarget.dataset.src;
+        var previewAtype = e.currentTarget.dataset.atype;
+        this.setData({
+          previewAtype: previewAtype,
+          previewSrc: previewSrc,
+          preview: true
+        })
+      }
+      else if(atype != 0){
+        return false;
+      }
+    }
     var address = app.ip + "tc/taskService/findTaskArcTree";
     var obj = { taskId: this.data.taskId, parentId: this.data.parentId};
     api.request(obj,address,"post",true).then(res=>{
@@ -394,6 +431,18 @@ Page({
         file.map((item,index)=>{
           item.select = false;
         })
+        // 文件路径拼接
+        for(var i = 0; i < file.length; i++){
+          if(file[i].atype == 7){
+            file[i].src = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + file[i].id;
+          }
+          else if(file[i].atype != 0){
+            file[i].src = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + file[i].id;
+          }
+          else{
+            file[i].src = null
+          }
+        }
         console.log(file)
         this.setData({
           fileList:file
@@ -496,7 +545,6 @@ Page({
     console.log(e);
     var index = e.currentTarget.dataset.index;
     var taskList = this.data.taskList;
-    var taskList = this.data.taskList;
     for(var i = 0; i < taskList.length; i++){
       if(i == index){
         taskList[i].fold = !taskList[i].fold;
@@ -571,6 +619,56 @@ Page({
   stopmove:function (e) {
   },
 
+  // 切换任务编辑状态栏的隐藏与显示
+  switchEditStatus: function (e) {
+    var needEditPlanId = e.currentTarget.dataset.sumid;
+    var title = e.currentTarget.dataset.title;
+    var delPlanInfo = this.data.delPlanInfo;
+    if (needEditPlanId == undefined) { needEditPlanId = null; delPlanInfo = null;}
+    else{
+      delPlanInfo = {title:title,content:"确认要删除任务计划 " + title +" ?,将同时删除其中包含的任务计划"}
+    }
+    this.setData({ isShowEditPlan: !this.data.isShowEditPlan, needEditPlanId: needEditPlanId, delPlanInfo: delPlanInfo})
+  },
+  // 编辑任务计划
+  editPlan: function () {
+    if (this.handlePower()){
+      wx.navigateTo({
+        url: '/pages/taskDetails/editPlan/editplan?planid=' + this.data.needEditPlanId,
+      })
+    }
+    else{
+      this.setData({alert:{content:"权限不够"}});
+      this.alert();
+    }
+  },
+  sure:function(){
+
+  },
+  // 删除任务计划
+  delPlan: function () {
+    var address = app.ip + "tc/schedule/summaryService/delete";
+    var id = this.data.needEditPlanId;
+
+    if(this.handlePower()){
+      api.request({ id }, address, "POST", true).then(res => {
+        console.log("删除任务");
+        console.log(res);
+        if(res.data.code == 200 && res.data.result){
+          this.confirm.hide();
+          this.onShow();
+        }
+        else{
+          this.setData({ alert: { content: "删除失败" } });
+          this.alert();
+        }
+      })
+    }
+    else{
+      this.setData({ alert: { content: "权限不够" } });
+      this.alert();
+    }
+  },
   // ----------------------------------------------------任务文件模块函数-----------------------------------------------
   // 监听用户选择文件/文件夹
   checkOutFile: function (e) {
@@ -584,6 +682,7 @@ Page({
     chooseFileList.map((item,index)=>{
       if(item.id == e.currentTarget.dataset.id){
         end = true;
+        chooseFileList.splice(index,1)
       }
     })
     console.log(fileList[num])

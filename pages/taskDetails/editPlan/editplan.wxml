@@ -1,0 +1,28 @@
+<!--pages/taskDetails/editPlan/editplan.wxml-->
+<view>
+  <view>
+    <textarea class="planname" bindinput="getPlanName" maxlength='30' placeholder='任务计划名称' value="{{plan.title}}"></textarea>
+  </view>
+  <view class="time">
+    <view class="settime">
+      <view>开始时间</view>
+      <picker mode="date" bindchange="setStartDate" class="timevalue">
+        <view>
+          {{startDate}}
+        </view>
+      </picker>
+    </view>
+    <view class="settime">
+      <view>结束时间</view>
+      <picker mode="date" start="{{startDate}}" bindchange="setEndDate" class="timevalue">
+        <view>
+          {{endDate==null? '--:--':endDate}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <!-- 保存按钮 -->
+  <view class="save" bindtap="changePlan">保存</view>
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+</view>

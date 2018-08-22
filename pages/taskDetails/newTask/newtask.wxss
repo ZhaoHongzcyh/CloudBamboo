@@ -15,9 +15,15 @@ page{
   font-size: 28rpx;
   margin-left: 40rpx;
   color: #333333;
+  width: 200rpx;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
+}
+.openimg{
+  width: 14rpx;
+  height: 28rpx;
+  margin-left: 460rpx;
 }
 /* 任务名称输入区域 */
 .inputTaskName{
@@ -64,6 +70,7 @@ page{
 }
 .addmember{
   overflow: hidden;
+  margin-right: 40rpx;
 }
 /* 紧急程度 */
 .urgentGrade{
@@ -122,12 +129,17 @@ page{
   display: table-cell;
   vertical-align: middle;
   text-align: center;
-  border: 1rpx solid red;
+  background-color: rgba(245,245,245,1);
 }
 .singleUrgency{
   height: 70rpx;
-  font-size: 32rpx;
+  line-height: 70rpx;
+  font-size: 28rpx;
+  border-bottom: 1rpx solid rgba(245,245,245,1);
   background-color: white;
+}
+.resetUrgency{
+  margin-top: 20rpx;
 }
 /* 文件列表 */
 .filelist{

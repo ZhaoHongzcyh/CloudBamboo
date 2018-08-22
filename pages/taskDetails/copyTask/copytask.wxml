@@ -8,7 +8,7 @@
   <view>
     <view class="planlist">
       <block wx:for="{{planList}}">
-        <view data-id="{{item.summaryBean.id}}" bindtap="copyTask">{{item.summaryBean.title}}</view>
+        <view data-id="{{item.summaryBean.id}}" bindtap="copyTask" class="plan">{{item.summaryBean.title}}</view>
       </block>
     </view>
   </view>

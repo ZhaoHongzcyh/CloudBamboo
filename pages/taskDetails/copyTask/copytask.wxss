@@ -25,6 +25,11 @@ page{
   line-height: 80rpx;
   font-size: 28rpx;
   padding-left: 41rpx;
-  border-bottom: 1rpx solid #DBDBDB;
   color: #333333;
+}
+.plan{
+  border-bottom: 1rpx solid #DBDBDB;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }

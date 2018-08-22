@@ -7,7 +7,7 @@
       <image class="open" src="../img/open.png"></image>
     </view>
     <view class="area">
-      <textarea placeholder='请输入任务名称' placeholder-class='areaplace' class="areainput" bindinput='changeTaskName'></textarea>
+      <textarea placeholder='请输入任务名称' value="{{task.itemBean.title}}" maxlength='40' placeholder-class='areaplace' class="areainput" bindinput='changeTaskName'></textarea>
     </view>
   </view>
   <!-- 任务基础信息 -->

@@ -1,5 +1,11 @@
 <!--任务描述-->
 <import src="../../../wxParse/wxParse.wxml"/> 
-<view>
+<view wx:if="{{state}}">
   <template is="wxParse" data="{{wxParseData:description.nodes}}" /> 
+</view>
+<view wx:if="{{!state}}" class="nodescript">
+  <view class="noinfo">
+    <image src="./img/nodescript.png" class="noinfoimg"></image>
+    <view class="noinfotitle">没有任务描述</view>
+  </view>
 </view>

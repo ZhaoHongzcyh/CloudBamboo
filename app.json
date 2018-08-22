@@ -5,7 +5,6 @@
     
     "pages/subproject/subproject",
     "pages/addTask/addtask",
-    
     "pages/cloudDisk/cloudDisk",
     "pages/ivew/ivew",
     "pages/acceptInvitation/acceptInvitation",
@@ -24,7 +23,9 @@
     "pages/taskDetails/editTask/editTask",
     "pages/taskDetails/copyTask/copytask",
     "pages/taskDetails/peopleList/peoplelist",
-    "pages/taskDetails/newTask/newtask"
+    "pages/taskDetails/newTask/newtask",
+    "pages/taskDetails/editPlan/editplan",
+    "pages/taskDetails/planTeam/planteam"
     
   ],
   "window": {

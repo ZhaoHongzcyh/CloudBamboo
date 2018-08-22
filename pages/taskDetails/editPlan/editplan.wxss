@@ -1,0 +1,42 @@
+/* pages/taskDetails/editPlan/editplan.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+.planname{
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  height: 160rpx;
+  line-height: 160rpx;
+  width: 100%;
+  color: #666666;
+  background-color: white;
+}
+.time{
+  margin-top: 20rpx;
+}
+.settime{
+  display: flex;
+  height: 70rpx;
+  font-size: 28rpx;
+  align-items: center;
+  margin-top: 2rpx;
+  background-color:white;
+}
+.timevalue{
+  flex: 2;
+  margin-right: 25rpx;
+  text-align: right;
+  color: #409CF2;
+}
+.save{
+  width: 670rpx;
+  height: 72rpx;
+  line-height: 70rpx;
+  font-size: 28rpx;
+  border-radius: 32rpx;
+  margin: auto;
+  margin-top: 40rpx;
+  color: white;
+  text-align: center;
+  background-color: rgba(23,145,224,1);
+}

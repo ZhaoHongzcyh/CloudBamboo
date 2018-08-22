@@ -10,7 +10,8 @@ Page({
    */
   data: {
     taskId:null,
-    description:null//任务描述
+    description:null,//任务描述
+    state:false
   },
 
   /**
@@ -27,16 +28,18 @@ Page({
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
       console.log("描述条目");
+      console.log(res);
       var handle = library.handleChild(res);
       if (handle.status) {
-        WxParse.wxParse('description', 'html', handle.data.itemBean.description, this, 5)
-        // this.setData({
-        //   description: handle.data.itemBean.description
-        // })
+        if(handle.data.itemBean.description != null){
+          WxParse.wxParse('description', 'html', handle.data.itemBean.description, this, 5);
+          this.setData({state:true})
+        }
       }
       else {
-        console.log(handle);
+        // console.log(handle);
       }
+      
     })
   }
 })

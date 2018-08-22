@@ -336,7 +336,8 @@ Page({
   chooseFile: function (){
     var tempFilePath = this.data.tempFilePath;
     wx.chooseImage({
-      count:6,
+      count:10,
+      sizeType:"original",
       success:(res)=>{
         console.log("文件列表");
         console.log(res);
@@ -380,24 +381,29 @@ Page({
         success: (res)=>{
           console.log("上传结果");
           console.log(res);
-          res.data = JSON.parse(res.data);
+          try{
+            res.data = JSON.parse(res.data);
+            data[index].name = res.data.data[0].title;
+          }
+          catch(e){
+            data[index].progress = "上传失败";
+            this.setData({alert:{content:"抱歉，附件上传失败！请检查网络或重试"}});
+            this.alert();
+          }
           // 将文件重命名
-          data[index].name = res.data.data[0].title;
+          
           // this.setData({
           //   tempFilePath: data
           // })
-          console.log(res);
           this.upImg(index+1);
         }
       })
       // 监听上传进度
       uploadTask.onProgressUpdate(res=>{
-        console.log("上传进度");
         data[index].progress = res.progress;
         this.setData({
           tempFilePath:data
         })
-        console.log(res.progress);
       })
     }
     else{
@@ -483,6 +489,12 @@ Page({
       }
     }).catch(e=>{
       this.alert();
+    })
+  },
+  // 任务计划列表
+  toPlanTeam: function () {
+    wx.navigateTo({
+      url: '../planTeam/planteam?taskId=' + this.data.taskId + "&planid=" + this.data.planid,
     })
   }
 })

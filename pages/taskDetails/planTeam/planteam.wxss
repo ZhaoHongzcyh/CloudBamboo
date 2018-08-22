@@ -1,0 +1,50 @@
+/* pages/taskDetails/planTeam/planteam.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+
+.plancontent{
+  padding-top: 10rpx;
+}
+.plan{
+  display: flex;
+  height: 72rpx;
+  font-size: 28rpx;
+  margin-top: 2rpx;
+  align-items: center;
+  background-color:white;
+}
+.plantitle{
+  margin-left: 24rpx;
+  flex: 1;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.planstatus{
+  margin-right: 24rpx;
+}
+/* 数据请求失败 */
+.downerror{
+  position: absolute;
+  width: 100%;
+  top: 300rpx;
+  text-align: center;
+  color: #666666;
+  font-size: 28rpx;
+}
+.error{
+  width: 250rpx;
+  height: 250rpx;
+}
+
+.tryagain{
+  width: 300rpx;
+  margin: auto;
+  margin-top: 50rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  color: white;
+  border-radius: 36rpx;
+  background-color: #409cf2;
+}

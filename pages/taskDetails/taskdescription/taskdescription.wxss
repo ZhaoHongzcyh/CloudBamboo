@@ -1,2 +1,15 @@
 /* pages/taskDetails/taskdescription/taskdescription.wxss */
 @import "../../../wxParse/wxParse.wxss";
+.noinfo{
+  margin-top: 300rpx;
+  font-size: 28rpx;
+  text-align: center;
+  color: #666666;
+}
+.noinfoimg{
+  width: 250rpx;
+  height: 250rpx;
+}
+.noinfotitle{
+  margin-top: 30rpx;
+}

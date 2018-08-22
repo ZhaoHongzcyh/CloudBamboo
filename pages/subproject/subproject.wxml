@@ -39,25 +39,34 @@
           </view>
           <view class="model"></view>
         </view>
+        <!-- 截止时间筛选列表 -->
+        <view wx:if="{{isShowStopTime}}" catchtouchmove='stopmove'>
+          <view wx:for="{{stopTime}}" class="stoptimelist" bindtap="selectTaskByTime" data-timetype="{{item.timeType}}" data-state="{{item.state}}">
+            <view class="timetitle">{{item.title}}</view>
+            <view class="timeradio">
+              <radio/>
+            </view>
+          </view>
+          <view class="model"></view>
+        </view>
       </view>
       
-      <!-- 截止时间筛选列表 -->
-      <view wx:if="{{isShowStopTime}}" catchtouchmove='stopmove'>
-        <view wx:for="{{stopTime}}" class="stoptimelist" bindtap="selectTaskByTime" data-timetype="{{item.timeType}}" data-state="{{item.state}}">
-          <view class="timetitle">{{item.title}}</view>
-          <view class="timeradio">
-            <radio/>
-          </view>
-        </view>
-        <view class="model"></view>
-      </view>
+      
     </view>
     
     <!-- 任务新建区域 -->
     <view wx:for="{{taskList}}" wx:for-item="plan" class="planlist">
-      <view class="planName" data-index="{{index}}" bindtap="fold">
-        {{plan.summaryBean.title}}
+
+      <view class="planName">
+        <image class="row" src="./img/row.png" data-index="{{index}}" bindtap="fold"></image>
+        <view class="plantitle" data-index="{{index}}" bindtap="fold">{{plan.summaryBean.title}}</view>
+        <view class="editPlan" bindtap="switchEditStatus" data-title="{{plan.summaryBean.title}}" data-sumid="{{plan.summaryBean.id}}">
+          <view class="circle"></view>
+          <view class="circle"></view>
+          <view class="circle"></view>
+        </view>
       </view>
+
       <view wx:if="{{plan.fold}}" bindtap="newTask" class="newTaskBtn" data-planid="{{plan.summaryBean.id}}" data-title="{{plan.summaryBean.title}}">新建任务</view>
       <view wx:if="{{plan.fold}}" class="single-task {{item.emergencyGrade==1? 'normalcolor':''}} {{item.emergencyGrade==2? 'urgentcolor':''}}" wx:for="{{plan.itemList}}" wx:for-item="item" wx:for-index="childnum" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
         <view class="radio-area" data-parentsnum="{{index}}" data-status="{{item.status}}" data-selfnum="{{childnum}}" data-taskid="{{item.id}}" catchtap='switchTaskState' data-manager="{{item.manager}}">
@@ -73,12 +82,20 @@
         <view class="tasker">{{item.managerName}}</view>
       </view>
     </view>
+
     <view class="addTaskPlan" bindtap="addTaskPlan">
       <view class="plus">+</view>
       <view class="plustitle">新建任务计划</view>
-      </view>
+    </view>
   </view>
-
+  <!-- 编辑任务计划采单区域 -->
+  <view class="editModel" wx:if="{{isShowEditPlan}}">
+    <view class="editPlanArea">
+      <view class="editmenu" catchtap='editPlan'>编辑计划</view>
+      <view class="editmenu delplan" catchtap='openConfirm'>删除计划</view>
+      <view class="editmenu cancelplan" catchtap='switchEditStatus'>取消</view>
+    </view>
+  </view>
   <!-- ----------------------------------------------文件列表区域------------------------------------------------------------- -->
 
   <view wx:if="{{menu[1].select}}" class="filelist">
@@ -88,9 +105,23 @@
       <view class="select-all" bindtap="selectAll">全选</view>
     </view>
     <view wx:for="{{fileList}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" wx:key="{{item.id}}">
-        <file item="{{item}}" data-num="{{index}}" checked="{{item.select}}" bindtap="selectFile" bindselect="checkOutFile"></file>
+        <file item="{{item}}" data-src="{{item.src}}" data-atype="{{item.atype}}" data-num="{{index}}" checked="{{item.select}}" bindtap="selectFile" bindselect="checkOutFile"></file>
     </view>
-
+    <!-- 文件预览 -->
+      <view class="preview" wx:if="{{preview}}">
+          <!-- 图片预览 -->
+          <view wx:if="{{previewAtype == 7}}" class="previewArea">
+            <image src="{{previewSrc}}" class="previewimg"></image>
+          </view>
+          <!-- 视频预览 -->
+          <view wx:if="{{previewAtype == 9}}" class="previewArea">
+            <video src="{{previewSrc}}" class="previewimg"></video>
+          </view>
+          <!-- 音频预览 -->
+          <view wx:if="{{previewAtype == 10}}" class="previewArea">
+            <audio src="{{previewSrc}}" class="previewimg"></audio>
+          </view>
+      </view>
     <!--文件底部操作采单 -->
     <view class="footer-alert" wx:if="{{chooseFileList.length>0}}">
       <view class="download operation" bindtap="alert">
@@ -127,4 +158,5 @@
 
    <!-- 弹框 -->
 <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+<confirm id="confirm" bindsure="delPlan" title="{{delPlanInfo}}"></confirm>
 </view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "选择所属任务计划",
+  "usingComponents": {
+    "file": "/common/fileList/fileList",
+    "popup": "/common/popup/popup"
+  }
+}

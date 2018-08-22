@@ -392,19 +392,20 @@ Page({
   // 评论任务
   evaluate: function () {
     var address = app.ip + "tc/schedule/itemService/estimateItem";
-    var obj = {id:this.data.taskId,descript:this.data.replyContent};
+    var obj = { id: this.data.taskId, descript: encodeURI(this.data.replyContent)};
     api.request(obj,address,"POST",true).then(res=>{
       console.log("评论");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var task = this.data.task;
+        res.data.data.createDate = res.data.data.createDate.split("T")[0];
         task.actionList.unshift(res.data.data);
-        this.setData({task})
+        this.setData({ task: task, isShowAllAction:true})
       }
       else{
         this.setData({alert:{content:"评论失败"}});
         this.alert();
       }
+      console.log(task);
     }).catch(e=>{
       this.setData({ alert: { content: "评论失败" } });
       this.alert();
