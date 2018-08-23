@@ -735,5 +735,9 @@ Page({
       this.setData({ fileList: fileList, isShowAddFile:false})
       this.newFolder.hide();
     })
+  },
+  // 跳转到指定的文件夹
+  jumpFile: function (e) {
+    console.loog(e);
   }
 })

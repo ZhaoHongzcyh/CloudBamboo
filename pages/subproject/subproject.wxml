@@ -105,7 +105,7 @@
     <!-- 文件夹返回键 -->
     <view wx:if="{{isShowReturn && fileParentIdStack.length < 7 || fileParentIdStack.length == 7}}" class="file-select-info">
       <block wx:for="{{fileParentIdStack}}">
-        <view class="urltitle {{(fileParentIdStack.length-1)==index? 'last':''}}">{{item.title}}</view>
+        <view class="urltitle {{(fileParentIdStack.length-1)==index? 'last':''}}" bindtap="jumpFile">{{item.title}}</view>
         <view class="urltitle">></view>
       </block>
     </view>
