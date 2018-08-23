@@ -1,0 +1,14 @@
+<!--common/fileAlert/filealert.wxml-->
+<!-- 新建文件夹组件 -->
+    <view class="newfileModel" wx:if="{{isShowModel}}">
+      <view class="content">
+        <view class="title">{{title}}</view>
+        <view>
+          <input class="foldername" bindinput="getValue" placeholder='{{placeholder}}' placeholder-class='filePlace' type='text'/>
+        </view>
+        <view class="btn">
+          <view class="reset commonBtn" bindtap="hide">取消</view>
+          <view class="sureadd commonBtn" bindtap="sureadd">确定</view>
+        </view>
+      </view>
+    </view>

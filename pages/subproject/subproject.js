@@ -108,16 +108,20 @@ Page({
     moreAction:false,//是否展示文件更多操作
     preview:false,//是否开启预览模式
     previewSrc:null,//预览资源路径
-    previewAtype:null//预览资源类型    
+    previewAtype:null,//预览资源类型
+    isShowAddFile:false,//是否添加文件
+    fileParentIdStack:[],//父文件夹ID堆栈
+    isShowReturn:false//是否显示文件夹返回按钮    
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({ taskId: options.id})
+    this.setData({ taskId: options.id});
     this.popup = this.selectComponent("#popup");
-    this.confirm = this.selectComponent("#confirm")
+    this.confirm = this.selectComponent("#confirm");
+    this.newFolder = this.selectComponent("#newFolder");
     this.searchPowerData(options.id)
   },
 
@@ -349,6 +353,7 @@ Page({
       isSwitchSelectTask: !this.data.isSwitchSelectTask
     })
   },
+
   // 关闭所有筛选器
   closeAllSelect: function () {
     this.setData({
@@ -356,6 +361,7 @@ Page({
       isSwitchSelectTask: false
     })
   },
+
   // 截止时间
   switchStopTime: function () {
     this.setData({
@@ -390,7 +396,6 @@ Page({
       var task = handle.handleTask(res);
       if(task.status){
         var list = api.handleTask(res);
-        
         this.setData({
           taskList:list
         })
@@ -406,7 +411,10 @@ Page({
   // 通过项目id查找文件列表
   selectFile: function (e) {
     if(e != undefined){
-      var atype = e.currentTarget.dataset.atype
+      console.log(e);
+      console.log("测试通过")
+      var atype = e.currentTarget.dataset.atype;
+      console.log(atype);
       if (atype == 7 || atype == 10 || atype == 9) {
         var previewSrc = e.currentTarget.dataset.src;
         var previewAtype = e.currentTarget.dataset.atype;
@@ -415,37 +423,36 @@ Page({
           previewSrc: previewSrc,
           preview: true
         })
-      }
-      else if(atype != 0){
         return false;
       }
+      if(atype != 0){
+        return false;
+      }
+      else{
+        this.setData({ parentId: e.currentTarget.dataset.id})
+      }
     }
-    var address = app.ip + "tc/taskService/findTaskArcTree";
+    var address = app.ip + "tc/taskService/findTaskArcTreeByParent";
     var obj = { taskId: this.data.taskId, parentId: this.data.parentId};
     api.request(obj,address,"post",true).then(res=>{
       console.log("文件列表");
       var file = handle.handleFile(res);
+      console.log(res)
       if(file.status){
-        file = api.cloudDiskDataClean(file.data);
-        file = api.fileNameSort(file);
-        file.map((item,index)=>{
-          item.select = false;
-        })
-        // 文件路径拼接
-        for(var i = 0; i < file.length; i++){
-          if(file[i].atype == 7){
-            file[i].src = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + file[i].id;
-          }
-          else if(file[i].atype != 0){
-            file[i].src = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + file[i].id;
-          }
-          else{
-            file[i].src = null
-          }
+        var fileParentIdStack = this.data.fileParentIdStack;//父文件夹Id堆栈
+        var isShowReturn = false;
+        var title = e == undefined ? '首页' : e.currentTarget.dataset.title;
+        title = title.length > 5 ? title.substring(0, 4) + '...' : title.substring(0, 4);
+        var floderObj = { parentId: this.data.parentId,title:title};
+        file = handle.fileList(app, api, file.data);
+        fileParentIdStack.push(floderObj);
+        if (fileParentIdStack.length > 2 || fileParentIdStack.length == 2){
+          isShowReturn = true;
         }
-        console.log(file)
         this.setData({
-          fileList:file
+          fileList: file,
+          fileParentIdStack: fileParentIdStack,
+          isShowReturn: isShowReturn
         })
       }
       else{
@@ -494,7 +501,7 @@ Page({
     this.setData({
       parentId: parentId
     });
-    this.selectFile();
+    this.selectFile(e);
   },
 
   // 切换菜单列表
@@ -695,8 +702,38 @@ Page({
     }
     this.setData({ chooseFileList, fileList});
   },
+  // 新建文件夹弹框
+  newFolderAlert: function () {
+    this.newFolder.showModel();
+  },
   // 更多操作
   moreFun: function () {
     this.setData({ moreAction: !this.data.moreAction})
+  },
+  // 返回文件列表
+  returnFileList: function () {
+    this.setData({ preview:false})
+  },
+  // 新增加一个文件菜单
+  newAddFile: function () {
+    this.setData({ isShowAddFile: !this.data.isShowAddFile})
+  },
+  // 新增加一个文件夹
+  newFolderName: function (e) {
+    console.log(e);
+    var folderName = e.detail.folderName;
+    var fileList = this.data.fileList;
+    var address = app.ip + "tc/taskService/addArcFolder";
+    var obj = { parentId: this.data.parentId, taskId: this.data.taskId, folder: folderName}
+    api.request(obj,address,"POST",true).then(res=>{
+      console.log("新建文件夹");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var file = handle.addFolder(app,api,res.data.data);
+        fileList.unshift(file[0]);
+      }
+      this.setData({ fileList: fileList, isShowAddFile:false})
+      this.newFolder.hide();
+    })
   }
 })

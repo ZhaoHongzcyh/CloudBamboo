@@ -306,6 +306,14 @@ page{
   margin-top: 15rpx;
 }
 /*----------------------------------------------------- 文件列表区域 ------------------------------------------------*/
+/* 文件夹层级 */
+.urltitle{
+  font-size: 20rpx;
+  color:#999999;
+}
+.last{
+  color: #409CF2;
+}
 .filelist{
   margin-top: 10rpx;
 }
@@ -402,6 +410,29 @@ page{
 }
 
 /* 文件预览阴影 */
+.previewTop{
+  position: absolute;
+  width: 100%;
+  top: 0rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 28rpx;
+  text-align: center;
+  background-color: rgba(0,0,0,0.3);
+  color: white;
+}
+.previewRow{
+  position: absolute;
+  left: 0rpx;
+  top: 13rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+.previewName{
+  position: absolute;
+  left: 0rpx;
+  text-align: center;
+}
 .preview{
   position:fixed;
   z-index:3;
@@ -417,4 +448,51 @@ page{
   border: 1rpx solid red;
   text-align: center;
   margin-top: 30%;
+}
+/* 新建文件夹/相册/拍照功能区 */
+.newfile{
+  position: fixed;
+  width: 100%;
+}
+.upModel{
+  position:fixed;
+  top: 0rpx;
+  height: 100%;
+  /* background-color: rgba(0,0,0,0.8); */
+  background-color: white;
+}
+.newAddFile{
+  display: flex;
+  position: fixed;
+  bottom: 110rpx;
+  height: 308rpx;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+.newfolder{
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+.singlegroup{
+  font-size: 28rpx;
+  width: 50%;
+  text-align:center;
+}
+.addFile{
+  position: fixed;
+  bottom: 30rpx;
+  width: 100%;
+  text-align:center;
+   margin-top: 20rpx;
+}
+.uploadfile{
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+}
+.close{
+  transform:rotateZ(45deg);
 }

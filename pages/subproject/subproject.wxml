@@ -50,8 +50,6 @@
           <view class="model"></view>
         </view>
       </view>
-      
-      
     </view>
     
     <!-- 任务新建区域 -->
@@ -99,16 +97,36 @@
   <!-- ----------------------------------------------文件列表区域------------------------------------------------------------- -->
 
   <view wx:if="{{menu[1].select}}" class="filelist">
-    <view wx:if="{{chooseFileList.length > 0}}" class="file-select-info">
+    <view wx:if="{{chooseFileList.length > 0 && !isShowReturn}}" class="file-select-info">
       <view class="cancel" bindtap="cancel">取消</view>
       <view class="select-num">已选择{{chooseFileList.length}}个</view>
       <view class="select-all" bindtap="selectAll">全选</view>
     </view>
-    <view wx:for="{{fileList}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" wx:key="{{item.id}}">
-        <file item="{{item}}" data-src="{{item.src}}" data-atype="{{item.atype}}" data-num="{{index}}" checked="{{item.select}}" bindtap="selectFile" bindselect="checkOutFile"></file>
+    <!-- 文件夹返回键 -->
+    <view wx:if="{{isShowReturn && fileParentIdStack.length < 7 || fileParentIdStack.length == 7}}" class="file-select-info">
+      <block wx:for="{{fileParentIdStack}}">
+        <view class="urltitle {{(fileParentIdStack.length-1)==index? 'last':''}}">{{item.title}}</view>
+        <view class="urltitle">></view>
+      </block>
+    </view>
+    <view wx:if="{{isShowReturn && fileParentIdStack.length > 7}}" class="file-select-info">
+      
+        <view class="urltitle">{{fileParentIdStack[0].title}}</view>
+        <view class="urltitle">></view>
+        <view class="urltitle">...></view>
+        <view class="urltitle last">{{fileParentIdStack[fileParentIdStack.length - 1].title}}</view>
+        <view class="urltitle">></view>
+    </view>
+
+    <view wx:for="{{fileList}}"  wx:key="{{item.id}}">
+        <file item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-src="{{item.src}}" data-title="{{item.title}}" data-atype="{{item.atype}}" data-id="{{item.id}}" data-num="{{index}}" checked="{{item.select}}"  bindselect="checkOutFile"></file>
     </view>
     <!-- 文件预览 -->
       <view class="preview" wx:if="{{preview}}">
+          <view class="previewTop" bindtap="returnFileList">
+            <image src="./img/return.png" class="previewRow"></image>
+            图片名称
+          </view>
           <!-- 图片预览 -->
           <view wx:if="{{previewAtype == 7}}" class="previewArea">
             <image src="{{previewSrc}}" class="previewimg"></image>
@@ -122,6 +140,22 @@
             <audio src="{{previewSrc}}" class="previewimg"></audio>
           </view>
       </view>
+    <!-- 新建文件夹/相册/拍照 -->
+    <view class="newfile {{isShowAddFile? 'upModel':''}}">
+      <view class="newAddFile"wx:if="{{isShowAddFile}}">
+        <view class="singlegroup" bindtap="newFolderAlert">
+          <image src="./img/folder.png" class="newfolder"></image>
+          <view class="newtitle">新建文件夹</view>
+        </view>
+        <view class="singlegroup">
+          <image src="./img/localfile.png" class="newfolder"></image>
+          <view class="newtitle">本地文件</view>
+        </view>
+      </view>
+      <view class="addFile" bindtap="newAddFile">
+        <image src="{{isShowAddFile? './img/close.png':'./img/uploadfile.png'}}" class="uploadfile {{isShowAddFile?'close':''}}"></image>
+      </view>
+    </view>
     <!--文件底部操作采单 -->
     <view class="footer-alert" wx:if="{{chooseFileList.length>0}}">
       <view class="download operation" bindtap="alert">
@@ -159,4 +193,5 @@
    <!-- 弹框 -->
 <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 <confirm id="confirm" bindsure="delPlan" title="{{delPlanInfo}}"></confirm>
+<fileAlert id="newFolder" bindnewFolder="newFolderName"></fileAlert>
 </view>
