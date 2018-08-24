@@ -329,6 +329,10 @@ page{
   height: 88rpx;
 }
 
+.fileAct{
+  z-index:5;
+}
+
 .cancel{
   height: 26rpx;
   margin-left: 25rpx;
@@ -456,6 +460,7 @@ page{
 }
 .upModel{
   position:fixed;
+  z-index: 4;
   top: 0rpx;
   height: 100%;
   /* background-color: rgba(0,0,0,0.8); */

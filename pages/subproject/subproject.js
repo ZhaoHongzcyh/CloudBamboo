@@ -445,6 +445,15 @@ Page({
         title = title.length > 5 ? title.substring(0, 4) + '...' : title.substring(0, 4);
         var floderObj = { parentId: this.data.parentId,title:title};
         file = handle.fileList(app, api, file.data);
+        // 判断文件是否可选择
+        file.map((item,num)=>{
+          if (this.isOtherreadFile(item)){
+            item.isReadOnly = true;
+          }
+          else{
+            item.isReadOnly = false;
+          }
+        })
         fileParentIdStack.push(floderObj);
         if (fileParentIdStack.length > 2 || fileParentIdStack.length == 2){
           isShowReturn = true;
@@ -738,6 +747,257 @@ Page({
   },
   // 跳转到指定的文件夹
   jumpFile: function (e) {
-    console.loog(e);
+    console.log(e);
+    var fileParentIdStack = this.data.fileParentIdStack;
+    var index = e.currentTarget.dataset.index;
+    fileParentIdStack = fileParentIdStack.splice(0, index+1)
+    var parentId = e.currentTarget.dataset.parentid;
+    this.setData({ fileParentIdStack});
+    this.getFileTree(parentId);
+  },
+  // 通过parentId请求文件列表
+  getFileTree: function (parentId) {
+    var fileParentIdStack = this.data.fileParentIdStack;
+    var address = app.ip + "tc/taskService/findTaskArcTreeByParent";
+    var obj = { taskId: this.data.taskId, parentId: parentId };
+    var isShowReturn = false;
+    api.request(obj, address, "post", true).then(res => {
+      console.log("通过id查找文件树");
+      var file = handle.handleFile(res);
+      console.log(res)
+      if (file.status) {
+        file = handle.fileList(app, api, file.data);
+        if (fileParentIdStack.length > 2 || fileParentIdStack.length == 2) {
+          isShowReturn = true;
+        }
+        // 判断当前文件是否可被用户选中
+        file.map((item, num) => {
+          if (this.isOtherreadFile(item)) {
+            item.isReadOnly = true;
+          }
+          else {
+            item.isReadOnly = false;
+          }
+        })
+        this.setData({
+          fileList: file,
+          fileParentIdStack: fileParentIdStack,
+          isShowReturn: isShowReturn
+        })
+      }
+    })
+  },
+  // 选取本地文件，进行上传操作
+  readLocalFile: function () {
+    var fileList = this.data.fileList;
+    wx.chooseImage({
+      count: 10,
+      success: (res) => {
+        this.uploadLocalFile(res.tempFilePaths, 0, 0, res.tempFilePaths.length);
+      },
+      fail: (err) => {
+        console.log("文件选取失败")
+      }
+    })
+  },
+  // 文件上传
+  uploadLocalFile: function (ary,i,progress,upNum) {
+    if(ary.length < i || ary.length == i){
+      return true
+    }
+    var address = app.ip + "tc/taskService/uploadTaskArc";
+    var currentProgress = 0;
+    const uploadTask = wx.uploadFile({
+      url: address,
+      filePath: ary[i],
+      name: 'file',
+      header: {
+        "content-type": "multipart/form-data",
+        proxyUserToken: wx.getStorageSync("proxyUserToken"),
+        taskId: this.data.taskId,
+        parentId: this.data.parentId
+      },
+      success:(res)=>{
+        console.log("上传结果");
+        console.log(res);
+        try{
+          res = JSON.parse(res.data);
+        }
+        catch(e){
+          console.log(e);
+        }
+        if(res.result && res.code == 200){
+          var file = res.data;
+          var fileList = this.data.fileList;
+          file = handle.fileList(app, api, file);
+          file = file[0];
+          fileList.push(file);
+          
+          this.setData({ fileList});
+        }
+        this.uploadLocalFile(ary,i+1,progress+100,upNum);
+      },
+      fail:(e)=>{
+        console.log("文件上传失败");
+        unNum = upNum - 1;
+        currentProgress = Math.floor(progress/upNum);
+        this.uploadLocalFile(ary, i + 1, progress, upNum);
+      }
+    })
+    uploadTask.onProgressUpdate((res)=>{
+      console.log("上传进度" + res.progress);
+      currentProgress = Math.floor((res.progress + progress)/upNum);
+      console.log(currentProgress);
+    })
+  },
+  // 文件全选/取消
+  selectAll: function (e) {
+    var state = e.currentTarget.dataset.state == 'true'? true : false;
+    console.log(e);
+    var fileList = this.data.fileList;
+    var length = fileList.length;
+    for (var i = 0; i < length; i++){
+      fileList[i].select = state
+    }
+    if(!state){
+      this.setData({ chooseFileList: [], fileList})
+    }
+    else{
+      this.setData({ fileList, chooseFileList: fileList})
+    }
+  },
+  // 文件下载操作
+  downloadFile: function (chooseFileList,i){
+    if(i == undefined){
+      i = 0;
+      chooseFileList = this.data.chooseFileList
+    }
+    // 判断是否已经下载完成
+    if (chooseFileList.length == i){
+      return false;
+    }
+    // 判断是否为文件夹
+    if (chooseFileList[i].atype == 0){
+      if (chooseFileList.length == i+1){
+        return false;
+      }
+      else{
+        i = i + 1;
+      }
+    }
+    var id = chooseFileList[i].id
+    // 判断文件大小是否超过小程序下载限制
+    var asize = parseInt(chooseFileList[i].asize.split(".")[0]);
+    if (asize > 10){
+      this.setData({alert:{content:"文件太大，请下载App"}});
+      this.alert();
+    }
+    var address = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + id;
+    console.log("开始下载");
+    let downloadTask = wx.downloadFile({
+      url: address,
+      success: (res) => {
+        console.log("文件下载");
+        console.log(res);
+        if (res.statusCode == 200) {
+          // 持久保存文件
+          wx.saveFile({
+            tempFilePath: res.tempFilePath,
+            success: (res) => {
+              this.downloadFile(chooseFileList,i+1)
+              console.log("保存成功");
+              console.log(res.savedFilePath);
+              this.setData({
+                alert: { content: "下载成功" }
+              })
+              this.alert()
+            }
+          })
+        }
+      },
+      fail:(err)=>{
+        console.log(err);
+      }
+    })
+  },
+  // 删除操作
+  delFile: function (e) {
+     var address = app.ip + "tc/taskService/deleteTaskArc";
+    var taskArcIds = [];
+    var chooseFileList = this.data.chooseFileList;
+    for (var i = 0; i < chooseFileList.length; i++) {
+      if (chooseFileList[i].atype != 0){
+        if ( this.isCouldDel(chooseFileList[i] ) ) {
+          taskArcIds.push(chooseFileList[i].id);
+        }
+      }
+      else{
+        // 跳过对文件夹的操作
+      }
+    }
+    if (taskArcIds.length == 0){
+      return false;
+    }
+    else{
+      api.sendDataByBody(taskArcIds, address, "POST", true).then(res => {
+        console.log("文件删除");
+        console.log(res);
+      })
+    } 
+  },
+  // 对文件操作权限进行判定
+  CheckPermissions: function (obj) {
+    /*
+    privType:1  文件只读  4：文件未开启只读保护
+    permissions: true:可以进行操作 false:权限不够
+    obj:每条文件的详细信息
+    */
+
+    var userId = wx.getStorageSync("tcUserId");
+    var permissions = false;//权限检查结果
+    // 检查是否开启了只读保护
+    if (obj.privType == 1){
+      permissions = obj.ownerId == userId? true : false;
+      // 判断是否是管理员
+      if(!permissions){
+        permissions = this.handlePower();
+      }
+    }
+    if(obj.privType == 4){
+      permissions = true;
+    }
+    return permissions;
+  },
+  // 判定是否具有删除文件权限
+  isCouldDel: function (obj) {
+    var permission = false;
+    if(this.handlePower()){
+      permission = true;
+    }
+    else{
+      permission = obj.ownerId == wx.getStorageSync("tcUserId")? true : false;
+    }
+    return permission;
+  },
+  // 检查文件夹中是否含有只读文件
+  checkFolderHasOnlyReadFile: function (obj) {
+    var permissions = false;
+  },
+  // 判断是否为别人的只读文件
+  isOtherreadFile: function (obj) {
+    var permission = false;
+    if(this.handlePower()){
+      permission = true;
+    }
+    else{
+      if (obj.privType == 1){
+        permission = obj.ownerId == wx.getStorageSync("tcUserId") ? true : false;
+      }
+      else{
+        permission = true;
+      }
+    }
+    return permission;
   }
+
 })

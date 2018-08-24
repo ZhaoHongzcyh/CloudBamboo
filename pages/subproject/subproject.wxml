@@ -97,15 +97,15 @@
   <!-- ----------------------------------------------文件列表区域------------------------------------------------------------- -->
 
   <view wx:if="{{menu[1].select}}" class="filelist">
-    <view wx:if="{{chooseFileList.length > 0 && !isShowReturn}}" class="file-select-info">
-      <view class="cancel" bindtap="cancel">取消</view>
+    <view wx:if="{{chooseFileList.length > 0}}" class="file-select-info {{chooseFileList.length > 0? 'fileAct':''}}">
+      <view class="cancel" data-state="false" bindtap="selectAll">取消</view>
       <view class="select-num">已选择{{chooseFileList.length}}个</view>
-      <view class="select-all" bindtap="selectAll">全选</view>
+      <view class="select-all" data-state="true" bindtap="selectAll">全选</view>
     </view>
     <!-- 文件夹返回键 -->
     <view wx:if="{{isShowReturn && fileParentIdStack.length < 7 || fileParentIdStack.length == 7}}" class="file-select-info">
       <block wx:for="{{fileParentIdStack}}">
-        <view class="urltitle {{(fileParentIdStack.length-1)==index? 'last':''}}" bindtap="jumpFile">{{item.title}}</view>
+        <view class="urltitle {{(fileParentIdStack.length-1)==index? 'last':''}}" bindtap="jumpFile" data-index="{{index}}" data-parentId="{{item.parentId}}">{{item.title}}</view>
         <view class="urltitle">></view>
       </block>
     </view>
@@ -119,7 +119,7 @@
     </view>
 
     <view wx:for="{{fileList}}"  wx:key="{{item.id}}">
-        <file item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-src="{{item.src}}" data-title="{{item.title}}" data-atype="{{item.atype}}" data-id="{{item.id}}" data-num="{{index}}" checked="{{item.select}}"  bindselect="checkOutFile"></file>
+        <file item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-src="{{item.src}}" data-title="{{item.title}}" data-atype="{{item.atype}}" readonly="{{item.isReadOnly}}" data-id="{{item.id}}" data-num="{{index}}" checked="{{item.select}}"  bindselect="checkOutFile"></file>
     </view>
     <!-- 文件预览 -->
       <view class="preview" wx:if="{{preview}}">
@@ -147,7 +147,7 @@
           <image src="./img/folder.png" class="newfolder"></image>
           <view class="newtitle">新建文件夹</view>
         </view>
-        <view class="singlegroup">
+        <view class="singlegroup" bindtap="readLocalFile">
           <image src="./img/localfile.png" class="newfolder"></image>
           <view class="newtitle">本地文件</view>
         </view>
@@ -158,7 +158,7 @@
     </view>
     <!--文件底部操作采单 -->
     <view class="footer-alert" wx:if="{{chooseFileList.length>0}}">
-      <view class="download operation" bindtap="alert">
+      <view class="download operation" bindtap="downloadFile">
         <image src="/pages/cloudDisk/img/download.png" class="footerimg"></image>
         <view class="footertext">下载</view>
       </view>
@@ -166,7 +166,7 @@
         <image src="/pages/cloudDisk/img/share.png" class="footerimg"></image>
         <view class="footertext">分享</view>
       </view>
-      <view class="delete operation" bindtap="alert">
+      <view class="delete operation" bindtap="delFile">
         <image src="/pages/cloudDisk/img/delete.png" class="footerimg"></image>
         <view class="footertext">删除</view>
       </view>
@@ -181,7 +181,7 @@
     </view>
     <!-- 更多操作 -->
     <view class="footer-more" wx:if="{{moreAction && chooseFileList.length>0}}">
-      <view class="copyto more" bindtap="alert">移动到</view>
+      <view class="copyto more" bindtap="alert">设置权限</view>
       <view class="copyto more" bindtap="alert">复制到</view>
       <view class="rename more" wx:if="{{chooseFileList.length == 1}}" bindtap="alert">重命名</view>
       <view class="cancelfun more" bindtap="moreFun">取消</view>

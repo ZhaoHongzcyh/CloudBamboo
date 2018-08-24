@@ -1,8 +1,9 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/project/project",
     "pages/subproject/subproject",
-    "pages/index/index",
+    
     
     "pages/addTask/addtask",
     "pages/cloudDisk/cloudDisk",

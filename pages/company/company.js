@@ -89,6 +89,7 @@ Page({
     //tc/taskTeamService/findTaskTeam
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj,address,"post",true).then(res=>{
+      console.log(res);
       if(res.data.code == 402){//session 过期，重定向到登录页面
         wx.redirectTo({
           url: '/pages/index/index',

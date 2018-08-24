@@ -48,7 +48,7 @@
   </view>
   <!-- 文件单选区域 -->
   <view class="radio-area">
-    <radio wx:if="{{!isdownload && !isdelete}}" class="radio" data-item="{{item}}" catchtap="selectFile" color="rgb(64,156,242)" data-ownerId="{{item.ownerId}}" data-parentId="{{item.parentId}}" data-ownerType="{{item.ownerType}}" data-id="{{item.id}}" checked="{{checked}}"></radio>
+    <radio wx:if="{{!isdownload && !isdelete && readonly}}" class="radio" data-item="{{item}}" catchtap="selectFile" color="rgb(64,156,242)" data-ownerId="{{item.ownerId}}" data-parentId="{{item.parentId}}" data-ownerType="{{item.ownerType}}" data-id="{{item.id}}" checked="{{checked}}"></radio>
     <!-- 用于文件下载 -->
     <view wx:if="{{isdownload}}" class="radio" data-item="{{item}}" catchtap="downloadFile">
       <image wx:if="{{isdownload}}" src="/pages/taskDetails/img/down.png" class="download"></image>

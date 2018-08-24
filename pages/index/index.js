@@ -6,7 +6,7 @@ const api = require("../../api/common.js");
 Page({
   data: {
     opendid:null,//小程序opendid
-    VerificatResult:false,//小程序code验证结果
+    VerificatResult:true,//小程序code验证结果
     share:false,//是否通过分享登录
     shareScene:{},//分享场景信息
     logoinCode:null,//微信登录code
@@ -54,7 +54,7 @@ Page({
     //获得popup组件
     this.popup = this.selectComponent("#popup");
     if (!app.globalData.isByAppEntry){
-      this.getLogoinCode();//验证用户是否绑定协作
+      //this.getLogoinCode();//验证用户是否绑定协作
     }
     else{
       this.setData({

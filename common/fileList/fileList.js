@@ -19,6 +19,10 @@ Component({
     isdelete:{
       type:Boolean,
       value:false
+    },
+    readonly:{
+      type:Boolean,
+      value:true
     }
   },
 
