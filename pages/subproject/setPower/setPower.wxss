@@ -1,0 +1,11 @@
+/* pages/subproject/setPower/setPower.wxss */
+.isOpen{
+  display: flex;
+  height: 150rpx;
+}
+.titleinfo{
+  font-size: 28rpx;
+}
+.onlyread{
+  display: flex;
+}

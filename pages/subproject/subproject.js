@@ -107,11 +107,12 @@ Page({
     chooseFileList:[],//已选文件列表
     moreAction:false,//是否展示文件更多操作
     preview:false,//是否开启预览模式
-    previewSrc:null,//预览资源路径
+    previewItem:null,//预览资源信息
     previewAtype:null,//预览资源类型
     isShowAddFile:false,//是否添加文件
     fileParentIdStack:[],//父文件夹ID堆栈
-    isShowReturn:false//是否显示文件夹返回按钮    
+    isShowReturn:false,//是否显示文件夹返回按钮
+    isShowReturnArea:false//在文件预览时，是否显示返回按钮    
   },
 
   /**
@@ -416,11 +417,12 @@ Page({
       var atype = e.currentTarget.dataset.atype;
       console.log(atype);
       if (atype == 7 || atype == 10 || atype == 9) {
-        var previewSrc = e.currentTarget.dataset.src;
+        var previewItem = e.currentTarget.dataset.item;
+
         var previewAtype = e.currentTarget.dataset.atype;
         this.setData({
           previewAtype: previewAtype,
-          previewSrc: previewSrc,
+          previewItem: previewItem,
           preview: true
         })
         return false;
@@ -930,6 +932,10 @@ Page({
         if ( this.isCouldDel(chooseFileList[i] ) ) {
           taskArcIds.push(chooseFileList[i].id);
         }
+        else{
+          this.setData({ alert: { content: "权限不够" } });
+          this.alert();
+        }
       }
       else{
         // 跳过对文件夹的操作
@@ -998,6 +1004,78 @@ Page({
       }
     }
     return permission;
-  }
-
+  },
+  //切换文件预览工具栏
+  switchFileReadAct: function () {
+    this.setData({ isShowReturnArea: !this.data.isShowReturnArea})
+  },
+  // 文件预览下的 下载
+  toobarDown: function () {
+    if (!this.data.previewItem.isReadOnly){
+      this.setData({alert:{content:"权限不够"}});
+      this.alert();
+    }
+    else{
+      this.downloadFile([this.data.previewItem], 0)
+    }
+  },
+  // 文件移动
+  fileMove: function (fileid) {
+    wx.navigateTo({
+      url: './fileMove/fileMove?taskid=' + this.data.taskId + "&file=" + fileid,
+    })
+  },
+  // 鉴定是否有权限移动
+  AppraisalPower: function (id) {
+    var address = app.ip + "tc/taskService/isContainsOther";
+    var arcIds = [];
+    var userId = wx.getStorageSync("tcUserId");
+    var chooseFileList = this.data.chooseFileList;
+    console.log(chooseFileList);
+    var isHasFolder = false;//是否包含文件夹
+    var isHasPower = true;//是否有权限移动
+    var permission = this.handlePower();
+    if(permission){
+      // 移动
+      console.log("管理员权限")
+    }
+    else{
+      for (var i = 0; i < chooseFileList.length; i++) {
+        if (chooseFileList[i].atype == 0){
+          isHasFolder = true;
+        }
+        if (chooseFileList[i].creatorId != userId){
+          isHasPower = false;
+        }
+        arcIds.push(chooseFileList[i].id)
+      }
+      console.log("结果")
+      console.log(isHasFolder,isHasPower);
+      if (!isHasPower){
+        this.setData({alert:{content:"移动失败，权限不够"}});
+        this.alert();
+        return false;
+      }
+      if (isHasFolder){
+        api.sendDataByBody(arcIds, address, "POST", true).then(res => {
+          console.log("鉴定结果");
+          console.log(res);
+          if(res.data.code == 200 && res.data.result){
+            if(res.data.data == "true"){
+              this.fileMove(arcIds.join(","))
+            }
+            else{
+              this.setData({ alert: { content: "移动失败，包含其他文件" } });
+              this.alert();
+            }
+          }
+        })
+      }
+      else{
+        this.fileMove(arcIds.join(","));
+      }
+    }
+    
+    
+  } 
 })

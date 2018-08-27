@@ -1,0 +1,32 @@
+<!--pages/subproject/fileMove/fileMove.wxml-->
+<view class="move">
+  <!-- 文件夹返回键 -->
+    <view wx:if="{{isShowReturn && fileParentIdStack.length < 7 || fileParentIdStack.length == 7}}" class="file-select-info">
+      <block wx:for="{{fileParentIdStack}}">
+        <view class="urltitle {{(fileParentIdStack.length-1)==index? 'last':''}}" bindtap="jumpFile" data-index="{{index}}" data-parentId="{{item.parentId}}">{{item.title}}</view>
+        <view class="urltitle">></view>
+      </block>
+    </view>
+    <view wx:if="{{isShowReturn && fileParentIdStack.length > 7}}" class="file-select-info">
+      
+        <view class="urltitle">{{fileParentIdStack[0].title}}</view>
+        <view class="urltitle">></view>
+        <view class="urltitle">...></view>
+        <view class="urltitle last">{{fileParentIdStack[fileParentIdStack.length - 1].title}}</view>
+        <view class="urltitle">></view>
+    </view>
+  <!-- 文件区域 -->
+  <view class="filearea">
+    <block wx:for="{{fileList}}"  wx:key="{{item.id}}">
+          <file item="{{item}}" data-item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-title="{{item.title}}"  readonly="{{false}}" data-id="{{item.id}}" checked="{{item.select}}"  bindselect="checkOutFile"></file>
+    </block>
+  </view>
+  <view class="toobar">
+    <view bindtap="newFolderAlert" class="commonbtn">新建文件夹</view>
+    <view class="interval"></view>
+    <view bindtap="moveFile" class="commonbtn">移动{{ids.length}}个</view>
+  </view>
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+  <fileAlert id="newFolder" bindnewFolder="newFolderName"></fileAlert>
+</view>

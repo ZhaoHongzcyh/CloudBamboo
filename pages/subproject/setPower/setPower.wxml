@@ -1,0 +1,24 @@
+<!--pages/subproject/setPower/setPower.wxml-->
+<view>
+  <view>
+    <view class="isOpen">
+      <view>对文件开启只读保护？</view>
+      <radio/>
+    </view>
+    <view class="titleinfo">
+      开启只读，此文件将只能被在线预览，不能被编辑、下载、转发、复制或分享
+    </view>
+    <radio/>
+  </view>
+  <view class="openProtect">
+    <view>文件对谁开启只读?</view>
+    <view class="onlyread">
+      <view>所有人</view>
+      <radio/>
+    </view>
+    <view class="onlyread">
+      <view>特定成员</view>
+      <radio/>
+    </view>
+  </view>
+</view>

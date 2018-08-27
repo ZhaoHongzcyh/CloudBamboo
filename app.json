@@ -1,10 +1,9 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/subproject/setPower/setPower",
     "pages/project/project",
+    "pages/index/index",
     "pages/subproject/subproject",
-    
-    
     "pages/addTask/addtask",
     "pages/cloudDisk/cloudDisk",
     "pages/ivew/ivew",
@@ -26,7 +25,8 @@
     "pages/taskDetails/peopleList/peoplelist",
     "pages/taskDetails/newTask/newtask",
     "pages/taskDetails/editPlan/editplan",
-    "pages/taskDetails/planTeam/planteam"
+    "pages/taskDetails/planTeam/planteam",
+    "pages/subproject/fileMove/fileMove"
     
   ],
   "window": {

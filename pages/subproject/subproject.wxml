@@ -119,25 +119,45 @@
     </view>
 
     <view wx:for="{{fileList}}"  wx:key="{{item.id}}">
-        <file item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-src="{{item.src}}" data-title="{{item.title}}" data-atype="{{item.atype}}" readonly="{{item.isReadOnly}}" data-id="{{item.id}}" data-num="{{index}}" checked="{{item.select}}"  bindselect="checkOutFile"></file>
+        <file item="{{item}}" data-item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-src="{{item.src}}" data-title="{{item.title}}" data-atype="{{item.atype}}" readonly="{{item.isReadOnly}}" data-id="{{item.id}}" data-num="{{index}}" checked="{{item.select}}"  bindselect="checkOutFile"></file>
     </view>
     <!-- 文件预览 -->
-      <view class="preview" wx:if="{{preview}}">
-          <view class="previewTop" bindtap="returnFileList">
+      <view class="preview" wx:if="{{preview}}" bindtap="switchFileReadAct">
+          <view class="previewTop" bindtap="returnFileList" wx:if="{{isShowReturnArea}}">
             <image src="./img/return.png" class="previewRow"></image>
-            图片名称
+            <view class="previewName">{{previewItem.title}}</view>
           </view>
           <!-- 图片预览 -->
           <view wx:if="{{previewAtype == 7}}" class="previewArea">
-            <image src="{{previewSrc}}" class="previewimg"></image>
+            <image src="{{previewItem.src}}" class="previewimg"></image>
           </view>
           <!-- 视频预览 -->
           <view wx:if="{{previewAtype == 9}}" class="previewArea">
-            <video src="{{previewSrc}}" class="previewimg"></video>
+            <video src="{{previewItem.src}}" class="previewimg"></video>
           </view>
           <!-- 音频预览 -->
           <view wx:if="{{previewAtype == 10}}" class="previewArea">
-            <audio src="{{previewSrc}}" class="previewimg"></audio>
+            <audio src="{{previewItem.src}}" class="previewimg"></audio>
+          </view>
+          <!-- 文件操作工具栏 -->
+          <view class="toobarFile" wx:if="{{isShowReturnArea}}">
+            <view class="singleToobar" bindtap="toobarDown">
+              <image src="./img/download.png" class="toobarimg"></image>
+              <view class="toobartxt">下载</view>
+            </view>
+            <view class="singleToobar">
+              <image src="./img/share.png" class="toobarimg"></image>
+              <view class="toobartxt">分享</view>
+            </view>
+            <view class="singleToobar">
+              <image src="./img/send.png" class="toobarimg"></image>
+              <view class="toobartxt">发送</view>
+            </view>
+            <view class="singleToobar">
+              <image src="./img/del.png" class="toobarimg"></image>
+              <view class="toobartxt">删除</view>
+            </view>
+            
           </view>
       </view>
     <!-- 新建文件夹/相册/拍照 -->
@@ -170,7 +190,7 @@
         <image src="/pages/cloudDisk/img/delete.png" class="footerimg"></image>
         <view class="footertext">删除</view>
       </view>
-      <view class="move operation" bindtap="alert">
+      <view class="move operation" bindtap="AppraisalPower">
         <image src="/pages/cloudDisk/img/move.png" class="footerimg"></image>
         <view class="footertext">移动</view>
       </view>

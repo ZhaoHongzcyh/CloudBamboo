@@ -434,7 +434,12 @@ page{
 }
 .previewName{
   position: absolute;
-  left: 0rpx;
+  left: 50%;
+  margin-left: -100rpx;
+  width: 200rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
   text-align: center;
 }
 .preview{
@@ -443,7 +448,7 @@ page{
   top: 0rpx;
   width: 100%;
   height: 100%;
-  background-color:#CCCCCC;
+  background-color: black;
 }
 .previewimg{
   width: 100%;
@@ -451,7 +456,28 @@ page{
 .previewArea{
   border: 1rpx solid red;
   text-align: center;
-  margin-top: 30%;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+}
+/* 文件预览底部功能区 */
+.toobarFile{
+  border: 1rpx solid black;
+  position: absolute;
+  bottom :0rpx;
+  display: flex;
+  width: 100%;
+  color: white;
+  font-size: 28rpx;
+}
+.singleToobar{
+  width: 25%;
+  text-align: center;
+}
+.toobarimg{
+  width: 42rpx;
+  height: 42rpx;
 }
 /* 新建文件夹/相册/拍照功能区 */
 .newfile{
@@ -463,7 +489,6 @@ page{
   z-index: 4;
   top: 0rpx;
   height: 100%;
-  /* background-color: rgba(0,0,0,0.8); */
   background-color: white;
 }
 .newAddFile{
