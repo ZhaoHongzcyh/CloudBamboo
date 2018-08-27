@@ -201,7 +201,7 @@
     </view>
     <!-- 更多操作 -->
     <view class="footer-more" wx:if="{{moreAction && chooseFileList.length>0}}">
-      <view class="copyto more" bindtap="alert">设置权限</view>
+      <view class="copyto more" bindtap="setPower">设置权限</view>
       <view class="copyto more" bindtap="alert">复制到</view>
       <view class="rename more" wx:if="{{chooseFileList.length == 1}}" bindtap="alert">重命名</view>
       <view class="cancelfun more" bindtap="moreFun">取消</view>

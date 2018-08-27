@@ -1075,7 +1075,12 @@ Page({
         this.fileMove(arcIds.join(","));
       }
     }
-    
-    
+  },
+  // 设置权限
+  setPower: function () {
+    var chooseFileList = this.data.chooseFileList;
+    wx.navigateTo({
+      url: './setPower/setPower?taskid=' + this.data.taskId + "&fileid=" + chooseFileList[0].id,
+    })
   } 
 })

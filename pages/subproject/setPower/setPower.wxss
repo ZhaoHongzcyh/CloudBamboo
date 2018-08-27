@@ -1,4 +1,16 @@
 /* pages/subproject/setPower/setPower.wxss */
+.singlelist{
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+}
+.userhead{
+  width: 52rpx;
+  height: 52rpx;
+}
+.username{
+  font-size: 28rpx;
+}
 .isOpen{
   display: flex;
   height: 150rpx;
