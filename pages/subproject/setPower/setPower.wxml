@@ -1,32 +1,46 @@
 <!--pages/subproject/setPower/setPower.wxml-->
 <view>
-  <view>
-    <view class="isOpen">
-      <view>对文件开启只读保护？</view>
-      <radio checked="{{file.authorityType==null? false : true}}"/>
+
+  <view wx:if="{{!isShowMemberList}}">
+    <view>
+      <view class="isOpen">
+        <view class="headtitle">是否对文件开启只读保护？</view>
+        <switch  bindchange="openReadPer" data-original="{{file.authorityType}}" checked="{{file.authorityType==null? false : true}}" class="userradio"/>
+      </view>
+      <view class="titleinfo">
+        开启只读，此文件将只能被在线预览，不能被编辑、下载、转发、复制或分享
+      </view>
     </view>
-    <view class="titleinfo">
-      开启只读，此文件将只能被在线预览，不能被编辑、下载、转发、复制或分享
+    <view class="openProtect">
+      <view class="onlyread towhome">文件对谁开启只读?</view>
+      <view class="onlyread">
+        <view class="headtitle people">所有人</view>
+        <switch bindchange="switchState" data-state="all" checked="{{file.authorityType==0? true : false}}" class="userradio"/>
+      </view>
+      <view class="onlyread">
+        <view class="headtitle people">特定成员</view>
+        <switch bindchange="switchState" data-state="other" checked="{{file.authorityType == 1? true : false}}" class="userradio"/>
+      </view>
     </view>
-  </view>
-  <view class="openProtect">
-    <view>文件对谁开启只读?</view>
-    <view class="onlyread" bindtap="switchState" data-state="all">
-      <view>所有人</view>
-      <radio checked="{{file.authorityType==0? true : false}}"/>
-    </view>
-    <view class="onlyread" bindtap="switchState" data-state="other">
-      <view>特定成员</view>
-      <radio checked="{{file.authorityType == 1? true : false}}"/>
-    </view>
+    <view bindtap="editFilePower" class="submit">确定</view>
   </view>
   <!-- 所有成员列表 -->
-  <view wx:if="{{isShowMemberList}}">
-    <view wx:for="{{file.taskAuthorityList}}" class="singlelist">
-      <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.userId + '/100/100'}}" class="userhead"></image>
-      <view class="username">{{item.userName}}</view>
-      <radio checked="{{item.definedPriv}}"/>
+  <view wx:if="{{isShowMemberList}}" class="member">
+    <view class="memberlist">
+      <view wx:for="{{file.taskAuthorityList}}" class="singlelist" data-item="{{item}}" bindtap="chooseMember">
+        <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.userId + '/100/100'}}" class="userhead"></image>
+        <view class="username">{{item.userName}}</view>
+        <switch checked="{{item.definedPriv}}" color="#409CF2" class="userradio"/>
+      </view>
+    </view>
+    <!-- 按钮 -->
+    <view class="btnarea">
+      <view class="btn cancel" bindtap="switchCancel">取消</view>
+      <view class="spacing"></view>
+      <view class="btn sure" bindtap="editFilePower">确定</view>
     </view>
   </view>
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>
 

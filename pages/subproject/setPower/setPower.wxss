@@ -1,23 +1,118 @@
 /* pages/subproject/setPower/setPower.wxss */
-.singlelist{
+page{
+  background-color:#f5f5f5;
+}
+.isOpen{
+  display: flex;
+  height: 100rpx;
+  font-size: 28rpx;
+  align-items: center;
+  background-color: white;
+  border-top:1rpx solid #DBDBDB;
+}
+.titleinfo{
+  display: flex;
+  background-color: white;
+  padding-left: 40rpx;
+  height: 120rpx;
+  align-items: center;
+  color: #666666;
+  border-top: 1rpx solid #DBDBDB;
+  font-size: 28rpx;
+}
+.headtitle{
+  flex: 1;
+  margin-left: 40rpx;
+}
+.towhome{
+  padding-left: 40rpx;
+  margin-top: 30rpx;
+}
+.onlyread{
   display: flex;
   height: 80rpx;
+  border-top: 1rpx solid #DBDBDB;
   align-items: center;
+  font-size: 28rpx;
+  background-color: white;
+}
+.people{
+  flex: 1;
+  color: #666666;
+}
+/* 人员列表 */
+.member{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+.memberlist{
+  height: calc(100% - 140rpx);
+  margin-bottom: 20rpx;
+  overflow: auto;
+}
+.singlelist{
+  display: flex;
+  height: 100rpx;
+  background-color: white;
+  align-items: center;
+  border-bottom: 1rpx solid #f5f5f5;
 }
 .userhead{
   width: 52rpx;
   height: 52rpx;
+  margin-left: 40rpx;
+  border-radius:50%;
 }
 .username{
   font-size: 28rpx;
+  margin-left: 21rpx;
+  flex: 2;
 }
-.isOpen{
+.userradio{
+  margin-right: 30rpx;
+  transform: scale(0.8);
+}
+
+/* 按钮区域 */
+.btnarea{
   display: flex;
-  height: 150rpx;
+  margin-left: 20rpx;
+  justify-content: center;
 }
-.titleinfo{
+.btn{
+  height: 72rpx;
+  width: 315rpx;
   font-size: 28rpx;
+  text-align: center;
+  line-height: 72rpx;
+  border-radius: 10rpx;
+  
 }
-.onlyread{
-  display: flex;
+.spacing{
+  width: 30rpx;
+}
+.cancel{
+  color: #409CF2;
+  background-color: white;
+  border: 1rpx solid #409CF2;
+}
+.sure{
+  color: white;
+  background-color: #409CF2;
+}
+.submit{
+  position: fixed;
+  bottom: 40rpx;
+  width: 670rpx;
+  height: 72rpx;
+  left: 50%;
+  margin-left: -335rpx;
+  text-align: center;
+  line-height: 72rpx;
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: white;
+  background-color: #409CF2;
+  border-radius: 8rpx;
 }

@@ -112,7 +112,9 @@ Page({
     isShowAddFile:false,//是否添加文件
     fileParentIdStack:[],//父文件夹ID堆栈
     isShowReturn:false,//是否显示文件夹返回按钮
-    isShowReturnArea:false//在文件预览时，是否显示返回按钮    
+    isShowReturnArea:false,//在文件预览时，是否显示返回按钮
+    fileRename:null,//文件重命名姓名
+    project:null,//用于存放单个项目的详细信息    
   },
 
   /**
@@ -123,6 +125,7 @@ Page({
     this.popup = this.selectComponent("#popup");
     this.confirm = this.selectComponent("#confirm");
     this.newFolder = this.selectComponent("#newFolder");
+    this.rename = this.selectComponent("#rename");
     this.searchPowerData(options.id)
   },
 
@@ -510,7 +513,8 @@ Page({
     var parentId = e.currentTarget.dataset.parentid;
     console.log(parentId)
     this.setData({
-      parentId: parentId
+      parentId: parentId,
+      chooseFileList:[]
     });
     this.selectFile(e);
   },
@@ -538,6 +542,12 @@ Page({
         break;
       case 1:
         this.selectFile();
+        break;
+      case 2:
+        // this.getProjectInfo();
+        break;
+      case 3:
+        this.getProjectInfo();
         break;
       default :
       break;
@@ -1081,6 +1091,91 @@ Page({
     var chooseFileList = this.data.chooseFileList;
     wx.navigateTo({
       url: './setPower/setPower?taskid=' + this.data.taskId + "&fileid=" + chooseFileList[0].id,
+    })
+  },
+  // 获取重名名信息
+  getFileRename: function (e) {
+    console.log(e);
+    this.setData({fileRename:e.detail.folderName});
+    this.fileRename();
+  },
+  // 文件重命名弹框
+  renameAlert: function () {
+    this.rename.showModel();
+  },
+  // 确定重命名
+  fileRename: function () {
+    var chooseFileList = this.data.chooseFileList;
+    if (!this.isCouldDel(chooseFileList[0])){
+      this.setData({alert:{content:"权限不够"}});
+      this.alert()
+    }
+    else{
+      var address = app.ip + "tc/taskService/updateTaskArcTitle";
+      console.log(chooseFileList[0])
+      var obj = {
+        arcId: chooseFileList[0].id,
+        parentId: chooseFileList[0].parentId,
+        title:encodeURI(this.data.fileRename)
+      }
+      api.request(obj,address,"POST",true).then(res=>{
+        console.log("文件重命名");
+        console.log(res);
+        if(res.data.code ==200 && res.data.result){
+          res.data.data.isReadOnly = true;
+          this.handleRename(res.data.data,obj);
+          this.rename.hide();
+        }
+        else{
+          this.setData({alert:{content:"文件重命名失败"}});
+          this.alert();
+        }
+      }).catch(e=>{
+        console.log(e);
+        this.setData({ alert: { content: "文件重命名失败" } });
+        this.alert();
+      })
+    }
+  },
+  // 文件重命名成功处理函数
+  handleRename: function (res,obj) {
+    var fileList = this.data.fileList;
+    for (var i = 0; i < fileList.length; i++){
+      if (fileList[i].id == res.id){
+        fileList[i] = handle.fileList(app,api,[res])[0]
+      }
+    }
+    this.setData({ fileList, chooseFileList:[]})
+  },
+  // ------------------------------------------------------------项目设置相关-----------------------------------------------------------
+  // 获取项目详细信息
+  getProjectInfo: function () {
+    var address = app.ip + "tc/taskService/findTaskBOById";
+    var obj = { taskId:this.data.taskId};
+    api.request(obj,address,"POST",true).then(res=>{
+      console.log("项目详细信息");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var project = res.data.data.summaryBean;
+        project.createDate = project.createDate.split("T")[0];
+        if(project.startDate != null){
+          project.startDate = project.startDate.split("T")[0];
+        }
+        if (project.endDate != null){
+          project.endDate = project.endDate.split("T")[0];
+        }
+        this.setData({
+          project:res.data.data.summaryBean
+        })
+      }
+    })
+  },
+  // 获取项目归属团队列表
+  getProjectTeam: function () {
+    var address = app.ip + "tc/taskTeamService/findTaskTeam";
+    api.request({},address,"POST",true).then(res=>{
+      console.log("我的团队");
+      console.log(res);
     })
   } 
 })

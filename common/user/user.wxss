@@ -1,0 +1,29 @@
+/* 头像区域 */
+.user{
+  width: 100rpx;
+}
+.photo{
+  position: relative;
+  width: 68rpx;
+  height: 68rpx;
+  margin: auto;
+}
+.userphoto{
+  width: 68rpx;
+  height: 68rpx;
+}
+.admin{
+  position: absolute;
+  bottom: 0rpx;
+  right: 0rpx;
+  width: 24rpx;
+  height: 24rpx;
+}
+.username{
+  margin-top: 12rpx;
+  color: #666666;
+  font-size: 24rpx;
+  text-align: center;
+  width: 100rpx;
+  overflow: hidden;
+}

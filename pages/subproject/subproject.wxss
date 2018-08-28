@@ -526,3 +526,87 @@ page{
 .close{
   transform:rotateZ(45deg);
 }
+
+/* ----------------------------------------------------------项目设置区域----------------------------------------------- */
+.projecthead{
+  margin-top: 4rpx;
+  display: flex;
+  height: 164rpx;
+  align-items: center;
+  background-color: white;
+}
+.projectimg{
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  margin-left: 24rpx;
+  margin-right: 30rpx;
+  background-color: #4E8CEE;
+}
+.projectinfo{
+  width: 320rpx;
+}
+.projectname{
+  color: projectname;
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.projecttime{
+  width: 320rpx;
+  color: #999999;
+  font-size: 24rpx;
+  margin-top: 16rpx;
+}
+.editproject{
+  width: 14rpx;
+  height: 28rpx;
+  font-size: 28rpx;
+  color: #AAAAAA;
+  margin-left: 210rpx;
+  transform:rotateZ(180deg);
+}
+/* 项目描述 */
+.projectdescript{
+  height: 165rpx;
+  margin-top: 4rpx;
+  font-size: 28rpx;
+  padding: 12rpx;
+  color: #999999;
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+.singlelist{
+  display: flex;
+  height: 80rpx;
+  border: 1rpx solid #DBDBDB;
+  align-items: center;
+  background-color: white;
+}
+.projectLevel{
+  flex: 1;
+  color: #333333;
+  font-size: 28rpx;
+  margin-left: 41rpx;
+}
+.descript{
+  color: #409CF2;
+  font-size: 28rpx;
+  margin-right: 40rpx;
+}
+.moreSet{
+  margin-top: 30rpx;
+}
+.moreset{
+  margin-right: 40rpx;
+  color: #999999;
+  font-size: 28rpx;
+}
+/* 项目设置底部功能区 */
+.importantLevel{
+  position: fixed;
+  bottom: 0rpx;
+  font-size: 28rpx;
+}

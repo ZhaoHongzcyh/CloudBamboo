@@ -201,17 +201,100 @@
     </view>
     <!-- 更多操作 -->
     <view class="footer-more" wx:if="{{moreAction && chooseFileList.length>0}}">
-      <view class="copyto more" bindtap="setPower">设置权限</view>
+      <view class="copyto more" bindtap="setPower" wx:if="{{chooseFileList.length==1? true:false}}">设置权限</view>
       <view class="copyto more" bindtap="alert">复制到</view>
-      <view class="rename more" wx:if="{{chooseFileList.length == 1}}" bindtap="alert">重命名</view>
+      <view class="rename more" wx:if="{{chooseFileList.length == 1}}" bindtap="renameAlert">重命名</view>
       <view class="cancelfun more" bindtap="moreFun">取消</view>
     </view>
     <!-- 蒙版层 -->
     <view class="moreModel" wx:if="{{moreAction && chooseFileList.length>0}}" bindtap="moreFun"></view>
   </view>
 
+  <!-- -------------------------------------------------设置区域--------------------------------------------------------------- -->
+  <view class="projectSet">
+    <view class="projecthead">
+      <view class="projectimg">
+      </view>
+      <view class="projectinfo">
+        <view class="projectname">{{project.title}}</view>
+        <view class="projecttime">
+          创建于：{{project.createDate}}
+        </view>
+      </view>
+      <view class="editproject"> {{'<'}} </view>
+    </view>
+    <!-- 项目描述 -->
+    <view class="projectdescript">
+      {{project.description}}
+    </view>
+    <!-- 项目成员头像 -->
+    <view class="projectmember" wx:if="{{false}}">
+      <view class="addmember">
+        <view class="addmem">+</view>
+        <view class="addtitle">添加</view>
+      </view>
+    </view>
+    <!-- 项目信息 -->
+    <view>
+      <view class="singlelist">
+        <view class="projectLevel">项目级别</view>
+        <view class="descript">
+          {{project.important==0? '普通':''}}
+          {{project.important==1? '重要':''}}
+          {{project.important==2? '非常重要':''}}
+        </view>
+      </view>
+      <view class="singlelist">
+        <view class="projectLevel">开始时间</view>
+        <!-- <view class="descript">2017-10-23</view> -->
+        <picker mode="date" class="descript">
+          <view>
+            {{project.startDate == null? '未设置' : project.startDate}}
+          </view>
+        </picker>
+      </view>
+      <view class="singlelist">
+        <view class="projectLevel">结束时间</view>
+        <picker mode="date" class="descript">
+          <view>
+            {{project.endtDate == null? '未设置' : project.endDate}}
+          </view>
+        </picker>
+      </view>
+      <view class="singlelist">
+        <view class="projectLevel">项目所属</view>
+        <view class="descript">
+          {{project.ownerName}}
+        </view>
+      </view>
+    </view>
+    <!-- 高级设置 -->
+    <view class="moreSet">
+      <view class="singlelist">
+        <view class="projectLevel">高级设置</view>
+        <view class="moreset">
+          项目的完结、中止、复制等 >
+        </view>
+      </view>
+      <view class="singlelist">
+        <view class="projectLevel">管理员组</view>
+        <view class="moreset">
+          >
+        </view>
+      </view>
+    </view>
+    <!-- 项目设置底部菜单栏 -->
+    <view class="importantLevel">
+      <view>普通</view>
+      <view>重要</view>
+      <view>非常重要</view>
+      <view>取消</view>
+    </view>
+  </view>
    <!-- 弹框 -->
 <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 <confirm id="confirm" bindsure="delPlan" title="{{delPlanInfo}}"></confirm>
 <fileAlert id="newFolder" bindnewFolder="newFolderName"></fileAlert>
+<!-- 重命名弹框 -->
+<fileAlert id="rename" title="重命名" placeholder="{{chooseFileList[0].title}}" bindnewFolder="getFileRename"></fileAlert>
 </view>

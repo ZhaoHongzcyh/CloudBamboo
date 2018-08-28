@@ -1,9 +1,11 @@
 {
   "pages": [
     "pages/project/project",
-    "pages/index/index",
-    "pages/subproject/setPower/setPower",
     "pages/subproject/subproject",
+    "pages/index/index",
+    
+    
+    "pages/subproject/setPower/setPower",
     "pages/addTask/addtask",
     "pages/cloudDisk/cloudDisk",
     "pages/ivew/ivew",

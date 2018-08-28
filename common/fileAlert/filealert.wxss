@@ -2,6 +2,7 @@
 /* 新建文件夹弹框组件 */
 .newfileModel{
   position: fixed;
+  z-index: 5;
   top: 0rpx;
   width: 100%;
   height: 100%;

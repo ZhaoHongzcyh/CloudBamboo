@@ -1,0 +1,10 @@
+<!--common/user/user.wxml-->
+<view class="user">
+  <view class="photo">
+  <!-- 头像 -->
+    <image src="/pages/subproject/img/userphoto.png" class="userphoto"></image>
+  <!-- 管理员标识 -->
+    <image src="/pages/subproject/img/admin.png" class="admin"></image>
+  </view>
+  <view class="username"> 赵奕然</view>
+</view>
