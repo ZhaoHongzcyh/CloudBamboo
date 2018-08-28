@@ -607,6 +607,24 @@ page{
 /* 项目设置底部功能区 */
 .importantLevel{
   position: fixed;
+  top: 0rpx;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
   bottom: 0rpx;
   font-size: 28rpx;
+}
+.importantSingle{
+  position: absolute;
+  bottom: 0rpx;
+  width: 100%;
+}
+.important{
+  height: 72rpx;
+  line-height: 72rpx;
+  border-bottom: 1rpx solid #DBDBDB;
+  background-color: white;
+  text-align: center;
+  font-size: 28rpx;
+  color: #333333;
 }

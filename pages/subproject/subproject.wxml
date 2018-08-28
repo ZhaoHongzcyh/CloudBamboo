@@ -211,7 +211,7 @@
   </view>
 
   <!-- -------------------------------------------------设置区域--------------------------------------------------------------- -->
-  <view class="projectSet">
+  <view class="projectSet" wx:if="{{menu[3].select}}">
     <view class="projecthead">
       <view class="projectimg">
       </view>
@@ -285,10 +285,12 @@
     </view>
     <!-- 项目设置底部菜单栏 -->
     <view class="importantLevel">
-      <view>普通</view>
-      <view>重要</view>
-      <view>非常重要</view>
-      <view>取消</view>
+      <view class="importantSingle">
+          <view class="important">普通</view>
+          <view class="important">重要</view>
+          <view class="important">非常重要</view>
+          <view class="important">取消</view>
+      </view>
     </view>
   </view>
    <!-- 弹框 -->

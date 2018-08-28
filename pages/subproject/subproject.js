@@ -1177,5 +1177,13 @@ Page({
       console.log("我的团队");
       console.log(res);
     })
+  },
+  // 设置项目级别
+  setProjectLevel: function (e) {
+
+  },
+  // 获取项目级别
+  getProjectLevel: function () {
+    
   } 
 })
