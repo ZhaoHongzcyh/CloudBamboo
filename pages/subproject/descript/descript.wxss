@@ -1,0 +1,51 @@
+/* pages/subproject/descript/deacript.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+.common_title{
+  font-size: 28rpx;
+  color: #999999;
+  padding-left: 40rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+.textarea{
+  background-color: white;
+}
+.projectname{
+  background-color: white;
+  width: 670rpx;
+  margin: auto;
+  padding: 20rpx;
+  height: 120rpx;
+  font-size: 28rpx;
+  color: #999999;
+}
+.projectdescript{
+  height: 200rpx;
+  width: 670rpx;
+  margin: auto;
+  padding: 20rpx;
+  background-color: white;
+  overflow: hidden;
+  font-size: 28rpx;
+  color: #999999;
+}
+.placeholder{
+  margin:0rpx 40rpx 0rpx 40rpx;
+}
+/* 保存按钮 */
+.save{
+  position: fixed;
+  bottom: 30rpx;
+  width: 670rpx;
+  height: 72rpx;
+  left: 50%;
+  border-radius: 10rpx;
+  margin-left: -335rpx;
+  background-color: #409CF2;
+  text-align: center;
+  line-height: 72rpx;
+  color: white;
+  font-size: 28rpx;
+}

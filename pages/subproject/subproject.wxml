@@ -212,7 +212,7 @@
 
   <!-- -------------------------------------------------设置区域--------------------------------------------------------------- -->
   <view class="projectSet" wx:if="{{menu[3].select}}">
-    <view class="projecthead">
+    <view class="projecthead" bindtap="editProjectInfo">
       <view class="projectimg">
       </view>
       <view class="projectinfo">
@@ -236,7 +236,7 @@
     </view>
     <!-- 项目信息 -->
     <view>
-      <view class="singlelist">
+      <view class="singlelist" bindtap="openToolbarMenu">
         <view class="projectLevel">项目级别</view>
         <view class="descript">
           {{project.important==0? '普通':''}}
@@ -247,7 +247,7 @@
       <view class="singlelist">
         <view class="projectLevel">开始时间</view>
         <!-- <view class="descript">2017-10-23</view> -->
-        <picker mode="date" class="descript">
+        <picker mode="date" class="descript" bindchange='setProjectStartDate'>
           <view>
             {{project.startDate == null? '未设置' : project.startDate}}
           </view>
@@ -255,13 +255,13 @@
       </view>
       <view class="singlelist">
         <view class="projectLevel">结束时间</view>
-        <picker mode="date" class="descript">
+        <picker mode="date" class="descript" start="{{project.startDate}}" bindchange='setProjectEndDate'>
           <view>
-            {{project.endtDate == null? '未设置' : project.endDate}}
+            {{project.endDate == null? '未设置' : project.endDate}}
           </view>
         </picker>
       </view>
-      <view class="singlelist">
+      <view class="singlelist" bindtap="setProjectAscription">
         <view class="projectLevel">项目所属</view>
         <view class="descript">
           {{project.ownerName}}
@@ -276,7 +276,7 @@
           项目的完结、中止、复制等 >
         </view>
       </view>
-      <view class="singlelist">
+      <view class="singlelist" bindtap="adminTeam">
         <view class="projectLevel">管理员组</view>
         <view class="moreset">
           >
@@ -284,12 +284,12 @@
       </view>
     </view>
     <!-- 项目设置底部菜单栏 -->
-    <view class="importantLevel">
+    <view class="importantLevel" wx:if="{{isOpenMenu}}">
       <view class="importantSingle">
-          <view class="important">普通</view>
-          <view class="important">重要</view>
-          <view class="important">非常重要</view>
-          <view class="important">取消</view>
+          <view class="important" data-level="0" bindtap="getProjectLevel">普通</view>
+          <view class="important" data-level="1" bindtap="getProjectLevel">重要</view>
+          <view class="important" data-level="2" bindtap="getProjectLevel">非常重要</view>
+          <view class="important" bindtap="openToolbarMenu">取消</view>
       </view>
     </view>
   </view>

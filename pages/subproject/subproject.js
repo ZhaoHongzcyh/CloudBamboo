@@ -114,7 +114,11 @@ Page({
     isShowReturn:false,//是否显示文件夹返回按钮
     isShowReturnArea:false,//在文件预览时，是否显示返回按钮
     fileRename:null,//文件重命名姓名
-    project:null,//用于存放单个项目的详细信息    
+
+    // ------------------------------------------------------------------设置模块数据------------------------------------------
+    project:null,//用于存放单个项目的详细信息
+    isOpenMenu: false,//是否打开功能区
+    isCouldEditProject:false,    
   },
 
   /**
@@ -1150,6 +1154,10 @@ Page({
   // ------------------------------------------------------------项目设置相关-----------------------------------------------------------
   // 获取项目详细信息
   getProjectInfo: function () {
+    // 进项权限判定，判定用户是否可以编辑项目信息
+    var permission = this.handlePower();
+    this.setData({ isCouldEditProject:permission});
+
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId:this.data.taskId};
     api.request(obj,address,"POST",true).then(res=>{
@@ -1170,20 +1178,49 @@ Page({
       }
     })
   },
-  // 获取项目归属团队列表
-  getProjectTeam: function () {
-    var address = app.ip + "tc/taskTeamService/findTaskTeam";
-    api.request({},address,"POST",true).then(res=>{
-      console.log("我的团队");
-      console.log(res);
-    })
-  },
-  // 设置项目级别
-  setProjectLevel: function (e) {
-
+  
+  // 是否打开功能区
+  openToolbarMenu: function () {
+    this.setData({ isOpenMenu: !this.data.isOpenMenu})
   },
   // 获取项目级别
-  getProjectLevel: function () {
-    
+  getProjectLevel: function (e) {
+    var level = e.currentTarget.dataset.level;
+    var project = this.data.project;
+    project.important = parseInt(level);
+    this.setData({project})
+    this.openToolbarMenu();
+  },
+  // 设置项目开始时间
+  setProjectStartDate: function (e) {
+    var project = this.data.project;
+    project.startDate = e.detail.value;
+    this.setData({project})
+    console.log(e);
+  },
+  // 设置项目结束时间
+  setProjectEndDate: function (e) {
+    var project = this.data.project;
+    project.endDate = e.detail.value;
+    this.setData({project})
+    console.log(project);
+  },
+  // 设置项目所属
+  setProjectAscription: function () {
+    wx.navigateTo({
+      url: './ascription/ascription',
+    })
+  },
+  // 编辑项目描述与项目标题
+  editProjectInfo: function () {
+    wx.navigateTo({
+      url: './descript/descript?taskid=' + this.data.taskId,
+    })
+  },
+  // 管理员组
+  adminTeam: function () {
+    wx.navigateTo({
+      url: './admin/admin?taskid=' + this.data.taskId,
+    })
   } 
 })

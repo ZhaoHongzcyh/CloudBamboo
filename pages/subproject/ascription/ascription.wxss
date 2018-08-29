@@ -1,0 +1,29 @@
+/* pages/subproject/ascription/ascription.wxss */
+.teamlist{
+  display: flex;
+  height: 120rpx;
+  align-items: center;
+  font-size: 28rpx;
+  color: #333333;
+  border-bottom: 1rpx solid #DBDBDB;
+}
+.company{
+  margin-left: 20rpx;
+  flex: 2;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.companyhead{
+  width: 80rpx;
+  height: 80rpx;
+  margin-left: 31rpx;
+}
+.personname{
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.radio{
+  margin-right: 20rpx;
+}

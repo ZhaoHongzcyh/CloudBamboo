@@ -1,0 +1,11 @@
+<!--设置项目归属-->
+<view>
+  <view wx:for="{{teamList}}" class="teamlist" bindtap="chooseCompany" data-title="{{item.title}}" data-index="{{index}}" data-ownerType="{{index==0? '10000003':'40010001'}}" data-id="{{item.id}}">
+    <image src="./img/company.png" class="companyhead"></image>
+    <view class="company">
+      <view class="companyname">{{item.title}}</view>
+      <view class="personname" wx:if="{{item.ownerName != null}}">负责人：{{item.ownerName}}</view>
+    </view>
+    <radio class="radio" color="#409CF2" checked="{{item.checked}}"/>
+  </view>
+</view>

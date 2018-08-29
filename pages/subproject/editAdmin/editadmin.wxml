@@ -1,0 +1,20 @@
+<!--pages/subproject/editAdmin/editadmin.wxml-->
+<view>
+  <!-- 搜索区域 -->
+  <view class="search">
+    <image src="/pages/cloudDisk/img/searchbtn.png" class="searchimg"></image>
+    <input type="text" class="searchinput" bindinput="matchUser"/>
+  </view>
+
+  <!-- 人物列表 -->
+  <block wx:for="{{memberlist}}">
+    <view class="user" data-initselect="{{item.initSelect}}" bindtap="addMember" data-item="item" data-index="{{index}}">
+      <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userphoto"></image>
+      <view class="username">{{item.personName}}</view>
+      <radio class="select" wx:if="{{isShowRadio && item.initSelect}}" checked='{{item.initSelect}}'/>
+      <radio class="select" wx:if="{{isShowRadio && !item.initSelect}}" checked="{{item.checked}}" data-index="{{index}}"/>
+      <view class="del" wx:if="{{!isShowRadio}}">-</view>
+    </view>
+  </block>
+  
+</view>

@@ -1,0 +1,59 @@
+/* pages/subproject/editAdmin/editadmin.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+/* 搜索区域 */
+.search{
+  width: 700rpx;
+  height: 50rpx;
+  border: 1rpx solid #DBDBDB;
+  border-radius: 20rpx;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+.searchimg{
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 20rpx;
+}
+.searchinput{
+  margin-left: 10rpx;
+  font-size: 28rpx;
+  color: #999999;
+}
+/* 任务列表区域 */
+.user{
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+}
+.userphoto{
+  margin-left: 20rpx;
+  width: 62rpx;
+  height: 62rpx;
+  border-radius: 50%;
+}
+.username{
+  flex: 2;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  color: #333333;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.select{
+  margin-right: 30rpx;
+}
+.del{
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  border-radius: 50%;
+  text-align: center;
+  background-color: red;
+  color: white;
+  margin-right: 40rpx;
+}

@@ -1,10 +1,11 @@
 {
   "pages": [
     "pages/project/project",
-    "pages/subproject/subproject",
     "pages/index/index",
     
     
+    "pages/subproject/admin/admin",
+    "pages/subproject/subproject",
     "pages/subproject/setPower/setPower",
     "pages/addTask/addtask",
     "pages/cloudDisk/cloudDisk",
@@ -28,8 +29,10 @@
     "pages/taskDetails/newTask/newtask",
     "pages/taskDetails/editPlan/editplan",
     "pages/taskDetails/planTeam/planteam",
-    "pages/subproject/fileMove/fileMove"
-    
+    "pages/subproject/fileMove/fileMove",
+    "pages/subproject/ascription/ascription",
+    "pages/subproject/descript/descript",
+    "pages/subproject/editAdmin/editadmin"
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",

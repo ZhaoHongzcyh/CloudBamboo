@@ -1,0 +1,35 @@
+/* pages/subproject/admin/admin.wxss */
+.admin{
+  display: flex;
+  flex-wrap: wrap;
+}
+.btn{
+  width: 90rpx;
+  text-align: center;
+}
+.add{
+  width: 68rpx;
+  height: 68rpx;
+  margin: auto;
+  line-height: 68rpx;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  background-color: #409CF2;
+}
+.title{
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #666666;
+  text-align: center;
+  overflow: hidden;
+}
+.name{
+   font-size: 24rpx;
+  color: #666666;
+  text-align: center;
+  overflow: hidden;
+}
+.del{
+  background-color: red;
+}
