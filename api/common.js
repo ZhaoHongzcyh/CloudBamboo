@@ -413,6 +413,27 @@ var nowTime = function() {
   return year + "-" + month + "-" + date;
 }
 
+// 获取当前时间
+var getNowTime = function () {
+  var myDate = new Date();
+  var h = parseInt(myDate.getHours());
+  if (h < 10) {
+    h = "0" + h;
+  }
+
+  var m = parseInt(myDate.getMinutes());
+  if (m < 10) {
+    m = "0" + m;
+  }
+
+  var s = parseInt(myDate.getSeconds());
+  if (s < 10) {
+    s = "0" + s;
+  }
+  var time = "T" + h + ":" + m + ":" + s + ".000+0000";
+  return time;
+}
+
 module.exports = {
   request,
   handleLogoinInfo,
@@ -428,5 +449,6 @@ module.exports = {
   autoAddLogoinInfo,
   nowTime,
   sendDataByBody,
-  customRequest
+  customRequest,
+  getNowTime
 }

@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/project/project",
-    "pages/subproject/copyProject/copyproject",
+    "pages/index/index",
     
+    "pages/subproject/copyProject/copyproject",
     "pages/subproject/admin/admin",
     "pages/subproject/subproject",
     "pages/subproject/setPower/setPower",

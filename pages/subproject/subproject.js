@@ -1196,6 +1196,8 @@ Page({
     project.important = parseInt(level);
     this.setData({project})
     this.openToolbarMenu();
+    var obj = this.handleTimeFormat(project);
+    this.saveSummaryBean(project);
   },
   // 设置项目开始时间
   setProjectStartDate: function (e) {
@@ -1275,5 +1277,31 @@ Page({
     wx.navigateTo({
       url: './advanceSet/advanceset?taskid=' + this.data.taskId,
     })
+  },
+
+  // 保存project信息
+  saveSummaryBean: function (summaryBean) {
+    var address = app.ip + "tc/taskService/addOrUpdateTask";
+    var obj = {
+      summaryBean:summaryBean
+    }
+    api.request(obj,address,"POST",false).then(res=>{
+      console.log("保存结果");
+      console.log(res);
+    })
+  },
+
+  // 处理因为时间格式的原因，导致无法正确发送数据
+  handleTimeFormat: function (summaryBean) {
+    summaryBean = JSON.stringify(summaryBean);
+    summaryBean = JSON.parse(summaryBean);
+    if(summaryBean.startDate != null){
+      summaryBean.startDate = summaryBean.startDate + api.getNowTime();
+    }
+    if(summaryBean.endDate != null){
+      summaryBean.endDate = summaryBean.endtDate + api.getNowTime();
+    }
+    summaryBean.createDate = summaryBean.createDate + api.getNowTime();
+    return summaryBean;
   }
 })
