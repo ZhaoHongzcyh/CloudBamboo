@@ -118,7 +118,9 @@ Page({
     // ------------------------------------------------------------------设置模块数据------------------------------------------
     project:null,//用于存放单个项目的详细信息
     isOpenMenu: false,//是否打开功能区
-    isCouldEditProject:false,    
+    isCouldEditProject:false,
+    projectMember:null,
+    isShowBtn: false,//是否展示删除项目与退出项目按钮    
   },
 
   /**
@@ -1173,8 +1175,12 @@ Page({
           project.endDate = project.endDate.split("T")[0];
         }
         this.setData({
-          project:res.data.data.summaryBean
+          project:res.data.data.summaryBean,
+          projectMember: res.data.data.memberBeans
         })
+
+        // 通过权限，决定渲染不同的按钮
+        this.queryUserPower();
       }
     })
   },
@@ -1222,5 +1228,52 @@ Page({
     wx.navigateTo({
       url: './admin/admin?taskid=' + this.data.taskId,
     })
-  } 
+  },
+
+  /*
+    判断用户是否为普通管理员或项目负责人
+    permisiion{
+      0:普通管理员或者项目成员，可以退出项目
+      1：项目负责人，可以删除项目
+    }
+ */
+  queryUserPower: function () {
+    console.log("权限判定")
+    var permission = null;//0:普通管理员
+    var project = this.data.project;
+    var userId = wx.getStorageSync("tcUserId");
+    var projectMember = this.data.projectMember;
+    for(var i = 0; i < projectMember.length; i++){
+      if(projectMember[i].resourceId == userId){
+        if(project.adminGroups.indexOf(userId) > 0){
+          permission = 0;
+        }
+        else{
+          if (project.manager == userId) {
+            permission = 1;
+            console.log(8230948320947230984723098740)
+            // return false;
+            break;
+          }
+        }
+      }
+      else{
+        permission = 0;
+      }
+    }
+    
+    if(permission == 1){
+      this.setData({ isShowBtn:true});
+    }
+    else{
+      this.setData({ isShowBtn:false})
+    }
+  },
+
+  // 项目的高级设置
+  advancedSet: function () {
+    wx.navigateTo({
+      url: './advanceSet/advanceset?taskid=' + this.data.taskId,
+    })
+  }
 })

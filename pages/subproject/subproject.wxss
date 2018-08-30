@@ -628,3 +628,16 @@ page{
   font-size: 28rpx;
   color: #333333;
 }
+/* 根据不同角色，控制按钮 */
+.powerbtn{
+  width: 630rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  color: white;
+  margin: auto;
+  margin-top: 30rpx;
+  border-radius: 15rpx;
+  text-align: center;
+  background-color: #409CF2;
+}

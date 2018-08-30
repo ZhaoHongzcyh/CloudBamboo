@@ -1,0 +1,67 @@
+/* pages/subproject/copyProject/copyproject.wxss */
+page{
+ background-color: rgba(245,245,245,1);
+}
+.title{
+  font-size: 28rpx;
+  color: #999999;
+  padding-left: 40rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+.projectname{
+  width: 100%;
+  height: 120rpx;
+  padding-left: 40rpx;
+  padding-right: 30rpx;
+  background-color: white;
+  font-size: 28rpx;
+  color: #999999;
+}
+.ascription{
+  display: flex;
+  height: 80rpx;
+  font-size: 28rpx;
+  margin-top: 30rpx;
+  align-items: center;
+  background-color: white;
+}
+.projectAcr{
+  margin-left: 40rpx;
+  flex: 1;
+  color: #333333;
+}
+.projectclass{
+  margin-right: 30rpx;
+  color: #409CF2;
+}
+.single{
+  display: flex;
+  height: 80rpx;
+  font-size: 28rpx;
+  border-bottom: 1rpx solid #DBDBDB;
+  align-items: center;
+  background-color: white;
+}
+.plan{
+  flex: 1;
+  margin-left: 40rpx;
+}
+.radio{
+  margin-right: 30rpx;
+}
+.copybtn{
+  position: fixed;
+  width: 670rpx;
+  height: 72rpx;
+  left: 50%;
+  bottom: 40rpx;
+  margin-left: -335rpx;
+  font-size: 28rpx;
+  line-height: 72rpx;
+  border-radius: 10rpx;
+  letter-spacing: 10rpx;
+  text-align: center;
+  color: white;
+  background-color: #409CF2;
+}

@@ -1,0 +1,69 @@
+/* pages/subproject/advanceSet/advanceset.wxss */
+page{
+ background-color: rgba(245,245,245,1);
+}
+.function{
+  display: flex;
+  height: 100rpx;
+  align-items: center;
+  background-color: white;
+  border-bottom: 1rpx solid #999999;
+}
+.talk{
+  padding: 20rpx;
+  flex: 1;
+  font-size: 28rpx;
+  color: #999999;
+}
+.btn{
+  width: 150rpx;
+  height: 60rpx;
+  margin-right: 20rpx;
+  color: white;
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 60rpx;
+  border-radius: 18rpx;
+  background-color: #409CF2;
+}
+
+/* 额外的样式 */
+.copy{
+  margin-top: 20rpx;
+}
+.del{
+  background-color: red;
+}
+/* 重启 */
+.restart{
+  background-color: rgb(255,153,0);
+}
+.suspension{
+  background-color: rgb(219,219,219);
+}
+
+/* 转让条件列表 */
+.model{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0rpx;
+  background-color: rgba(0,0,0,0.6);
+}
+.toolbar{
+  position: absolute;
+  width: 100%;
+  bottom: 0rpx;
+  background:rgba(245,245,245,1);
+}
+.transfer,.canceltransfer{
+  height: 80rpx;
+  color: #333333;
+  font-size: 28rpx;
+  line-height: 80rpx;
+  text-align: center;
+  background-color:white;
+}
+.canceltransfer{
+  margin-top: 20rpx;
+}

@@ -57,3 +57,16 @@ page{
   color: white;
   margin-right: 40rpx;
 }
+/* 完成添加按钮 */
+.submit{
+  width: 670rpx;
+  height: 72rpx;
+  border-radius: 15rpx;
+  margin: auto;
+  margin-top: 20rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  background-color: #409CF2;
+  color: white;
+  text-align: center;
+}

@@ -11,10 +11,15 @@
     <view class="user" data-initselect="{{item.initSelect}}" bindtap="addMember" data-item="item" data-index="{{index}}">
       <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userphoto"></image>
       <view class="username">{{item.personName}}</view>
-      <radio class="select" wx:if="{{isShowRadio && item.initSelect}}" checked='{{item.initSelect}}'/>
-      <radio class="select" wx:if="{{isShowRadio && !item.initSelect}}" checked="{{item.checked}}" data-index="{{index}}"/>
-      <view class="del" wx:if="{{!isShowRadio}}">-</view>
+      <radio class="select" wx:if="{{isShowRadio && item.initSelect}}" color="#409CF2" checked='{{item.initSelect}}'/>
+      <radio class="select" wx:if="{{isShowRadio && !item.initSelect}}" color="#409CF2" checked="{{item.checked}}" data-index="{{index}}"/>
+      <view class="del" wx:if="{{!isShowRadio}}" data-item="{{item}}" bindtap="openConfirm">-</view>
     </view>
   </block>
   
+  <view class="submit" bindtap="addAdminUser" wx:if="{{isShowRadio && isShowSubmit}}">完成</view>
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+  <!-- 是否删除弹框 -->
+  <confirm id="confirm" bindsure="delAdminUser" title="{{ {content:'确定删除？'} }}"></confirm>
 </view>

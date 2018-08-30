@@ -23,13 +23,17 @@ Page({
     }
   },
   onLoad:function(options){
-    this.getProjectCompany();
     this.popup = this.selectComponent("#popup");
     // 更新导航数据
     this.setData({
       url: app.globalData.tabbar
     })
   },
+  
+  onShow: function () {
+    this.getProjectCompany();
+  },
+
   // 下拉刷新
   onPullDownRefresh: function (e) {
     this.onLoad();

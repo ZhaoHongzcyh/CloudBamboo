@@ -270,7 +270,7 @@
     </view>
     <!-- 高级设置 -->
     <view class="moreSet">
-      <view class="singlelist">
+      <view class="singlelist" bindtap="advancedSet">
         <view class="projectLevel">高级设置</view>
         <view class="moreset">
           项目的完结、中止、复制等 >
@@ -283,6 +283,10 @@
         </view>
       </view>
     </view>
+
+    <!-- 根据不同权限，显示不同操作按钮 -->
+    <view class="powerbtn" wx:if="{{isShowBtn}}">删除项目</view>
+    <view class="powerbtn" wx:if="{{!isShowBtn}}">退出项目</view>
     <!-- 项目设置底部菜单栏 -->
     <view class="importantLevel" wx:if="{{isOpenMenu}}">
       <view class="importantSingle">

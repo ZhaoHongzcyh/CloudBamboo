@@ -1,0 +1,33 @@
+<!--复制项目-->
+<view>
+  <view class="title">新项目名称</view>
+  <view>
+    <textarea class="projectname" bindinput="getProjectName"></textarea>
+  </view>
+  <view class="ascription">
+    <view class="projectAcr">项目所属</view>
+    <view class="projectclass">个人项目</view>
+  </view>
+
+  <view class="title">复制内容</view>
+  <view class="single" bindtap="copyScheduleSummary">
+    <view class="plan">任务计划</view>
+    <radio class="radio" color="#409CF2" checked="{{copyScheduleSummary}}"/>
+  </view>
+
+  <view class="single" bindtap="copyArc">
+    <view class="plan">文件</view>
+    <radio class="radio" checked="{{copyArc}}" wx:if="{{arcSummaryBeans.length != 0? true:false}}" color="#409CF2"/>
+    <radio class="radio" wx:if="{{arcSummaryBeans.length==0? true:false}}" disabled="true" color="#409CF2"/>
+  </view>
+
+  <view class="single" bindtap="copyMember">
+    <view class="plan">成员</view>
+    <radio class="radio" color="#409CF2" checked="{{copyMember}}"/>
+  </view>
+
+  <!-- 复制按钮 -->
+  <view class="copybtn" bindtap="copyProject">复制</view>
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+</view>
