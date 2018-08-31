@@ -116,3 +116,21 @@ page{
   background-color: #409CF2;
   border-radius: 8rpx;
 }
+
+/* 空数据页面 */
+.nothingData{
+  margin: auto;
+  margin-top: 200rpx;
+  text-align: center;
+}
+.nothing{
+  width : 150rpx;
+  height: 150rpx;
+  margin: auto;
+}
+.nothingtitle{
+  margin-top:23rpx;
+  text-align: center;
+  color: #999999;
+  font-size: 24rpx;
+}

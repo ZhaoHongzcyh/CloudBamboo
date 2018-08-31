@@ -16,10 +16,16 @@
     </view>
   </block>
 
-  <!-- <block wx:for="{{teamAdminGroups}}">
+  <block wx:for="{{teamAdminGroups}}">
     <view class="btn">
       <image class="add" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}">-</image>
       <view class="name">{{item.name}}</view>
     </view>
-  </block> -->
+  </block>
+
+  <!-- 当管理员列表为空 -->
+  <view class="nothingData" wx:if="{{adminGroups.length == 0 && teamAdminGroups.length == 0}}">
+    <image src="/pages/company/img/noComapny.png" class="nothing"></image>
+    <view class="nothingtitle">空空如也~</view>
+  </view>
 </view>

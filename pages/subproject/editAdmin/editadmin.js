@@ -99,6 +99,8 @@ Page({
   handleDelList: function( obj ) {
     var member = obj.memberBeans;
     var adminGroups = obj.summaryBean.adminGroups;
+    var teamAdminGroups = obj.summaryBean.teamAdminGroups;
+    adminGroups = adminGroups.concat(teamAdminGroups);
     var memberlist = [];
     for (var i = 0; i < adminGroups.length; i++){
       for(var j = 0; j < member.length; j++){
@@ -190,7 +192,8 @@ Page({
     // var userObj = e.currentTarget.dataset.item;
     var userObj = this.data.delObj;
     var address = app.ip + "tc/taskService/addOrUpdateTask";
-    var summaryBean = this.data.project
+    var summaryBean = JSON.stringify(this.data.project);
+    summaryBean = JSON.parse(summaryBean);
     var memberlist = this.data.memberlist;
     var adminGroupId = [];
     var delid = null
@@ -202,6 +205,11 @@ Page({
         delid = memberlist[i].resourceId;
       }
     }
+    summaryBean.teamAdminGroups.map((item,index)=>{
+      if (item == userObj.resourceId){
+        summaryBean.teamAdminGroups.splice(index,1);
+      }
+    })
     summaryBean.adminGroups = adminGroupId;
     var obj = {
       summaryBean: summaryBean

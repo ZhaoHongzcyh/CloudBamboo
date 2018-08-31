@@ -26,7 +26,7 @@
   </view>
   <!-- 所有成员列表 -->
   <view wx:if="{{isShowMemberList}}" class="member">
-    <view class="memberlist">
+    <view class="memberlist" wx:if="{{file.taskAuthorityList.length > 0}}">
       <view wx:for="{{file.taskAuthorityList}}" class="singlelist" data-item="{{item}}" bindtap="chooseMember">
         <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.userId + '/100/100'}}" class="userhead"></image>
         <view class="username">{{item.userName}}</view>
@@ -34,10 +34,18 @@
       </view>
     </view>
     <!-- 按钮 -->
-    <view class="btnarea">
+    <view class="btnarea" wx:if="{{file.taskAuthorityList.length > 0}}">
       <view class="btn cancel" bindtap="switchCancel">取消</view>
       <view class="spacing"></view>
       <view class="btn sure" bindtap="editFilePower">确定</view>
+    </view>
+
+    <!-- 当无成员的时候 -->
+    <view>
+      <view class="nothingData" wx:if="{{file.taskAuthorityList.length == 0}}">
+        <image src="/pages/company/img/noComapny.png" class="nothing"></image>
+        <view class="nothingtitle">空空如也~</view>
+      </view>
     </view>
   </view>
   <!-- 弹框 -->

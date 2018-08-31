@@ -8,5 +8,7 @@
     <view class="textarea">
       <textarea value="{{project.description}}" bindinput='changeProjectDescript' class="projectdescript" placeholder-class='placeholder'></textarea>
     </view>
-  <view class="save" bindtap="saveProjectInfo">保存</view>
+  <view class="save" bindtap="saveSummaryBean">保存</view>
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

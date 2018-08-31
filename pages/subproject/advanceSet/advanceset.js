@@ -18,6 +18,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
     this.setData({
       taskId:options.taskid
     })
@@ -114,5 +115,13 @@ Page({
   // 打开转让采单列表
   openTransfer: function () {
     this.setData({ isShowTransfer: !this.data.isShowTransfer});
+  },
+
+  // 打开转让对象页面
+  transferObject: function (e) {
+    var exit = parseInt(e.currentTarget.dataset.exit);//1:代表退出。0：代表不退出
+    wx.navigateTo({
+      url: '/pages/subproject/transfer/transfer?taskid=' + this.data.taskId + "&exit=" + exit,
+    })
   }
 })

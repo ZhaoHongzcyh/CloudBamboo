@@ -24,6 +24,7 @@ Page({
   },
   onLoad:function(options){
     this.popup = this.selectComponent("#popup");
+    this.entry = this.selectComponent("#entry");
     // 更新导航数据
     this.setData({
       url: app.globalData.tabbar
@@ -61,6 +62,10 @@ Page({
   // 打开app下载弹框
   alert:function(){
     this.popup.showPopup();
+  },
+  // 是否成员提醒
+  entryalert: function () {
+    this.entry.showPopup();
   },
   // 请求个人项目信息
   getProjectPerson:function(){
@@ -228,6 +233,11 @@ Page({
   // 获取项目详细信息
   entryProject: function (e) {
     var id = e.currentTarget.dataset.id;
+    var isgetinto = e.currentTarget.dataset.isgetinto;
+    if (parseInt(isgetinto) == 0){
+      this.entryalert();
+      return false;
+    }
     wx.navigateTo({
       url: '/pages/subproject/subproject?id=' + id,
     })

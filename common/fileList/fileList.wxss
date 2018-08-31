@@ -71,3 +71,9 @@
   line-height: 40rpx;
   transform:rotateZ(45deg);
 }
+
+/* 文件只读标识 */
+.protect{
+  width: 30rpx;
+  height: 27rpx;
+}

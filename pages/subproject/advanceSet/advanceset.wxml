@@ -38,8 +38,8 @@
   <!-- 转让项目选项 -->
   <view class="model" wx:if="{{isShowTransfer}}">
     <view class="toolbar">
-      <view class="transfer">转让并退出项目</view>
-      <view class="transfer">转让不退出</view>
+      <view class="transfer" data-exit="1" bindtap="transferObject">转让并退出项目</view>
+      <view class="transfer" data-exit="0" bindtap="transferObject">转让不退出</view>
       <view class="canceltransfer" bindtap="openTransfer">取消</view>
     </view>
   </view>
@@ -88,8 +88,8 @@
   <!-- 转让项目选项 -->
   <view class="model" wx:if="{{isShowTransfer}}">
     <view class="toolbar">
-      <view class="transfer">转让并退出项目</view>
-      <view class="transfer">转让不退出</view>
+      <view class="transfer" data-exit="1" bindtap="transferObject">转让并退出项目</view>
+      <view class="transfer" data-exit="0" bindtap="transferObject">转让不退出</view>
       <view class="canceltransfer" bindtap="{{openTransfer}}">取消</view>
     </view>
   </view>

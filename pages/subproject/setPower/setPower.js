@@ -156,6 +156,7 @@ Page({
     var openType = 0;
     var head = {arcId};
     if (file.authorityType == null){
+      isReadonly = 1;
       head.isReadonly = 1;
       head.openType = 0;
       this.setData({alert:{content:"已关闭只读保护"}})
@@ -183,6 +184,21 @@ Page({
       console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.alert();
+        var page = getCurrentPages();
+        var prevPage = page[page.length - 2];
+        var fileList = prevPage.data.fileList;
+        for (var i = 0; i < fileList.length; i++){
+          if (fileList[i].id == arcId){
+            
+            if (isReadonly == 0){
+              fileList[i].definedPriv = true;
+            }
+            else{
+              fileList[i].definedPriv = false;
+            }
+          }
+        }
+        prevPage.setData({ fileList})
         setTimeout(()=>{
           wx.navigateBack();
         },1800)

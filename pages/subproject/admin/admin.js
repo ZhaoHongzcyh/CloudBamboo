@@ -57,7 +57,7 @@ Page({
     console.log(teamAdminGroups);
     console.log(adminGroups);
     // 权限判断
-    this.judge(teamAdminGroups)
+    this.judge(teamAdminGroups);
     // 项目管理员组
     for (var i = 0; i < adminGroups.length; i++){
       var obj = {
@@ -75,20 +75,20 @@ Page({
     }
 
     // 团队。项目团队管理员组
-    // for (var i = 0; i < teamAdminGroups.length; i++) {
-    //   var obj = {
-    //     id: teamAdminGroups[i],
-    //     name: null,
-    //     item: null
-    //   }
-    //   for (var j = 0; j < member.length; j++) {
-    //     if (member[j].resourceId == teamAdminGroups[i]) {
-    //       obj.name = member[j].personName;
-    //       obj.item = member[j];
-    //       teamAdmin.push(obj)
-    //     }
-    //   }
-    // }
+    for (var i = 0; i < teamAdminGroups.length; i++) {
+      var obj = {
+        id: teamAdminGroups[i],
+        name: null,
+        item: null
+      }
+      for (var j = 0; j < member.length; j++) {
+        if (member[j].resourceId == teamAdminGroups[i]) {
+          obj.name = member[j].personName;
+          obj.item = member[j];
+          teamAdmin.push(obj)
+        }
+      }
+    }
     this.setData({
       adminGroups: adminTeam,
       teamAdminGroups: teamAdmin

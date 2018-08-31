@@ -23,6 +23,10 @@ Component({
     readonly:{
       type:Boolean,
       value:true
+    },
+    showeyes:{
+      type:Boolean,
+      value:false
     }
   },
 

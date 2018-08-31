@@ -1,0 +1,28 @@
+<!--pages/subproject/transfer/transfer.wxml-->
+<view>
+  <!-- 顶部搜索框 -->
+  <view class="search">
+    <image src="/pages/cloudDisk/img/searchbtn.png" class="searchimg"></image>
+    <input type="text" class="searchinput" placeholder='搜索成员' bindinput="matchMemberlist"/>
+  </view>
+
+  <!-- 成员列表 -->
+  <view wx:if="{{memberlist.length > 0}}">
+    <block wx:for="{{memberlist}}">
+      <view class="user {{index==0?'first':''}}" data-item="{{item}}" bindtap="openConfirm">
+        <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userphoto"></image>
+        <view class="username">{{item.personName}}</view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 党成员列表为空 -->
+  <view class="nothingData" wx:if="{{memberlist.length == 0}}">
+    <image src="/pages/company/img/noComapny.png" class="nothing"></image>
+    <view class="nothingtitle">空空如也~</view>
+  </view>
+
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+  <confirm id="confirm" bindsure="transferProject" title="{{ {content:'确认要转让项目？'} }}"></confirm>
+</view>

@@ -8,4 +8,6 @@
     </view>
     <radio class="radio" color="#409CF2" checked="{{item.checked}}"/>
   </view>
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

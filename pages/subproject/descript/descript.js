@@ -9,20 +9,29 @@ Page({
    */
   data: {
     project:null,
-    taskId:null
+    taskId:null,
+    alert:null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.popup = this.selectComponent("#popup");
     this.setData({
       taskId: options.taskid
     })
   },
+
   onShow: function () {
     this.getProjectInfo();
   },
+
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
+  },
+
   // 获取项目详细信息
   getProjectInfo: function () {
     var address = app.ip + "tc/taskService/findTaskBOById";
@@ -44,7 +53,7 @@ Page({
     project.title = e.detail.value;
     this.setData({project})
   },
-  // 修改项目名称
+  // 修改项目描述
   changeProjectDescript: function (e) {
     var project = this.data.project;
     project.description = e.detail.value;
@@ -63,5 +72,28 @@ Page({
     });
     console.log(prevProject);
     wx.navigateBack();
-  }
+  },
+
+  // 保存project信息
+  saveSummaryBean: function () {
+    var summaryBean = this.data.project;
+    var address = app.ip + "tc/taskService/addOrUpdateTask";
+    var obj = {
+      summaryBean: summaryBean
+    }
+    api.request(obj, address, "POST", false).then(res => {
+      console.log("保存结果");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        this.saveProjectInfo();
+      }
+      else{
+        this.setData({alert:{content:"编辑失败"}});
+        this.alert()
+      }
+    }).catch(e=>{
+      this.setData({ alert: { content: "编辑失败" } });
+      this.alert()
+    })
+  },
 })

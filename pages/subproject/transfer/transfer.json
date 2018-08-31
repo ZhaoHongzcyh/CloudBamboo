@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "popup": "/common/popup/popup",
+    "file": "/common/fileList/fileList",
     "confirm": "/common/confirm/confirm",
     "fileAlert": "/common/fileAlert/filealert"
   }

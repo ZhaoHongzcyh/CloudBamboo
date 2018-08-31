@@ -1,14 +1,14 @@
-/* pages/subproject/editAdmin/editadmin.wxss */
+/* pages/subproject/transfer/transfer.wxss */
 page{
   background-color: rgba(245,245,245,1);
 }
-/* 搜索区域 */
 .search{
   width: 700rpx;
   height: 50rpx;
   border: 1rpx solid #DBDBDB;
   border-radius: 20rpx;
   margin: auto;
+  margin-top: 20rpx;
   display: flex;
   align-items: center;
   background-color: white;
@@ -24,11 +24,15 @@ page{
   font-size: 28rpx;
   color: #999999;
 }
-/* 任务列表区域 */
+.first{
+  margin-top: 30rpx;
+}
 .user{
   display: flex;
   height: 80rpx;
+  background-color: white;
   align-items: center;
+  border-bottom: 1rpx solid #DBDBDB;
 }
 .userphoto{
   margin-left: 20rpx;
@@ -45,29 +49,20 @@ page{
   text-overflow:ellipsis;
   white-space: nowrap;
 }
-.select{
-  margin-right: 30rpx;
-}
-.del{
-  width: 40rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-  border-radius: 50%;
+
+/* 空数据页面 */
+.nothingData{
+  margin-top: 200rpx;
   text-align: center;
-  background-color: red;
-  color: white;
-  margin-right: 40rpx;
 }
-/* 完成添加按钮 */
-.submit{
-  width: 670rpx;
-  height: 72rpx;
-  border-radius: 15rpx;
+.nothing{
+  width : 150rpx;
+  height: 150rpx;
   margin: auto;
-  margin-top: 20rpx;
-  line-height: 72rpx;
-  font-size: 28rpx;
-  background-color: #409CF2;
-  color: white;
+}
+.nothingtitle{
+  margin-top:23rpx;
   text-align: center;
+  color: #999999;
+  font-size: 24rpx;
 }

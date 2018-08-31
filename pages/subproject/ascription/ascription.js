@@ -8,15 +8,32 @@ Page({
    * 页面的初始数据
    */
   data: {
-    teamList:null//团队列表
+    teamList:null,//团队列表
+    taskId:null,
+    summaryBean:null,
+    alert:null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getProjectTeam();
+    this.popup = this.selectComponent("#popup");
+    this.setData({
+      taskId:options.taskid
+    })
   },
+
+  onShow: function () {
+    this.getProjectTeam();
+    this.getProjectInfo();
+  },
+
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
+  },
+
   // 获取项目归属团队列表
   getProjectTeam: function () {
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
@@ -35,6 +52,7 @@ Page({
     })
   },
   chooseCompany: function (e) {
+    var summaryBean = this.data.summaryBean;
     var index= e.currentTarget.dataset.index;
     var ownertype = e.currentTarget.dataset.ownertype;
     var id = e.currentTarget.dataset.id;
@@ -48,15 +66,51 @@ Page({
         teamList[i].checked = false;
       }
     }
-    this.setData({teamList});
-    var page = getCurrentPages();
-    var prevpage = page[page.length - 2];
-    console.log(prevpage.data.project)
-    var project = prevpage.data.project;
-    project.ownerType = ownertype;
-    project.ownerId = id;
-    project.ownerName = title;
-    prevpage.setData({project});
-    wx.navigateBack();
+    summaryBean.ownerType = ownertype;
+    summaryBean.ownerId = id;
+    this.setData({ teamList, summaryBean});
+    this.setProject(summaryBean);
+  },
+
+  // 获取项目详细信息
+  getProjectInfo: function () {
+    var address = app.ip + "tc/taskService/findTaskBOById";
+    var obj = { taskId: this.data.taskId };
+    api.request(obj, address, "POST", true).then(res => {
+      console.log("项目详细信息");
+      console.log(res);
+      if (res.data.code == 200 && res.data.result) {
+        var summaryBean = res.data.data.summaryBean;
+        this.setData({
+          summaryBean
+        })
+      }
+    }).catch(e => {
+      console.log("请求异常")
+    })
+  },
+
+  // 设置项目所属
+  setProject: function (obj){
+    var address = app.ip + "tc/taskService/addOrUpdateTask";
+    obj = {
+      summaryBean:obj
+    }
+    api.request(obj, address, "POST", false).then(res => {
+      console.log("完结项目");
+      console.log(res);
+      if (res.data.code == 200 && res.data.result) {
+        wx.navigateBack({
+          delta: 2
+        })
+      }
+      else{
+        this.setData({alert:{content:"更改失败"}});
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({ alert: { content: "更改失败" } });
+      this.alert();
+    })
   }
 })

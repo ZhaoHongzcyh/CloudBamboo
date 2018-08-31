@@ -69,10 +69,18 @@ Page({
           }
         })
         // 过滤文件，保留文件夹
+        var parentId;
+        if (e != null) {
+          parentId = e.currentTarget.dataset.id
+        }
+        else{
+          parentId = res.data.data.list[0].parentId
+        }
         this.setData({
           fileList: folder,
           fileParentIdStack: fileParentIdStack,
-          isShowReturn: isShowReturn
+          isShowReturn: isShowReturn,
+          parentId: parentId
         })
       }
       else {
@@ -157,6 +165,9 @@ Page({
   },
   // 移动文件
   moveFile: function () {
+    var page = getCurrentPages();
+    var prevPage = page[page.length - 2];
+    var fileList = prevPage.data.fileList;
     var address = app.ip + "tc/knowledgeService/arcMoveFile";
     var head = { parentId: this.data.parentId};
     var ids = this.data.ids;
@@ -166,10 +177,18 @@ Page({
       if(res.data.result && res.data.data==null){
         this.setData({alert:{content:"移动成功"}});
         this.alert();
+        fileList = this.delMoveFile(ids, fileList);
+        prevPage.setData({
+          fileList
+        })
       }
       else if(res.data.result && res.data.data.length > 0){
         this.setData({ alert: { content: "移动成功,源文件已被覆盖" } });
         this.alert();
+        fileList = this.delMoveFile(ids, fileList);
+        prevPage.setData({
+          fileList
+        })
       }
       else{
         this.setData({ alert: { content: "移动失败" } });
@@ -185,5 +204,16 @@ Page({
         wx.navigateBack();
       }, 2000)
     })
+  },
+  // 删除上一个页面被移动的数据
+  delMoveFile: function (ids,filelist) {
+    for(var i = 0; i < ids.length; i++){
+      filelist.map((item,index)=>{
+        if(item.id == ids[i]){
+          filelist.splice(index,1)
+        }
+      })
+    }
+    return filelist;
   }
 })

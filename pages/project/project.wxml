@@ -53,7 +53,7 @@
         
         <!-- 公司项目 -->
         <block wx:if="{{item.isShowCompany}}">
-          <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" bindtap="entryProject" wx:for-index="comopanyProIndex" data-id="{{child.summaryBean.id}}">
+          <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" data-isgetinto="{{child.isInProject? 1:0}}" bindtap="entryProject" wx:for-index="comopanyProIndex" data-id="{{child.summaryBean.id}}">
             <view class="father-project">
               <view class="single-project">
                 <view class="isprogress">{{progress[child.summaryBean.tstate]}}</view>
@@ -94,7 +94,7 @@
             <block wx:if="{{child.subList.length>0}}">
               <view class="sublist" wx:if="{{urlLine}}">
                 <block wx:for="{{child.subList}}" wx:for-item="childItem" wx:for-index="childIndex">
-                    <view class="second-level-project" wx:if="{{child.isShowChild}}" bindtap="entryProject" data-id="{{childItem.summaryBean.id}}">
+                    <view class="second-level-project" wx:if="{{child.isShowChild}}" data-isGetInto="{{childItem.summaryBean}}" bindtap="entryProject" data-id="{{childItem.summaryBean.id}}">
                       <view class="second-level">
                       
                         <image src="./img/second-level.png" class="second-title-img"></image>
@@ -150,3 +150,4 @@
 
 <!-- app下载弹框 -->
 <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+<popup id='entry' isAlert="{{true}}" content="无法访问,因为你还不是该项目成员" footer="知道了"></popup>

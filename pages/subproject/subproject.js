@@ -160,7 +160,10 @@ Page({
           adminGroups: summaryBean.adminGroups,
           teamAdminGroups: summaryBean.teamAdminGroups
         }
-        this.setData({power});
+        this.setData({
+          power:power,
+          parentId: res.data.data.arcSummaryBeans[0].id
+        });
       }
       else{
         console.log("异常")
@@ -627,8 +630,6 @@ Page({
     var userId = wx.getStorageSync("tcUserId");
     var end = false;
     var power = this.data.power;
-    console.log("鉴别");
-    console.log(power);
     for (var i = 0; i < power.adminGroups.length; i++){
       if (userId == power.adminGroups[i]){
         end = true;
@@ -1041,6 +1042,11 @@ Page({
       url: './fileMove/fileMove?taskid=' + this.data.taskId + "&file=" + fileid,
     })
   },
+  // 复制文件
+  copyFile: function () {
+    this.setData({alert:{content:"云竹协作更多功能，请下载App"}});
+    this.alert();
+  },
   // 鉴定是否有权限移动
   AppraisalPower: function (id) {
     var address = app.ip + "tc/taskService/isContainsOther";
@@ -1054,6 +1060,10 @@ Page({
     if(permission){
       // 移动
       console.log("管理员权限")
+      for (var i = 0; i < chooseFileList.length; i++) {
+        arcIds.push(chooseFileList[i].id)
+      }
+      this.fileMove(arcIds.join(","));
     }
     else{
       for (var i = 0; i < chooseFileList.length; i++) {
@@ -1073,24 +1083,29 @@ Page({
         return false;
       }
       if (isHasFolder){
-        api.sendDataByBody(arcIds, address, "POST", true).then(res => {
-          console.log("鉴定结果");
-          console.log(res);
-          if(res.data.code == 200 && res.data.result){
-            if(res.data.data == "true"){
-              this.fileMove(arcIds.join(","))
-            }
-            else{
-              this.setData({ alert: { content: "移动失败，包含其他文件" } });
-              this.alert();
-            }
-          }
-        })
+        this.checkFolderContent(arcIds,address)
       }
       else{
         this.fileMove(arcIds.join(","));
       }
     }
+  },
+
+  // 检查文件夹下方是否存在别人的文件
+  checkFolderContent: function (arcIds, address) {
+    api.sendDataByBody(arcIds, address, "POST", true).then(res => {
+      console.log("鉴定结果");
+      console.log(res);
+      if (res.data.code == 200 && res.data.result) {
+        if (res.data.data == "true") {
+          this.fileMove(arcIds.join(","))
+        }
+        else {
+          this.setData({ alert: { content: "移动失败，包含其他文件" } });
+          this.alert();
+        }
+      }
+    })
   },
   // 设置权限
   setPower: function () {
@@ -1187,8 +1202,13 @@ Page({
   
   // 是否打开功能区
   openToolbarMenu: function () {
+    // 判定是否为管理员与项目负责人
+    if (!this.data.isShowBtn){
+      return false;
+    }
     this.setData({ isOpenMenu: !this.data.isOpenMenu})
   },
+
   // 获取项目级别
   getProjectLevel: function (e) {
     var level = e.currentTarget.dataset.level;
@@ -1197,30 +1217,51 @@ Page({
     this.setData({project})
     this.openToolbarMenu();
     var obj = this.handleTimeFormat(project);
-    this.saveSummaryBean(project);
+    this.saveSummaryBean(obj);
   },
+
   // 设置项目开始时间
   setProjectStartDate: function (e) {
+    // 判定是否为管理员与项目负责人
+    if (!this.data.isShowBtn) {
+      return false;
+    }
     var project = this.data.project;
     project.startDate = e.detail.value;
     this.setData({project})
     console.log(e);
+    var obj = this.handleTimeFormat(project);
+    this.saveSummaryBean(obj);
   },
   // 设置项目结束时间
   setProjectEndDate: function (e) {
+    // 判定是否为管理员与项目负责人
+    if (!this.data.isShowBtn) {
+      return false;
+    }
     var project = this.data.project;
     project.endDate = e.detail.value;
     this.setData({project})
+    var obj = this.handleTimeFormat(project);
+    this.saveSummaryBean(obj);
     console.log(project);
   },
   // 设置项目所属
   setProjectAscription: function () {
+    // 判定是否为管理员与项目负责人
+    if (!this.data.isShowBtn) {
+      return false;
+    }
     wx.navigateTo({
-      url: './ascription/ascription',
+      url: './ascription/ascription?taskid=' + this.data.taskId,
     })
   },
   // 编辑项目描述与项目标题
   editProjectInfo: function () {
+    // 判定是否为管理员与项目负责人
+    if (!this.data.isShowBtn) {
+      return false;
+    }
     wx.navigateTo({
       url: './descript/descript?taskid=' + this.data.taskId,
     })
@@ -1274,6 +1315,10 @@ Page({
 
   // 项目的高级设置
   advancedSet: function () {
+    // 判定是否为管理员与项目负责人
+    if (!this.data.isShowBtn) {
+      return false;
+    }
     wx.navigateTo({
       url: './advanceSet/advanceset?taskid=' + this.data.taskId,
     })
@@ -1295,13 +1340,39 @@ Page({
   handleTimeFormat: function (summaryBean) {
     summaryBean = JSON.stringify(summaryBean);
     summaryBean = JSON.parse(summaryBean);
+    console.log(summaryBean);
     if(summaryBean.startDate != null){
       summaryBean.startDate = summaryBean.startDate + api.getNowTime();
     }
-    if(summaryBean.endDate != null){
-      summaryBean.endDate = summaryBean.endtDate + api.getNowTime();
+    if(summaryBean.endDate != undefined){
+      summaryBean.endDate = summaryBean.endDate + api.getNowTime();
+    }
+    else{
+      delete summaryBean.endDate;
     }
     summaryBean.createDate = summaryBean.createDate + api.getNowTime();
     return summaryBean;
+  },
+
+  // 退出项目
+  exitProject: function () {
+    var address = app.ip + "tc/taskService/quitTask";
+    var obj = {
+      taskId: this.data.taskId
+    }
+    api.request(obj,address,"POST",true).then(res=>{
+      console.log("退出项目");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        wx.navigateBack()
+      }
+      else{
+        this.setData({alert:{content:"退出失败"}});
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({ alert: { content: "退出失败" } });
+      this.alert();
+    })
   }
 })
