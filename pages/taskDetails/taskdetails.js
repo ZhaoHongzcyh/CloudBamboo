@@ -172,7 +172,7 @@ Page({
   edittask: function () {
     // 查询权限
     var power = this.handlePower();
-    if(power){
+    if (power || this.data.task.itemBean.creatorId == wx.getStorageSync('tcUserId')){
       wx.navigateTo({
         url: './editTask/editTask?id=' + this.data.taskId,
       })
@@ -198,12 +198,14 @@ Page({
     var address = app.ip + "tc/schedule/itemService/delete";
     var obj = {id:this.data.task.itemBean.id};
     api.request(obj,address,"post",true).then(res=>{
+      console.log(res);
       if(res.data.code == 200 && res.data.result){
-        console.log("删除回复");
+        wx.navigateBack()
         console.log(res);
       }
       else{
-        console.log("删除失败")
+        this.setData({alert:{content:"任务删除失败"}});
+        this.alert();
       }
     })
   },
@@ -381,12 +383,18 @@ Page({
       this.deletetask();
     }
     else{
-      this.setData({
-        alert:{
-          content:"权限不够"
-        }
-      })
-      this.alert();
+      if (this.data.task.itemBean.creatorId != wx.getStorageSync('tcUserId')){
+        this.setData({
+          alert: {
+            content: "权限不够"
+          }
+        })
+        this.alert();
+        return false;
+      }
+      else{
+        this.deletetask();
+      }
     }
   } ,
   // 评论任务

@@ -67,7 +67,7 @@
 
       <view wx:if="{{plan.fold}}" bindtap="newTask" class="newTaskBtn" data-planid="{{plan.summaryBean.id}}" data-title="{{plan.summaryBean.title}}">新建任务</view>
       <view wx:if="{{plan.fold}}" class="single-task {{item.emergencyGrade==1? 'normalcolor':''}} {{item.emergencyGrade==2? 'urgentcolor':''}}" wx:for="{{plan.itemList}}" wx:for-item="item" wx:for-index="childnum" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
-        <view class="radio-area" data-parentsnum="{{index}}" data-status="{{item.status}}" data-selfnum="{{childnum}}" data-taskid="{{item.id}}" catchtap='switchTaskState' data-manager="{{item.manager}}">
+        <view class="radio-area" data-parentsnum="{{index}}" data-status="{{item.status}}" data-selfnum="{{childnum}}" data-taskid="{{item.id}}" catchtap='switchTaskState' data-creatorid="{{item.creatorId}}" data-manager="{{item.manager}}">
           <radio class="radio" color="#409CF2"  bindtap="radioAlert" checked="{{item.status==0? false : true}}"></radio>
         </view>
         <view class="task-info">
@@ -76,7 +76,7 @@
             {{item.endDate + "截止"}}
           </view>
         </view>
-        <image class="taskimg" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
+        <image class="taskimg" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.creatorId + '/100/100'}}"></image>
         <view class="tasker">{{item.managerName}}</view>
       </view>
     </view>
@@ -111,9 +111,9 @@
     </view>
     <view wx:if="{{isShowReturn && fileParentIdStack.length > 7}}" class="file-select-info">
       
-        <view class="urltitle">{{fileParentIdStack[0].title}}</view>
+        <view class="urltitle" bindtap="jumpFile" data-index="0" data-parentId="{{fileParentIdStack[0].parentId}}">{{fileParentIdStack[0].title}}</view>
         <view class="urltitle">></view>
-        <view class="urltitle">...></view>
+        <view class="urltitle" bindtap="uploadFolder">...></view>
         <view class="urltitle last">{{fileParentIdStack[fileParentIdStack.length - 1].title}}</view>
         <view class="urltitle">></view>
     </view>
@@ -141,11 +141,11 @@
           </view>
           <!-- 文件操作工具栏 -->
           <view class="toobarFile" wx:if="{{isShowReturnArea}}">
-            <view class="singleToobar" bindtap="toobarDown">
+            <!-- <view class="singleToobar" bindtap="toobarDown">
               <image src="./img/download.png" class="toobarimg"></image>
               <view class="toobartxt">下载</view>
-            </view>
-            <view class="singleToobar">
+            </view> -->
+            <view class="singleToobar" bindtap="alert">
               <image src="./img/share.png" class="toobarimg"></image>
               <view class="toobartxt">分享</view>
             </view>
@@ -153,7 +153,7 @@
               <image src="./img/send.png" class="toobarimg"></image>
               <view class="toobartxt">发送</view>
             </view>
-            <view class="singleToobar">
+            <view class="singleToobar" bindtap="delpreviewFile">
               <image src="./img/del.png" class="toobarimg"></image>
               <view class="toobartxt">删除</view>
             </view>
@@ -178,10 +178,10 @@
     </view>
     <!--文件底部操作采单 -->
     <view class="footer-alert" wx:if="{{chooseFileList.length>0}}">
-      <view class="download operation" bindtap="downloadFile">
+      <!-- <view class="download operation" bindtap="downloadFile">
         <image src="/pages/cloudDisk/img/download.png" class="footerimg"></image>
         <view class="footertext">下载</view>
-      </view>
+      </view> -->
       <view class="share operation" bindtap="alert">
         <image src="/pages/cloudDisk/img/share.png" class="footerimg"></image>
         <view class="footertext">分享</view>
@@ -202,13 +202,55 @@
     <!-- 更多操作 -->
     <view class="footer-more" wx:if="{{moreAction && chooseFileList.length>0}}">
       <view class="copyto more" bindtap="setPower" wx:if="{{chooseFileList.length==1? true:false}}">设置权限</view>
-      <view class="copyto more" bindtap="copyFile">复制到</view>
+      <view class="copyto more" bindtap="downAppAlert">复制到</view>
       <view class="rename more" wx:if="{{chooseFileList.length == 1}}" bindtap="renameAlert">重命名</view>
       <view class="cancelfun more" bindtap="moreFun">取消</view>
     </view>
     <!-- 蒙版层 -->
     <view class="moreModel" wx:if="{{moreAction && chooseFileList.length>0}}" bindtap="moreFun"></view>
   </view>
+
+  <!-- -------------------------------------------------成员区域--------------------------------------------------------------- -->
+  <view class="projectMember" wx:if="{{menu[2].select}}">
+    <view class="projectMemberHead">
+      <view class="promemtitle">
+        项目人员
+      </view>
+      <view class="memberlength">
+        5人
+      </view>
+    </view>
+    <!-- 成员列表 -->
+    <view class="memberlist">
+      <block wx:for="{{memberlist}}">
+        <view class="singlemember" data-item="{{item}}" bindtap="getPersonInfo">
+          <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userhead"></image>
+          <view class="username">{{item.personName}}</view>
+          <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==1 || item.relationType==12 || item.relationType==13}}"></image>
+        </view>
+      </block>
+    </view>
+    <view class="funmember">
+      <view class="memberpro">添加成员</view>
+      <view class="delmemberpro"></view>
+      <view class="memberpro">删除成员</view>
+    </view>
+  </view>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <!-- -------------------------------------------------设置区域--------------------------------------------------------------- -->
   <view class="projectSet" wx:if="{{menu[3].select}}">
@@ -225,7 +267,7 @@
     </view>
     <!-- 项目描述 -->
     <view class="projectdescript">
-      {{project.description}}
+      {{project.description==null?'未设置':project.description}}
     </view>
     <!-- 项目成员头像 -->
     <view class="projectmember" wx:if="{{false}}">
@@ -301,6 +343,8 @@
   </view>
    <!-- 弹框 -->
 <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+<!-- app下载提示 -->
+<popup id='downapp'  content="云竹协作更多功能,请下载App" footer="立即下载"></popup>
 <confirm id="confirm" bindsure="delPlan" title="{{delPlanInfo}}"></confirm>
 <fileAlert id="newFolder" bindnewFolder="newFolderName"></fileAlert>
 <!-- 重命名弹框 -->

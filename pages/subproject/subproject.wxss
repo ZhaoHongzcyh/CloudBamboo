@@ -320,7 +320,7 @@ page{
 
 .file-select-info{
   display: flex;
-  z-index: 4;
+  z-index: 3;
   position: fixed;
   top: 0rpx;
   width: 100%;
@@ -472,7 +472,7 @@ page{
   font-size: 28rpx;
 }
 .singleToobar{
-  width: 25%;
+  width: 33.3%;
   text-align: center;
 }
 .toobarimg{
@@ -527,6 +527,75 @@ page{
   transform:rotateZ(45deg);
 }
 
+/* ---------------------------------------------------------项目成员区域------------------------------------------------ */
+.projectMemberHead{
+  display: flex;
+  font-size: 28rpx;
+  height: 80rpx;
+  align-items: center;
+  color: #999999;
+}
+.promemtitle{
+  margin-left: 40rpx;
+}
+.memberlength{
+  flex: 2;
+  text-align: right;
+  margin-right: 30rpx;
+}
+.singlemember{
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+  font-size: 28rpx;
+  color: #333333;
+  background-color: white;
+}
+.userhead{
+  width: 62rpx;
+  height: 62rpx;
+  margin-left: 40rpx;
+  border-radius: 50%;
+}
+.username{
+  flex: 2;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  color: #333333;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+/* 管理员头像 */
+.adminer{
+  width: 20rpx;
+  height: 20rpx;
+  margin-right: 20rpx;
+}
+
+.funmember{
+  position: fixed;
+  width: 100%;
+  bottom: 20rpx;
+  display: flex;
+  height: 72rpx;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8rpx;
+}
+
+.memberpro{
+  font-size: 28rpx;
+  width: 315rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  background-color: #409CF2;
+  color: white;
+  text-align: center;
+}
+.delmemberpro{
+  width: 40rpx;
+}
 /* ----------------------------------------------------------项目设置区域----------------------------------------------- */
 .projecthead{
   margin-top: 4rpx;

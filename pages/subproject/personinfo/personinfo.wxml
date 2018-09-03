@@ -1,0 +1,77 @@
+<!--pages/subproject/personinfo/personinfo.wxml-->
+<view>
+  <view class="info">
+    <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + person.id + '/100/100'}}" class="photo"></image>
+    <view class="connect">
+      <view class="name">{{person.pname}}</view>
+      <view class="phone">账号：{{person.username}}</view>
+    </view>
+    <view class="vip">
+      {{person.ptype==0? '云账户' : ''}}
+      {{person.ptype==1? '运维账户' : ''}}
+      {{person.ptype==2? '超级管理员' : ''}}
+      {{person.ptype==3? '单位账户' : ''}}
+    </view>
+  </view>
+
+  <view class="list sex">
+    <view class="common_left">
+      性别
+    </view>
+    <view class="common_right">
+      {{person.sex == 0? '男' : '女'}}
+    </view>
+  </view>
+
+  <view class="list line">
+    <view class="common_left">
+      昵称
+    </view>
+    <view class="common_right">{{person.pname}}</view>
+  </view>
+
+  <view class="list line">
+    <view class="common_left">
+      职业
+    </view>
+    <view class="common_right">{{person.occupationName==null? '未设置' : person.occupationName}}</view>
+  </view>
+
+  <view class="list">
+    <view class="common_left">
+      团队
+    </view>
+    <view class="common_right">{{person.teamName==null? '未设置':person.teamName}}</view>
+  </view>
+
+  <view class="list mail line">
+    <view class="common_left">
+      邮箱
+    </view>
+    <view class="common_right">
+      {{person.email1==null? '未设置':person.email1}}
+    </view>
+  </view>
+
+  <view class="list line" bindtap="callphone" data-phone="{{person.username}}">
+    <view class="common_left">
+      手机
+    </view>
+    <view class="common_right phonenumber">{{person.username}}</view>
+  </view>
+
+  <view class="list">
+    <view class="common_left">
+      座机
+    </view>
+    <view class="common_right phonenumber">{{person.phone2==null? '未设置' : person.phone2}}</view>
+  </view>
+  <!-- 删除好友 -->
+  <view class="delconnect" bindtap="openConfirm" data-teamid="{{team.id}}">
+    删除联系人
+  </view>
+
+  <!-- 弹框 -->
+  <confirm id="confirm" bindsure="delconnect" title="{{ {content:'确认删除联系人?删除后你将从对方的通讯录中消失'} }}"></confirm>
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+</view>

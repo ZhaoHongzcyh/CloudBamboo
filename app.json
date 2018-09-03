@@ -3,6 +3,7 @@
     "pages/project/project",
     "pages/index/index",
     
+    "pages/subproject/personinfo/personinfo",
     "pages/subproject/transfer/transfer",
     "pages/subproject/copyProject/copyproject",
     "pages/subproject/admin/admin",

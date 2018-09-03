@@ -114,6 +114,9 @@ Page({
     isShowReturn:false,//是否显示文件夹返回按钮
     isShowReturnArea:false,//在文件预览时，是否显示返回按钮
     fileRename:null,//文件重命名姓名
+    
+    //-------------------------------------------------------------------成员模块数据-----------------------------------------
+    memberlist:null, 
 
     // ------------------------------------------------------------------设置模块数据------------------------------------------
     project:null,//用于存放单个项目的详细信息
@@ -130,6 +133,7 @@ Page({
     this.setData({ taskId: options.id});
     this.popup = this.selectComponent("#popup");
     this.confirm = this.selectComponent("#confirm");
+    this.downapp = this.selectComponent("#downapp");
     this.newFolder = this.selectComponent("#newFolder");
     this.rename = this.selectComponent("#rename");
     this.searchPowerData(options.id)
@@ -177,6 +181,12 @@ Page({
   alert: function () {
     this.popup.showPopup()
   },
+
+  // app下载弹框
+  downAppAlert:function () {
+    this.downapp.showPopup();
+  },
+
   // 打开对话弹框
   openConfirm: function () {
     this.confirm.show();
@@ -446,6 +456,11 @@ Page({
         this.setData({ parentId: e.currentTarget.dataset.id})
       }
     }
+    else{
+      this.setData({
+        fileParentIdStack:[]
+      })
+    }
     var address = app.ip + "tc/taskService/findTaskArcTreeByParent";
     var obj = { taskId: this.data.taskId, parentId: this.data.parentId};
     api.request(obj,address,"post",true).then(res=>{
@@ -553,7 +568,7 @@ Page({
         this.selectFile();
         break;
       case 2:
-        // this.getProjectInfo();
+        this.getProjectMember();
         break;
       case 3:
         this.getProjectInfo();
@@ -611,11 +626,16 @@ Page({
     var address = app.ip + "tc/schedule/itemService/update";
     // 权限检测
     if(!this.handlePower()){
-      status = status == 0 ? 1 : 0;
-      taskList[parentnum].itemList[selfnum].status = status;
-      this.setData({ taskList })
-      this.alert();
-      return false;
+      if (e.currentTarget.dataset.creatorid == wx.getStorageSync("tcUserId")){
+
+      }
+      else{
+        status = status == 0 ? 1 : 0;
+        taskList[parentnum].itemList[selfnum].status = status;
+        this.setData({ taskList })
+        this.alert();
+        return false;
+      }
     }
     api.sendDataByBody(obj, address, "post", true).then(res => {
       if(res.data.code == 200 && res.data.result){
@@ -749,7 +769,7 @@ Page({
   // 新增加一个文件夹
   newFolderName: function (e) {
     console.log(e);
-    var folderName = e.detail.folderName;
+    var folderName = encodeURI(e.detail.folderName);
     var fileList = this.data.fileList;
     var address = app.ip + "tc/taskService/addArcFolder";
     var obj = { parentId: this.data.parentId, taskId: this.data.taskId, folder: folderName}
@@ -758,6 +778,7 @@ Page({
       console.log(res);
       if(res.data.code == 200 && res.data.result){
         var file = handle.addFolder(app,api,res.data.data);
+        file[0].isReadOnly = true;
         fileList.unshift(file[0]);
       }
       this.setData({ fileList: fileList, isShowAddFile:false})
@@ -769,11 +790,25 @@ Page({
     console.log(e);
     var fileParentIdStack = this.data.fileParentIdStack;
     var index = e.currentTarget.dataset.index;
-    fileParentIdStack = fileParentIdStack.splice(0, index+1)
+    fileParentIdStack = fileParentIdStack.splice(0, index+1);
     var parentId = e.currentTarget.dataset.parentid;
-    this.setData({ fileParentIdStack});
+    this.setData({ fileParentIdStack, parentId});
     this.getFileTree(parentId);
   },
+
+  // 文件向上翻页
+  uploadFolder: function (e) {
+    var fileParentIdStack = this.data.fileParentIdStack;
+    var idStackLength = fileParentIdStack.length;
+    var currentParent = fileParentIdStack[idStackLength - 2];
+    var parentId = currentParent.parentId;
+    fileParentIdStack.splice(idStackLength-1,1);
+    this.setData({
+      fileParentIdStack
+    });
+    this.getFileTree(parentId);
+  },
+
   // 通过parentId请求文件列表
   getFileTree: function (parentId) {
     var fileParentIdStack = this.data.fileParentIdStack;
@@ -800,7 +835,6 @@ Page({
         })
         this.setData({
           fileList: file,
-          fileParentIdStack: fileParentIdStack,
           isShowReturn: isShowReturn
         })
       }
@@ -817,6 +851,9 @@ Page({
       fail: (err) => {
         console.log("文件选取失败")
       }
+    })
+    this.setData({
+      isShowAddFile:false
     })
   },
   // 文件上传
@@ -849,10 +886,12 @@ Page({
           var file = res.data;
           var fileList = this.data.fileList;
           file = handle.fileList(app, api, file);
+          file[0].isReadOnly = true;
           file = file[0];
           fileList.push(file);
           
           this.setData({ fileList});
+          console.log(file);
         }
         this.uploadLocalFile(ary,i+1,progress+100,upNum);
       },
@@ -907,9 +946,12 @@ Page({
     var id = chooseFileList[i].id
     // 判断文件大小是否超过小程序下载限制
     var asize = parseInt(chooseFileList[i].asize.split(".")[0]);
-    if (asize > 10){
+    var reg = /M/img;
+    if (asize > 10 && reg.test(chooseFileList[i].asize )){
+      console.log(chooseFileList[i])
       this.setData({alert:{content:"文件太大，请下载App"}});
       this.alert();
+      return false;
     }
     var address = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + id;
     console.log("开始下载");
@@ -920,14 +962,21 @@ Page({
         console.log(res);
         if (res.statusCode == 200) {
           // 持久保存文件
-          wx.saveFile({
-            tempFilePath: res.tempFilePath,
+          wx.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
             success: (res) => {
               this.downloadFile(chooseFileList,i+1)
               console.log("保存成功");
               console.log(res.savedFilePath);
               this.setData({
                 alert: { content: "下载成功" }
+              })
+              this.alert()
+            },
+            fail:(e)=>{
+              console.log(e);
+              this.setData({
+                alert: { content: "下载失败" }
               })
               this.alert()
             }
@@ -943,6 +992,7 @@ Page({
   delFile: function (e) {
      var address = app.ip + "tc/taskService/deleteTaskArc";
     var taskArcIds = [];
+    var fileArcIds = [];
     var chooseFileList = this.data.chooseFileList;
     for (var i = 0; i < chooseFileList.length; i++) {
       if (chooseFileList[i].atype != 0){
@@ -955,19 +1005,104 @@ Page({
         }
       }
       else{
-        // 跳过对文件夹的操作
+        fileArcIds.push(chooseFileList[i].id);
       }
     }
-    if (taskArcIds.length == 0){
-      return false;
-    }
-    else{
+    if (taskArcIds.length != 0) {
       api.sendDataByBody(taskArcIds, address, "POST", true).then(res => {
         console.log("文件删除");
         console.log(res);
+        if (res.data.code == 200 && res.data.result) {
+          this.delFileList(taskArcIds);
+        }
+        else {
+          this.setData({ alert: { content: "文件删除失败" } });
+          this.alert();
+        }
+      }).catch(e => {
+        this.setData({ alert: { content: "文件删除失败" } });
+        this.alert();
       })
-    } 
+    }
+    if (fileArcIds.length != 0){
+      this.isCouldDelFolder(fileArcIds,0,[])
+    }
   },
+
+  // 检查是否可删除文件夹
+  isCouldDelFolder: function (arcIds,index,couldDel) {
+    var address = app.ip + "tc/taskService/isContainsOther";
+    if (arcIds.length == 0 || arcIds.length == index){
+      if (arcIds.length != 0){
+        this.delCloudFolder(couldDel)
+      }
+      // 删除远程文件列表数据与本地文件列表数据
+      return false;
+    }
+    api.sendDataByBody(arcIds, address, "POST", true).then(res => {
+      console.log("鉴定结果");
+      console.log(res);
+      if (res.data.code == 200 && res.data.result) {
+        if (res.data.data == "true") {
+          couldDel.push(arcIds[index]);
+        }
+        else {
+          this.setData({ alert: { content: "已跳过无法删除的文件夹" } });
+          this.alert();
+        }
+        this.delCloudFolder(arcIds, index+1, couldDel);
+      }
+    })
+  },
+
+  // 删除远程文件数据
+  delCloudFolder: function (fileArcIds) {
+    var address = app.ip + "tc/taskService/deleteTaskArc";
+    api.sendDataByBody(fileArcIds, address, "POST", true).then(res => {
+      console.log("远程文件删除情况");
+      console.log(res);
+      console.log(fileArcIds);
+      if(res.data.code == 200 && res.data.result){
+        var fileList = this.data.fileList;
+        fileArcIds.map((item,index)=>{
+          fileList.map((obj,num)=>{
+            if(obj.id == item){
+              console.log("")
+              fileList.splice(num,1)
+            }
+          })
+        })
+        this.setData({
+          fileList, chooseFileList:[]
+        })
+      }
+      else{
+        this.setData({alert:{content:"文件夹删除失败"}});
+        this.alert();
+      }
+    }).catch(e=>{
+      console.log(e);
+      this.setData({ alert: { content: "文件夹删除失败" } });
+      this.alert()
+    })
+
+  },
+
+  // 通过数组的方式删除本地文件列表数据
+  delFileList: function (ary) {
+    var fileList = this.data.fileList;
+    ary.map((item,index)=>{
+      fileList.map((obj,num)=>{
+        if(item == obj.id){
+          fileList.splice(num,1)
+        }
+      })
+    })
+    this.setData({
+      fileList, chooseFileList:[]
+    })
+  },
+
   // 对文件操作权限进行判定
   CheckPermissions: function (obj) {
     /*
@@ -1028,14 +1163,64 @@ Page({
   },
   // 文件预览下的 下载
   toobarDown: function () {
-    if (!this.data.previewItem.isReadOnly){
-      this.setData({alert:{content:"权限不够"}});
-      this.alert();
+    console.log(this.data.previewItem);
+    if (this.data.previewItem.definedPriv){
+      if(this.handlePower()){
+        this.downloadFile([this.data.previewItem], 0)
+      }
+      else if (this.data.previewItem.ownerId == wx.getStorageSync("tcUserId")){
+        this.downloadFile([this.data.previewItem], 0)
+      }
+      else{
+        this.setData({ alert: { content: "只读文件，无法下载" } });
+        this.alert();
+        return false;
+      }
+      
     }
     else{
       this.downloadFile([this.data.previewItem], 0)
     }
   },
+
+  // 对预览文件的删除操作
+  delpreviewFile: function () {
+    var address = app.ip + "tc/taskService/deleteTaskArc";
+    var previewfile = this.data.previewItem;
+    var taskArcIds = [];
+    if(this.isCouldDel(previewfile)){
+      taskArcIds.push(previewfile.id);
+    }
+    else{
+      this.setData({alert:{content:"权限不够"}});
+      this.alert();
+      return false;
+    }
+    api.sendDataByBody(taskArcIds, address, "POST", true).then(res => {
+      console.log("文件删除");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        this.setData({
+          preview:false
+        })
+        this.delLocalFile(previewfile)
+      }
+    })
+  },
+
+  // 删除本地文件列表中的数据
+  delLocalFile: function (obj) {
+    var fileList = this.data.fileList;
+    fileList.map((item,index)=>{
+      if(item.id == obj.id){
+        fileList.splice(index,1);
+      }
+    })
+    this.setData({
+      fileList
+    })
+  },
+
   // 文件移动
   fileMove: function (fileid) {
     wx.navigateTo({
@@ -1167,6 +1352,41 @@ Page({
       }
     }
     this.setData({ fileList, chooseFileList:[]})
+  },
+
+  // ------------------------------------------------------------项目成员相关-----------------------------------------------------------
+  getProjectMember: function () {
+    var address = app.ip + "tc/taskService/taskMemberManager";
+    var obj = {taskId:this.data.taskId};
+    api.request(obj,address,"POST",true).then(res=>{
+      console.log("项目成员");
+      console.log(res);
+      this.handleProjectMember(res);
+    })
+  },
+
+  // 处理项目成员数据
+  handleProjectMember: function (res) {
+    if(res.data.code == 200 && res.data.result){
+      var memberlist = res.data.data.memberBeanList;
+      this.setData({
+        memberlist: memberlist
+      })
+    }
+    else{
+      this.setData({
+        alert:{content:"数据加载异常，请稍后再试"}
+      })
+      this.alert()
+    }
+  },
+
+  // 得到成员的详细信息
+  getPersonInfo: function (e) {
+    var item = e.currentTarget.dataset.item;
+    wx.navigateTo({
+      url: './personinfo/personinfo?personid=' + item.resourceId,
+    })
   },
   // ------------------------------------------------------------项目设置相关-----------------------------------------------------------
   // 获取项目详细信息

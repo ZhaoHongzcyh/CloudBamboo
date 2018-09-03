@@ -1,0 +1,89 @@
+/* pages/subproject/personinfo/personinfo.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+.info{
+  display: flex;
+  height: 100rpx;
+  background-color: white;
+  align-items: center;
+}
+
+.photo{
+  width: 80rpx;
+  height: 80rpx;
+  margin-left: 40rpx;
+  border-radius: 50%;
+}
+
+.connect{
+  margin-left: 10rpx;
+  font-size: 28rpx;
+  flex: 2;
+}
+
+.phone{
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.vip{
+  width: 128rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  margin-right: 50rpx;
+  color: white;
+  text-align: center;
+  font-size: 28rpx;
+  background-color: rgba(255,198,29,1);
+  border-radius: 10rpx;
+}
+
+.list{
+  display: flex;
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #333333;
+  align-items: center;
+  background-color: white;
+}
+
+.sex{
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.line{
+  border-bottom: 1rpx solid #DBDBDB;
+}
+
+.mail{
+  margin-top: 30rpx;
+}
+
+.common_left{
+  margin-left: 40rpx;
+}
+.common_right{
+  flex: 2;
+  text-align: right;
+  margin-right: 40rpx;
+  color: #666666;
+}
+
+.phonenumber{
+  color: #409CF2;
+}
+
+.delconnect{
+  width: 670rpx;
+  height: 72rpx;
+  font-size: 28rpx;
+  color: white;
+  border-radius: 8rpx;
+  text-align: center;
+  line-height: 72rpx;
+  margin: auto;
+  margin-top: 30rpx;
+  background-color: #409CF2;
+}

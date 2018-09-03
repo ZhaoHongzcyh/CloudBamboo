@@ -67,6 +67,7 @@ Page({
   initImplementer:function(){
     var address = app.ip + "tc/taskService/taskMemberManager";
     var taskId = this.data.taskId;
+    var userId = wx.getStorageSync('tcUserId');
     var obj = { taskId };
     api.request(obj, address, "post", true).then(res => {
       console.log("初始化执行人");
@@ -76,7 +77,8 @@ Page({
       if (res.data.code == 200 && res.data.result) {
         memberBeanList = res.data.data.memberBeanList
         for (var i = 0; i < memberBeanList.length; i++) {
-          if (memberBeanList[i].relationType == 1) {
+          // if (memberBeanList[i].relationType == 1) {
+          if (memberBeanList[i].resourceId == userId){
             Implement = memberBeanList[i]
           }
         }
