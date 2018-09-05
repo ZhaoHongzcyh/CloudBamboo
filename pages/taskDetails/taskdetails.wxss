@@ -159,6 +159,7 @@ textarea{
   height: 70rpx;
   width: 510rpx;
   margin-left: 24rpx;
+  font-size: 28rpx;
   border:1rpx solid #AAAAAA;
 }
 

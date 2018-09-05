@@ -110,6 +110,7 @@ Page({
   },
   // 根据ID查找计划条目
   selectPlanChild: function (id) {
+    var userId = wx.getStorageSync('tcUserId');
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
@@ -123,6 +124,14 @@ Page({
         handle.data.itemBean.startDate = handle.data.itemBean.startDate.split("T")[0];
         for(var i = 0; i < handle.data.actionList.length; i++){
           handle.data.actionList[i].createDate = handle.data.actionList[i].createDate.split("T")[0];
+          if (handle.data.actionList[i].behType == 10001001 || handle.data.actionList[i].behType == null){
+            if (handle.data.actionList[i].belongToResId == userId || handle.data.actionList[i].belongToResId == null){
+              handle.data.actionList[i].edit = true;
+            }
+          }
+          else{
+            handle.data.actionList[i].edit = false;
+          }
         }
         try{
           handle.data.itemBean.endDate = handle.data.itemBean.endDate.split("T")[0];
@@ -406,6 +415,7 @@ Page({
       if(res.data.code == 200 && res.data.result){
         var task = this.data.task;
         res.data.data.createDate = res.data.data.createDate.split("T")[0];
+        res.data.data.edit = true;
         task.actionList.unshift(res.data.data);
         this.setData({ task: task, isShowAllAction:true})
       }

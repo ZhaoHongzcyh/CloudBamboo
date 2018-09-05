@@ -35,6 +35,13 @@
 .time{
   color: #999999;
   font-size: 24rpx;
+  display: flex;
+}
+.edittask{
+  flex: 2;
+  padding-right: 30rpx;
+  text-align: right;
+  color: #409CF2;
 }
 .action{
   display: flex;
@@ -45,10 +52,15 @@
   width: 34rpx;
   height: 34rpx;
 }
-.actioninfo{
+.actionname{
+  font-size: 28rpx;
   color: #333333;
+}
+.actioninfo{
+  color: #999999;
   font-size: 28rpx;
   margin-left: 17rpx;
+  overflow: hidden;
 }
 .actiondescript{
   color: #999999;

@@ -1,0 +1,5 @@
+<!--pages/taskDetails/editreply/editreply.wxml-->
+<view>
+  <textarea class="editreply"></textarea>
+  <view class="save">保存</view>
+</view>

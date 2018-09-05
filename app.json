@@ -2,7 +2,6 @@
   "pages": [
     "pages/project/project",
     "pages/index/index",
-    
     "pages/subproject/personinfo/personinfo",
     "pages/subproject/transfer/transfer",
     "pages/subproject/copyProject/copyproject",
@@ -35,8 +34,8 @@
     "pages/subproject/ascription/ascription",
     "pages/subproject/descript/descript",
     "pages/subproject/editAdmin/editadmin",
-    "pages/subproject/advanceSet/advanceset"
-    
+    "pages/subproject/advanceSet/advanceset",
+    "pages/taskDetails/editreply/editreply"
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",
