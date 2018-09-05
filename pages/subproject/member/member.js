@@ -1,0 +1,215 @@
+// pages/subproject/member/member.js
+const app = getApp();
+const api = require("../../../api/common.js");
+const handle = require("../common.js");
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    app:app,
+    alert:null,
+    taskId:null,
+    state:null,//0:删除成员 1：添加成员
+    friendsList:null,
+    memberBeanList:null,//成员列表
+    choosemember:[],
+    summary:null,
+    participant:[]
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.setData({
+      taskId:options.taskid,
+      state:options.state
+    })
+    app.globalData.tasknum = 2;
+    this.popup = this.selectComponent("#popup");
+  },
+
+  onShow: function () {
+    if(this.data.state == 1){
+      this.getFriendsList();
+      this.getProjectInfo();
+    }
+    else{
+      this.getProjectMember();
+      this.getProjectInfo();
+    }
+  },
+
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
+  },
+
+  // 获取项目信息
+  getProjectInfo: function () {
+    var address = app.ip + "tc/taskService/findTaskBOById";
+    var taskId = this.data.taskId;
+    api.request({taskId},address,"POST",true).then(res=>{
+      console.log("项目详情");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        this.setData({
+          summary:res.data.data.summaryBean,
+          participant: res.data.data.summaryBean.participant
+        })
+      }
+    })
+  },
+
+  // 获取联系人列表
+  getFriendsList: function () {
+    var address = app.ip + "tc/userContactService/getPersonContacts";
+    api.request({},address,"POST",true).then(res=>{
+      console.log("联系人列表");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var data = res.data.data;
+        for(var i = 0; i < data.length; i++){
+          // 是否展开与折叠
+          if(i == 0){
+            data[i].folder = true;
+          }
+          else{
+            data[i].folder = false;
+          }
+
+          data[i].personList.map((item,index)=>{
+            item.select = false;
+          })
+        }
+        this.setData({
+          friendsList:res.data.data
+        })
+      }
+    })
+  },
+
+  // 获取项目成员列表
+  getProjectMember: function () {
+    var address = app.ip + "tc/taskService/taskMemberManager";
+    var obj = {taskId:this.data.taskId};
+    api.request(obj,address,"POST",true).then(res=>{
+      console.log("项目成员");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        this.setData({
+          memberBeanList: res.data.data.memberBeanList
+        })
+      }
+    })
+  },
+
+  // 选择成员
+  selectMember: function (e) {
+    console.log(e);
+    var index = e.currentTarget.dataset.index;
+    var num = e.currentTarget.dataset.num;
+    var data = this.data.friendsList;
+    var choosemember = this.data.choosemember;
+    var equal = false;
+    data[index].personList[num].select = !data[index].personList[num].select;
+    // 检查该元素是否已被选择
+    choosemember.map((item, cid) => {
+      if (item.id == data[index].personList[num].id) {
+        equal = true;
+      }
+    })
+
+    if (data[index].personList[num].select){
+      if(!equal){
+        choosemember.push(data[index].personList[num] );
+      }
+    }
+    else{
+      choosemember.map((item, cid) => {
+        if (item.id == data[index].personList[num].id) {
+          choosemember.splice(cid,1);
+        }
+      })
+    }
+    this.setData({ choosemember, friendsList:data});
+    console.log(choosemember);
+  },
+
+  // 添加成员
+  addmember: function () {
+    var choosemember = this.data.choosemember;
+    var summaryBean = this.data.summary;
+    var address = app.ip + "tc/taskService/updateTaskDynamic";
+    if(choosemember.length == 0){
+      return false;
+    }
+    else{
+      // var updateFields = this.
+      var participant = this.data.participant;
+      for(var i = 0; i < choosemember.length; i++){
+        var state = false;
+        if (participant == null) { participant = []}
+        participant.map((item,index)=>{
+          if (item == choosemember[i].id){
+            state = true;
+          }
+        })
+
+        if(!state){
+          participant.push(choosemember[i].id);
+        }
+      }
+      summaryBean.participant = participant;
+      api.customRequest({ updateFields:'participant'},summaryBean,address,"POST",true).then(res=>{
+        console.log("修改结果");
+        console.log(res);
+        if(res.data.code == 200 && res.data.result){
+          wx.navigateBack()
+        }
+        else{
+          // 弹框提示添加失败
+          this.setData({ alert: { content: '成员添加失败' } });
+          this.alert();
+        }
+      }).catch(e=>{
+        this.setData({ alert: { content: '成员添加失败' } });
+        this.alert();
+      })
+    }
+  },
+
+  // 删除成员
+  delMember: function (e) {
+    var address = app.ip + "tc/taskService/addOrUpdateTask";
+    var single = e.currentTarget.dataset.item;
+    var memberBeanList = this.data.memberBeanList;
+    var summaryBean = this.data.summary;
+    var participant = this.data.participant;
+    participant.map((item,index)=>{
+      if (item == single.resourceId){
+        participant.splice(index,1);
+      }
+    })
+    summaryBean.participant = participant;
+    var obj = { summaryBean };
+    api.sendDataByBody(obj,address,"POST",true).then(res=>{
+      console.log("删除结果");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        wx.navigateBack();
+      }
+      else{
+        // 弹框提示删除失败
+        this.setData({alert:{content:'成员删除失败'}});
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({ alert: { content: '成员删除失败' } });
+      this.alert();
+    })
+    
+  }
+})

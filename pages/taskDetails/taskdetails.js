@@ -47,8 +47,12 @@ Page({
       taskId:options.taskId,
       powerId:options.powerId
     })
-    this.searchPowerData(options.powerId)
   },
+
+  onShow: function () {
+    this.searchPowerData(this.data.powerId);
+  },
+
   // 查询权限数据
   searchPowerData: function (id) {
     var address = app.ip + "tc/taskService/findTaskBOById";
@@ -261,6 +265,16 @@ Page({
     // }
     this.setData({
       replyContent: reply
+    })
+  },
+
+  // 编辑回复
+  editreply: function(e){
+    console.log("编辑回复");
+    console.log(e);
+    var num = e.detail.num;
+    wx.navigateTo({
+      url: './editreply/editreply?taskid=' + this.data.taskId + "&num=" + num,
     })
   },
   // 切换任务状态（已完成/未完成）

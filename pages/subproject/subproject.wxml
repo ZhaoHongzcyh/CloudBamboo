@@ -217,7 +217,7 @@
         项目人员
       </view>
       <view class="memberlength">
-        5人
+        {{memberlist.length}}人
       </view>
     </view>
     <!-- 成员列表 -->
@@ -231,9 +231,9 @@
       </block>
     </view>
     <view class="funmember">
-      <view class="memberpro">添加成员</view>
+      <view class="memberpro" bindtap="addmember" data-state="1">添加成员</view>
       <view class="delmemberpro"></view>
-      <view class="memberpro">删除成员</view>
+      <view class="memberpro" bindtap="addmember" data-state="0">删除成员</view>
     </view>
   </view>
 

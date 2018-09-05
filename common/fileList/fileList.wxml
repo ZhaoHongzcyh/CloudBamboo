@@ -37,8 +37,9 @@
   </view>
   <!-- 文件信息 -->
   <view class="file-info">
-    <view class="file-name">
-      {{item.title}}
+    <view class="file">
+      
+      <view class="file-name">{{item.title}}</view>
       <!-- 文件是否受保护 -->
       <image src="/pages/cloudDisk/img/onlyread.png" class="protect" wx:if="{{showeyes}}"></image>
     </view>

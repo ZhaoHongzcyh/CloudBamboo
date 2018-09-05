@@ -1,66 +1,89 @@
 // pages/taskDetails/editreply/editreply.js
+const app = getApp();
+const api = require("../../../api/common.js");
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+    taskId:null,
+    num:null,//计划条目下标
+    actionlist:null,
+    alert:null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.popup = this.selectComponent("#popup");
+    this.setData({
+      taskId:options.taskid,
+      num:options.num
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
+  onShow: function() {
+    this.searchPlan(this.data.taskId);
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
+  // 通过taskid查找计划条目
+  searchPlan: function (id) {
+    var address = app.ip + "tc/schedule/itemService/findBo";
+    var obj = { id };
+    api.request(obj, address, "POST", true).then(res => {
+      console.log("计划条目");
+      console.log(res)
+      if(res.data.code == 200 && res.data.result){
+        this.setData({
+          actionlist:res.data.data.actionList
+        })
+      }
+      else{
+
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
+  // 获取用户输入的内容
+  getInput: function (e) {
+    var actionlist = this.data.actionlist;
+    var num = this.data.num;
+    actionlist[num].descript = e.detail.value;
+    this.setData({
+      actionlist
+    })
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+  // 保存评论信息
+  savedescript: function () {
+    var reply = this.data.actionlist;
+    var address = app.ip + "tc/schedule/itemService/updateActionItem";
+    var num = this.data.num;
+    var actionId = reply[num].id;
+    var descript = encodeURI(reply[num].descript);
+    var obj = {
+      actionId, descript
+    }
+    api.request(obj,address,"POST",true).then((res)=>{
+      console.log("修改评论");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        wx.navigateBack();
+      }
+      else{
+        this.setData({alert:{content:'评论修改失败'}});
+        this.alert();
+      }
+    }).catch(e=>{
+      console.log(e);
+      this.setData({ alert: { content: '评论修改失败' } });
+      this.alert();
+    })
   }
 })

@@ -581,14 +581,16 @@ page{
   height: 72rpx;
   align-items: center;
   justify-content: center;
+  background-color: white;
   border-radius: 8rpx;
 }
 
 .memberpro{
   font-size: 28rpx;
   width: 315rpx;
-  height: 72rpx;
-  line-height: 72rpx;
+  height: 62rpx;
+  border-radius: 8rpx;
+  line-height: 62rpx;
   background-color: #409CF2;
   color: white;
   text-align: center;

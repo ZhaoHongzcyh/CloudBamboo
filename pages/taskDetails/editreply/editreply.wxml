@@ -1,5 +1,8 @@
 <!--pages/taskDetails/editreply/editreply.wxml-->
 <view>
-  <textarea class="editreply"></textarea>
-  <view class="save">保存</view>
+  <textarea bindinput="getInput" class="editreply" value="{{actionlist[num].descript==null?'未设置':actionlist[num].descript}}"></textarea>
+  <view class="save" bindtap="savedescript">保存</view>
+
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

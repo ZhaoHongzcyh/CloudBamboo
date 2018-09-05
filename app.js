@@ -88,6 +88,8 @@ App({
         }
       ],
       position: "bottom"
-    }
+    },
+
+    tasknum:0//项目下方的四个tab当前所处的位置
   }
 })

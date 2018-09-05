@@ -3,11 +3,20 @@ page{
   background-color: rgba(245,245,245,1);
 }
 .editreply{
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: #999999;
   width: 100%;
   height: 520rpx;
+  background-color: white;
 }
-.edit{
+.save{
   position: fixed;
+  left: 50%;
+  margin-left: -335rpx;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+  letter-spacing: 10rpx;
   bottom: 30rpx;
   width: 670rpx;
   height: 72rpx;

@@ -1,0 +1,142 @@
+/* pages/subproject/member/member.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+
+.groupinfo{
+  display: flex;
+  height: 80rpx;
+  font-size: 28rpx;
+  background-color: white;
+  align-items: center;
+  border-bottom: 1rpx solid #DBDBDB;
+}
+
+.folder{
+  margin-left: 10rpx;
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 50%;
+}
+
+.tname{
+  margin-left: 20rpx;
+  flex: 1;
+  color: #333333;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.tnamenum{
+  margin-right: 20rpx;
+  color: #999999;
+}
+.singlemember{
+  display: flex;
+  background-color: white;
+  height: 80rpx;
+  font-size: 28rpx;
+  align-items: center;
+  border-bottom: 1rpx solid #DBDBDB;
+}
+
+.userphoto{
+  margin-left: 50rpx;
+  width: 62rpx;
+  height: 62rpx;
+  border-radius: 50%;
+}
+.username{
+  color: #333333;
+  flex: 2;
+  margin-left: 10rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.radio{
+  margin-right: 30rpx;
+}
+
+/* 确认按钮 */
+.savebtn{
+  position: fixed;
+  bottom: 30rpx;
+  left: 50%;
+  margin-left: -335rpx;
+  letter-spacing: 10rpx;
+  width: 670rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+  text-align: center;
+  color: white;
+  background-color: #409CF2;
+}
+
+.deluserphoto{
+  margin-left: 20rpx;
+  width: 62rpx;
+  height: 62rpx;
+  border-radius: 50%;
+}
+
+.delusername{
+  color: #333333;
+  flex: 2;
+  margin-left: 20rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.delradio{
+  position: relative;
+  width: 40rpx;
+  height: 40rpx;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.delline{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -15rpx;
+  width: 30rpx;
+  border: 2rpx solid white;
+}
+
+/* 搜索框 */
+.search{
+  display: flex;
+  margin: auto;
+  height: 60rpx;
+  width: 670rpx;
+  border-radius: 30rpx;
+  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+  align-items: center;
+  background-color: white;
+  border: 1rpx solid red;
+}
+
+.searchbtn{
+  width: 28rpx;
+  height: 28rpx;
+  margin-left: 10rpx;
+}
+
+.searchinput{
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  color: #999999;
+  width: calc(100% - 60rpx);
+}
+
+.placeholder{
+  font-size: 28rpx;
+}

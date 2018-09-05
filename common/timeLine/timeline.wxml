@@ -9,7 +9,7 @@
       <view class="content">
         <view class="time">
           <view>{{item.createDate}}</view>
-          <view class="edittask" wx:if="{{item.edit}}">编辑</view>
+          <view class="edittask" wx:if="{{item.edit}}" data-index="{{index}}" bindtap="editreply">编辑</view>
         </view>
         <view class="action">
           <image wx:if="{{item.behType == 10002001}}" src="/pages/taskDetails/img/add.png" class="actionImg"></image>

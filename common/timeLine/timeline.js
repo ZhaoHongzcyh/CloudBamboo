@@ -21,6 +21,10 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    editreply: function (e) {
+      var num = e.currentTarget.dataset.index;
+      var obj = {num}
+      this.triggerEvent('edit', obj);
+    }
   }
 })

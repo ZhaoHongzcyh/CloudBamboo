@@ -143,6 +143,9 @@ Page({
     this.selectPlanList(this.data.taskId);
     this.setData({ isShowEditPlan:false})
     wx.stopPullDownRefresh();//关闭下拉刷新
+    if (app.globalData.tasknum == 2){
+      this.getProjectMember();
+    }
   },
 
   // 下拉刷新
@@ -1386,6 +1389,14 @@ Page({
     var item = e.currentTarget.dataset.item;
     wx.navigateTo({
       url: './personinfo/personinfo?personid=' + item.resourceId,
+    })
+  },
+
+  // 添加成员
+  addmember: function (e) {
+    var state = e.currentTarget.dataset.state;//0:删除成员，1：添加成员
+    wx.navigateTo({
+      url: './member/member?taskid=' + this.data.taskId + "&state=" + state,
     })
   },
   // ------------------------------------------------------------项目设置相关-----------------------------------------------------------

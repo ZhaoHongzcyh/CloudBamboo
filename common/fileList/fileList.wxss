@@ -17,10 +17,14 @@
   margin-left: 21rpx;
   flex: 2;
 }
+.file{
+  display: flex;
+  width: 260rpx;
+}
 .file-name{
   height: 27rpx;
   line-height: 27rpx;
-  width: 241rpx;
+  width: 230rpx;
   line-height: 27rpx;
   color: #333333;
   font-size: 28rpx;
