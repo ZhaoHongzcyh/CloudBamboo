@@ -1,10 +1,9 @@
 {
   "pages": [
     "pages/project/project",
-    "pages/index/index",
+    
     "pages/subproject/copyfile/copyfile",
-    
-    
+    "pages/index/index",
     "pages/taskDetails/editreply/editreply",
     "pages/subproject/personinfo/personinfo",
     "pages/subproject/transfer/transfer",

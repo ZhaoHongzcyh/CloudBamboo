@@ -331,6 +331,7 @@ Page({
       this.alert();
     })
   },
+
   // 查询我执行的任务
   selectJoinTask: function(obj) {
     obj.taskId = this.data.taskId
@@ -363,6 +364,7 @@ Page({
       this.alert();
     })
   },
+
   // 通过截至时间筛选
   selectTaskByTime: function(e){
     var timeType = e.currentTarget.dataset.timetype;
@@ -517,28 +519,6 @@ Page({
       url: '/pages/taskDetails/taskdetails?taskId=' + id + "&powerId=" + this.data.taskId,
     });
     return false;
-    var tcUserId = wx.getStorageSync("tcUserId");
-    // 判断用户是否可以进入该任务
-    var address = app.ip + "tc/schedule/itemService/isGetIntoItem";
-    api.request({id},address,"post",true).then(res=>{
-      if(res.data.code == 200 && res.data.result){
-        for(var i = 0; i < res.data.data.memberList.length; i++){
-          if (tcUserId == res.data.data.memberList[i].personId){
-            //  wx.navigateTo({
-            //   url: '/pages/taskDetails/taskdetails?id=' + id + "&taskId=" + this.data.taskId,
-            // })
-            return false;
-          }
-        }
-        this.alert();
-      }
-      else{
-        this.setData({
-          alert:{content:"加载失败"}
-        })
-        this.alert();
-      }
-    })
     
   },
   
@@ -569,6 +549,7 @@ Page({
     this.setData({
       menu:menu
     })
+
     // 通过不同采单，调用不同的函数
     switch(index){
       case 0:
@@ -594,6 +575,7 @@ Page({
       url: '/pages/addTask/addtask?resourceId=' + this.data.taskId,
     })
   },
+
   // 新建任务
   newTask: function (e) {
     var title = e.currentTarget.dataset.title;
@@ -602,6 +584,7 @@ Page({
       url: '/pages/taskDetails/newTask/newtask?planid=' + id + "&title=" + title +"&id=" + this.data.taskId,
     })
   },
+
   // 任务折叠效果
   fold: function (e) {
     console.log(e);
@@ -695,6 +678,7 @@ Page({
     }
     this.setData({ isShowEditPlan: !this.data.isShowEditPlan, needEditPlanId: needEditPlanId, delPlanInfo: delPlanInfo})
   },
+
   // 编辑任务计划
   editPlan: function () {
     if (this.handlePower()){
@@ -714,7 +698,6 @@ Page({
   delPlan: function () {
     var address = app.ip + "tc/schedule/summaryService/delete";
     var id = this.data.needEditPlanId;
-
     if(this.handlePower()){
       api.request({ id }, address, "POST", true).then(res => {
         console.log("删除任务");
@@ -926,6 +909,7 @@ Page({
       console.log(currentProgress);
     })
   },
+
   // 文件全选/取消
   selectAll: function (e) {
     var state = e.currentTarget.dataset.state == 'true'? true : false;
@@ -942,6 +926,7 @@ Page({
       this.setData({ fileList, chooseFileList: fileList})
     }
   },
+
   // 文件下载操作
   downloadFile: function (chooseFileList,i){
     if(i == undefined){
@@ -1006,6 +991,7 @@ Page({
       }
     })
   },
+
   // 删除操作
   delFile: function (e) {
      var address = app.ip + "tc/taskService/deleteTaskArc";
@@ -1144,6 +1130,7 @@ Page({
     }
     return permissions;
   },
+
   // 判定是否具有删除文件权限
   isCouldDel: function (obj) {
     var permission = false;
@@ -1155,10 +1142,12 @@ Page({
     }
     return permission;
   },
+
   // 检查文件夹中是否含有只读文件
   checkFolderHasOnlyReadFile: function (obj) {
     var permissions = false;
   },
+
   // 判断是否为别人的只读文件
   isOtherreadFile: function (obj) {
     var permission = false;
@@ -1175,10 +1164,12 @@ Page({
     }
     return permission;
   },
+
   //切换文件预览工具栏
-  switchFileReadAct: function () {
-    this.setData({ isShowReturnArea: !this.data.isShowReturnArea})
-  },
+    switchFileReadAct: function () {
+      this.setData({ isShowReturnArea: !this.data.isShowReturnArea})
+    },
+
   // 文件预览下的 下载
   toobarDown: function () {
     console.log(this.data.previewItem);
@@ -1252,8 +1243,15 @@ Page({
    
     var chooseFileList = this.data.chooseFileList;
     var fileid = [];
+    var permission = false;
     chooseFileList.map((item,index)=>{
-      fileid.push(item.id);
+      if(this.handlePower()){
+        fileid.push(item.id);
+      }
+      else if(item.privType == 4){
+        fileid.push(item.id);
+      }
+      
     })
     fileid.join(",")
     wx.navigateTo({
@@ -1322,9 +1320,13 @@ Page({
       }
     })
   },
+
   // 设置权限
   setPower: function () {
     var chooseFileList = this.data.chooseFileList;
+    if (chooseFileList[0].atype == 0){
+      this.setData({alert:{content:'无法对文件夹设置'}})
+    }
     wx.navigateTo({
       url: './setPower/setPower?taskid=' + this.data.taskId + "&fileid=" + chooseFileList[0].id,
     })
