@@ -14,6 +14,7 @@ Page({
     state:null,//0:删除成员 1：添加成员
     friendsList:null,
     memberBeanList:null,//成员列表
+    matchMember:null,//成员列表
     choosemember:[],
     summary:null,
     participant:[]
@@ -100,7 +101,8 @@ Page({
       console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({
-          memberBeanList: res.data.data.memberBeanList
+          memberBeanList: res.data.data.memberBeanList,
+          matchMember:res.data.data.memberBeanList
         })
       }
     })
@@ -210,6 +212,29 @@ Page({
       this.setData({ alert: { content: '成员删除失败' } });
       this.alert();
     })
-    
+  },
+
+  // 动态匹配用户输入的联系人
+  matchSearchContent: function (e) {
+    var value = e.detail.value;
+    var memberBeanList = this.data.memberBeanList;
+    var matchMember = this.data.matchMember;
+    var member = [];
+    matchMember.map((item,index)=>{
+      var reg = new RegExp(value,'i');
+      if(reg.test(item.personName)){
+        member.push(item);
+      }
+    })
+    if(e.detail.value != ""){
+      this.setData({
+        memberBeanList: member
+      })
+    }
+    else{
+      this.setData({
+        memberBeanList: matchMember
+      })
+    }  
   }
 })

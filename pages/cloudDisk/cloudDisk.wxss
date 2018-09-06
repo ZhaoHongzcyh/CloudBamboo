@@ -150,3 +150,14 @@
   height: 100%;
   background-color: rgba(0,0,0,0.5);
 }
+
+/* 导航栏 */
+.nav{
+  display: flex;
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.last{
+  color: #409CF2;
+}

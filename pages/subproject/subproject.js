@@ -452,6 +452,13 @@ Page({
         })
         return false;
       }
+      // if(atype == 2 || atype == 3 || atype == 4 || atype == 5 || atype == 6){
+      //   console.log(e);
+      //   // return false;
+      //   wx.navigateTo({
+      //     url: './filePreview/filepreview?filename=' + e.currentTarget.dataset.title + "&id=" + e.currentTarget.dataset.item.resource,
+      //   })
+      // }
       if(atype != 0){
         return false;
       }
@@ -1230,11 +1237,23 @@ Page({
       url: './fileMove/fileMove?taskid=' + this.data.taskId + "&file=" + fileid,
     })
   },
+
   // 复制文件
   copyFile: function () {
     this.setData({alert:{content:"云竹协作更多功能，请下载App"}});
-    this.alert();
+   
+    var chooseFileList = this.data.chooseFileList;
+    var fileid = [];
+    chooseFileList.map((item,index)=>{
+      fileid.push(item.id);
+    })
+    fileid.join(",")
+    wx.navigateTo({
+      url: './copyfile/copyfile?taskId=' + this.data.taskId + "&fileid=" + fileid,
+    })
+    // this.alert();
   },
+
   // 鉴定是否有权限移动
   AppraisalPower: function (id) {
     var address = app.ip + "tc/taskService/isContainsOther";

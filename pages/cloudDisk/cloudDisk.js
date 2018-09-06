@@ -6,6 +6,7 @@ Page({
     url:{},//脚步导航数据
     sortRule:"name",//文件排序规则：name:按照文件名排序，time:按照时间排序
     fileData:[],//文件数据
+    parentIdStack:[],//父文件夹Id
     selectedFile:[],
     selectnum:0,
     selectStatus:[],//文件是否被选中的状态
@@ -146,5 +147,86 @@ Page({
     wx.redirectTo({
       url: url,
     })
+  },
+
+  // 进入文件夹
+  entryFolder: function (e) {
+    var item = e.currentTarget.dataset.item;
+    var parentIdStack = this.data.parentIdStack;
+    console.log(item);
+    var obj = {
+      id:item.id,
+      title:item.title
+    }
+    if(item.atype == 0){
+      parentIdStack.push(obj);
+      console.log(parentIdStack);
+      this.setData({ parentIdStack})
+      this.searchFileList();
+      
+    }
+  },
+
+  // 查询文件列表数据
+  searchFileList: function (id) {
+    var parentIdStack = this.data.parentIdStack;
+    var length = parentIdStack.length;
+    var address = app.ip + "tc/IArcSumManagerService/findArcSummarysdate";
+    this.jump(parentIdStack[length - 1].id);
+  },
+
+  // 跳转到指定目录
+  jump: function (id) {
+    var address = app.ip + "tc/IArcSumManagerService/findArcSummarysdate";
+    var obj = {
+      ownerType: 10000003,
+      ownerId: wx.getStorageSync("tcUserId"),
+      folderId: id
+    }
+    api.request(obj, address, "POST", true).then(res => {
+      var selectStatus = [];
+      var dat = api.cloudDiskDataClean(res.data.data.list);
+      var list = api.fileNameSort(dat);
+
+      // 将选中状态设置为false
+      for (var i = 0; i < list.length; i++) {
+        selectStatus.push(false);
+      }
+      this.setData({
+        fileData: list,
+        selectStatus: selectStatus
+      })
+      wx.stopPullDownRefresh();//关闭下拉刷新
+    }).catch(e => {
+      console.log(e)
+    })
+  },
+
+  // 跳转到指定文件夹
+  jumpFolder: function (e) {
+    var parentIdStack = this.data.parentIdStack;
+    var index = e.currentTarget.dataset.index;
+    console.log(index)
+    if(index == 0){
+      this.jump(1);
+    }
+    else{
+      var id = parentIdStack[index - 1].id;
+      this.jump(id);
+    }
+    parentIdStack.splice(index);
+    console.log("删除");
+    console.log(parentIdStack);
+    this.setData({ parentIdStack})
+  },
+
+  // 上一级文件夹
+  upFolder: function (e) {
+    var parentIdStack = this.data.parentIdStack;
+    var length = parentIdStack.length;
+    var id = parentIdStack[length - 2].id;
+    this.jump(id);
+    parentIdStack.splice(length - 1);
+    this.setData({ parentIdStack})
   }
 })

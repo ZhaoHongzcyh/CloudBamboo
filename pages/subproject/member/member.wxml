@@ -27,7 +27,7 @@
   <view class="del" wx:if="{{state == 0}}">
     <view class="search">
       <image src="/pages/cloudDisk/img/searchbtn.png" class="searchbtn"></image>
-      <input type="text" placeholder='搜索联系人' class="searchinput" placeholder-class='placeholder'/>
+      <input type="text" placeholder='搜索联系人' class="searchinput" bindinput="matchSearchContent" placeholder-class='placeholder'/>
     </view>
     <view data-item="{{item}}" wx:for="{{memberBeanList}}" data-index="{{index}}" class="singlemember" bindtap="delMember" wx:if="{{item.relationType != 12 && item.relationType != 13 && item.relationType != 1}}">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="deluserphoto"></image>

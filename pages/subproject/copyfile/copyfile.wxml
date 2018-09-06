@@ -1,0 +1,57 @@
+<!--pages/subproject/copyfile/copyfile.wxml-->
+<view>
+  <view class="head">
+    <view class="commontitle" data-tap="1" bindtap="showtap">
+      我的云盘
+      <view class="{{showTapNum == 1? 'line':''}}"></view>
+    </view>
+    <view class="commontitle" data-tap="2" bindtap="showtap">
+      我的项目
+      <view class="{{showTapNum == 2? 'line':''}}"></view>
+    </view>
+    <view class="commontitle" data-tap="3" bindtap="showtap">
+      我的公司
+      <view class="{{showTapNum == 3? 'line':''}}"></view>
+    </view>
+  </view>
+
+  <view class="wrap">
+    <!-- 我的云盘区域 -->
+    
+    <view class="cloudDisk" wx:if="{{showTapNum == 1}}">
+      <view class="nav">
+        <block wx:for="{{parentIdStack}}">
+          <view data-id="{{item.id}}" class="subnav" data-index="{{index}}" bindtap="jumpFolder" wx:if="{{parentIdStack.length < 4}}">
+            {{item.title}}>
+          </view>
+        </block>
+        <view data-id="{{parentIdStack[0].id}}" class="subnav" data-index="{{0}}" bindtap="jumpFolder" wx:if="{{parentIdStack.length > 3}}">
+            {{parentIdStack[0].title}}>
+          </view>
+          <view class="subnav" data-index="{{0}}" bindtap="upFolder" wx:if="{{parentIdStack.length > 3}}">
+            ...>
+          </view>
+
+          <view  class="subnav" data-index="{{parentIdStack.length - 1}}" bindtap="jumpFolder" wx:if="{{parentIdStack.length > 3}}">
+            {{parentIdStack[parentIdStack.length - 1] .title}}>
+          </view>
+      </view>
+      <block wx:for="{{cloudDiskList}}" wx:key="{{item.id}}">
+        <file item="{{item}}" wx:key="{{item.id}}" data-item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-title="{{item.title}}"  readonly="{{false}}" data-id="{{item.id}}" checked="{{item.select}}"  bindselect="checkOutFile"></file>
+      </block>
+
+      <view class="footer">
+        <view class="btn" bindtap="newFolderAlert">新建文件夹</view>
+        <view class="spacing"></view>
+        <view class="btn" bindtap="copyFile">复制{{filelId.length}}个</view>
+      </view>
+    </view>
+    
+    <!-- 我的项目区域 -->
+    <!-- 我的公司区域 -->
+  </view>
+
+  <!-- 新建文件夹弹框 -->
+  <fileAlert id="newFolder" bindnewFolder="newFolderName"></fileAlert>
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+</view>

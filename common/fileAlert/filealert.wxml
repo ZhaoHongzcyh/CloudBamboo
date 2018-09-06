@@ -4,7 +4,7 @@
       <view class="content">
         <view class="title">{{title}}</view>
         <view>
-          <input class="foldername" bindinput="getValue" placeholder='{{placeholder}}' placeholder-class='filePlace' type='text'/>
+          <input class="foldername" bindinput="getValue" maxlength='20' placeholder='{{placeholder}}' placeholder-class='filePlace' type='text'/>
         </view>
         <view class="btn">
           <view class="reset commonBtn" bindtap="hide">取消</view>

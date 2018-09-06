@@ -1,0 +1,2 @@
+<!--pages/subproject/filePreview/filepreview.wxml-->
+<web-view src="{{src}}"></web-view>

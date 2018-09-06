@@ -19,8 +19,27 @@
       <input bindinput="getSearchContent" placeholder="请输入关键字搜索文件或文件夹" type="text" class="search-text" disabled='false'/>
     </view>
   </view>
+
+  <!-- 导航 -->
+  <view class="nav">
+    <block wx:for="{{parentIdStack}}">
+      <view class="menu {{index == parentIdStack.length-1? 'last':''}}" bindtap="jumpFolder" data-index="{{index}}" wx:if="{{parentIdStack.length < 4}}">
+        {{item.title}}>
+      </view>
+    </block>
+      <view class="menu {{index == parentIdStack.length-1? 'last':''}}" bindtap="jumpFolder" data-index="{{0}}" wx:if="{{parentIdStack.length > 3}}">
+        {{parentIdStack[0].title}}>
+      </view>
+      <view class="menu" class="menu" bindtap="upFolder" wx:if="{{parentIdStack.length > 3}}">
+        ...>
+      </view>
+      <view class="menu last" bindtap="jumpFolder" data-index="{{parentIdStack.length - 1}}" wx:if="{{parentIdStack.length > 3}}">
+        {{parentIdStack[parentIdStack.length - 1].title}}
+      </view>
+  </view>
   <block wx:for="{{fileData}}">
-    <file item="{{item}}" bindselect="select" bindtap="alert" data-index="{{index}}" checked="{{selectStatus[index]}}"></file>
+    <!-- <file item="{{item}}" bindselect="select" bindtap="alert" data-index="{{index}}" checked="{{selectStatus[index]}}"></file> -->
+    <file item="{{item}}" bindselect="select" bindtap="entryFolder" data-item="{{item}}" data-index="{{index}}" readonly="{{false}}"></file>
   </block>
   <!-- 底部文件操作弹框 -->
   <view class="footer-alert" wx:if="{{selectnum>0? true: false}}">

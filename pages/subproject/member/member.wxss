@@ -121,7 +121,6 @@ page{
   margin-top: 20rpx;
   align-items: center;
   background-color: white;
-  border: 1rpx solid red;
 }
 
 .searchbtn{
