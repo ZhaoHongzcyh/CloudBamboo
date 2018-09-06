@@ -51,6 +51,7 @@ Page({
 
   onShow: function () {
     this.searchPowerData(this.data.powerId);
+    this.selectPlanChild(this.data.taskId);
   },
 
   // 查询权限数据
@@ -109,9 +110,7 @@ Page({
   onUnload: function(){
     console.log("页面重载")
   },
-  onShow:function(){
-    this.selectPlanChild(this.data.taskId);
-  },
+  
   // 根据ID查找计划条目
   selectPlanChild: function (id) {
     var userId = wx.getStorageSync('tcUserId');

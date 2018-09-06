@@ -760,22 +760,27 @@ Page({
     }
     this.setData({ chooseFileList, fileList});
   },
+
   // 新建文件夹弹框
   newFolderAlert: function () {
     this.newFolder.showModel();
   },
+
   // 更多操作
   moreFun: function () {
     this.setData({ moreAction: !this.data.moreAction})
   },
+
   // 返回文件列表
   returnFileList: function () {
     this.setData({ preview:false})
   },
+
   // 新增加一个文件菜单
   newAddFile: function () {
     this.setData({ isShowAddFile: !this.data.isShowAddFile})
   },
+
   // 新增加一个文件夹
   newFolderName: function (e) {
     console.log(e);
@@ -795,6 +800,7 @@ Page({
       this.newFolder.hide();
     })
   },
+
   // 跳转到指定的文件夹
   jumpFile: function (e) {
     console.log(e);
@@ -850,6 +856,7 @@ Page({
       }
     })
   },
+  
   // 选取本地文件，进行上传操作
   readLocalFile: function () {
     var fileList = this.data.fileList;
@@ -866,6 +873,7 @@ Page({
       isShowAddFile:false
     })
   },
+  
   // 文件上传
   uploadLocalFile: function (ary,i,progress,upNum) {
     if(ary.length < i || ary.length == i){
