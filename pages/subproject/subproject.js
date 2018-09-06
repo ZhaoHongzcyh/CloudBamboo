@@ -1324,9 +1324,6 @@ Page({
   // 设置权限
   setPower: function () {
     var chooseFileList = this.data.chooseFileList;
-    if (chooseFileList[0].atype == 0){
-      this.setData({alert:{content:'无法对文件夹设置'}})
-    }
     wx.navigateTo({
       url: './setPower/setPower?taskid=' + this.data.taskId + "&fileid=" + chooseFileList[0].id,
     })
