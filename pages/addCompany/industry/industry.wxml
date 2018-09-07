@@ -1,0 +1,10 @@
+<!--pages/addCompany/industry/industry.wxml-->
+<view class="industry">
+  <block wx:for="{{industry}}">
+    <view class="singleIndustry" wx:key="{{item.id}}" data-item="{{item}}" bindtap="selectIndustry"> 
+      <view class="title">{{item.name}}</view>
+      <radio color= "#409CF2" class="radio" checked='{{item.select}}'/>
+    </view>
+  </block>
+  
+</view>

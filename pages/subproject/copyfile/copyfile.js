@@ -13,7 +13,9 @@ Page({
     taskId:null,
     filelId:null,
     cloudDiskList:null,//云盘列表
-    parentIdStack:[]//父文件夹id堆栈
+    parentIdStack:[],//父文件夹id堆栈
+    // -------------------------------------公司列表---------------------------------
+    companyList:null
   },
 
   /**
@@ -36,6 +38,9 @@ Page({
   // 菜单切换
   showtap: function (e) {
     var tap = e.currentTarget.dataset.tap;
+    if(tap == 3){
+      this.getCompanyList();
+    }
     this.setData({
       showTapNum: tap
     })
@@ -183,6 +188,34 @@ Page({
         },2000)
         
       }
+    })
+  },
+
+  // ----------------------------------------------公司列表-------------------------------------------------
+  getCompanyList: function () {
+   var address = app.ip + "tc/taskTeamService/findTaskTeam";
+   api.request({},address,"POST",true).then(res=>{
+     console.log("公司列表");
+     console.log(res);
+     if(res.data.code == 200 && res.data.result){
+       this.setData({
+         companyList:res.data.data.list
+       })
+     }
+   })
+  },
+
+  // 复制文件到公司
+  selectCompany: function (e) {
+    var item = e.currentTarget.dataset.item;
+    var address = app.ip + "tc/taskService/copyArc";
+    var arcIds = this.data.filelId;
+    var head = {
+      targetFolder: item.id,
+    };
+    api.customRequest(head, arcIds,address,"POST",true).then(res=>{
+      console.log("复制到公司");
+      console.log(res);
     })
   }
 })

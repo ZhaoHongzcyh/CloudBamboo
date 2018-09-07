@@ -76,3 +76,21 @@
   text-align: center;
   background-color: #409CF2;
 }
+
+/* 公司所在地址 */
+.companyaddress{
+  display: flex;
+  font-size: 28rpx;
+  height: 80rpx;
+  align-items: center;
+  background-color: white;
+}
+.addresstitle{
+  flex: 1;
+  margin-left: 41rpx;
+  color: #999999;
+}
+.rowaddress{
+  margin-right: 20rpx;
+  color: #999999;
+}

@@ -1,15 +1,15 @@
 <!-- 导入导航模板 -->
 <import src="/pages/tabBar/tabBar.wxml"/>
 <template is="tabBar" data="{{url}}"></template>
-<view class="myself" wx:if="{{list.length > 0?true:false}}">
-  <view class="head">
+<view class="head">
     <image src="{{headimg}}" class="headimg" bindtap="alert"></image>
     <view class="user">{{userinfo.name}}</view>
     <image class="bell" src="./img/bell.png" bindtap="alert"></image>
     <image class="set" src="./img/set.png" bindtap="alert"></image>
-  </view>
+</view>
+<view class="myself">
   <!-- 待我处理 -->
-  <view class="waiting">
+  <view class="waiting" wx:if="{{list.length > 0?true:false}}">
     <view class="wait-handle-head">
       <view class="wait-text">待我处理</view>
       <view class="wait-num">{{list.length}}</view>

@@ -2,7 +2,7 @@
 .myself{
   position: absolute;
   width: 100%;
-  height: calc(100% - 110rpx);
+  height: calc(100% - 200rpx);
   overflow: auto;
 }
 .head{

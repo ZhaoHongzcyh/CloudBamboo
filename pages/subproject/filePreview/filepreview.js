@@ -14,8 +14,21 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      src: app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcId=" + options.id
-      // src:"http://zcyhcx.applinzi.com"
+      src: this.getSrc(options)
     })
+  },
+
+  // 根据文件类型返回不同的src
+  getSrc: function (options) {
+    var atype = options.atype;
+    var src = null;
+    if(atype == 3){
+      src = app.filePreview + "tc/office/open?m=readOnly&arcId=" + options.id + "&proxyUserToken=" + wx.getStorageSync('proxyUserToken');
+    }
+    else if(atype == 6 || atype == 5){
+      src = app.filePreview + "tc/knowledge/previewPdf/?arcId=" + options.id + "&title=" + options.filename;
+    }
+    console.log(src);
+    return src;
   }
 })

@@ -454,13 +454,16 @@ Page({
         })
         return false;
       }
-      // if(atype == 2 || atype == 3 || atype == 4 || atype == 5 || atype == 6){
-      //   console.log(e);
-      //   // return false;
-      //   wx.navigateTo({
-      //     url: './filePreview/filepreview?filename=' + e.currentTarget.dataset.title + "&id=" + e.currentTarget.dataset.item.resource,
-      //   })
-      // }
+      if(atype == 3 || atype == 4 || atype == 5 || atype == 6){
+        console.log(e);
+        // return false;
+        wx.navigateTo({
+          url: './filePreview/filepreview?filename=' + e.currentTarget.dataset.title + "&id=" + e.currentTarget.dataset.item.id + "&atype=" + e.currentTarget.dataset.item.atype
+        })
+      }
+      else if (atype == 2){
+        this.setData({alert:{content:''}})
+      }
       if(atype != 0){
         return false;
       }
@@ -1239,25 +1242,37 @@ Page({
 
   // 复制文件
   copyFile: function () {
-    this.setData({alert:{content:"云竹协作更多功能，请下载App"}});
-   
     var chooseFileList = this.data.chooseFileList;
     var fileid = [];
     var permission = false;
     chooseFileList.map((item,index)=>{
-      if(this.handlePower()){
-        fileid.push(item.id);
-      }
-      else if(item.privType == 4){
-        fileid.push(item.id);
-      }
-      
+      fileid.push(item.id);
     })
-    fileid.join(",")
-    wx.navigateTo({
-      url: './copyfile/copyfile?taskId=' + this.data.taskId + "&fileid=" + fileid,
+    this.appraisalFolder(fileid);
+  },
+
+  // 鉴定文件夹下方是否有被锁定的文件
+  appraisalFolder: function (ary) {
+    var address = app.ip + "tc/taskAuthorityService/isAuthorityByType";
+    var arcIds = ary;
+    var head = {
+      auType: 4
+    };
+    api.customRequest(head,arcIds,address,"POST",true).then(res=>{
+      console.log("文档复制鉴定");
+      console.log(res);
+      if(res.data.code == 403 && !res.data.result){
+        this.setData({alert:{content:'所选文件夹包含权限锁定文件'}});
+        thia.alert();
+        return false;
+      }
+      else if(res.data.code == 200 && res.data.result){
+        ary = ary.join(",")
+        wx.navigateTo({
+          url: './copyfile/copyfile?taskId=' + this.data.taskId + "&fileid=" + ary,
+        })
+      }
     })
-    // this.alert();
   },
 
   // 鉴定是否有权限移动

@@ -1,9 +1,11 @@
 {
   "pages": [
+    "pages/company/company",
+    "pages/addCompany/industry/industry",
     "pages/project/project",
-    
-    "pages/subproject/copyfile/copyfile",
     "pages/index/index",
+    "pages/addCompany/addCompany",
+    "pages/subproject/copyfile/copyfile",
     "pages/taskDetails/editreply/editreply",
     "pages/subproject/personinfo/personinfo",
     "pages/subproject/transfer/transfer",
@@ -15,10 +17,8 @@
     "pages/cloudDisk/cloudDisk",
     "pages/ivew/ivew",
     "pages/acceptInvitation/acceptInvitation",
-    "pages/company/company",
     "pages/companyList/companyList",
     "pages/downApp/downApp",
-    "pages/addCompany/addCompany",
     "pages/myself/myself",
     "pages/addNewProject/addNewProject",
     "pages/mailList/mailList",
@@ -39,8 +39,8 @@
     "pages/subproject/editAdmin/editadmin",
     "pages/subproject/advanceSet/advanceset",
     "pages/subproject/member/member",
-    "pages/subproject/filePreview/filepreview"
-    
+    "pages/subproject/filePreview/filepreview",
+    "pages/addCompany/companyAddress/companyaddress"
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",

@@ -48,7 +48,19 @@
     </view>
     
     <!-- 我的项目区域 -->
-    <!-- 我的公司区域 -->
+
+    <!-- ---------------------------------------------------------我的公司---------------------------------- -->
+    <view class="company">
+      <block wx:for="{{companyList}}">
+        <view class="singlecompany" bindtap="selectCompany" data-item="{{item}}">
+          <image src="/pages/company/img/companyList.png" class="companyHead"></image>
+          <view class="companyinfo">
+            <view class="companyname">{{item.title}}</view>
+            <view class="admin">管理员 {{item.managerName}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
   </view>
 
   <!-- 新建文件夹弹框 -->

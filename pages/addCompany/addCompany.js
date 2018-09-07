@@ -14,7 +14,9 @@ Page({
         role:1,//1:管理员，0：普通用户
         head:app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"//头像路径
       }
-    ]
+    ],
+    industry:null,//公司所在行业
+    companyaddress:null//公司所在地址
   },
   onLoad:function(){
     // 弹框
@@ -120,6 +122,21 @@ Page({
         state:0,
         content:""
       }
+    })
+  },
+
+  // 公司行业选择
+  selectIndustry: function () {
+    var title = this.data.industry == null ? null : this.data.industry.name
+    wx.navigateTo({
+      url: './industry/industry?title=' + title,
+    })
+  },
+
+  // 公司地址选择
+  selectCompanyAddress: function () {
+    wx.navigateTo({
+      url: './companyAddress/companyaddress',
     })
   }
 })
