@@ -12,12 +12,25 @@ Page({
   },
   onLoad:function(){
     this.popup = this.selectComponent("#popup");
-    this.getTask();
+    
     // 更新导航数据
     this.setData({
       url: app.globalData.tabbar
     })
   },
+
+  onShow: function () {
+    if(wx.getStorageSync('myselfList') != ""){
+      this.setData({
+        list: wx.getStorageSync('myselfList')
+      })
+    }
+    this.getTask();
+    console.log("页面")
+    var page = getCurrentPages();
+    console.log(page)
+  },
+
   // 打开app下载弹框
   alert: function () {
     this.popup.showPopup();
@@ -43,6 +56,7 @@ Page({
       this.setData({
         list:list
       })
+      wx.setStorageSync("myselfList",list)
       // 请求用户信息
       this.getUserInfo();
     }).catch(e=>{
@@ -52,11 +66,32 @@ Page({
   // 导航跳转
   pageJump: function (e) {
     var index = e.currentTarget.dataset.index;
-    var url = e.currentTarget.dataset.url;
+    var url = e.currentTarget.dataset.url.slice(1);
+    var jumpUrl = e.currentTarget.dataset.url, jumpNum = null;
+    var page = getCurrentPages();
+    var length = page.length;
     app.editTabBar(index);
-    wx.redirectTo({
-      url: url,
-    })
+    for (var i = 0; i < length; i++) {
+      if (page[i].route == url) {
+        jumpNum = i;
+      }
+    }
+    console.log("页面堆栈" + jumpNum);
+    if (jumpNum == null) {
+      wx.navigateTo({
+        url: jumpUrl,
+      })
+    }
+    else {
+      if (jumpNum == length - 1) {
+        return false;
+      }
+      else {
+        wx.navigateBack({
+          delta: length - (jumpNum + 1)
+        })
+      }
+    }
   },
   // 下拉刷新
   onPullDownRefresh: function (e) {

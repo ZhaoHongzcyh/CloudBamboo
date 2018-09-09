@@ -10,8 +10,15 @@
       <view class="textPlaceholder" wx:if="{{isShowTextPlaceholder}}">请输入公司名称</view>
     </view>
     <view class="new-company-title">公司地址</view>
-    <view class="companyaddress">
-      <view class="addresstitle">请选择公司地址</view>
+    <view class="companyaddress" bindtap="showAddress">
+      <view class="addresstitle">
+        <block wx:if="{{province == null}}">
+          {{provice==null? '请选择公司地址':''}}
+        </block>
+        <block wx:if="{{province != null}}">
+          {{province.name}}-{{city.name}}
+        </block>
+      </view>
       <view class="rowaddress">
         >
       </view>
@@ -40,6 +47,32 @@
   <!-- 添加按钮 -->
   <view class="add-company-btn" bindtap="addCompany">
     完成
+  </view>
+
+  <!-- 公司地址选择器 -->
+  <view class="selectAddress" wx:if="{{isShowAddress}}" >
+    <view class="addressContent">
+      <view class="btnhead">
+        <view class="btn cancel" bindtap="cancelAddress">取消</view>
+        <view class="btn sure" bindtap="showAddress">确定</view>
+      </view>
+      <view class="selectContent">
+      <!-- 省级选择器 -->
+        <view class="province">
+          <block wx:for="{{region}}">
+            <view class="singleprovince" bindtap="selectProvince" data-item="{{item}}" data-index="{{index}}">{{item.name}}</view>
+          </block>
+        </view>
+        <view class="spacing"></view>
+        <!-- 市级选择器 -->
+        <view class="city">
+          <block wx:for="{{multiArray[cityNum]}}">
+            <view class="singlecity" bindtap="selectcity" data-item="{{item}}">{{item.name}}</view>
+          </block>
+        </view>
+    </view>
+    </view>
+    
   </view>
    <!-- app下载提示弹框 -->
   <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>

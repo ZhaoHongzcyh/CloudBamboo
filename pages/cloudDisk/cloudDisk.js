@@ -13,6 +13,7 @@ Page({
     input:"请输入关键字搜索文件或文件夹",
     more:false//用户是否选择了更多操作
   },
+
   onLoad:function(options){
     this.getFileList();
     // 弹框节点
@@ -22,6 +23,13 @@ Page({
       url: app.globalData.tabbar
     })
   },
+
+  onShow: function () {
+    console.log("页面")
+    var page = getCurrentPages();
+    console.log(page)
+  },
+
   // 下拉刷新
   onPullDownRefresh: function (e) {
     this.onLoad();
@@ -142,11 +150,32 @@ Page({
   },
   pageJump: function (e) {
     var index = e.currentTarget.dataset.index;
-    var url = e.currentTarget.dataset.url;
+    var url = e.currentTarget.dataset.url.slice(1);
+    var jumpUrl = e.currentTarget.dataset.url, jumpNum = null;
+    var page = getCurrentPages();
+    var length = page.length;
     app.editTabBar(index);
-    wx.redirectTo({
-      url: url,
-    })
+    for (var i = 0; i < length; i++) {
+      if (page[i].route == url) {
+        jumpNum = i;
+      }
+    }
+    console.log("页面堆栈"+ jumpNum);
+    if (jumpNum == null) {
+      wx.navigateTo({
+        url: jumpUrl,
+      })
+    }
+    else {
+      if (jumpNum == length - 1) {
+        return false;
+      }
+      else {
+        wx.navigateBack({
+          delta: length - (jumpNum + 1)
+        })
+      }
+    }
   },
 
   // 进入文件夹

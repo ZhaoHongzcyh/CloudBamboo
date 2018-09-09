@@ -8,6 +8,8 @@ Page({
     url:{},//脚步导航数据
     userId: wx.getStorageSync("tcUserId"),//用于计算用户是否在某项目中
     list:[],
+    personProjectList:[],//个人项目列表
+    companyProjectList:[],//公司项目列表
     urlLine:true,//路由切换，下划线样式
     progress:["草稿","未开始","进行中","完成","暂停","终止","撤销","删除"],
     check:function (num) {
@@ -33,6 +35,9 @@ Page({
   
   onShow: function () {
     this.getProjectCompany();
+    console.log("页面")
+    var page = getCurrentPages();
+    console.log(page)
   },
 
   // 下拉刷新
@@ -80,8 +85,7 @@ Page({
   getProjectCompany:function(){
     this.setData({
       urlLine:true,
-      start:1,
-      list:[]
+      start:1
     })
     this.getProjectInfo('company')
   },
@@ -96,10 +100,16 @@ Page({
         start:0,
         pageSize: this.data.start * this.data.pageSize
       }
+      this.setData({
+        list: this.data.personProjectList
+      })
       address = app.ip + "tc/taskService/findTaskBos"
     }
     else{
       // 请求公司项目
+      this.setData({
+        list: this.data.companyProjectList
+      })
       obj = {start:0,pageSize:this.data.start * this.data.pageSize};
     }
     api.request(obj,address,"post",true).then(res=>{
@@ -124,7 +134,7 @@ Page({
   handleProject:function(res){
     var data = res.data.data
     var list = [];
-    var userid = this.data.userId;
+    var userid = wx.getStorageSync('tcUserId');
     if(res.data.code == 200 && data.length != 0){
       // 将数据排序
       for(var i = 0; i < data.length; i++){
@@ -141,7 +151,6 @@ Page({
             for (var k = 0; k < data[i].taskBo.list[j].memberBeans.length; k++) {
               data[i].taskBo.list[j].isShowChild = false;
               if (userid == data[i].taskBo.list[j].memberBeans[k].resourceId) {
-                // obj.isInProject = true; 
                 data[i].taskBo.list[j].isInProject = true
               }
             }
@@ -156,7 +165,8 @@ Page({
       }
       list[0].isShowCompany = true;
       this.setData({
-        list:list
+        list:list,
+        companyProjectList:list
       })
       console.log("公司");
       console.log(list);
@@ -178,7 +188,8 @@ Page({
       }
     }
     this.setData({
-      list:list
+      list:list,
+      personProjectList:list
     })
   },
   // 跳转到添加新项目
@@ -190,11 +201,32 @@ Page({
   // 导航跳转
   pageJump: function (e) {
     var index = e.currentTarget.dataset.index;
-    var url = e.currentTarget.dataset.url;
+    var url = e.currentTarget.dataset.url.slice(1);
+    var jumpUrl = e.currentTarget.dataset.url, jumpNum = null;
+    var page = getCurrentPages();
+    var length = page.length;
     app.editTabBar(index);
-    wx.redirectTo({
-      url: url,
-    })
+    for (var i = 0; i < length; i++) {
+      if (page[i].route == url) {
+        jumpNum = i;
+      }
+    }
+    console.log("页面堆栈" + jumpNum);
+    if (jumpNum == null) {
+      wx.navigateTo({
+        url: jumpUrl,
+      })
+    }
+    else {
+      if (jumpNum == length - 1) {
+        return false;
+      }
+      else {
+        wx.navigateBack({
+          delta: length - (jumpNum + 1)
+        })
+      }
+    }
   },
   // 折叠与展开项目列表
   watchProject:function(e){

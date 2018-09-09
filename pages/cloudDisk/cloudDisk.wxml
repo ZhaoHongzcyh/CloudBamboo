@@ -22,7 +22,7 @@
 
   <!-- 导航 -->
   <view class="nav">
-    <block wx:for="{{parentIdStack}}">
+    <block wx:for="{{parentIdStack}}" wx:key="{{item}}">
       <view class="menu {{index == parentIdStack.length-1? 'last':''}}" bindtap="jumpFolder" data-index="{{index}}" wx:if="{{parentIdStack.length < 4}}">
         {{item.title}}>
       </view>
@@ -37,7 +37,7 @@
         {{parentIdStack[parentIdStack.length - 1].title}}
       </view>
   </view>
-  <block wx:for="{{fileData}}">
+  <block wx:for="{{fileData}}" wx:key="{{item.id}}">
     <!-- <file item="{{item}}" bindselect="select" bindtap="alert" data-index="{{index}}" checked="{{selectStatus[index]}}"></file> -->
     <file item="{{item}}" bindselect="select" bindtap="entryFolder" data-item="{{item}}" data-index="{{index}}" readonly="{{false}}"></file>
   </block>

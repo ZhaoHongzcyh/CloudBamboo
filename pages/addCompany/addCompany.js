@@ -16,11 +16,17 @@ Page({
       }
     ],
     industry:null,//公司所在行业
-    companyaddress:null//公司所在地址
+    region:[],//公司所在地址
+    multiArray:[],
+    cityNum:0,//默认城市数组序号
+    isShowAddress: false,//是否显示城市地址选择器
+    province:null,//选择的省份信息
+    city:null//选择的城市信息
   },
   onLoad:function(){
     // 弹框
     this.popup = this.selectComponent("#company-popup");
+    this.getAddress()
   },
   // 弹框
   alert: function () {
@@ -57,9 +63,38 @@ Page({
   // 添加团队
   addCompany:function(){
     var address = app.ip + "tc/taskTeamService/addTaskTeam";
+    var province = this.data.province;
     var name = encodeURI(this.data.companyName);
     var obj = {
-      title:name
+      title: name
+    }
+    if (this.checkProvinceCity()){
+      console.log("是真的")
+      obj.locationProvince = this.data.province.code;
+      obj.industryCode = this.data.industry.code;
+      if (this.data.city == null) {
+        if (province.name == "澳门特别行政区" || province.name == "香港特别行政区" || province.name == "台湾省") {
+
+        }
+        else {
+          this.setData({
+            info: {
+              state: 1,
+              content: "请核对公司地址"
+            }
+          })
+          setTimeout(() => {
+            this.setData({ info: { state: 0, content: "" } })
+          }, 2000)
+          return false;
+        }
+      }
+      else{
+        obj.locationCity = this.data.city.code;
+      }
+    }
+    else{
+      return false;
     }
     api.request(obj,address,"post",true).then(res=>{
       console.log(res);
@@ -133,10 +168,95 @@ Page({
     })
   },
 
-  // 公司地址选择
-  selectCompanyAddress: function () {
-    wx.navigateTo({
-      url: './companyAddress/companyaddress',
+
+  // 获取省市地区列表
+  getAddress: function () {
+    var mulitAry = [];
+    var address = app.ip + "tc/SystemService/getAllCitys";
+    api.request({},address,"POST",true).then(res=>{
+      console.log("省市三级");
+      console.log(res);
+      var region = [];
+      var multiArray = [];
+      if(res.data.code == 200 && res.data.result){
+        var data = res.data.data;
+        data.map((item,index)=>{
+          region.push(item.province);
+          multiArray[index] = item.citys;
+        })
+      }
+      this.setData({
+        region, multiArray
+      })
     })
+  },
+
+  // 行数
+  showAddress: function (e) {
+    console.log(e);
+    this.setData({
+      isShowAddress: !this.data.isShowAddress
+    })
+  },
+
+  // 城市选择器
+  setCity: function (e) {
+    
+  },
+
+  // 选择省份
+  selectProvince: function (e) {
+    var province = e.currentTarget.dataset.item;
+    var cityNum = e.currentTarget.dataset.index;
+    this.setData({ province, cityNum})
+  },
+
+  // 选择城市
+  selectcity: function (e) {
+    var city = e.currentTarget.dataset.item;
+    this.setData({city})
+  },
+
+  // 取消城市选择
+  cancelAddress: function () {
+    this.setData({
+      isShowAddress:false,
+      city:null,
+      province:null
+    })
+  },
+
+  // 验证选择内容是否合法
+  checkProvinceCity: function () {
+    var province = this.data.province;
+    var industry = this.data.industry;
+    var city = this.data.city;
+    if(province == null){
+      this.setData({
+        info: {
+          state: 1,
+          content: "请核对公司地址"
+        }
+      })
+      setTimeout(() => {
+        this.setData({ info: { state: 0, content: "" } })
+      }, 2000)
+      return false;
+    }
+    else if(industry == null){
+      this.setData({
+        info: {
+          state: 1,
+          content: "请核对公司行业"
+        }
+      })
+      setTimeout(() => {
+        this.setData({ info: { state: 0, content: "" } })
+      }, 2000)
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 })
