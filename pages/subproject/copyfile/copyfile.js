@@ -223,7 +223,7 @@ Page({
   // 进入公司文件夹
   entryCompanyFolder: function (item, arcIds) {
     wx.navigateTo({
-      url: '../companyFolder/companyfolder?id=' + item.id + "&arcIds=" + arcIds,
+      url: '../companyFolder/companyfolder?id=' + item.id + "&arcids=" + arcIds,
     })
   }
 })

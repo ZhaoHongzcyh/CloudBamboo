@@ -1,6 +1,24 @@
 <!--pages/subproject/companyFolder/companyfolder.wxml-->
 <view>
-  <block wx:for="{{fileData}}" wx:key="{{item.id}}">
-        <file item="{{item}}" wx:key="{{item.id}}" data-item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-title="{{item.title}}"  readonly="{{false}}" data-id="{{item.id}}"></file>
-      </block>
+  <view class="menu">
+    <block wx:for="{{parentIdStack}}">
+      <view>
+        {{item.title}}>
+      </view>
+    </block>
+  </view>
+  <scroll-view>
+    <block wx:for="{{fileData}}" wx:key="{{item.id}}">
+          <file item="{{item}}" wx:key="{{item.id}}" data-item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-title="{{item.title}}"  readonly="{{false}}" data-id="{{item.id}}"></file>
+        </block>
+  </scroll-view>
+    <view class="footer">
+        <view class="btn" bindtap="newFolderAlert">新建文件夹</view>
+        <view class="spacing"></view>
+        <view class="btn" bindtap="copyFile">复制{{copyFile.length}}个</view>
+    </view>
+
+    <!-- 新建文件夹弹框 -->
+    <fileAlert id="newFolder" bindnewFolder="newFolderName"></fileAlert>
+    <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

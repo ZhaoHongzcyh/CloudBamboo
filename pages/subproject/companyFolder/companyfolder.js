@@ -4,19 +4,41 @@ const api = require("../../../api/common.js");
 const handle = require("../common.js");
 Page({
   data: {
+    alert:null,
     companyId:null,//公司id
     fileData:null,
+    rootId:null,//公司根目录id
+    copyFile:null,//被复制的文件列表
     parentIdStack:[]//父文件夹对象
   },
   onLoad: function (options) {
     this.setData({
-      companyId:options.id
+      companyId:options.id,
+      copyFile: options.arcids.split(",")
     })
+    this.newFolder = this.selectComponent("#newFolder");
+    this.popup = this.selectComponent("#popup");
   },
 
   onShow: function () {
     this.getCompanyFolder();
   },
+
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
+  },
+
+  // 获取新建文件夹名称
+  getFolderName: function (e) {
+    var value = e.detail.value;
+  },
+
+  // 新建文件夹弹框
+  newFolderAlert: function () {
+    this.newFolder.showModel();
+  },
+
   // 获取公司目录文件
   getCompanyFolder: function () {
     var address = app.ip + "tc/taskService/findTaskFolderByParentId";
@@ -30,9 +52,11 @@ Page({
             fileData.splice(index,1);
           }
         })
+        
         fileData = api.cloudDiskDataClean(fileData);
         fileData = api.fileNameSort(fileData);
-        this.setData({fileData:fileData})
+        var rootId = fileData[0].parentId;
+        this.setData({ fileData: fileData, rootId})
       }
     }) 
   },
@@ -57,6 +81,66 @@ Page({
     api.request(obj,address,"POST",true).then(res=>{
       console.log("文件树");
       console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var fileData = res.data.data;
+        fileData.map((item,index)=>{
+          if(item.atype != 0){fileData.splice(index,1);}
+        })
+        fileData = api.cloudDiskDataClean(fileData);
+        fileData = api.fileNameSort(fileData);
+        this.setData({ fileData});
+      }
+    })
+  },
+
+  // 新建文件夹
+  newFolderName: function (e) {
+    var parentIdStack = this.data.parentIdStack;
+    var address = app.ip + "tc/taskService/addArcFolder";
+    var length = parentIdStack.length;
+    var folderName = encodeURI(e.detail.folderName);
+    var fileData = this.data.fileData;
+    var parentId = length == 0 ? 0 : parentIdStack[length - 1].parentId
+    var obj = { parentId: parentId , taskId: this.data.companyId, folder: folderName};
+    api.request(obj,address,"POST",true).then(res=>{
+      console.log("新建文件夹");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var file = handle.addFolder(app, api, res.data.data);
+        fileData.unshift(file[0]);
+      }
+      this.setData({fileData});
+      this.newFolder.hide();
+    })
+  },
+
+  // 复制文件
+  copyFile: function () {
+    var address = app.ip + "tc/taskService/copyArc";
+    var parentIdStack = this.data.parentIdStack;
+    var length = parentIdStack.length;
+    var targetFolder = length == 0 ? this.data.rootId : parentIdStack[length - 1].parentId;
+    var head = { targetFolder};
+    var arcIds = this.data.copyFile;
+    api.customRequest(head, arcIds,address,"POST",true).then(res=>{
+      console.log("文件复制");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        this.setData({alert:{content:'复制成功!'}});
+        this.alert();
+        setTimeout(()=>{
+          wx.navigateBack({
+            delta: 2
+          })
+        },1500)
+      }
+      else{
+        this.setData({alert:{content:'文件复制失败'}});
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({ alert: { content: '文件复制失败' } });
+      this.alert();
     })
   }
 })
