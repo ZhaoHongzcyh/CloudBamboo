@@ -232,6 +232,9 @@ Page({
   // 显示所有文件
   showallfile: function () {
     var showfile = this.data.showfile;
+    if (this.data.task.arcList.length < 3){
+      return false;
+    }
     if(showfile.state){
       this.setData({
         showfile:{

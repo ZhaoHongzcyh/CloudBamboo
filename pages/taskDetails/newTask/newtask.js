@@ -37,6 +37,7 @@ Page({
     emergency:1,//任务紧急程度
     matchList:null,//执行人列表
     addMemberList: null,//参与人列表
+    memberlist:null,
     searchList:null,//搜索列表
     Implement:null,//执行人
     visibilityType:0,//可见范围
@@ -84,7 +85,8 @@ Page({
         }
         console.log(Implement)
         this.setData({
-          Implement: Implement
+          Implement: Implement,
+          memberlist: memberBeanList
         })
         this.getAddMemberList();
       }
@@ -105,6 +107,7 @@ Page({
   },
   // 获取执行人信息
   implementer: function(){
+    wx.setNavigationBarTitle({title:'更改执行人'})
     var address = app.ip + "tc/taskService/taskMemberManager";
     var taskId = this.data.taskId;
     var obj = {taskId};
@@ -203,6 +206,7 @@ Page({
   // 显示参与人列表
   showAddMember: function () {
     if (this.data.isShowAddMember){
+      wx.setNavigationBarTitle({ title: '新建任务' })
       var participant = [];//参与人
       for (var i = 0; i < this.data.addMemberList.length; i++) {
         if (this.data.addMemberList[i].selected) {
@@ -216,11 +220,12 @@ Page({
       })
     }
     else{
+      wx.setNavigationBarTitle({title:'添加参与人'})
       this.setData({
         isShowAddMember: !this.data.isShowAddMember
       })
     }
-    
+    this.chooseAddMember();
   },
   // 获取参与人列表
   getAddMemberList: function () {
@@ -246,8 +251,8 @@ Page({
   },
   // 设置执行人
   setImplement: function (e) {
+    wx.setNavigationBarTitle({title:'新建任务'})
     var item = e.currentTarget.dataset.item;
-    console.log(item);
     this.setData({
       Implement:item,
       isShowImplement: false,
@@ -261,25 +266,31 @@ Page({
   // 打开参与人列表
   chooseAddMember: function () {
     var Implement = this.data.Implement;
-    var addMemberList = this.data.addMemberList;
+    // var addMemberList = this.data.addMemberList;
+    var memberlist = this.data.memberlist;
+    var memberAry = [];
     if (Implement == null) {
-
+      return false;
     }
     else{
-      for (var i = 0; i < addMemberList.length; i++) {
-        if (addMemberList[i].relationType == 1){
-          addMemberList[i].relationType = 2;
+      for (var i = 0; i < memberlist.length; i++) {
+        // if (addMemberList[i].relationType == 1){
+        //   addMemberList[i].relationType = 2;
+        // }
+        // if (addMemberList[i].id == Implement.id){
+        //   console.log("选择");
+        //   console.log(Implement)
+        //   addMemberList[i].relationType = 1;
+        // }
+        if (Implement.resourceId != memberlist[i].resourceId){
+          memberAry.push(memberlist[i] )
         }
-        if (addMemberList[i].id == Implement.id){
-          console.log("选择");
-          console.log(Implement)
-          addMemberList[i].relationType = 1;
-        }
-        addMemberList[i].selected = false;
+        // addMemberList[i].selected = false;
       }
     }
     this.setData({
-      addMemberList:addMemberList
+      // addMemberList:addMemberList
+      addMemberList: memberAry
     })
   },
   // 匹配用户输入的参与人内容

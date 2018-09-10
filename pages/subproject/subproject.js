@@ -114,10 +114,11 @@ Page({
     isShowReturn:false,//是否显示文件夹返回按钮
     isShowReturnArea:false,//在文件预览时，是否显示返回按钮
     fileRename:null,//文件重命名姓名
+    isShowUpImg:true,//是否显示上传附件的操作按钮
     
     //-------------------------------------------------------------------成员模块数据-----------------------------------------
     memberlist:null, 
-
+    isCouldAdd:false,
     // ------------------------------------------------------------------设置模块数据------------------------------------------
     project:null,//用于存放单个项目的详细信息
     isOpenMenu: false,//是否打开功能区
@@ -454,7 +455,7 @@ Page({
         })
         return false;
       }
-      if(atype == 3 || atype == 4 || atype == 5 || atype == 6){
+      if (atype == 3 || atype == 4 || atype == 5 || atype == 6){
         console.log(e);
         // return false;
         wx.navigateTo({
@@ -462,7 +463,9 @@ Page({
         })
       }
       else if (atype == 2){
-        this.setData({alert:{content:''}})
+        this.setData({ alert: { content:'暂不支持office文件预览'}});
+        this.alert();
+        return false;
       }
       if(atype != 0){
         return false;
@@ -1398,6 +1401,11 @@ Page({
     this.setData({ fileList, chooseFileList:[]})
   },
 
+  // 附件上传按钮的隐藏与显示
+  switchUpFileBtn: function () {
+    this.setData({ isShowUpImg: !this.data.isShowUpImg})
+  },
+  
   // ------------------------------------------------------------项目成员相关-----------------------------------------------------------
   getProjectMember: function () {
     var address = app.ip + "tc/taskService/taskMemberManager";
@@ -1411,10 +1419,22 @@ Page({
 
   // 处理项目成员数据
   handleProjectMember: function (res) {
+    var userid = wx.getStorageSync('tcUserId');
+    var check = false;
     if(res.data.code == 200 && res.data.result){
       var memberlist = res.data.data.memberBeanList;
+      console.log("c成员");
+      console.log(memberlist);
+      memberlist.map((item,index)=>{
+        if (userid == item.resourceId){
+          if (item.relationType == 12 || item.relationType == 13 || item.relationType == 1){
+            check = true;
+          }
+        }
+      })
       this.setData({
-        memberlist: memberlist
+        memberlist: memberlist,
+        isCouldAdd: check
       })
     }
     else{
@@ -1428,8 +1448,9 @@ Page({
   // 得到成员的详细信息
   getPersonInfo: function (e) {
     var item = e.currentTarget.dataset.item;
+    var state = this.data.isCouldAdd? true:false;
     wx.navigateTo({
-      url: './personinfo/personinfo?personid=' + item.resourceId,
+      url: './personinfo/personinfo?personid=' + item.resourceId + "&isshowdelbtn=" + state,
     })
   },
 

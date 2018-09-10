@@ -14,9 +14,9 @@
     <view class="search-img-btn" bindtap="alert">
       <image src="./img/search.png" class="search-img"></image>
     </view>
-    <view class="search-input" bindtap="alert">
+    <view class="search-input">
       <image src="./img/searchbtn.png" class="magnifier"></image>
-      <input bindinput="getSearchContent" placeholder="请输入关键字搜索文件或文件夹" type="text" class="search-text" disabled='false'/>
+      <input bindinput="getSearchContent" placeholder="请输入关键字搜索文件或文件夹" type="text" class="search-text" bindinput="fuzzySearch"/>
     </view>
   </view>
 

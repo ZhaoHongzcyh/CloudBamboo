@@ -23,6 +23,7 @@ Page({
     searchMatch:[],//搜索人员匹配结果
     resourceId:null,
     title:null,//任务名称
+    planid:null,//任务所属任务计划id
     taskObj:{},//任务对象
     mission:null,//责任人信息
     isShowRange:false,//是否展示可见范围列表
@@ -65,8 +66,12 @@ Page({
         var memberid = [];//参与人id集合
         var list = handle.data.memberList;
         for (var i = 0; i < list.length; i++){
-          // if(list[i].relationType == 2){
+          if(list[i].relationType == 2){
             list[i].selected = true;
+          }
+          else{
+            list[i].selected = false;
+          }
             member.push(list[i]);
             memberid.push(list[i].personId)
           // }
@@ -76,8 +81,6 @@ Page({
             })
           }
         }
-        console.log("成员");
-        console.log(member)
         // 清洗云盘数据
         handle.data.arcList = api.cloudDiskDataClean(handle.data.arcList);
         handle.data.arcList = api.fileNameSort(handle.data.arcList);
@@ -90,7 +93,8 @@ Page({
           hasSelectId: memberid,
           taskObj:handle.data.itemBean,
           resourceId: handle.data.itemBean.resourceId,
-          projectId:handle.data.taskBean.id
+          projectId:handle.data.taskBean.id,
+          planid: handle.data.itemBean.resourceId
         })
       }
       else {
@@ -98,9 +102,16 @@ Page({
       }
     })
   },
+
+  // 任务计划列表
+  toPlanTeam: function () {
+    wx.navigateTo({
+      url: '../planTeam/planteam?taskId=' + this.data.task.taskBean.id + "&planid=" + this.data.planid + "&page=edit",
+    })
+  },
+
   // 修改任务名称
   changeTaskName: function(e){
-    console.log(e);
     var taskName = e.detail.value;
     var taskObj = this.data.taskObj;
     taskObj.title = taskName
@@ -131,6 +142,7 @@ Page({
   },
   // 选择改变执行人采单
   switchImplementer: function () {
+    wx.setNavigationBarTitle({title:'更改执行人'})
     this.setData({
       searchMatch:[],
       isChangeImplement: !this.data.isChangeImplement
@@ -139,8 +151,8 @@ Page({
   },
   // 更改执行人
   changeExecutor: function (e) {
+    wx.setNavigationBarTitle({ title: '编辑任务' })
     var item = e.currentTarget.dataset.item;
-    console.log(item);
     var memberlist = this.data.memberlist;
     var mission = this.data.mission;
     mission.personId = item.personId;
@@ -153,6 +165,7 @@ Page({
   },
   // 选择添加参与人采单
   swithAddMember: function () {
+    wx.setNavigationBarTitle({ title: '添加参与人' })
     this.setData({
       isAddMember: !this.data.isAddMember,
       searchMatch: [],
@@ -161,7 +174,6 @@ Page({
   },
   // 匹配执行人
   matchMember: function (e) {
-    console.log(e);
     var value = e.detail.value;
     var memberlist = this.data.memberlist;
     var searchMatch = [];
@@ -174,19 +186,20 @@ Page({
     if(value == ""){
       searchMatch = [];
     }
+    console.log(searchMatch)
     this.setData({
       searchMatch
     })
   },
   // 确定添加参与人
   sureAdd: function() {
+    wx.setNavigationBarTitle({ title: '编辑任务' })
     var scheduleItemBean = this.data.taskObj;
     scheduleItemBean.manager = this.data.mission.personId;
-    console.log("参与人");
     var participant = [];//参与人
 
     this.data.memberlist.map((item, index) => {
-      if (item.relationType != 1 && item.personId != this.data.mission.personId && item.selected) {
+      if (item.personId != this.data.mission.personId && item.selected) {
         participant.push(item.personId);
       }
     })
@@ -194,7 +207,8 @@ Page({
       scheduleItemBean.participant = participant;
     }
     else {
-      scheduleItemBean.participant = [this.data.mission.personId];
+      // scheduleItemBean.participant = [this.data.mission.personId];
+      scheduleItemBean.participant = [];
     }
     this.setData({
       hasSelectId: this.data.memberid,
@@ -220,9 +234,6 @@ Page({
   },
   // 整理参与人搜索结果数据
   matchSearch: function(res){
-    console.log("项目");
-    console.log(res);
-    console.log(this.data.memberlist);
     if(res.data.code == 200 && res.data.result){
       var data = res.data.data.memberBeanList;
       this.selectHasInTask(data);
@@ -245,13 +256,11 @@ Page({
       hasSelectId.push(selectId);
       for (var i = 0; i < searchMatch.length; i++) {
         if (searchMatch[i].personId == selectId) {
-          console.log("改变")
           searchMatch[i].selected = true;
         }
       }
     }
     else{
-      console.log("取消")
       for (var i = 0; i < hasSelectId.length; i++){
         if (hasSelectId[i] == selectId){
           hasSelectId.splice(i,1);
@@ -260,7 +269,6 @@ Page({
       }
       for(var i = 0; i < searchMatch.length; i++){
         if(searchMatch[i].personId == selectId){
-          console.log("改变")
           searchMatch[i].selected = false;
         }
       }
@@ -280,18 +288,23 @@ Page({
   },
   // 勾选已经在任务中的人员
   selectHasInTask: function (data) {
-    console.log("执行");
     console.log(data);
+    console.log("-------------");
     var memberlist = this.data.memberlist;
+    console.log("+++++++++++++");
+    console.log(memberlist)
     for(var i = 0; i < data.length; i++){
-      console.log(i);
       var obj = {
         personId:data[i].resourceId,
         personName:data[i].personName,
         selected:false,
         relationType:2
       }
-      if(data[i].relationType != 1){
+      // if(data[i].resourceId != this.data.mission.personId){
+
+      // }
+      // if(data[i].relationType != 1){
+      if (data[i].resourceId != this.data.mission.personId) {
         // 验证是否存在相同的用户
         var end = false;
         for(var j = 0; j < memberlist.length; j++){
@@ -305,13 +318,29 @@ Page({
         }
       }
     }
-    console.log("这是");
-    console.log("memberlist")
-    console.log(memberlist)
+    memberlist = this.removalEval(memberlist)
     this.setData({
       memberlist
     })
   },
+
+  // 去除memberlist相同的人员
+  removalEval: function (memberlist) {
+    var memberary = []
+    memberlist.map((item,index)=>{
+      var check = false;
+      memberary.map((obj,num)=>{
+        if(obj.personId == item.personId){
+          check = true;
+        }
+      })
+      if(!check){
+        memberary.push(item)
+      }
+    })
+    return memberary;
+  },
+
   // 修改执行人
   modifyExecutor: function (e) {
     this.setData({
@@ -324,19 +353,16 @@ Page({
     scheduleItemBean.manager = this.data.mission.personId;
     
 
-    console.log(scheduleItemBean);
     if (scheduleItemBean.endDate != null && scheduleItemBean.endDate.split("T").length < 2){
       scheduleItemBean.endDate = scheduleItemBean.endDate + "T00:00:00.000+0800";
     }
     if (scheduleItemBean.startDate != null && scheduleItemBean.startDate.split("T").length < 2) {
       scheduleItemBean.startDate = scheduleItemBean.startDate + "T00:00:00.000+0800";
     }
+    scheduleItemBean.resourceId = this.data.planid;
     // scheduleItemBean.participant = this.data.hasSelectId
-    console.log(scheduleItemBean)
     var address = app.ip + "tc/schedule/itemService/update";
     api.sendDataByBody(scheduleItemBean,address,"post",true).then(res=>{
-      console.log("修改任务");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack();
       }
@@ -391,16 +417,12 @@ Page({
         },
         name: "file",
         success: (res) => {
-          console.log("上传结果");
-          console.log(res);
           res.data = JSON.parse(res.data);
           var task = this.data.task;
           var file = res.data.data;
-          console.log(file);
           file = api.cloudDiskDataClean(file);
           file = api.fileNameSort(file);
           file = file[0]
-          console.log(res);
           task.arcList.push(file)
           // 将文件重命名
           
@@ -412,8 +434,6 @@ Page({
       })
       // 监听上传进度
       uploadTask.onProgressUpdate(res => {
-        console.log("上传进度");
-        console.log(res);
         // data[index].progress = res.progress;
         // this.setData({
         //   tempFilePath: data
@@ -439,7 +459,6 @@ Page({
           }
         }
         task.arcList.splice(index,1);
-        console.log(task);
         this.setData({
           task:task
         })
@@ -459,10 +478,15 @@ Page({
     var role = e.currentTarget.dataset.role;
     var taskObj = this.data.taskObj;
     taskObj.visibilityType = role
-    console.log(taskObj);
     this.setData({
       rangenum:parseInt(role),
       isShowRange: !this.data.isShowRange
     });
+  },
+
+  // 添加在线文件
+  addOnlineFile: function () {
+    this.setData({alert:{content:'云竹协作更多功能，请下载App'}});
+    this.alert();
   }
 })

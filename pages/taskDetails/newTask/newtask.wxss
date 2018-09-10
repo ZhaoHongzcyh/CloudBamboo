@@ -29,6 +29,8 @@ page{
 .inputTaskName{
   height: 120rpx;
   width: 100%;
+  font-size: 28rpx;
+  color: #999999;
   background-color: white;
 }
 .placeholder{

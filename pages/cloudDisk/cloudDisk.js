@@ -6,6 +6,7 @@ Page({
     url:{},//脚步导航数据
     sortRule:"name",//文件排序规则：name:按照文件名排序，time:按照时间排序
     fileData:[],//文件数据
+    filelist:null,//文件列表数据
     parentIdStack:[],//父文件夹Id
     selectedFile:[],
     selectnum:0,
@@ -61,6 +62,7 @@ Page({
       }
       this.setData({
         fileData:list,
+        filelist: list,
         selectStatus: selectStatus
       })
       wx.stopPullDownRefresh();//关闭下拉刷新
@@ -223,6 +225,7 @@ Page({
       }
       this.setData({
         fileData: list,
+        filelist: list,
         selectStatus: selectStatus
       })
       wx.stopPullDownRefresh();//关闭下拉刷新
@@ -257,5 +260,22 @@ Page({
     this.jump(id);
     parentIdStack.splice(length - 1);
     this.setData({ parentIdStack})
+  },
+
+  // 文件夹模糊搜索
+  fuzzySearch: function (e) {
+    var file = e.detail.value;
+    var fileAry = [];
+    var filelist = this.data.filelist;
+    filelist.map((item,index)=>{
+      var reg = new RegExp(file,"i");
+      if(reg.test(item.title)){
+        fileAry.push(item);
+      }
+    })
+    if(file == ""){
+      fileAry = filelist;
+    }
+    this.setData({ fileData: fileAry})
   }
 })

@@ -1,6 +1,6 @@
 {
-  "navigationBarTitleText": "编辑项目信息",
   "usingComponents": {
+    "file": "/common/fileList/fileList",
     "popup": "/common/popup/popup",
     "confirm": "/common/confirm/confirm",
     "fileAlert": "/common/fileAlert/filealert"

@@ -67,7 +67,7 @@
     <view class="common_right phonenumber">{{person.phone2==null? '未设置' : person.phone2}}</view>
   </view>
   <!-- 删除好友 -->
-  <view class="delconnect" bindtap="openConfirm" data-teamid="{{team.id}}">
+  <view class="delconnect" wx:if="{{isshowdelbtn}}" bindtap="openConfirm" data-teamid="{{team.id}}">
     删除联系人
   </view>
 

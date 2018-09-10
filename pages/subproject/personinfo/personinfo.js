@@ -12,17 +12,21 @@ Page({
     resourceId:null,
     person:null,//联系人详情信息
     team:null,
-    alert:null
+    alert:null,
+    isshowdelbtn:false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
     this.confirm = this.selectComponent("#confirm");
     this.popup = this.selectComponent("#popup");
+    var isshowdelbtn = options.isshowdelbtn == 'false'? false:true;
     this.setData({
-      resourceId: options.personid
+      resourceId: options.personid,
+      isshowdelbtn: isshowdelbtn
     })
   },
 

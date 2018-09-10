@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "新建任务计划",
   "usingComponents": {
     "popup": "/common/popup/popup"
   }

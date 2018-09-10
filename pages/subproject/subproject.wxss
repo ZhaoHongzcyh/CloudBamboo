@@ -514,7 +514,9 @@ page{
 .addFile{
   position: fixed;
   bottom: 30rpx;
-  width: 100%;
+  width: 70rpx;
+  left: 50%;
+  margin-left: -35rpx;
   text-align:center;
    margin-top: 20rpx;
 }
@@ -607,11 +609,43 @@ page{
   background-color: white;
 }
 .projectimg{
+  position: relative;
   width: 112rpx;
   height: 112rpx;
   border-radius: 50%;
   margin-left: 24rpx;
   margin-right: 30rpx;
+  background-color: #4E8CEE;
+}
+
+.singlespace{
+  position: absolute;
+  top: 50%;
+  margin-top: -24rpx;
+  left: 50%;
+  margin-left: -26rpx;
+  width: 52rpx;
+  height: 48rpx;
+}
+
+.singleline{
+  display: flex;
+  align-items: center;
+  margin-top: 6rpx;
+  height: 10rpx;
+  width: 100%;
+  background-color: white;
+  border-radius: 3rpx;
+}
+
+.singlewhite{
+  flex: 1;
+}
+.singleblue{
+  width: 20rpx;
+  height: 5rpx;
+  margin-left: 10rpx;
+  border-radius: 8rpx;
   background-color: #4E8CEE;
 }
 .projectinfo{

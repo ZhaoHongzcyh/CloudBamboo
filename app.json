@@ -1,13 +1,10 @@
 {
   "pages": [
     "pages/company/company",
-    "pages/addCompany/addCompany",
-    
     "pages/index/index",
-    
+    "pages/addCompany/addCompany",
     "pages/addCompany/industry/industry",
     "pages/project/project",
-    
     "pages/subproject/copyfile/copyfile",
     "pages/taskDetails/editreply/editreply",
     "pages/subproject/personinfo/personinfo",
@@ -43,8 +40,8 @@
     "pages/subproject/advanceSet/advanceset",
     "pages/subproject/member/member",
     "pages/subproject/filePreview/filepreview",
-    "pages/addCompany/companyAddress/companyaddress"
-    
+    "pages/addCompany/companyAddress/companyaddress",
+    "pages/subproject/companyFolder/companyfolder"
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",

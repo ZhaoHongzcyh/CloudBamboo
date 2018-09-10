@@ -92,6 +92,14 @@ Page({
     })
   },
 
+  // 列表折叠与展开
+  foldMember: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var friendsList = this.data.friendsList;
+    friendsList[index].folder = !friendsList[index].folder;
+    this.setData({ friendsList})
+  },
+
   // 获取项目成员列表
   getProjectMember: function () {
     var address = app.ip + "tc/taskService/taskMemberManager";

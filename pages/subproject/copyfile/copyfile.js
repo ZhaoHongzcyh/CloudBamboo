@@ -209,13 +209,21 @@ Page({
   selectCompany: function (e) {
     var item = e.currentTarget.dataset.item;
     var address = app.ip + "tc/taskService/copyArc";
-    var arcIds = this.data.filelId;
+    var arcIds = this.data.filelId.join(",");
     var head = {
       targetFolder: item.id,
     };
-    api.customRequest(head, arcIds,address,"POST",true).then(res=>{
-      console.log("复制到公司");
-      console.log(res);
+    // api.customRequest(head, arcIds,address,"POST",true).then(res=>{
+    //   console.log("复制到公司");
+    //   console.log(res);
+    // })
+    this.entryCompanyFolder(item, arcIds)
+  },
+
+  // 进入公司文件夹
+  entryCompanyFolder: function (item, arcIds) {
+    wx.navigateTo({
+      url: '../companyFolder/companyfolder?id=' + item.id + "&arcIds=" + arcIds,
     })
   }
 })

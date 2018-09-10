@@ -118,7 +118,7 @@
         <view class="urltitle">></view>
     </view>
 
-    <view wx:for="{{fileList}}"  wx:key="{{item.id}}">
+    <view wx:for="{{fileList}}"  wx:key="{{item.id}}" bindtouchstart="switchUpFileBtn" bindtouchend="switchUpFileBtn">
         <file item="{{item}}" data-item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-src="{{item.src}}" data-title="{{item.title}}" showeyes="{{item.definedPriv}}" data-atype="{{item.atype}}" readonly="{{item.isReadOnly}}" data-id="{{item.id}}" data-num="{{index}}" checked="{{item.select}}"  bindselect="checkOutFile"></file>
     </view>
     <!-- 文件预览 -->
@@ -145,11 +145,11 @@
               <image src="./img/download.png" class="toobarimg"></image>
               <view class="toobartxt">下载</view>
             </view> -->
-            <view class="singleToobar" bindtap="alert">
+            <view class="singleToobar" bindtap="downAppAlert">
               <image src="./img/share.png" class="toobarimg"></image>
               <view class="toobartxt">分享</view>
             </view>
-            <view class="singleToobar">
+            <view class="singleToobar" bindtap="downAppAlert">
               <image src="./img/send.png" class="toobarimg"></image>
               <view class="toobartxt">发送</view>
             </view>
@@ -172,8 +172,8 @@
           <view class="newtitle">本地文件</view>
         </view>
       </view>
-      <view class="addFile" bindtap="newAddFile">
-        <image src="{{isShowAddFile? './img/close.png':'./img/uploadfile.png'}}" class="uploadfile {{isShowAddFile?'close':''}}"></image>
+      <view class="addFile" wx:if="{{isShowUpImg}}">
+        <image src="{{isShowAddFile? './img/close.png':'./img/uploadfile.png'}}" bindtap="newAddFile" class="uploadfile {{isShowAddFile?'close':''}}"></image>
       </view>
     </view>
     <!--文件底部操作采单 -->
@@ -182,7 +182,7 @@
         <image src="/pages/cloudDisk/img/download.png" class="footerimg"></image>
         <view class="footertext">下载</view>
       </view> -->
-      <view class="share operation" bindtap="alert">
+      <view class="share operation" bindtap="downAppAlert">
         <image src="/pages/cloudDisk/img/share.png" class="footerimg"></image>
         <view class="footertext">分享</view>
       </view>
@@ -230,7 +230,7 @@
         </view>
       </block>
     </view>
-    <view class="funmember">
+    <view class="funmember" wx:if="{{isCouldAdd}}">
       <view class="memberpro" bindtap="addmember" data-state="1">添加成员</view>
       <view class="delmemberpro"></view>
       <view class="memberpro" bindtap="addmember" data-state="0">删除成员</view>
@@ -256,6 +256,20 @@
   <view class="projectSet" wx:if="{{menu[3].select}}">
     <view class="projecthead" bindtap="editProjectInfo">
       <view class="projectimg">
+        <view class="singlespace">
+          <view class="singleline">
+            <view class="singlewhite"></view>
+            <view class="singleblue"></view>
+          </view>
+          <view class="singleline">
+            <view class="singlewhite"></view>
+            <view class="singleblue"></view>
+          </view>
+          <view class="singleline">
+            <view class="singlewhite"></view>
+            <view class="singleblue"></view>
+          </view>
+        </view>
       </view>
       <view class="projectinfo">
         <view class="projectname">{{project.title}}</view>

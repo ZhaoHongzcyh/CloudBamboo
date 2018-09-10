@@ -5,7 +5,7 @@
   <view class="add" wx:if="{{state == 1}}">
     <block wx:for="{{friendsList}}">
       <view>
-        <view class="groupinfo">
+        <view class="groupinfo" bindtap="foldMember" data-index="{{index}}">
           <image src="/pages/project/img/select-down.png" class="folder" wx:if="{{!item.folder}}"></image>
           <image src="/pages/project/img/select-up.png" class="folder" wx:if="{{item.folder}}"></image>
           <view class="tname">{{item.team.tname}}</view>

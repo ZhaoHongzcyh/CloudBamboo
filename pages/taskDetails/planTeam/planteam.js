@@ -10,16 +10,16 @@ Page({
     taskid:null,
     plan:null,
     planid:null,
-    title:null
+    title:null,
+    options:null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({taskid:options.taskId,planid:options.planid});
-    
-    // console.log(options);
+    console.log(options);
+    this.setData({taskid:options.taskId,planid:options.planid,options:options});
   },
   onShow: function(){
     this.getPlanList(this.data.taskid);
@@ -76,12 +76,27 @@ Page({
   },
   // 返回上一级列表
   backTo: function() {
+    var task = null;
+    var options = this.data.options;
     var page = getCurrentPages();
     var prevPage = page[page.length - 2];
-    prevPage.setData({
-      planid: this.data.planid,
-      title: this.data.title,
-    })
+    
+    if(options.page == 'edit'){
+      task = prevPage.data.task;
+      task.scheduleSummaryBean.title = this.data.title;
+      console.log(task);
+      console.log("设置")
+      prevPage.setData({
+        task:task,
+        planid: this.data.planid,
+      })
+    }
+    else{
+      prevPage.setData({
+        planid: this.data.planid,
+        title: this.data.title,
+      })
+    }
     wx.navigateBack();
   }
 })

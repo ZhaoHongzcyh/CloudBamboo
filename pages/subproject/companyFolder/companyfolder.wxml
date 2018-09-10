@@ -1,0 +1,6 @@
+<!--pages/subproject/companyFolder/companyfolder.wxml-->
+<view>
+  <block wx:for="{{fileData}}" wx:key="{{item.id}}">
+        <file item="{{item}}" wx:key="{{item.id}}" data-item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-title="{{item.title}}"  readonly="{{false}}" data-id="{{item.id}}"></file>
+      </block>
+</view>

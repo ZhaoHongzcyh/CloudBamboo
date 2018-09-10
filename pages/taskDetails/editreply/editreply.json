@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "任务详情",
+  "navigationBarTitleText": "编辑评论内容",
   "usingComponents": {
     "file": "/common/fileList/fileList",
     "popup": "/common/popup/popup",

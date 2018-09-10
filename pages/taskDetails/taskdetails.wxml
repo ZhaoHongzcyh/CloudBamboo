@@ -1,7 +1,7 @@
 <!--任务详情页面-->
 <view>
   <view class="task-head">
-    <view class="headtitle">{{task.itemBean.title}}</view>
+    <view class="headtitle">{{task.scheduleSummaryBean.title}}</view>
     <view class="edit taskbtn" bindtap="edittask">
       <image src="./img/edit.png" class="headimg"></image>
     </view>
@@ -61,7 +61,7 @@
   <view class="file">
     <view class="showallfile" bindtap="showallfile">{{showfile.state? '收起所有附件' : '显示所有附件'}}</view>
     <block wx:for="{{showfile.data}}">
-      <file isdownload="{{true}}" item="{{item}}" bind:download="downloadFile"></file>
+      <file isdownload="{{false}}" readonly="{{false}}" item="{{item}}"></file>
     </block>
   </view>
   <!-- 任务动态 -->

@@ -136,7 +136,7 @@
     </block>
   </view>
   <view wx:if="{{addMemberList.length>0}}">
-    <view class="addMemberList memberlist" wx:for="{{addMemberList}}" data-item="{{item}}" data-index="{{index}}" bindtap="selectAddMember" wx:if="{{item.relationType != 1}}"> 
+    <view class="addMemberList memberlist" wx:for="{{addMemberList}}" data-item="{{item}}" data-index="{{index}}" bindtap="selectAddMember" wx:if="{{item.personId != Implement.resourceId}}"> 
       <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.resourceId+'/100/100'}}" class="userphoto"></image>
       <view class="username">{{item.personName}}</view>
       <view>

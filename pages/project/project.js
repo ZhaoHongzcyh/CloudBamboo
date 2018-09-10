@@ -12,17 +12,7 @@ Page({
     companyProjectList:[],//公司项目列表
     urlLine:true,//路由切换，下划线样式
     progress:["草稿","未开始","进行中","完成","暂停","终止","撤销","删除"],
-    check:function (num) {
-      if (num > 0) {
-        return "还剩" + nun + "天";
-      }
-      else if (num == null) {
-        return "未设置";
-      }
-      else {
-        return "超期" + num + "天";
-      }
-    }
+    content:null
   },
   onLoad:function(options){
     this.popup = this.selectComponent("#popup");
@@ -265,10 +255,23 @@ Page({
   // 获取项目详细信息
   entryProject: function (e) {
     var id = e.currentTarget.dataset.id;
+    var summaryBean = e.currentTarget.dataset.item;
     var isgetinto = e.currentTarget.dataset.isgetinto;
     if (parseInt(isgetinto) == 0){
+      this.setData({ content:'无法访问,因为你还不是该项目成员'})
       this.entryalert();
       return false;
+    }
+    if (summaryBean.tstate == 3 || summaryBean.tstate == 4){
+      if (wx.getStorageSync('tcUserId') != summaryBean.manager){
+        var content = '项目已完结，如需操作请联系负责人重启项目'
+        if (summaryBean.tstate == 4){
+          content = '项目已中止，如需操作请联系负责人重启项目'
+        }
+        this.setData({ content: content })
+        this.entryalert();
+        return false;
+      }
     }
     wx.navigateTo({
       url: '/pages/subproject/subproject?id=' + id,

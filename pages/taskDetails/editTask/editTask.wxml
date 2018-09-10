@@ -2,8 +2,8 @@
 <view wx:if="{{!isAddMember && !isChangeImplement}}">
   <!-- head -->
   <view>
-    <view class="task">
-      <view class="taskname">{{task.itemBean.title}}</view>
+    <view class="task" bindtap="toPlanTeam">
+      <view class="taskname">{{task.scheduleSummaryBean.title}}</view>
       <image class="open" src="../img/open.png"></image>
     </view>
     <view class="area">
@@ -52,7 +52,7 @@
       <view class="common_ope">添加本地文件</view>
       <view class="common_at">添加</view>
     </view>
-    <view class="info">
+    <view class="info" bindtap="addOnlineFile">
       <view class="common_ope">添加在线文件</view>
       <view class="common_at">添加</view>
     </view>
@@ -70,14 +70,16 @@
   </view>
   <view bindtap="modifyTask" class="save">保存</view>
   <!-- 可见范围列表 -->
-  <view class="rangelist" hidden='{{!isShowRange}}'>
-    <view class="range" data-role="0" bindtap="selectRange">
-      所有成员可见
+  <view class="rangelistmodel" hidden='{{!isShowRange}}'>
+    <view class="rangelist">
+      <view class="range" data-role="0" bindtap="selectRange">
+        所有成员可见
+      </view>
+      <view class="range" data-role="1" bindtap="selectRange">
+        仅参与者可见
+      </view>
+      <view class="range" bindtap="controlRange">取消</view>
     </view>
-    <view class="range" data-role="1" bindtap="selectRange">
-      仅参与者可见
-    </view>
-    <view class="range" bindtap="controlRange">取消</view>
   </view>
 
   <!-- 弹框 -->
@@ -105,7 +107,8 @@
     </view>
   </view>
   <block wx:for="{{memberlist}}">
-    <view class="memberlist" bindtap="selectMember" data-selectid="{{item.personId}}" wx:if="{{item.relationType != 0 && item.relationType != 1 && item.personId != mission.personId}}">
+    <!-- <view class="memberlist" bindtap="selectMember" data-selectid="{{item.personId}}" wx:if="{{item.relationType != 0 && item.relationType != 1 && item.personId != mission.personId}}"> -->
+    <view class="memberlist" bindtap="selectMember" data-selectid="{{item.personId}}" wx:if="{{item.personId != mission.personId}}">
       <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
       <view class="username">{{item.personName}}</view>
       <view class="userarea">
