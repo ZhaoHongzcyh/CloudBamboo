@@ -35,8 +35,11 @@
 }
 /* 空数据页面 */
 .nothingData{
-  margin: auto;
-  margin-top: 200rpx;
+  position: absolute;
+  top: 40%;
+  margin-top: -75rpx;
+  left: 50%;
+  margin-left: -75rpx;
   text-align: center;
 }
 .nothing{

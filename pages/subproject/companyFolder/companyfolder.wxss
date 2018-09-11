@@ -27,6 +27,17 @@
 /* 路径 */
 .menu{
   display: flex;
+  height: 72rpx;
+  align-items: center;
+  padding-left: 20rpx;
   font-size: 28rpx;
   color: #999999;
+}
+
+.folder{
+  position: absolute;
+  top: 80rpx;
+  width: 100%;
+  height: calc(100% - 200rpx);
+  overflow: auto;
 }

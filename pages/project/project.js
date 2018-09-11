@@ -143,9 +143,15 @@ Page({
               if (userid == data[i].taskBo.list[j].memberBeans[k].resourceId) {
                 data[i].taskBo.list[j].isInProject = true
               }
+              var companyName = data[i].summaryBean.title + '-'
+              if (data[i].taskBo.list[j].summaryBean.managerName.split(companyName).length == 2){
+                data[i].taskBo.list[j].summaryBean.managerName = data[i].taskBo.list[j].summaryBean.managerName.split(companyName)[1];
+              }
             }
+            
           }
         }
+
         if(obj.taskBo == null){
             list.push(obj)
         }

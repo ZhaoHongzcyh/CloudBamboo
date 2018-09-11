@@ -9,7 +9,9 @@ Page({
     fileData:null,
     rootId:null,//公司根目录id
     copyFile:null,//被复制的文件列表
-    parentIdStack:[]//父文件夹对象
+    parentIdStack:[
+      {parentId:0,title:'首页'}
+    ]//父文件夹对象
   },
   onLoad: function (options) {
     this.setData({
@@ -72,6 +74,16 @@ Page({
     parentIdStack.push(obj);
     this.setData({ parentIdStack});
     this.getFolderTree(item.id)
+  },
+  
+  // 上一级文件夹
+  upFolder: function () {
+    var parentIdStack = this.data.parentIdStack;
+    var length = parentIdStack.length;
+    var parentId = parentIdStack[length - 2].parentId;
+    this.getFolderTree(parentId);
+    parentIdStack.splice(length - 1);
+    this.setData({ parentIdStack})
   },
 
   // 获取文件目录树
@@ -142,5 +154,24 @@ Page({
       this.setData({ alert: { content: '文件复制失败' } });
       this.alert();
     })
+  },
+
+  // 跳转到指定文件夹
+  jump: function (e) {
+    var parentid = e.currentTarget.dataset.parentid;
+    var parentIdStack = this.data.parentIdStack;
+    parentIdStack.map((item,index)=>{
+      if(item.parentId == parentid){
+        parentIdStack.splice(index+1,1)
+      }
+    })
+    if(parentIdStack.length == 1){
+      this.getCompanyFolder();
+    }
+    else{
+      this.getFolderTree(parentid);
+    }
+    this.setData({parentIdStack})
+    
   }
 })

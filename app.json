@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/company/company",
     "pages/index/index",
+    "pages/company/company",
     "pages/addCompany/addCompany",
     "pages/addCompany/industry/industry",
     "pages/project/project",

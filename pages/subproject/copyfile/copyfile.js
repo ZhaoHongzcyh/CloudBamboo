@@ -28,6 +28,7 @@ Page({
     })
     this.newFolder = this.selectComponent("#newFolder");
     this.popup = this.selectComponent("#popup");
+    this.downapp = this.selectComponent("#downapp");
     console.log(options);
   },
 
@@ -40,6 +41,10 @@ Page({
     var tap = e.currentTarget.dataset.tap;
     if(tap == 3){
       this.getCompanyList();
+    }
+    if(tap == 2){
+      this.downAppAlert();
+      return false;
     }
     this.setData({
       showTapNum: tap
@@ -55,6 +60,11 @@ Page({
   // 弹框
   alert: function () {
     this.popup.showPopup()
+  },
+
+  // app下载弹框
+  downAppAlert: function () {
+    this.downapp.showPopup();
   },
 
   // 获取云盘列表

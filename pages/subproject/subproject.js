@@ -1266,7 +1266,7 @@ Page({
       console.log(res);
       if(res.data.code == 403 && !res.data.result){
         this.setData({alert:{content:'所选文件夹包含权限锁定文件'}});
-        thia.alert();
+        this.alert();
         return false;
       }
       else if(res.data.code == 200 && res.data.result){
@@ -1342,9 +1342,15 @@ Page({
   // 设置权限
   setPower: function () {
     var chooseFileList = this.data.chooseFileList;
-    wx.navigateTo({
-      url: './setPower/setPower?taskid=' + this.data.taskId + "&fileid=" + chooseFileList[0].id,
-    })
+    if (this.isCouldDel(chooseFileList[0])){
+      wx.navigateTo({
+        url: './setPower/setPower?taskid=' + this.data.taskId + "&fileid=" + chooseFileList[0].id,
+      })
+    }
+    else{
+      this.setData({alert:{content:'权限不够'}});
+      this.alert();
+    }
   },
   // 获取重名名信息
   getFileRename: function (e) {

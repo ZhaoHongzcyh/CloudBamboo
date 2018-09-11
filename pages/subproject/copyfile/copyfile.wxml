@@ -5,14 +5,15 @@
       我的云盘
       <view class="{{showTapNum == 1? 'line':''}}"></view>
     </view>
-    <view class="commontitle" data-tap="2" bindtap="showtap">
-      我的项目
-      <view class="{{showTapNum == 2? 'line':''}}"></view>
-    </view>
     <view class="commontitle" data-tap="3" bindtap="showtap">
       我的公司
       <view class="{{showTapNum == 3? 'line':''}}"></view>
     </view>
+    <view class="commontitle" data-tap="2" bindtap="showtap">
+      我的项目
+      <view class="{{showTapNum == 2? 'line':''}}"></view>
+    </view>
+    
   </view>
 
   <view class="wrap">
@@ -66,4 +67,6 @@
   <!-- 新建文件夹弹框 -->
   <fileAlert id="newFolder" bindnewFolder="newFolderName"></fileAlert>
   <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
+  <!-- app下载提示 -->
+  <popup id='downapp'  content="云竹协作更多功能,请下载App" footer="立即下载"></popup>
 </view>

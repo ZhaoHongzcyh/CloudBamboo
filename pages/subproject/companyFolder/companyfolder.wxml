@@ -1,17 +1,28 @@
 <!--pages/subproject/companyFolder/companyfolder.wxml-->
 <view>
   <view class="menu">
-    <block wx:for="{{parentIdStack}}">
-      <view>
+    <block wx:for="{{parentIdStack}}" wx:if="{{parentIdStack.length < 4}}">
+      <view data-parentid="{{item.parentId}}" bindtap="jump">
         {{item.title}}>
       </view>
     </block>
+    <block wx:if="{{parentIdStack.length > 3}}">
+      <view bindtap="getCompanyFolder">
+        {{parentIdStack[0].title}}>
+      </view>
+      <view bindtap="upFolder">
+        ...>
+      </view>
+      <view>
+        {{parentIdStack[parentIdStack.length - 1].title}}>
+      </view>
+    </block>
   </view>
-  <scroll-view>
+  <view class="folder">
     <block wx:for="{{fileData}}" wx:key="{{item.id}}">
           <file item="{{item}}" wx:key="{{item.id}}" data-item="{{item}}" bindtap="entryFolder" data-parentId="{{item.parentId}}" data-title="{{item.title}}"  readonly="{{false}}" data-id="{{item.id}}"></file>
         </block>
-  </scroll-view>
+  </view>
     <view class="footer">
         <view class="btn" bindtap="newFolderAlert">新建文件夹</view>
         <view class="spacing"></view>

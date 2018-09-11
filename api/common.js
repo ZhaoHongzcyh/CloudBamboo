@@ -242,9 +242,6 @@ var getData = function(){
       month = "八月";
     break;
     case "9":
-      month = "八月";
-      break;
-    case "8":
       month = "九月";
       break;
     case "10":
