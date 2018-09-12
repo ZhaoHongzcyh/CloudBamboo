@@ -1,6 +1,3 @@
-<!-- 导入导航模板 -->
-<import src="/pages/tabBar/tabBar.wxml"/>
-<template is="tabBar" data="{{url}}"></template>
 <view class="company" wx:if="{{isGetCompany}}">
 <!-- 公司名称区域 -->
   <view class="company-head">

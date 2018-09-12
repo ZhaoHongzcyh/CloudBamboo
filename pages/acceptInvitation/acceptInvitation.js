@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    app:app,
     islogoing:false,
     shareScene:{},
     logoinCode:null
@@ -47,13 +48,15 @@ Page({
       api.sendCode(scene, address, "get").then(res => {
         var handleInfo = api.handleLogoinInfo(res);
         if (handleInfo.code == '200') {
-          wx.redirectTo({
+          app.globalData.sessionoverdue = false;
+          app.globalData.isByAppEntry = false;
+          wx.switchTab({
             url: '/pages/company/company'
           })
         }
         else {
-           wx.redirectTo({
-            url: '/pages/index/index'
+          wx.switchTab({
+            url: '/pages/myself/myself'
           })
           console.log("跳转失败")
         }
@@ -64,6 +67,8 @@ Page({
   getInvitationInfo:function(){
     var address = app.ip + "tc/taskDepartmentService/dpmmInvite/" + app.globalData.Invitation.url;
     api.request({},address,"post",true).then(res=>{
+      console.log("邀请人信息");
+      console.log(res)
       if(res.data.code == 200 && res.data.result){
         this.setData({
           shareScene:res.data.data,
@@ -72,7 +77,7 @@ Page({
       }
       else{
         wx.redirectTo({
-          url: '/pages/index/index',
+          url: '/pages/myself/myself',
         })
       }
     }).catch(e=>{

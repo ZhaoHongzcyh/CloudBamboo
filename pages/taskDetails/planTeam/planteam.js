@@ -21,9 +21,16 @@ Page({
     console.log(options);
     this.setData({taskid:options.taskId,planid:options.planid,options:options});
   },
+
   onShow: function(){
     this.getPlanList(this.data.taskid);
   },
+
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    this.onShow();
+  },
+
   // 获取任务计划列表
   getPlanList: function (id) {
     var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
@@ -33,8 +40,7 @@ Page({
       orderType: "DESC"
     }
     api.request(obj, address, "post", true).then(res => {
-      console.log("列表");
-      console.log(res);
+      wx.stopPullDownRefresh();
       if(res.data.code == 200 && res.data.result){
         var plan = res.data.data.list;
         for(var i = 0; i < plan.length; i++){

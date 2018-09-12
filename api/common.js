@@ -1,3 +1,4 @@
+var app = getApp();
 var request = function(data={},url="localhost",method="post",bool){
   var obj = {};
   var token = wx.getStorageSync("proxyUserToken");
@@ -10,6 +11,16 @@ var request = function(data={},url="localhost",method="post",bool){
            method:method,
            header: data,
            success: function (res) {
+             if (!res.data.result && res.data.code != 200) {
+               console.log("session过期")
+               app.globalData.sessionoverdue = true;
+               wx.switchTab({
+                 url: '/pages/myself/myself'
+               })
+             }
+             else {
+               app.globalData.sessionoverdue = false;
+             }
              resolve(res);
            },
            fail: function (err) {
@@ -27,6 +38,15 @@ var request = function(data={},url="localhost",method="post",bool){
            data:data,
            method:method,
            success: function (res) {
+             if (!res.data.result && res.data.code != 200) {
+               app.globalData.sessionoverdue = true;
+               wx.switchTab({
+                 url: '/pages/myself/myself'
+               })
+             }
+             else {
+               app.globalData.sessionoverdue = false;
+             }
              resolve(res);
            },
            fail: function (err) {
@@ -47,6 +67,16 @@ var sendDataByBody = function (data,url,method,isCheck=true) {
       method: method,
       data: data,
       success: function (res) {
+        if (!res.data.result && res.data.code != 200) {
+          console.log("session过期")
+          app.globalData.sessionoverdue = true;
+          wx.switchTab({
+            url: '/pages/myself/myself'
+          })
+        }
+        else {
+          app.globalData.sessionoverdue = false;
+        }
         resolve(res);
       },
       fail: function (err) {
@@ -75,6 +105,16 @@ var customRequest = function (head,body,address,method="post",bool=true) {
       header:head,
       data: body,
       success: function (res) {
+        if (!res.data.result && res.data.code != 200) {
+          console.log("session过期")
+          app.globalData.sessionoverdue = true;
+          wx.switchTab({
+            url: '/pages/myself/myself'
+          })
+        }
+        else {
+          app.globalData.sessionoverdue = false;
+        }
         resolve(res);
       },
       fail: function (err) {

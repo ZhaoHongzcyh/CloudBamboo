@@ -1,9 +1,3 @@
-<!-- 导入导航模板 -->
-<import src="/pages/tabBar/tabBar.wxml"/>
-<view  wx:if="{{!more && !selectnum}}">
-  <template is="tabBar" data="{{url}}"></template>
-</view>
-
 <view class="cloudDisk">
   <view class="file-select-info" wx:if="{{selectnum>0? true: false}}">
     <view class="cancel" bindtap="cancel">取消</view>

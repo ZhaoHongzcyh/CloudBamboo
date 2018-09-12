@@ -143,7 +143,6 @@ Page({
     }).catch((e)=>{
         this.codeError();
     });
-
   },
   // 弹框
   alert:function(){

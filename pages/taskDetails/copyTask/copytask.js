@@ -24,12 +24,22 @@ Page({
       taskId:options.id,
       sourceId:options.taskid
     });
+  },
+
+  onShow: function () {
     this.loadPlanList();
   },
+
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    this.onShow();
+  },
+
   // 弹框
   alert: function () {
     this.popup.showPopup();
   },
+  
   // 加载计划列表
   loadPlanList: function(){
     var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
@@ -40,8 +50,8 @@ Page({
     api.request(obj,address,"post",true).then(res=>{
       console.log("计划清单");
       console.log(res);
+      wx.stopPullDownRefresh();
       if(res.data.code == 200 && res.data.result){
-        this.handlePlanList(res.data.data.list);
         this.setData({
           planList: res.data.data.list
         })
@@ -52,10 +62,7 @@ Page({
     })
 
   },
-  // 处理计划清单数据
-  handlePlanList: function (res) {
-    
-  },
+
   // 复制任务
   copyTask: function (e) {
     console.log(e);

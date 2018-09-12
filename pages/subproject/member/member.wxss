@@ -139,3 +139,21 @@ page{
 .placeholder{
   font-size: 28rpx;
 }
+
+/* 无操作人员 */
+.nopeople{
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  margin-left: -100rpx;
+  font-size: 28rpx;
+  color: #999999;
+  width: 200rpx;
+  height: 200rpx;
+  text-align: center;
+}
+
+.nopeopleimg{
+  width: 100rpx;
+  height: 100rpx;
+}

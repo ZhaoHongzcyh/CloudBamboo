@@ -1,7 +1,7 @@
 <!--pages/acceptInvitation/acceptInvitation.wxml-->
 <view class="acceptInvitation">
   <view>
-    <image src="./img/head.png" class="userhead"></image>
+    <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + shareScene.initiator + '/100/100'}}" class="userhead"></image>
   </view>
   <view class="user">
     {{shareScene.initiatorName}}

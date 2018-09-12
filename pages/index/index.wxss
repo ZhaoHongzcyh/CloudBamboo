@@ -200,3 +200,7 @@
 .treatyContent{
   color: #409CF2;
 }
+
+.gray{
+  background-color: gray;
+}

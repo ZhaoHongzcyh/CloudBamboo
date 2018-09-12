@@ -42,17 +42,28 @@ Page({
     this.setData({
       taskId: options.id
     })
-    this.selectPlan(options.id)
   },
+
+  onShow: function () {
+    this.selectPlan(this.data.taskId)
+  },
+
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    this.onShow();
+  },
+
   // 弹框
   alert: function () {
     this.popup.showPopup()
   },
+
   // 根据ID查找任务
   selectPlan: function (id) {
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
+      wx.stopPullDownRefresh();
       console.log("编辑任务");
       console.log(res);
       var handle = library.handleChild(res);

@@ -14,26 +14,26 @@ Page({
     progress:["草稿","未开始","进行中","完成","暂停","终止","撤销","删除"],
     content:null
   },
+  
   onLoad:function(options){
     this.popup = this.selectComponent("#popup");
     this.entry = this.selectComponent("#entry");
-    // 更新导航数据
-    this.setData({
-      url: app.globalData.tabbar
-    })
   },
   
   onShow: function () {
     this.getProjectCompany();
-    console.log("页面")
-    var page = getCurrentPages();
-    console.log(page)
   },
 
   // 下拉刷新
   onPullDownRefresh: function (e) {
     this.onLoad();
   },
+
+  // 上拉触底事件
+  onReachBottom: function () {
+    this.loadMore();
+  },
+
   // 上拉触顶
   loadMore:function(){
     this.setData({
@@ -263,6 +263,7 @@ Page({
     var id = e.currentTarget.dataset.id;
     var summaryBean = e.currentTarget.dataset.item;
     var isgetinto = e.currentTarget.dataset.isgetinto;
+    console.log(summaryBean)
     if (parseInt(isgetinto) == 0){
       this.setData({ content:'无法访问,因为你还不是该项目成员'})
       this.entryalert();

@@ -36,20 +36,14 @@ Page({
     this.setData({
       listConfig:listConfig.listConfig
     })
+    
+  },
+
+  onShow: function () {
     this.getCompanyInfo();
     this.getWorkAttendance();
     this.getUserTeam();
     this.flushTime();
-    // 更新导航数据
-    this.setData({
-      url: app.globalData.tabbar
-    })
-  },
-
-  onShow: function () {
-    console.log("页面")
-    var page = getCurrentPages();
-    console.log(page)
   },
 
   // 下拉刷新

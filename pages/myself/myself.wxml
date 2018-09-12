@@ -1,38 +1,114 @@
-<!-- 导入导航模板 -->
-<import src="/pages/tabBar/tabBar.wxml"/>
-<template is="tabBar" data="{{url}}"></template>
-<view class="head">
-    <image src="{{headimg}}" class="headimg" bindtap="alert"></image>
-    <view class="user">{{userinfo.name}}</view>
-    <image class="bell" src="./img/bell.png" bindtap="alert"></image>
-    <image class="set" src="./img/set.png" bindtap="alert"></image>
-</view>
-<view class="myself">
-  <!-- 待我处理 -->
-  <view class="waiting" wx:if="{{list.length > 0?true:false}}">
-    <view class="wait-handle-head">
-      <view class="wait-text">待我处理</view>
-      <view class="wait-num">{{list.length}}</view>
+ <view wx:if="{{switchMyselfLogoin}}"> 
+    <view class="head">
+        <image src="{{headimg}}" class="headimg" bindtap="alert"></image>
+        <view class="user">{{userinfo.name}}</view>
+        <image class="bell" src="./img/bell.png" bindtap="alert"></image>
+        <image class="set" src="./img/set.png" bindtap="alert"></image>
     </view>
-    <view class="wait-content {{item.emergencyGrade == 2? 'error':''}} {{item.emergencyGrade == 1? 'warning':''}}" bindtap="alert" wx:for="{{list}}">
-      <view class="radio-area" catchtap="alert">
-        <!-- <radio class="radio" color="#409CF2"  bindtap="radioAlert" checked='{{false}}'></radio> -->
+    <view class="myself">
+      <!-- 待我处理 -->
+      <view class="waiting" wx:if="{{list.length > 0?true:false}}">
+        <view class="wait-handle-head">
+          <view class="wait-text">待我处理</view>
+          <view class="wait-num">{{list.length}}</view>
+        </view>
+        <view class="wait-content {{item.emergencyGrade == 2? 'error':''}} {{item.emergencyGrade == 1? 'warning':''}}" bindtap="alert" wx:for="{{list}}">
+          <view class="radio-area" catchtap="alert">
+            <!-- <radio class="radio" color="#409CF2"  bindtap="radioAlert" checked='{{false}}'></radio> -->
+          </view>
+          <view class="wait-info">
+            <view class="wait-title">{{item.title}}</view>
+            <view class="wait-time {{item.isTimeOut? 'timeout': ''}}" wx:if="{{item.endDate != null}}">{{item.endDate + '截止'}}</view>
+          </view>
+          <image class="handle-img" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
+          <view class="handle-name">{{item.managerName}}</view>
+        </view>
       </view>
-      <view class="wait-info">
-        <view class="wait-title">{{item.title}}</view>
-        <view class="wait-time {{item.isTimeOut? 'timeout': ''}}" wx:if="{{item.endDate != null}}">{{item.endDate + '截止'}}</view>
-      </view>
-      <image class="handle-img" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
-      <view class="handle-name">{{item.managerName}}</view>
     </view>
+    <!-- 无数据情况 -->
+    <view class="no-task" wx:if="{{list.length == 0}}">
+      <view class="no-content">
+        <image src="./img/no-project.png" class="no-project-img"></image>
+        <view class="no-project-text">没有待处理的任务</view>
+      </view>
+    </view>
+    <!-- app下载弹框 -->
+    <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
   </view>
-</view>
-<!-- 无数据情况 -->
-<view class="no-task" wx:if="{{list.length == 0}}">
-  <view class="no-content">
-    <image src="./img/no-project.png" class="no-project-img"></image>
-    <view class="no-project-text">没有待处理的任务</view>
+
+  <!-- ------------------------------------------------------登录模块----------------------------------------------- -->
+  <view wx:if="{{!switchMyselfLogoin}}">
+    <view class="system">
+    <view class="system_public">
+      <view class="imgBamboo">
+      <!-- 云竹图片 -->
+        <image src='/pages/index/img/banbom.png' class="logoimg"></image>
+      </view>
+      <view class="urlbtn">
+      <!-- 登录与注册路由 -->
+        <view class="routeBtn" bindtap='switchUrl' data-logoin="1">
+          <view class="logoinRoute">登录</view>
+          <view class="line" wx:if="{{logoinState}}"></view>
+          <view class="lineHr" wx:if="{{!logoinState}}"></view>
+        </view>
+        <view class="routeBtn" bindtap="switchUrl" data-logoin="0">
+          <view class="registerRoute">注册</view>
+          <view class="line" wx:if="{{!logoinState}}">
+          </view>
+          <view class="lineHr" wx:if="{{logoinState}}"></view>
+        </view>
+      </view>
+    </view>
+    <view class="logoinForm" wx:if="{{logoinState}}" >
+      <form>
+        <view class="phoneNumber commoninput">
+          <input type="number" placeholder-class='common_logoin' maxlength='11' placeholder='请输入手机号' class="user input" bindinput="getLogoInfo" value="{{logoin.phone}}" data-role="user"/>
+        </view>
+        <view class="password commoninput">
+          <input password="{{!isShowlogoinPwd}}" placeholder-class='common_logoin' maxlength='20' class="user input" value="{{logoin.password}}" bindinput="getLogoInfo" placeholder='请输入密码' data-role="pwd"/>
+          <view class="eyes" bindtap="switchLogoinPwdState" data-role="logoin">
+              <image src="{{isShowlogoinPwd? '/pages/index/img/eye_icon_on.png':'/pages/index/img/eye_icon_off.png'}}" class="eyesImg"></image>
+          </view>
+        </view>
+        <view class="{{isClickLogoinBtn? 'logoinbtn btn clickOn':'logoinbtn btn clickOff'}}" bindtap="logoinSystem">
+          <view class="btnText">登录</view>
+        </view>
+        <view class="forgetPwd">
+          <view class="forgetPwdText" bindtap="alert">忘记密码?</view>
+        </view>
+      </form>
+    </view>
+    <view class="registerForm" wx:if="{{!logoinState}}">
+      <form>
+        <view class="phoneNumber commoninput">
+          <input type="number" maxlength='11' class="user input" value="{{register.phone}}" placeholder-class='common_logoin' bindinput="getRegisterInfo" placeholder='请输入手机号' data-role="phone"/>
+          <view class="getVerificationCode {{countTime < 60? 'gray':''}}" bindtap="getCode">
+            {{verificationBtnText}}
+          </view>
+        </view>
+        <view class="password commoninput">
+          <input type="number" maxlength='11' class="user input" placeholder-class='common_logoin' bindinput="getRegisterInfo" placeholder='请输入验证码' data-role="verification" value="{{register.verification}}"/>
+        </view>
+        <view class="password commoninput">
+          <input password="{{!isShowRegisterPwd}}" maxlength='20' minlength="6" class="pwd input" placeholder-class='common_logoin' bindinput="getRegisterInfo" value="{{register.password}}" placeholder='请输入6-20位字母或数字的密码' data-role="password"/>
+          <view class="eyes" bindtap="switchRegisterPwdState" data-role="register">
+            <image src="{{isShowRegisterPwd? '/pages/index/img/eye_icon_on.png':'/pages/index/img/eye_icon_off.png'}}" class="eyesImg"></image>
+          </view>
+        </view>
+        <view class="{{isClickRegisterBtn? 'logoinbtn btn clickOn':'logoinbtn btn clickOff'}}" bindtap="checkRegisterInfo">
+          <view class="btnText">注册</view>
+        </view>
+        <view class="treaty">
+          <checkbox color="gray" class="treatycheckbox" checked="{{readCondiction}}"  bindtap="switchCondiction"></checkbox>
+          <text class="agreentreaty" catchtap="readAgreement">我已阅读并同意<text class="treatyContent">服务协议</text></text>
+        </view>
+      </form>
+    </view>
+    <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
   </view>
+    <logoinAlert src="/pages/index/img/logoin-loading.png" wx:if="{{alertTitle.state == 2}}" animate="true" bgcolor="rgba(0,0,0,1)" alertText="{{alertTitle.title}}"></logoinAlert> 
+    <logoinAlert src="/pages/index/img/close-icon.png" wx:if="{{alertTitle.state == 1}}" bind:hideAlert="hideAlert" alertText="{{alertTitle.title}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+    <!-- <logoinAlert src="/pages/index/img/close-icon.png" animate="{{false}}" alertText="{{logoinAlert.content}}"  bgcolor="rgba(0,0,0,1)"></logoinAlert> -->
 </view>
-<!-- app下载弹框 -->
-<popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+
+

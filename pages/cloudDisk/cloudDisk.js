@@ -19,10 +19,6 @@ Page({
     this.getFileList();
     // 弹框节点
     this.popup = this.selectComponent("#popup");
-    // 更新导航数据
-    this.setData({
-      url: app.globalData.tabbar
-    })
   },
 
   onShow: function () {

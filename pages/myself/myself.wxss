@@ -1,9 +1,6 @@
-@import "/pages/tabBar/tabBar.wxss";
+/* @import "/pages/tabBar/tabBar.wxss"; */
+@import "/pages/index/index.wxss";
 .myself{
-  position: absolute;
-  width: 100%;
-  height: calc(100% - 200rpx);
-  overflow: auto;
 }
 .head{
   display: flex;
@@ -21,6 +18,8 @@
   font-size: 32rpx;
   margin-left: 14rpx;
   flex: 2;
+  height: 50rpx;
+  line-height: 50rpx;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -163,4 +162,10 @@
 }
 .warning{
   border-left: 7rpx solid #FFAF38;
+}
+
+/* -------------------------------------登录注册模块------------------------------------ */
+.common_logoin{
+  font-size: 28rpx;
+  color: #999999;
 }

@@ -54,6 +54,11 @@ Page({
     this.selectPlanChild(this.data.taskId);
   },
 
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    this.onShow();
+  },
+
   // 查询权限数据
   searchPowerData: function (id) {
     var address = app.ip + "tc/taskService/findTaskBOById";
@@ -106,10 +111,6 @@ Page({
   alert: function () {
     this.popup.showPopup()
   },
-  // 当页面重载
-  onUnload: function(){
-    console.log("页面重载")
-  },
   
   // 根据ID查找计划条目
   selectPlanChild: function (id) {
@@ -117,6 +118,7 @@ Page({
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
+      wx.stopPullDownRefresh();
       console.log("计划条目");
       console.log(res);
       var handle = library.handleChild(res);

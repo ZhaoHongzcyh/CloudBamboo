@@ -1,12 +1,9 @@
-@import "/pages/tabBar/tabBar.wxss";
-.project{
-  position: absolute;
-  right:0rpx;
-  width: 100%;
-  top: 0rpx;
-  height:calc(100% - 98rpx);
-  overflow: auto;
+/* @import "/pages/tabBar/tabBar.wxss"; */
+page{
   background:rgba(245,245,245,1);
+}
+.project{
+  overflow: auto;
 }
 /* 路由样式 */
 .project-classification{
@@ -223,19 +220,21 @@
 /* 新加项目 */
 .add-project{
   position: fixed;
-  display: flex;
-  bottom: 119rpx;
+  bottom: 100rpx;
   right: 20rpx;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
   width: 81rpx;
   height: 81rpx;
-  font-size: 56rpx;
   line-height: 81rpx;
   border-radius: 50%;
-  background-color: #409CF2;
+  text-align: center;
+  /* background-color: #409CF2; */
   color: white;
+}
+
+.addprojectImg{
+  width: 81rpx;
+  height: 81rpx;
+  border-radius: 50%;
 }
 /* 无项目数据，提示信息样式 */
 .no-content{

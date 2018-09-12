@@ -1,13 +1,10 @@
-<!-- 导入导航模板 -->
-<import src="/pages/tabBar/tabBar.wxml"/>
-<template is="tabBar" data="{{url}}"></template>
 <view class="project">
   <view class="project-classification">
     <view class="project-url {{urlLine? 'current-url':''}}" bindtap="getProjectCompany">公司项目</view>
     <view class="project-url {{urlLine? '':'current-url'}}" bindtap="getProjectPerson">个人项目</view>
   </view>
   <!-- 项目数据 -->
-  <scroll-view class="scrollview" scroll-y="{{true}}" bindscrolltolower="loadMore" wx:if="{{list.length>0}}">
+  <scroll-view class="scrollview" scroll-y="{{true}}" wx:if="{{list.length>0}}">
     <block wx:for="{{list}}" wx:for-item="item">
       <view class="project-data" wx:key="{{index}}">
         <view class="company-name" wx:if="{{urlLine}}"  data-index="{{index}}" catchtap="watchProject">
@@ -94,9 +91,8 @@
             <block wx:if="{{child.subList.length>0}}">
               <view class="sublist" wx:if="{{urlLine}}">
                 <block wx:for="{{child.subList}}" wx:for-item="childItem" wx:for-index="childIndex">
-                    <view class="second-level-project" wx:if="{{child.isShowChild}}" data-isGetInto="{{childItem.summaryBean}}" bindtap="entryProject" data-id="{{childItem.summaryBean.id}}">
+                    <view class="second-level-project" wx:if="{{child.isShowChild}}" data-item="{{childItem.summaryBean}}" data-isGetInto="{{childItem.summaryBean}}" bindtap="entryProject" data-id="{{childItem.summaryBean.id}}">
                       <view class="second-level">
-                      
                         <image src="./img/second-level.png" class="second-title-img"></image>
                         <view class="second-level-name">{{childItem.summaryBean.title}}</view>
                       </view>
@@ -116,7 +112,7 @@
         <!-- 二级项目信息/个人项目 -->
         <view class="sublist" wx:if="{{!urlLine}}">
             <block wx:for="{{item.subList}}" wx:for-item="sublist" wx:if="{{item.isShowChild}}">
-              <view class="second-level-project" data-id="{{sublist.summaryBean.id}}" bindtap="entryProject">
+              <view class="second-level-project" data-id="{{sublist.summaryBean.id}}" data-item="{{sublist.summaryBean}}" bindtap="entryProject">
                 <view class="second-level">
                   <image src="./img/second-level.png" class="second-title-img"></image>
                   <view class="second-level-name">{{sublist.summaryBean.title}}</view>
@@ -136,7 +132,9 @@
     </view>
   </scroll-view>
   <!-- 添加公司 -->
-  <view class="add-project" bindtap="jump">+</view>
+  <view class="add-project" bindtap="jump">
+    <image src="/pages/company/img/addCompany.png" class="addprojectImg"></image>
+  </view>
   <view class="no-project" wx:if="{{list.length == 0}}">
     <view class="no-content">
       <image src="./img/no-project.png" class="no-project-img"></image>

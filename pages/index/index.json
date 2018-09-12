@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "popup": "/common/popup/popup",
-    "logoinAlert":"/common/logoinAlert/logoinAlert"
-  }
-}

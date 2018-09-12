@@ -69,7 +69,7 @@ Page({
         })
         // 更新本地缓存中的defaultTaskTeam
         wx.setStorageSync("defaultTaskTeam", taskId);
-        wx.redirectTo({
+        wx.switchTab({
           url: '/pages/company/company',
         })
       }

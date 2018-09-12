@@ -1,6 +1,3 @@
-<!-- 导入导航模板 -->
-<import src="/pages/tabBar/tabBar.wxml"/>
-<template is="tabBar" data="{{url}}"></template>
 <view class="mail-list-content">
   <!-- <mailList src="{{equipment.src}}" title="{{equipment.title}}" bindtap="alert"></mailList> -->
   <view class="list">

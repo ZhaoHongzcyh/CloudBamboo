@@ -18,13 +18,23 @@ Page({
    */
   onLoad: function (options) {
     this.setData({planid:options.planid});
-    this.getPlanInfo(options.planid);
     this.popup = this.selectComponent("#popup");
   },
+
+  onShow: function () {
+    this.getPlanInfo(this.data.planid);
+  },
+
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    this.onShow();
+  },
+  
   // 弹框
   alert: function () {
     this.popup.showPopup()
   },
+
   // 设置开始时间
   setStartDate: function(e) {
     var plan = this.data.plan;
@@ -32,18 +42,21 @@ Page({
     plan.startDate = e.detail.value + "T00:00:00.000+0800" 
     this.setData({startDate:e.detail.value,plan:plan});
   },
+
   // 设置结束时间
   setEndDate: function(e) {
     var plan = this.data.plan;
     plan.endDate = e.detail.value + "T00:00:00.000+0800" 
     this.setData({endDate:e.detail.value,plan:plan})
   },
+
   // 获取计划条目信息
   getPlanInfo: function (id) {
     var address = app.ip + "tc/schedule/summaryService/findBo";
     api.request({id},address,"POST",true).then(res=>{
       console.log("计划条目信息");
       console.log(res);
+      wx.stopPullDownRefresh();
       if(res.data.code == 200 && res.data.result){
         var endDate = null;
         if (res.data.data.summaryBean.endDate != null){
@@ -59,12 +72,14 @@ Page({
       }
     })
   },
+
   // 获取任务计划名称
   getPlanName: function (e) {
     var plan = this.data.plan;
     plan.title = e.detail.value;
     this.setData({plan:plan})
   },
+
   // 确认修改任务计划
   changePlan: function () {
     var address = app.ip + "tc/schedule/summaryService/update"

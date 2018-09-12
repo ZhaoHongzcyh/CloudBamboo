@@ -1,9 +1,10 @@
 /* 引入脚部分导航样式 */
-@import "/pages/tabBar/tabBar.wxss";
+/* @import "/pages/tabBar/tabBar.wxss"; */
+page{
+  background-color: rgba(245,245,245,1);
+}
+
 .cloudDisk{
-  position: absolute;
-  width: 100%;
-  height: calc(100% - 98rpx);
   overflow: auto;
 }
 .file-select-info{
@@ -40,8 +41,10 @@
 /* 文件搜索 */
 .search{
   height: 92rpx;
+  margin-bottom: 20rpx;
   display: flex;
   align-items: center;
+  background-color: white;
 }
 .search-img-btn{
   margin-left: 24rpx;

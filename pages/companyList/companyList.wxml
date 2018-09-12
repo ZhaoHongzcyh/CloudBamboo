@@ -12,7 +12,7 @@
   <!-- 渲染公司 -->
   <view wx:if="{{isHasCompany == 1}}">
     <block wx:for="{{companyListData}}">
-      <companyList src="/pages/company/img/companyList.png" companyName="{{item.title}}" legalPerson="{{item.ownerName}}" bindswitchCompany="chooseCompany" checked="{{item.checked}}" data-index="{{index}}" data-contentId="{{item.contentId}}" defaultteam="{{item.id}}" data-id="{{item.id}}"></companyList>
+      <companyList src="/pages/company/img/companyList.png" companyName="{{item.title}}" legalPerson="{{item.personName}}" bindswitchCompany="chooseCompany" checked="{{item.checked}}" data-index="{{index}}" data-contentId="{{item.contentId}}" defaultteam="{{item.id}}" data-id="{{item.id}}"></companyList>
     </block>
   </view>
 </view>

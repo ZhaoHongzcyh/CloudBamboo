@@ -1,11 +1,10 @@
 /* 引入脚部分导航样式 */
-@import "/pages/tabBar/tabBar.wxss";
-.mail-list-content{
-  position: absolute;
-  width:100%;
-  height: calc(100% - 98rpx);
-  overflow: auto;
+/* @import "/pages/tabBar/tabBar.wxss"; */
+page {
   background-color:rgba(245,245,245,1);
+}
+.mail-list-content{
+  overflow: auto;
 }
 .group,.list{
   margin-top: 20rpx;

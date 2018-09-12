@@ -7,11 +7,16 @@ App({
   onLaunch: function () {
   },
   onShow:function(options){
+    console.log("场景值");
+    console.log(options);
     this.getSceneValue(options);
   },
   // 获取场景值
   getSceneValue:function(options){
+    console.log("获取场景值")
+    console.log(options);
     if(options.scene == 1036){
+      console.log("跳转te测试")
       this.globalData.isByAppEntry = true;
       var sceneObject = this.globalData.Invitation;
       var urlid = options.query.url.split("/");
@@ -21,9 +26,12 @@ App({
             url: urlid[length - 1]
           }
       this.globalData.Invitation = sceneObject;
-      wx.reLaunch({
-        url: 'pages/acceptInvitation/acceptInvitation',
-      })
+      // setTimeout(()=>{
+        wx.reLaunch({
+          url: '/pages/acceptInvitation/acceptInvitation',
+        })
+      // },200)
+      
     }
   },
   // 编辑tabbar
@@ -46,6 +54,7 @@ App({
     // userInfo: null,
     projectName:null,//项目名称
     projectDescript:null,//项目描述
+    sessionoverdue:true,//true: session过期 false:session未过期
     tabbar: {
       color: "#000000",
       selectedColor: "#0f87ff",

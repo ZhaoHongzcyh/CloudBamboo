@@ -36,5 +36,11 @@
             <view class="delline"></view>
           </view>
         </view>
+      
+      <!-- 无操作人员 -->
+      <view class="nopeople" wx:if="{{memberBeanList.length == 0}}">
+        <image class="nopeopleimg" src="./img/nopeople.png"></image>
+        <view>没有可操作人员</view>
+      </view>
   </view>
 </view>
