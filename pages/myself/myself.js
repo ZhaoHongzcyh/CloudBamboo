@@ -40,8 +40,6 @@ Page({
 
   onLoad:function(options){
     this.popup = this.selectComponent("#popup");
-
-    // 判断用户是否通过分享进入
   },
 
   onShow: function (options) {
@@ -66,6 +64,7 @@ Page({
         this.getLogoinCode();//验证用户是否绑定协作
       }
       else{
+        this.popup = this.selectComponent("#popup");
         console.log("显示")
         wx.showTabBar({});
         this.setData({ switchMyselfLogoin: true });

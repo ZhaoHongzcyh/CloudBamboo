@@ -27,7 +27,7 @@
         </block>
       </view>
     </view>
-    <view class="info">
+    <view class="info" bindtap="controlLevel">
       <view class="common_ope">紧急程度:</view>
       <view class="common_at">{{emergencyGrade[task.itemBean.emergencyGrade]}}</view>
     </view>
@@ -82,6 +82,21 @@
     </view>
   </view>
 
+<!-- 紧急程度选择列表 -->
+  <view class="rangelistmodel" hidden="{{!isShowLevel}}">
+    <view class="rangelist">
+      <view class="range" data-role="2" bindtap="selectLevel">
+        优先解决
+      </view>
+      <view class="range" data-role="1" bindtap="selectLevel">
+        正常处理
+      </view>
+      <view class="range" data-role="0" bindtap="selectLevel">
+        闲置任务
+      </view>
+      <view class="range" bindtap="controlLevel">取消</view>
+    </view>
+  </view>
   <!-- 弹框 -->
   <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

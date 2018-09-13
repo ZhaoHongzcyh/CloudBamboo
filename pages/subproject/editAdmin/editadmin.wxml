@@ -3,12 +3,12 @@
   <!-- 搜索区域 -->
   <view class="search">
     <image src="/pages/cloudDisk/img/searchbtn.png" class="searchimg"></image>
-    <input type="text" class="searchinput" bindinput="matchUser"/>
+    <input type="text" class="searchinput" bindinput="matchUser" placeholder='搜索联系人'/>
   </view>
 
   <!-- 人物列表 -->
   <block wx:for="{{memberlist}}">
-    <view class="user" data-initselect="{{item.initSelect}}" bindtap="addMember" data-item="item" data-index="{{index}}">
+    <view class="user {{index == 0? 'first':''}}" wx:if="{{project.manager != item.resourceId && item.relationType != 13}}" data-initselect="{{item.initSelect}}" bindtap="addMember" data-item="item" data-index="{{index}}">
       <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userphoto"></image>
       <view class="username">{{item.personName}}</view>
       <radio class="select" wx:if="{{isShowRadio && item.initSelect}}" color="#409CF2" checked='{{item.initSelect}}'/>

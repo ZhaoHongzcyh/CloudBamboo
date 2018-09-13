@@ -11,7 +11,7 @@ var request = function(data={},url="localhost",method="post",bool){
            method:method,
            header: data,
            success: function (res) {
-             if (!res.data.result && res.data.code != 200) {
+             if (!res.data.result && res.data.code != 200 && res.data.code != 419) {
                console.log("session过期")
                app.globalData.sessionoverdue = true;
                wx.switchTab({

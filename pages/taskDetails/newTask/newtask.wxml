@@ -56,7 +56,7 @@
       <view class="listTitle">本地附件</view>
       <view class="add">添加</view>
     </view>
-    <view class="newtaskinfo">
+    <view class="newtaskinfo" bindtap="downAppAlert">
       <view class="listTitle">在线附件</view>
       <view class="add">添加</view>
     </view>
@@ -98,6 +98,7 @@
 
   <!-- 弹框 -->
   <popup id="popup" content="{{alert.content}}" isAlert="{{true}}" footer="确定"></popup>
+  <popup id='downapp'  content="云竹协作更多功能,请下载App" footer="立即下载"></popup>
 </view>
 <!-- 执行人列表 -->
 <view wx:if="{{isShowImplement}}">

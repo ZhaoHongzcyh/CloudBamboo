@@ -537,6 +537,14 @@ page{
   align-items: center;
   color: #999999;
 }
+
+.memberlist{
+  position: fixed;
+  width: 100%;
+  height: calc(100% - 260rpx);
+  overflow: auto;
+}
+
 .promemtitle{
   margin-left: 40rpx;
 }

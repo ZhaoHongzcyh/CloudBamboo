@@ -17,10 +17,10 @@
         </view>
         <!-- 个人项目 -->
         <view class="project-info" wx:if="{{!urlLine}}">
-          <view class="father-project" data-id="{{item.summaryBean.id}}" bindtap="entryProject">
+          <view class="father-project" data-id="{{item.summaryBean.id}}" data-isgetinto="{{item.summaryBean.isGetInto}}" data-item="{{item.summaryBean}}" bindtap="entryProject">
             <view class="single-project">
               <view class="isprogress">{{progress[item.summaryBean.tstate]}}</view>
-              <view class="project-name">{{item.summaryBean.title}}</view>
+              <view class="project-name {{item.summaryBean.isGetInto == 0? 'notmembers' : ''}}">{{item.summaryBean.title}}</view>
               <view class="project-sign">
                 <!-- <image src="./img/project_top.png" class="projecttop"></image> -->
               </view>
@@ -91,13 +91,13 @@
             <block wx:if="{{child.subList.length>0}}">
               <view class="sublist" wx:if="{{urlLine}}">
                 <block wx:for="{{child.subList}}" wx:for-item="childItem" wx:for-index="childIndex">
-                    <view class="second-level-project" wx:if="{{child.isShowChild}}" data-item="{{childItem.summaryBean}}" data-isGetInto="{{childItem.summaryBean}}" bindtap="entryProject" data-id="{{childItem.summaryBean.id}}">
+                    <view class="second-level-project" wx:if="{{child.isShowChild}}" data-item="{{childItem.summaryBean}}" data-isGetInto="{{childItem.summaryBean}}" catchtap="entryProject"  data-id="{{childItem.summaryBean.id}}">
                       <view class="second-level">
                         <image src="./img/second-level.png" class="second-title-img"></image>
                         <view class="second-level-name">{{childItem.summaryBean.title}}</view>
                       </view>
                     </view>
-                    <!-- 当子项目有数据且是最后一个子项目则显示上拉按钮 -->{{}}
+                    <!-- 当子项目有数据且是最后一个子项目则显示上拉按钮 -->
                     <view catchtap="watchChild" data-childIndex="{{comopanyProIndex}}" class="second-up" wx:if="{{childIndex == child.subList.length-1}}" data-index="{{index}}">
                       <image src="./img/select-up.png" class="second-select-up" wx:if="{{child.isShowChild}}"></image>
                       <image src="./img/select-down.png" class="second-select-up" wx:if="{{!child.isShowChild}}"></image>
@@ -112,7 +112,7 @@
         <!-- 二级项目信息/个人项目 -->
         <view class="sublist" wx:if="{{!urlLine}}">
             <block wx:for="{{item.subList}}" wx:for-item="sublist" wx:if="{{item.isShowChild}}">
-              <view class="second-level-project" data-id="{{sublist.summaryBean.id}}" data-item="{{sublist.summaryBean}}" bindtap="entryProject">
+              <view class="second-level-project" data-id="{{sublist.summaryBean.id}}" data-item="{{sublist.summaryBean}}" catchtap="entryProject">
                 <view class="second-level">
                   <image src="./img/second-level.png" class="second-title-img"></image>
                   <view class="second-level-name">{{sublist.summaryBean.title}}</view>

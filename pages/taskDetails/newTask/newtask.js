@@ -53,6 +53,7 @@ Page({
    */
   onLoad: function (options) {
     this.popup = this.selectComponent("#popup");
+    this.downapp = this.selectComponent("#downapp");
     this.setData({
       planid:options.planid,
       title:options.title,
@@ -60,10 +61,17 @@ Page({
     });
     this.initImplementer();
   },
+
   // 弹框
   alert: function () {
     this.popup.showPopup()
   },
+
+  // app下载弹框
+  downAppAlert: function () {
+    this.downapp.showPopup();
+  },
+
   // 初始化执行人信息
   initImplementer:function(){
     var address = app.ip + "tc/taskService/taskMemberManager";
@@ -98,6 +106,7 @@ Page({
       }
     })
   },
+
   // 获取任务名称
   getTaskName: function (e) {
     var taskName = e.detail.value;
@@ -105,6 +114,7 @@ Page({
       taskName:taskName
     })
   },
+
   // 获取执行人信息
   implementer: function(){
     wx.setNavigationBarTitle({title:'更改执行人'})
@@ -138,24 +148,28 @@ Page({
       }
     })
   },
+
   // 设置开始时间
   setStartDate: function (e) {
     this.setData({
       startDate:e.detail.value
     })
   },
+
   // 设置结束时间
   setEndDate: function (e) {
     this.setData({
       endDate:e.detail.value
     })
   },
+
   // 设置任务紧急程度
   setEmergencyGrade: function (e) {
     this.setData({
       isShowEmergency:true
     })
   },
+
   // 获取用户选择的紧急程度
   getEmergencyGrade: function (e) {
     var state = e.currentTarget.dataset.state;
@@ -164,18 +178,21 @@ Page({
       isShowEmergency:false
     })
   },
+
   // 取消选择紧急程度
   cancelUrgency: function () {
     this.setData({
       isShowEmergency:false
     })
   },
+
   // 显示/关闭成员是否可见选项
   switchPowerMenu: function () {
     this.setData({
       isShowReadPower: !this.data.isShowReadPower
     })
   },
+
   // 设置可见范围
   setvisibilityType: function (e) {
     var visibilityType = e.currentTarget.dataset.visibilitytype;
@@ -184,6 +201,7 @@ Page({
     });
     this.switchPowerMenu();
   },
+
   // 匹配用于搜索的内容
   matchList: function (e) {
     var value = e.detail.value;
@@ -203,6 +221,7 @@ Page({
       matchList
     })
   },
+
   // 显示参与人列表
   showAddMember: function () {
     if (this.data.isShowAddMember){
@@ -227,6 +246,7 @@ Page({
     }
     this.chooseAddMember();
   },
+
   // 获取参与人列表
   getAddMemberList: function () {
     var address = app.ip + "tc/taskService/taskMemberManager";
@@ -249,6 +269,7 @@ Page({
       }
     }) 
   },
+
   // 设置执行人
   setImplement: function (e) {
     wx.setNavigationBarTitle({title:'新建任务'})
@@ -259,10 +280,12 @@ Page({
       matchList: null
     })
   },
+
   // 搜索参与人
   searchAddMember: function (e) {
     var value = e.detail.value;
   },
+
   // 打开参与人列表
   chooseAddMember: function () {
     var Implement = this.data.Implement;
@@ -293,6 +316,7 @@ Page({
       addMemberList: memberAry
     })
   },
+
   // 匹配用户输入的参与人内容
   matchAddMember: function (e) {
     var value = e.detail.value;
@@ -317,6 +341,7 @@ Page({
       searchList:searchList
     })
   },
+
   // 选择参与人
   selectAddMember: function (e) {
     var item = e.currentTarget.dataset.item;
@@ -331,6 +356,7 @@ Page({
         addMemberList[i].selected = false;
       }
     }
+
     // 同步searchList
     if(searchList != null ){
       for (var i = 0; i < searchList.length; i++) {
@@ -345,6 +371,7 @@ Page({
     }
     this.setData({ addMemberList, searchList})
   },
+
   // 选择文件
   chooseFile: function (){
     var tempFilePath = this.data.tempFilePath;
@@ -361,6 +388,7 @@ Page({
       }
     })
   },
+
   // 处理文件上传数据
   handleUploadData: function (data) {
     var tempFilePath = this.data.tempFilePath;
@@ -376,6 +404,7 @@ Page({
       tempFilePath:tempFilePath
     })
   },
+
   // 上传图片
   upImg: function (index=0) {
     var data = this.data.tempFilePath;
@@ -411,6 +440,7 @@ Page({
           this.upImg(index+1);
         }
       })
+
       // 监听上传进度
       uploadTask.onProgressUpdate(res=>{
         data[index].progress = res.progress;
@@ -422,8 +452,8 @@ Page({
     else{
       wx.navigateBack();
     }
-    
   },
+
   // 删除图片
   deleteImg: function (e) {
     var index = e.currentTarget.dataset.index;
@@ -434,6 +464,7 @@ Page({
       tempFilePath:tempFilePath
     })
   },
+
   // 添加任务
   addTask: function (e) {
     console.log("执行人");
@@ -504,10 +535,16 @@ Page({
       this.alert();
     })
   },
+  
   // 任务计划列表
   toPlanTeam: function () {
     wx.navigateTo({
       url: '../planTeam/planteam?taskId=' + this.data.taskId + "&planid=" + this.data.planid,
     })
+  },
+
+  // 添加在线附件
+  addOnlineFile: function () {
+    this.setData({alert:{content:''}})
   }
 })

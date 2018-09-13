@@ -1,5 +1,6 @@
 /* pages/subproject/admin/admin.wxss */
 .admin{
+  margin: 20rpx;
   display: flex;
   flex-wrap: wrap;
 }

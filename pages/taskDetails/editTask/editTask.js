@@ -27,6 +27,7 @@ Page({
     taskObj:{},//任务对象
     mission:null,//责任人信息
     isShowRange:false,//是否展示可见范围列表
+    isShowLevel:false,//是否显示任务紧急列表
     range:["所有成员可见","仅参与人可见"],
     rangenum:0,
     alert:{
@@ -42,15 +43,12 @@ Page({
     this.setData({
       taskId: options.id
     })
-  },
-
-  onShow: function () {
     this.selectPlan(this.data.taskId)
   },
 
   // 下拉刷新
   onPullDownRefresh: function () {
-    this.onShow();
+    this.selectPlan(this.data.taskId)
   },
 
   // 弹框
@@ -479,12 +477,14 @@ Page({
     //   console.log(res);
     // })
   },
+
     // 控制可见范围
   controlRange: function (e) {
     this.setData({
       isShowRange: !this.data.isShowRange
     })
   },
+
   selectRange: function (e) {
     var role = e.currentTarget.dataset.role;
     var taskObj = this.data.taskObj;
@@ -492,6 +492,26 @@ Page({
     this.setData({
       rangenum:parseInt(role),
       isShowRange: !this.data.isShowRange
+    });
+  },
+
+  // 控制优先等级列表是否可见
+  controlLevel: function () {
+    this.setData({ isShowLevel: !this.data.isShowLevel})
+  },
+
+  // 设置优先等级
+  selectLevel: function (e) {
+    var role = e.currentTarget.dataset.role;
+    var taskObj = this.data.taskObj;
+    
+    var task = this.data.task;
+    task.itemBean.emergencyGrade = role;
+    taskObj.emergencyGrade = role;
+    this.setData({
+      taskObj: taskObj,
+      task:task,
+      isShowLevel: !this.data.isShowLevel
     });
   },
 

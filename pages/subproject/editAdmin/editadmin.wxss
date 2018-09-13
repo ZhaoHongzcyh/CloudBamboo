@@ -9,6 +9,8 @@ page{
   border: 1rpx solid #DBDBDB;
   border-radius: 20rpx;
   margin: auto;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
   display: flex;
   align-items: center;
   background-color: white;
@@ -28,9 +30,17 @@ page{
 .user{
   display: flex;
   height: 80rpx;
+  margin-top: 2rpx;
   align-items: center;
+  background-color: white;
 }
+
+.first{
+  margin-top: 20rpx;
+}
+
 .userphoto{
+  margin-top: 2rpx;
   margin-left: 20rpx;
   width: 62rpx;
   height: 62rpx;

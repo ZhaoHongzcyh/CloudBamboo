@@ -29,6 +29,10 @@ Page({
     var permission = false;
     if(options.state == 1){
       permission = true;
+      wx.setNavigationBarTitle({title:'添加管理组成员'});
+    }
+    else{
+      wx.setNavigationBarTitle({ title: '删除管理组成员' });
     }
     this.setData({
       state:options.state,
@@ -36,6 +40,7 @@ Page({
       isShowRadio:permission
     })
   },
+
   onShow: function () {
     if(this.data.isShowRadio){
       this.getProjectInfo();
@@ -69,10 +74,7 @@ Page({
         var project = res.data.data.summaryBean;
         var member = JSON.stringify(res.data.data.memberBeans);
         member = JSON.parse(member);
-        this.setData({
-          project: res.data.data.summaryBean,
-          
-        })
+        this.setData({ project: res.data.data.summaryBean,})
         member = this.checkIsAdmin(member);
         this.setData({
           memberlist: member,
@@ -139,6 +141,9 @@ Page({
 
   // 判定是否已经被设置为管理员
   checkIsAdmin: function (list) {
+    console.log("这是成员");
+    console.log(list)
+    console.log(this.data.project)
     var adminGroups = this.data.project.adminGroups;
     for(var i = 0; i < list.length; i++){
       list[i].initSelect = false;

@@ -21,7 +21,12 @@ Page({
   },
   
   onShow: function () {
-    this.getProjectCompany();
+    if (this.data.urlLine){
+      this.getProjectCompany();
+    }
+    else{
+      this.getProjectPerson();
+    }
   },
 
   // 下拉刷新
@@ -264,11 +269,6 @@ Page({
     var summaryBean = e.currentTarget.dataset.item;
     var isgetinto = e.currentTarget.dataset.isgetinto;
     console.log(summaryBean)
-    if (parseInt(isgetinto) == 0){
-      this.setData({ content:'无法访问,因为你还不是该项目成员'})
-      this.entryalert();
-      return false;
-    }
     if (summaryBean.tstate == 3 || summaryBean.tstate == 4){
       if (wx.getStorageSync('tcUserId') != summaryBean.manager){
         var content = '项目已完结，如需操作请联系负责人重启项目'
@@ -279,6 +279,11 @@ Page({
         this.entryalert();
         return false;
       }
+    }
+    if (parseInt(isgetinto) == 0) {
+      this.setData({ content: '无法访问,因为你还不是该项目成员' })
+      this.entryalert();
+      return false;
     }
     wx.navigateTo({
       url: '/pages/subproject/subproject?id=' + id,

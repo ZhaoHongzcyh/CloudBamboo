@@ -3,10 +3,12 @@ page{
   background-color: rgba(245,245,245,1);
 }
 .planname{
+  padding-top: 20rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
   margin-top: 20rpx;
   font-size: 28rpx;
   height: 160rpx;
-  line-height: 160rpx;
   width: 100%;
   color: #666666;
   background-color: white;

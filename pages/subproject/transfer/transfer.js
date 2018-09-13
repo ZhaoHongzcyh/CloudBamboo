@@ -92,7 +92,7 @@ Page({
   transferProject: function (e) {
     var address = app.ip + "tc/taskService/updateTaskManager";
     var item = this.data.transferObj;
-    var quitTask = this.data.exit == 1 ? true:false;
+    var quitTask = this.data.exit == 1 ? 'true':'false';
     var obj = {
       taskId:this.data.taskId,
       managerId:item.resourceId,

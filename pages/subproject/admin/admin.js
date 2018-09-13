@@ -93,7 +93,6 @@ Page({
       adminGroups: adminTeam,
       teamAdminGroups: teamAdmin
     })
-    console.log(this.data)
   },
   
   // 判断是否为非 项目管理员、成员

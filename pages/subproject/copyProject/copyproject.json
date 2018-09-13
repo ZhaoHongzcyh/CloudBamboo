@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "复制项目",
   "usingComponents": {
     "file": "/common/fileList/fileList",
     "popup": "/common/popup/popup",

@@ -427,6 +427,11 @@ Page({
   // 评论任务
   evaluate: function () {
     var address = app.ip + "tc/schedule/itemService/estimateItem";
+    if(this.data.replyContent == null || this.data.replyContent == ""){
+      this.setData({alert:{content:"评论内容为空",state:false}});
+      this.alert();
+      return false;
+    }
     var obj = { id: this.data.taskId, descript: encodeURI(this.data.replyContent)};
     api.request(obj,address,"POST",true).then(res=>{
       console.log("评论");
@@ -435,7 +440,7 @@ Page({
         res.data.data.createDate = res.data.data.createDate.split("T")[0];
         res.data.data.edit = true;
         task.actionList.unshift(res.data.data);
-        this.setData({ task: task, isShowAllAction:true})
+        this.setData({ task: task, isShowAllAction: true, replyContent:""})
       }
       else{
         this.setData({alert:{content:"评论失败"}});

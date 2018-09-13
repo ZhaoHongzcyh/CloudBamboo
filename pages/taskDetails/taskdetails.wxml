@@ -71,7 +71,7 @@
   </view>
   <!-- 评论回复区域 -->
   <view class="reply">
-    <textarea placeholder-class='replyplace' placeholder="回复任务，可以@成员" value="{{replyContent}}" class="replyinput" bindinput="reply" >
+    <textarea placeholder-class='replyplace' placeholder="回复任务" value="{{replyContent}}" class="replyinput" bindinput="reply" >
       
     </textarea>
     <view bindtap="evaluate" class="submit">发布</view>
