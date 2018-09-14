@@ -1,0 +1,31 @@
+/* pages/subproject/chooseProject/chooseproject.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+.switch-team{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #FFFFFF;
+  height: 120rpx;
+  padding: 20rpx 0rpx;
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.companyLogo{
+  margin-left: 40rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+
+.person{
+  flex: 2;
+  font-size: 28rpx;
+  margin-left: 21rpx;
+  color: #333333;
+}
+.radio{
+  margin-right: 30rpx;
+}

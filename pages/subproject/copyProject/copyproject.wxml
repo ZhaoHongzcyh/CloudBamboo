@@ -4,9 +4,20 @@
   <view>
     <textarea class="projectname" bindinput="getProjectName"></textarea>
   </view>
-  <view class="ascription">
+  <view class="ascription" bindtap="chooseProject">
     <view class="projectAcr">项目所属</view>
-    <view class="projectclass">个人项目</view>
+    <view class="projectclass" wx:if="{{summaryBean.parentId == 0 && summaryBean.ownerType != 10000003}}">
+      {{ownerId == null? summaryBean.ownerName:projectOwner.title}}
+    </view>
+    <view class="projectclass" wx:if="{{summaryBean.parentId == 0 && summaryBean.ownerType == 10000003}}">
+      {{ownerId == null? '个人项目':projectOwner.title}}
+    </view>
+    <view class="projectclass" wx:if="{{summaryBean.parentId != 0 && summaryBean.ownerType != 10000003}}">
+      {{ownerId == null? summaryBean.ownerName:projectOwner.title}}
+    </view>
+    <view class="projectclass" wx:if="{{summaryBean.parentId != 0 && summaryBean.ownerType == 10000003}}">
+      {{ownerId == null? '个人项目':projectOwner.title}}
+    </view>
   </view>
 
   <view class="title">复制内容</view>

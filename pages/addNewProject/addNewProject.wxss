@@ -86,6 +86,9 @@
   background-color: #409CF2;
 }
 
+.graycolor{
+  background-color: #999999;
+}
 /* 项目级别 */
 .project-sleve{
   position: fixed;

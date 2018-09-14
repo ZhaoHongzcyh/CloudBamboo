@@ -35,9 +35,9 @@ Page({
   },
 
   // 上拉触底事件
-  onReachBottom: function () {
-    this.loadMore();
-  },
+  // onReachBottom: function () {
+  //   this.loadMore();
+  // },
 
   // 上拉触顶
   loadMore:function(){
@@ -149,6 +149,10 @@ Page({
                 data[i].taskBo.list[j].isInProject = true
               }
               var companyName = data[i].summaryBean.title + '-'
+              if (data[i].taskBo.list[j].summaryBean.managerName == null){
+                data[i].taskBo.list[j].summaryBean.managerName = ""
+                continue;
+              }
               if (data[i].taskBo.list[j].summaryBean.managerName.split(companyName).length == 2){
                 data[i].taskBo.list[j].summaryBean.managerName = data[i].taskBo.list[j].summaryBean.managerName.split(companyName)[1];
               }

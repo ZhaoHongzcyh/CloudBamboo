@@ -15,7 +15,9 @@ Page({
     arcSummaryBeans:null,
     copyScheduleSummary:false,//是否复制计划清单
     copyArc: false,//是否复制文档
-    copyMember: false//是否复制成员
+    copyMember: false,//是否复制成员
+    ownerId:null,//项目所属
+    projectOwner: { ownerId:null,title:'个人项目'}
   },
 
   /**
@@ -72,6 +74,10 @@ Page({
       copyArc: this.data.copyArc.toString(),//是否复制文档
       copyMember: this.data.copyMember.toString()//是否复制成员
     }
+    if(this.data.ownerId != null){
+      obj.ownerId = this.data.ownerId;
+      obj.ownerType= 40010001;
+    }
     console.log(obj);
     // return false;
     api.request(obj,address,"POST",true).then(res=>{
@@ -106,5 +112,16 @@ Page({
   // 是否复制成员
   copyMember: function () {
     this.setData({ copyMember: !this.data.copyMember})
+  },
+
+  // 选择项目所属
+  chooseProject: function () {
+    var summaryBean = this.data.summaryBean;
+    if (summaryBean.parentId != 0 ){
+      return false;
+    }
+    wx.navigateTo({
+      url: '../chooseProject/chooseproject?taskid=' + this.data.taskId + "&ownerid=" + this.data.ownerId,
+    })
   }
 })

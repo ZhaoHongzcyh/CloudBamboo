@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "选择项目所属",
+  "usingComponents": {
+    "companyList": "/common/team/team",
+    "logoinAlert": "/common/logoinAlert/logoinAlert"
+  }
+}

@@ -124,7 +124,8 @@ Page({
     isOpenMenu: false,//是否打开功能区
     isCouldEditProject:false,
     projectMember:null,
-    isShowBtn: false,//是否展示删除项目与退出项目按钮    
+    isShowBtn: false,//是否展示删除项目与退出项目按钮
+    time:{startTime:null,endTime:null,createTime:null}    
   },
 
   /**
@@ -784,6 +785,11 @@ Page({
         var file = handle.addFolder(app,api,res.data.data);
         file[0].isReadOnly = true;
         fileList.unshift(file[0]);
+      }
+      else if(res.data.code == 414){
+        this.setData({alert:{content:res.data.message}});
+        this.alert();
+        
       }
       this.setData({ fileList: fileList, isShowAddFile:false})
       this.newFolder.hide();
@@ -1470,6 +1476,7 @@ Page({
   // ----------------------------------------------------------项目设置相关-----------------------------------------------------------
   // 获取项目详细信息
   getProjectInfo: function () {
+    var time = this.data.time;
     // 进项权限判定，判定用户是否可以编辑项目信息
     var permission = this.handlePower();
     this.setData({ isCouldEditProject:permission});
@@ -1481,16 +1488,21 @@ Page({
       console.log(res);
       if(res.data.code == 200 && res.data.result){
         var project = res.data.data.summaryBean;
-        project.createDate = project.createDate.split("T")[0];
+        time.createTime = project.createDate
+        project.createDate = this.timeTurn(project.createDate )
         if(project.startDate != null){
+          time.startTime = project.startDate.split("T")[1];
           project.startDate = project.startDate.split("T")[0];
+          
         }
         if (project.endDate != null){
+          time.endTime = project.endDate.split("T")[1];
           project.endDate = project.endDate.split("T")[0];
         }
         this.setData({
           project:res.data.data.summaryBean,
-          projectMember: res.data.data.memberBeans
+          projectMember: res.data.data.memberBeans,
+          time:time
         })
 
         // 通过权限，决定渲染不同的按钮
@@ -1637,19 +1649,20 @@ Page({
 
   // 处理因为时间格式的原因，导致无法正确发送数据
   handleTimeFormat: function (summaryBean) {
+    var time = this.data.time;
     summaryBean = JSON.stringify(summaryBean);
     summaryBean = JSON.parse(summaryBean);
     console.log(summaryBean);
     if(summaryBean.startDate != null){
-      summaryBean.startDate = summaryBean.startDate + api.getNowTime();
+      summaryBean.startDate = summaryBean.startDate + "T" + time.startTime //api.getNowTime();
     }
     if(summaryBean.endDate != undefined){
-      summaryBean.endDate = summaryBean.endDate + api.getNowTime();
+      summaryBean.endDate = summaryBean.endDate + "T" + time.endTime //api.getNowTime();
     }
     else{
       delete summaryBean.endDate;
     }
-    summaryBean.createDate = summaryBean.createDate + api.getNowTime();
+    summaryBean.createDate = time.createTime;//+ api.getNowTime();
     return summaryBean;
   },
 
@@ -1673,5 +1686,11 @@ Page({
       this.setData({ alert: { content: "退出失败" } });
       this.alert();
     })
+  },
+
+  // 时间转化
+  timeTurn: function (time) {
+    var d = new Date(time);
+  return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(); 
   }
 })

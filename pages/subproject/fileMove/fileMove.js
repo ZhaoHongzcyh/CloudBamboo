@@ -140,7 +140,7 @@ Page({
   // 新增加一个文件夹
   newFolderName: function (e) {
     console.log(e);
-    var folderName = e.detail.folderName;
+    var folderName = encodeURI(e.detail.folderName);
     var fileList = this.data.fileList;
     var address = app.ip + "tc/taskService/addArcFolder";
     var obj = { parentId: this.data.parentId, taskId: this.data.taskId, folder: folderName }

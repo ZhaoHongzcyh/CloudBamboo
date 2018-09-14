@@ -1,13 +1,13 @@
 <!--pages/subproject/advanceSet/advanceset.wxml-->
 <view wx:if="{{!isShowState}}">
-  <view class="function">
+  <view class="function" wx:if="{{summaryBean.parentId == 0}}">
     <view class="talk">
       归档已完成的项目，成员将无法进入已完结项目；你仍然可以正常访问项目
     </view>
     <view class="btn" data-click="{{true}}" bindtap="endProject">完结项目</view>
   </view>
 
-  <view class="function">
+  <view class="function" wx:if="{{summaryBean.parentId == 0}}">
     <view class="talk">
       中止进行中项目，成员将无法进入；你可以在设置中重启该项目
     </view>

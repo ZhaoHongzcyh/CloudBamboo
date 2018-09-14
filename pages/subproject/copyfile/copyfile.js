@@ -141,6 +141,10 @@ Page({
         file[0].isReadOnly = true;
         cloudDiskList.unshift(file[0]);
       }
+      else if(res.data.code == 414){
+        this.setData({alert:{content:res.data.message}});
+        this.alert();
+      }
       this.setData({ cloudDiskList: cloudDiskList})
       this.newFolder.hide();
     })

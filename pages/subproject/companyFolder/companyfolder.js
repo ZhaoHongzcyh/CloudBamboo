@@ -121,6 +121,10 @@ Page({
         var file = handle.addFolder(app, api, res.data.data);
         fileData.unshift(file[0]);
       }
+      else if(res.data.code == 414){
+        this.setData({alert:{content:res.data.message}});
+        this.alert();
+      }
       this.setData({fileData});
       this.newFolder.hide();
     })
@@ -131,7 +135,7 @@ Page({
     var address = app.ip + "tc/taskService/copyArc";
     var parentIdStack = this.data.parentIdStack;
     var length = parentIdStack.length;
-    var targetFolder = length == 0 ? this.data.rootId : parentIdStack[length - 1].parentId;
+    var targetFolder = length == 1 ? this.data.rootId : parentIdStack[length - 1].parentId;
     var head = { targetFolder};
     var arcIds = this.data.copyFile;
     api.customRequest(head, arcIds,address,"POST",true).then(res=>{

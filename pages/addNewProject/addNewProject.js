@@ -27,7 +27,8 @@ Page({
         role: 1,//1:管理员，0：普通用户
         head: "./img/head.png"//头像路径
       }
-    ]
+    ],
+    sureAdd:{state:1,title:'完成'}
   },
   onLoad: function () {
     // 弹框
@@ -88,6 +89,9 @@ Page({
   },
   // 发送新建项目请求
   addNewProject:function(e){
+    if(this.data.sureAdd.state == 0){
+      return false;
+    }
     var address = app.ip + "tc/taskService/addOrUpdateTask";
     var endTime = "";
     if(this.data.endDate != ""){
@@ -125,30 +129,18 @@ Page({
     if(this.data.title == "" || this.data.title == null){
       return false;
     }
-    
+    this.setData({sureAdd:{state:0,title:'请稍后...'}})
     api.request(obj,address,"post",false).then(res=>{
+      this.setData({ sureAdd: { state: 1, title: '完成' } })
       this.handleAddEnd(res);
     }).catch(e=>{
       console.log(e);
-      
     })
   },
   // 项目添加成功之后
   handleAddEnd:function(res){
     if(res.data.code == 200 && res.data.result){
-      // 更新全局导航数据
-      var url = app.globalData.tabbar.list;
-      for(var i = 0; i < url.length; i++){
-          if(i == 2){
-            url[i].selected = true
-          }
-          else{
-            url[i].selected = false
-          }
-      }
-      app.globalData.tabbar.list = url;
-      app.editTabBar(1);
-      wx.redirectTo({
+      wx.switchTab({
         url: '/pages/project/project',
       })
     }
@@ -213,9 +205,12 @@ Page({
   },
   // 请求项目所属列表数据
   getProjectList: function () {
-    var obj = {};
+    var obj = {
+      taskId: wx.getStorageSync("defaultTaskTeam")
+    }
     var address = app.ip + 'tc/taskTeamService/findTaskTeam'
     api.request(obj, address, "post", true).then(res => {
+      console.log(res);
       var data = res.data.data.list
       var teamId = wx.getStorageSync("defaultTaskTeam");
       data.unshift({

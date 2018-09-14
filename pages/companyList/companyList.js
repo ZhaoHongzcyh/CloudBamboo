@@ -25,13 +25,6 @@ Page({
     api.request(obj, address, "post", true).then(res => {
       console.log("团队");
       console.log(res);
-      // session 过期 页面重定向
-      if(res.data.code == 402){
-        wx.redirectTo({
-          url: '/pages/index/index',
-        })
-      }
-      
       if (res.data.data.list.length > 0){
         var ary = res.data.data.list;
         ary = api.clearCompanyList(ary);

@@ -60,8 +60,8 @@
     </view>
   </view>
   <!-- 完成按钮 -->
-  <view class="add-company-btn" bindtap="addNewProject">
-    完成
+  <view class="add-company-btn {{sureAdd.state == 1? '' : 'graycolor'}}" bindtap="addNewProject">
+    {{sureAdd.title}}
   </view>
   <!-- app下载弹框 -->
   <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
@@ -84,7 +84,7 @@
         <view class="company-name">{{item.title}}</view>
         <view class="chart" wx:if="{{index != 0}}">
           <view class="charter">负责人:</view>
-          <view class="charter">{{item.ownerName}}</view>
+          <view class="charter">{{item.managerName}}</view>
         </view>
       </view>
       <view class="radio-area" wx:if="{{item.checked && showProjectGroup}}">

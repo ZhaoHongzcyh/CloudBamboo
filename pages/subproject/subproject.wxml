@@ -226,7 +226,8 @@
         <view class="singlemember" data-item="{{item}}" bindtap="getPersonInfo">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userhead"></image>
           <view class="username">{{item.personName}}</view>
-          <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==1 || item.relationType==12 || item.relationType==13}}"></image>
+          <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==1 || item.relationType==13}}"></image>
+          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==12}}"></image>
         </view>
       </block>
     </view>
@@ -280,8 +281,8 @@
       <view class="editproject" wx:if="{{isShowBtn}}"> {{'<'}} </view>
     </view>
     <!-- 项目描述 -->
-    <view class="projectdescript">
-      {{project.description==null?'未设置':project.description}}
+    <view class="projectdescript" wx:if="{{project.parentId == 0}}">
+      {{(project.description==null || project.description == "")?'未设置':project.description}}
     </view>
     <!-- 项目成员头像 -->
     <view class="projectmember" wx:if="{{false}}">
@@ -292,7 +293,7 @@
     </view>
     <!-- 项目信息 -->
     <view>
-      <view class="singlelist" bindtap="openToolbarMenu">
+      <view class="singlelist" bindtap="openToolbarMenu" wx:if="{{project.parentId == 0}}">
         <view class="projectLevel">项目级别</view>
         <view class="descript">
           {{project.important==0? '普通':''}}
@@ -317,7 +318,7 @@
           </view>
         </picker>
       </view>
-      <view class="singlelist" bindtap="setProjectAscription" wx:if="{{isShowBtn}}">
+      <view class="singlelist" bindtap="setProjectAscription" wx:if="{{isShowBtn && project.parentId == 0}}">
         <view class="projectLevel">项目所属</view>
         <view class="descript" wx:if="{{project.ownerType != 10000003}}">
           {{project.ownerName}}
@@ -338,6 +339,9 @@
       <view class="singlelist" bindtap="adminTeam">
         <view class="projectLevel">管理员组</view>
         <view class="moreset">
+          <block wx:for="{{projectMember}}">
+            <image class="adminGroupImg" wx:if="{{item.relationType == 12 && index < 5}}" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}"></image>
+          </block>
           >
         </view>
       </view>

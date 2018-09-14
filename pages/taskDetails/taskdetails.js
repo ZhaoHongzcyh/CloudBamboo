@@ -32,7 +32,8 @@ Page({
     showfile:{
       state:false,
       data:null
-    }//需要被展示的文件
+    },//需要被展示的文件
+    isShowMenuBtn:false
   },
 
   /**
@@ -61,6 +62,8 @@ Page({
 
   // 查询权限数据
   searchPowerData: function (id) {
+    var isShowMenuBtn = false;
+    var userid = wx.getStorageSync('tcUserId');
     var address = app.ip + "tc/taskService/findTaskBOById";
     api.request({ taskId: id }, address, "POST", true).then(res => {
       console.log("项目权限");
@@ -72,7 +75,15 @@ Page({
           adminGroups: summaryBean.adminGroups,
           teamAdminGroups: summaryBean.teamAdminGroups
         }
-        this.setData({ power });
+        // 权限判定
+        res.data.data.memberBeans.map((item,index)=>{
+          if (item.relationType == 1 || item.relationType == 12 || item.relationType == 13 ){
+            if (item.resourceId == userid){
+              isShowMenuBtn = true;
+            }
+          }
+        })
+        this.setData({ power, isShowMenuBtn });
       }
       else {
         console.log("异常")

@@ -2,13 +2,13 @@
 <view>
   <view class="task-head">
     <view class="headtitle">{{task.scheduleSummaryBean.title}}</view>
-    <view class="edit taskbtn" bindtap="edittask">
+    <view class="edit taskbtn" bindtap="edittask" wx:if="{{isShowMenuBtn}}">
       <image src="./img/edit.png" class="headimg"></image>
     </view>
-    <view class="taskbtn" bindtap="copytask">
+    <view class="taskbtn" bindtap="copytask" wx:if="{{isShowMenuBtn}}">
       <image src="./img/copy.png" class="headimg"></image>
     </view>
-    <view class="taskbtn" bindtap="openConfirm">
+    <view class="taskbtn" bindtap="openConfirm" wx:if="{{isShowMenuBtn}}">
       <image src="./img/delete.png" class="headimg"></image>
     </view>
   </view>
