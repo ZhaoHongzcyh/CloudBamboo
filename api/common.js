@@ -16,7 +16,7 @@ var request = function(data={},url="localhost",method="post",bool){
                if(res.data.code == 402){
                  app.globalData.sessionoverdue = true;
                   wx.switchTab({
-                    url: '/pages/myself/myself'
+                    url: '/pages/index/index'
                   })
                 }
              }
@@ -44,7 +44,7 @@ var request = function(data={},url="localhost",method="post",bool){
                if (res.data.code == 402) {
                  app.globalData.sessionoverdue = true;
                  wx.switchTab({
-                   url: '/pages/myself/myself'
+                   url: '/pages/index/index'
                  })
                }
              }
@@ -76,7 +76,7 @@ var sendDataByBody = function (data,url,method,isCheck=true) {
           if (res.data.code == 402) {
             app.globalData.sessionoverdue = true;
             wx.switchTab({
-              url: '/pages/myself/myself'
+              url: '/pages/index/index'
             })
           }
         }
@@ -115,7 +115,7 @@ var customRequest = function (head,body,address,method="post",bool=true) {
           console.log("session过期")
           app.globalData.sessionoverdue = true;
           wx.switchTab({
-            url: '/pages/myself/myself'
+            url: '/pages/index/index'
           })
         }
         else {

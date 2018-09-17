@@ -2,8 +2,8 @@ const app = getApp();
 const api = require("../../api/common.js");
 Page({
   data:{
-    start:1,//当前需要加载的页数
-    pageSize:20,//每一页加载的数据长度
+    start:0,//当前需要加载的页数
+    pageSize:990,//每一页加载的数据长度
     loadMore:false,//是否加载更多
     url:{},//脚步导航数据
     userId: wx.getStorageSync("tcUserId"),//用于计算用户是否在某项目中
@@ -22,10 +22,16 @@ Page({
   
   onShow: function () {
     if (this.data.urlLine){
-      this.getProjectCompany();
+      wx.startPullDownRefresh({
+        complete: () => { this.getProjectCompany();}
+      })
+      
     }
     else{
-      this.getProjectPerson();
+      wx.startPullDownRefresh({
+        complete: () => { this.getProjectPerson(); }
+      })
+      
     }
   },
 
@@ -105,7 +111,11 @@ Page({
       this.setData({
         list: this.data.companyProjectList
       })
-      obj = {start:0,pageSize:this.data.start * this.data.pageSize};
+      obj = { 
+        start: 0, 
+        pageSize: this.data.start * this.data.pageSize, 
+        dateType:1
+        };
     }
     api.request(obj,address,"post",true).then(res=>{
       console.log("公司项目")

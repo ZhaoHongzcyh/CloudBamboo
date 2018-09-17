@@ -31,11 +31,6 @@ Page({
     this.popup.showPopup()
   },
 
-  // 获取新建文件夹名称
-  getFolderName: function (e) {
-    var value = e.detail.value;
-  },
-
   // 新建文件夹弹框
   newFolderAlert: function () {
     this.newFolder.showModel();
@@ -105,8 +100,34 @@ Page({
     })
   },
 
+  // 确定是否输入文件夹名称
+  isInputFolderName: function (folderName) {
+    if (folderName == null || folderName == "") {
+      this.setData({ alert: { content: '文件夹名称不能为空' } });
+      this.alert();
+      return false;
+    }
+    else {
+      var reg = /\s/img;
+      var length = folderName.split("").length;
+      var spacing = [];
+      spacing = folderName.match(reg);
+      if (spacing != null && length == spacing.length) {
+        this.setData({ alert: { content: '文件夹名称不能为空' } });
+        this.alert();
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+  },
+
   // 新建文件夹
   newFolderName: function (e) {
+    if(!this.isInputFolderName(e.detail.folderName)){
+      return false;
+    }
     var parentIdStack = this.data.parentIdStack;
     var address = app.ip + "tc/taskService/addArcFolder";
     var length = parentIdStack.length;

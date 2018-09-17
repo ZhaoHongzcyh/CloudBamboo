@@ -54,6 +54,7 @@
 }
 .actionname{
   font-size: 28rpx;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   color: #333333;
 }
 .actioninfo{

@@ -63,8 +63,34 @@ Page({
     })
   },
 
+  // 确定是否输入项目名称
+  isInputProjectName: function (projectName) {
+    if (projectName == null || projectName == "") {
+      this.setData({ alert: { content: '项目名称不能为空' } });
+      this.alert();
+      return false;
+    }
+    else {
+      var reg = /\s/img;
+      var length = projectName.split("").length;
+      var spacing = [];
+      spacing = projectName.match(reg);
+      if (spacing != null && length == spacing.length) {
+        this.setData({ alert: { content: '项目名称不能为空' } });
+        this.alert();
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+  },
+
   // 复制项目
   copyProject: function () {
+    if (!this.isInputProjectName(this.data.name)){
+      return false;
+    }
     var address = app.ip + "tc/taskService/copyTask";
     var obj = {
       taskId: this.data.taskId,

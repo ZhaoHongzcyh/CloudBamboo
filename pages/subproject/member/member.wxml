@@ -29,18 +29,18 @@
       <image src="/pages/cloudDisk/img/searchbtn.png" class="searchbtn"></image>
       <input type="text" placeholder='搜索联系人' class="searchinput" bindinput="matchSearchContent" placeholder-class='placeholder'/>
     </view>
-    <view data-item="{{item}}" wx:for="{{memberBeanList}}" data-index="{{index}}" class="singlemember" bindtap="delMember" wx:if="{{item.relationType != 12 && item.relationType != 13 && item.relationType != 1}}">
+    <view data-item="{{item}}" wx:for="{{memberBeanList}}" data-index="{{index}}" class="singlemember" bindtap="openConfirm" wx:if="{{item.relationType != 12 && item.relationType != 13 && item.relationType != 1}}">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="deluserphoto"></image>
           <view class="delusername">{{item.personName}}</view>
           <view class="radio delradio">
             <view class="delline"></view>
           </view>
         </view>
-      
-      <!-- 无操作人员 -->
+  </view>
+  <!-- 无操作人员 -->
       <view class="nopeople" wx:if="{{memberBeanList.length == 0}}">
         <image class="nopeopleimg" src="./img/nopeople.png"></image>
         <view>没有可操作人员</view>
       </view>
-  </view>
+  <confirm id="confirm" bindsure="delMember" title="{{ {content:'确认删除'+delSingle.personName} }}"></confirm>
 </view>

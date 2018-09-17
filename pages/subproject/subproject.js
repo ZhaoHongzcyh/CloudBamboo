@@ -681,7 +681,7 @@ Page({
     var delPlanInfo = this.data.delPlanInfo;
     if (needEditPlanId == undefined) { needEditPlanId = null; delPlanInfo = null;}
     else{
-      delPlanInfo = {title:title,content:"确认要删除任务计划 " + title +" ?,将同时删除其中包含的任务计划"}
+      delPlanInfo = {title:title,content:"确认要删除任务计划 " + title +" ?将同时删除其中包含的任务计划"}
     }
     this.setData({ isShowEditPlan: !this.data.isShowEditPlan, needEditPlanId: needEditPlanId, delPlanInfo: delPlanInfo})
   },
@@ -771,9 +771,35 @@ Page({
     this.setData({ isShowAddFile: !this.data.isShowAddFile})
   },
 
+  // 确定是否输入文件夹名称
+  isInputFolderName: function (folderName) {
+    if (folderName == null || folderName == "") {
+      this.setData({ alert: { content: '文件夹名称不能为空' } });
+      this.alert();
+      return false;
+    }
+    else {
+      var reg = /\s/img;
+      var length = folderName.split("").length;
+      var spacing = [];
+      spacing = folderName.match(reg);
+      if (spacing != null && length == spacing.length) {
+        this.setData({ alert: { content: '文件夹名称不能为空' } });
+        this.alert();
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+  },
+
   // 新增加一个文件夹
   newFolderName: function (e) {
     console.log(e);
+    if(!this.isInputFolderName(e.detail.folderName)){
+      return false;
+    }
     var folderName = encodeURI(e.detail.folderName);
     var fileList = this.data.fileList;
     var address = app.ip + "tc/taskService/addArcFolder";
@@ -1418,7 +1444,7 @@ Page({
     this.setData({ isShowUpImg: !this.data.isShowUpImg})
   },
   
-  // ------------------------------------------------------------项目成员相关-----------------------------------------------------------
+  // ---------------------------------------------------------项目成员相关-----------------------------------------------------------
   getProjectMember: function () {
     var address = app.ip + "tc/taskService/taskMemberManager";
     var obj = {taskId:this.data.taskId};
@@ -1489,6 +1515,8 @@ Page({
       if(res.data.code == 200 && res.data.result){
         var project = res.data.data.summaryBean;
         time.createTime = project.createDate
+        console.log("返回时间")
+        // console.log(this.timeTurn(project.createDate));
         project.createDate = this.timeTurn(project.createDate )
         if(project.startDate != null){
           time.startTime = project.startDate.split("T")[1];
@@ -1533,26 +1561,31 @@ Page({
 
   // 设置项目开始时间
   setProjectStartDate: function (e) {
+    var time = this.data.time;
     // 判定是否为管理员与项目负责人
     if (!this.data.isShowBtn) {
       return false;
     }
+    time.startTime = null;
     var project = this.data.project;
     project.startDate = e.detail.value;
-    this.setData({project})
+    this.setData({project,time})
     console.log(e);
     var obj = this.handleTimeFormat(project);
     this.saveSummaryBean(obj);
   },
+
   // 设置项目结束时间
   setProjectEndDate: function (e) {
     // 判定是否为管理员与项目负责人
     if (!this.data.isShowBtn) {
       return false;
     }
+    var time = this.data.time;
+    time.endTime = null;
     var project = this.data.project;
     project.endDate = e.detail.value;
-    this.setData({project})
+    this.setData({project,time})
     var obj = this.handleTimeFormat(project);
     this.saveSummaryBean(obj);
     console.log(project);
@@ -1654,9 +1687,15 @@ Page({
     summaryBean = JSON.parse(summaryBean);
     console.log(summaryBean);
     if(summaryBean.startDate != null){
+      if(time.startTime == null){
+        time.startTime = "00:00:00.000+0800"
+      }
       summaryBean.startDate = summaryBean.startDate + "T" + time.startTime //api.getNowTime();
     }
-    if(summaryBean.endDate != undefined){
+    if (summaryBean.endDate != undefined && summaryBean.endDate != null){
+      if(time.endTime == null){
+        time.endTime = "00:00:00.000+0800";
+      }
       summaryBean.endDate = summaryBean.endDate + "T" + time.endTime //api.getNowTime();
     }
     else{
@@ -1690,7 +1729,7 @@ Page({
 
   // 时间转化
   timeTurn: function (time) {
-    var d = new Date(time);
-  return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(); 
+    time = time.split("T")[0] + " " + time.split("T")[1].split(".")[0];
+    return time;
   }
 })

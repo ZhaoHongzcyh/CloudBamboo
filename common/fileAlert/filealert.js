@@ -27,7 +27,7 @@ Component({
    */
   methods: {
     hide: function (){
-      this.setData({isShowModel:false})
+      this.setData({ isShowModel: false, value:null})
     },
     showModel: function () {
       this.setData({isShowModel:true})

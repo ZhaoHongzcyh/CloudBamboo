@@ -17,7 +17,8 @@ Page({
     matchMember:null,//成员列表
     choosemember:[],
     summary:null,
-    participant:[]
+    participant:[],
+    delSingle:null//被删除的成员对象
   },
 
   /**
@@ -30,6 +31,7 @@ Page({
     })
     app.globalData.tasknum = 2;
     this.popup = this.selectComponent("#popup");
+    this.confirm = this.selectComponent("#confirm");
   },
 
   onShow: function () {
@@ -46,6 +48,13 @@ Page({
   // 弹框
   alert: function () {
     this.popup.showPopup()
+  },
+
+  // 打开对话弹框
+  openConfirm: function (e) {
+    var single = e.currentTarget.dataset.item;
+    this.setData({ delSingle: single })
+    this.confirm.show();
   },
 
   // 获取项目信息
@@ -108,6 +117,7 @@ Page({
       console.log("项目成员");
       console.log(res);
       if(res.data.code == 200 && res.data.result){
+        
         this.setData({
           memberBeanList: res.data.data.memberBeanList,
           matchMember:res.data.data.memberBeanList
@@ -194,22 +204,38 @@ Page({
   // 删除成员
   delMember: function (e) {
     var address = app.ip + "tc/taskService/addOrUpdateTask";
-    var single = e.currentTarget.dataset.item;
+    var single = this.data.delSingle;
     var memberBeanList = this.data.memberBeanList;
     var summaryBean = this.data.summary;
     var participant = this.data.participant;
+    var matchMember = this.data.matchMember;
     participant.map((item,index)=>{
       if (item == single.resourceId){
         participant.splice(index,1);
       }
     })
     summaryBean.participant = participant;
+    console.log(single)
     var obj = { summaryBean };
     api.sendDataByBody(obj,address,"POST",true).then(res=>{
       console.log("删除结果");
       console.log(res);
       if(res.data.code == 200 && res.data.result){
-        wx.navigateBack();
+        // wx.navigateBack();
+        memberBeanList.map((item,num)=>{
+          if (item.resourceId == single.resourceId){
+            console.log("想等")
+            memberBeanList.splice(num,1)
+          }
+        })
+        matchMember.map((item,num)=>{
+          if (item.resourceId == single.resourceId) {
+            console.log("想等")
+            matchMember.splice(num, 1)
+          }
+        })
+        this.setData({ summaryBean, memberBeanList, matchMember});
+        this.confirm.hide();
       }
       else{
         // 弹框提示删除失败

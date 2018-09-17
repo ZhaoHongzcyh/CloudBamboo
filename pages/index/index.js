@@ -1,652 +1,465 @@
-//index.js
-//获取应用实例
-const app = getApp()
-const util = require("./MD5.js");
+const app = getApp();
 const api = require("../../api/common.js");
+const util = require("../../utils/index/MD5.js");
 Page({
-  data: {
-    opendid:null,//小程序opendid
-    VerificatResult:true,//小程序code验证结果
-    share:false,//是否通过分享登录
-    shareScene:{},//分享场景信息
-    logoinCode:null,//微信登录code
-    logoinState:true,//true:代表注册，false:渲染注册
-    dataRole:1,//1:登录界面，0：注册界面
-    registerAlert:{
-      state:0,
-      content:""
-    },//0：默认，1:验证码获取失败弹框，2：注册失败弹框
-    logoinAlert:{
-      state:0,
-      content:""
+  data:{
+    switchMyselfLogoin:false,//登陆模式与任务模式切换
+    app:app,
+    headimg: app.ip + "tc/spaceService/showPersonIcon/"+ wx.getStorageSync("tcUserId") + "/100/100",
+    url:{},//导航数据
+    userinfo:{
+      name:""
     },
-    isLogoing:true,//是否正在登录中
-    logoinPlaceholder:{
-      phone:true,
-      password:true
-    },
-    registerPlaceholder:{
-      phone:true,
-      verification:true,
-      password:true
-    },
+    list:[],//待处理任务
+
+    // -------------------------------------------------------------登录注册模块数据-----------------------------------------
+    logoinState: true,//true:代表注册，false:渲染注册
     logoin:{
-      phone:"",
-      password:""
+      phone:null,
+      password:null
     },
-    register:{
-      phone:"",
-      verification:"",
-      password:""
+    register: {
+      phone: "",
+      verification: "",
+      password: ""
     },
-    verification:"",//返回的验证码
-    isShowlogoinPwd:false,//登陆密码是否可见
-    isShowRegisterPwd:false,//注册密码是否可见
     isClickLogoinBtn:false,//登录按钮是否可点击
-    isClickRegisterBtn:false,//注册按钮是否可点击
-    readCondiction:true,//用户是否勾选服务协议
-    countTime: 60,//倒计时间隔
-    verificationBtnText:'获取验证码',//验证码按钮文字
-    registerTime:null,//验证码倒计时
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    verificationBtnText:'获取验证码',
+    readCondiction:true,//是否勾选服务协议
+    countTime:60,//倒计时
+    alertTitle:{state:0,title:null},
+    msgCode:null,//短信验证码
+    isShowRegisterPwd: false,//注册密码可见状态
+    isShowlogoinPwd: false,//登录密码可见状态
+    logoinCode:null,//小程序登陆code验证码
+    opendid:null,//微信与协作绑定的凭证id
+    share: false,//是否通过分享登录
+    shareScene: {}//分享场景信息
   },
-  onLoad:function(){
-    //获得popup组件
+
+
+  onLoad:function(options){
     this.popup = this.selectComponent("#popup");
-    if (!app.globalData.isByAppEntry){
-      //this.getLogoinCode();//验证用户是否绑定协作
-    }
-    else{
-      this.setData({
-        VerificatResult:true
-      })
-      // 请求链接分享所需要的数据
-      this.getShareData();
-    }
-    
   },
-  codeError:function(){
-    this.autoAddLogoin();
-    this.setData({
-      VerificatResult:true
-    })
+
+  onShow: function (options) {
+    this.getEntryInfo();
   },
+
+  // 判断用户是通过哪一个通道进入系统
+  getEntryInfo: function () {
+    // return false;
+    var sessionoverdue = app.globalData.sessionoverdue;
+    console.log("通道判断")
+    // 判断用户是否通过分享进入
+    if (!app.globalData.isByAppEntry) {
+      console.log("分享进入")
+      // return false;
+      // 判断session是否过期
+      if (sessionoverdue){
+        wx.hideTabBar({})
+        console.log("不现实")
+        this.setData({ switchMyselfLogoin: false });
+        this.getLogoinCode();//验证用户是否绑定协作
+      }
+      else{
+        this.popup = this.selectComponent("#popup");
+        console.log("显示")
+        wx.showTabBar({});
+        this.setData({ switchMyselfLogoin: true });
+        this.getTask();
+      }
+    }
+  },
+
   // 请求链接分享的数据
-  getShareData:function(){
+  getShareData: function () {
     var address = app.ip + "tc/taskDepartmentService/dpmmInvite/" + app.globalData.Invitation.url;
     api.request({}, address, "post", true).then(res => {
       if (res.data.code == 200 && res.data.result) {
         this.setData({
           shareScene: res.data.data,
-          share:true
+          share: true
         })
       }
     }).catch(e => {
       console.log(e);
     })
   },
-  // 自动填写登录信息
-  autoAddLogoin:function(){
-    var info = api.autoAddLogoinInfo();
-    
-    if(info != false){
-      this.setData({
-        logoin:info,
-        isClickLogoinBtn:true,
-        logoinPlaceholder: {
-          phone: false,
-          password: false
+
+  // 打开app下载弹框
+  alert: function () {
+    this.popup.showPopup();
+  },
+
+  // 请求用户详细信息
+  getUserInfo:function(){
+    var address = app.ip + "tw/userService/getUserInfo";
+    api.request({},address,"post",true).then(res=>{
+      if(res.data.code == 401 && !res.data.result){
+        this.getLogoinCode();
+      }
+      else{
+        var userinfo = {
+          name: res.data.data.curUser.pname
         }
+        this.setData({
+          userinfo: userinfo
+        })
+      }
+      wx.stopPullDownRefresh()
+    })
+  },
+  // 请求任务
+  getTask:function(){
+    var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
+    api.request({},address,"post",true).then(res=>{
+      if(!res.data.result && res.data.code != 200){
+        this.setData({ switchMyselfLogoin:false});
+        this.getLogoinCode();
+      }
+      else{
+        var list = api.handleTask(res);
+        this.setData({
+          list: list
+        })
+      }
+      
+      // 请求用户信息
+      if(res.data.code == 200 && res.data.result){
+        this.getUserInfo();
+      }
+    }).catch(e=>{
+      console.log(e);
+    })
+  },
+
+  // 下拉刷新
+  onPullDownRefresh: function (e) {
+    this.onShow();
+    this.setData({
+      headimg: app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"
+    })
+  },
+
+  // 点击状态栏的弹框
+  radioAlert:function(e){
+    console.log(e);
+  },
+
+  // ---------------------------------------登录注册模块---------------------------------------------
+
+  // 登录与注册路由切换
+  switchUrl: function (e) {
+    var data = e.currentTarget.dataset.logoin;
+    var logoinState = true;
+    if(data != 1){
+      logoinState = false;
+    }
+    this.setData({ logoinState})
+  },
+
+  // 获取用户登录信息
+  getLogoInfo: function (e) {
+    var role = e.currentTarget.dataset.role;
+    var logoin = this.data.logoin;
+    var value = e.detail.value;
+    // 设置登录账号信息
+    if(role == "user"){
+      logoin.phone = value;
+    }
+    else{
+      logoin.password = value;
+    }
+    this.setData({logoin});
+    this.validatorLogoinInfo(logoin)
+  },
+
+  // 检查输入的登录信息是否合法
+  validatorLogoinInfo: function (logoin) {
+    var phoneReg = /^1\d{10}$/img;
+    var pwdReg = /^\w{6,20}$/
+    var validatorPhone = phoneReg.test(logoin.phone);
+    var validatorPwd = pwdReg.test(logoin.password);
+    var isClickLogoinBtn = false
+    if (validatorPhone && validatorPwd){
+      isClickLogoinBtn = true;
+    }
+    this.setData({isClickLogoinBtn})
+  },
+
+  // 获取用户注册的信息
+  getRegisterInfo: function (e) {
+    var register = this.data.register;
+    var role = e.currentTarget.dataset.role;
+    var value = e.detail.value;
+    if (role == "phone"){
+      register.phone = value;
+    }
+    else if (role == "verification"){
+      register.verification = value;
+    }
+    else if (role == "password"){
+      register.password = value;
+    }
+    this.setData({ register})
+    this.validatorRegisterInfo()
+  },
+
+  // 检查输入的注册信息是否合法
+  validatorRegisterInfo: function () {
+    var register = this.data.register;
+    var phoneReg = /^1\d{10}$/img;
+    var verificationReg = /^\w{4,8}$/;
+    var pwdReg = /^\w{6,20}$/;
+    var validatorPhone = phoneReg.test(register.phone);
+    var validatorPwd = pwdReg.test(register.password);
+    var validatorVerification = verificationReg.test(register.verification);
+    var isClickRegisterBtn = false;
+    if (validatorPhone && validatorPwd && validatorVerification && this.data.readCondiction) {
+      isClickRegisterBtn = true;
+    }
+    this.setData({ isClickRegisterBtn})
+  },
+
+  // 切换勾选协议
+  switchCondiction: function () {
+    var readCondiction = !this.data.readCondiction;
+    this.setData({ readCondiction})
+    this.validatorRegisterInfo();
+  },
+
+  // 验证电话号码格式是否正确
+  validatePhoneFormat: function (phone) {
+    var phoneReg = /^1\d{10}$/img;
+    return phoneReg.test(phone);
+  },
+
+  // 验证码倒计时
+  countDown: function () {
+    var countTime = this.data.countTime;
+    this.setText();
+    if(countTime < 0){
+      this.setData({countTime:60})
+    }
+    else{
+      setTimeout(() => {
+        countTime = countTime - 1;
+        this.setData({ countTime });
+        this.countDown()
+      }, 1000)
+    }
+  },
+
+  // 提获取验证码按钮设置文字
+  setText: function () {
+    var countTime = this.data.countTime;
+    var verificationBtnText = countTime + "s后重发";
+    if(countTime < 0){
+      verificationBtnText = '获取验证码';
+    }
+    this.setData({ verificationBtnText})
+  },
+
+  // 获取验证码请求
+  getCode: function () {
+    var register = this.data.register;
+    var validator = this.validatePhoneFormat(register.phone);
+    if (!validator){
+      this.setData({alertTitle:{state:1,title:'手机号格式错误'}})
+      this.layOutHideAlert(1800)
+    }
+    else{
+      if(this.data.countTime != 60){
+        return false;
+      }
+      else{
+        this.sendGetCodeRequest();
+      }
+    }
+  },
+
+  // 发起验证码请求
+  sendGetCodeRequest: function () {
+    var address = app.ip + "neteasy/sms/sendCode";
+    var phone = this.data.register.phone;
+    var obj = {
+      mobile: phone,
+      typeFlag: 100
+    };
+    api.request(obj, address, "post", true).then(res => {
+      console.log(res);
+      if (res.statusCode == 200 && res.data.result) {
+        console.log(res);
+        this.setData({ msgCode: res.data.data})
+        this.countDown();
+      }
+      else{
+        this.setData({alertTitle:{state:1,title:res.data.message}});
+        this.layOutHideAlert(1800);
+      }
+    }).catch(e=>{
+      this.setData({ alertTitle: { state: 1, title: '网络错误,稍后再试' } });
+      this.layOutHideAlert(1800);
+    })
+  },
+
+  // 核对注册信息是否完整
+  checkRegisterInfo: function () {
+    var isClickRegisterBtn = this.data.isClickRegisterBtn;
+    var register = this.data.register;
+    if (!isClickRegisterBtn){
+      this.setData({alertTitle:{state:1,title:'检查注册信息是否正确'}});
+      this.layOutHideAlert(1800);
+    }
+    else if (this.data.msgCode != register.verification){
+      this.setData({ alertTitle: { state: 1, title: '验证码错误' } });
+      this.layOutHideAlert(1800);
+    }
+    else{
+      this.sendRegisterReq();
+    }
+  },
+
+  // 发起注册请求
+  sendRegisterReq: function () {
+    this.setData({alertTitle:{state:2,title:'注册中...'}})
+    var address = app.ip + "tw/userService/regist";
+    var register = this.data.register;
+    var obj = {
+      userName: register.phone,
+      password: util.hexMD5(register.password),
+      valiCode: register.verification
+    }
+    console.log(obj);
+    api.request(obj, address, "post", true).then(res => {
+      console.log("注册信息")
+      console.log(res);
+      this.setData({ alertTitle: { state: 1, title: res.data.message } })
+      this.layOutHideAlert(1800);
+    }).catch(e=>{
+      this.setData({ alertTitle: { state: 1, title: '网络异常!' } })
+      this.layOutHideAlert(1800);
+    })
+  },
+
+  // 阅读协议
+  readAgreement: function () {
+    wx.navigateTo({
+      url: '/pages/Agreement/Agreement',
+    })
+  },
+
+  // 隐藏弹框
+  hideAlert: function () {
+    var alertTitle = this.data.alertTitle;
+    alertTitle.state = 0;
+    this.setData({ alertTitle})
+  },
+
+  // 多少毫秒之后隐藏弹框
+  layOutHideAlert: function (time) {
+    console.log(time)
+    setTimeout(()=>{
+      this.hideAlert();
+    },time)
+  },
+
+  // 切换注册密码可见状态
+  switchRegisterPwdState: function () {
+    this.setData({ isShowRegisterPwd: !this.data.isShowRegisterPwd})
+  },
+
+  // 切换登录密码可见状态
+  switchLogoinPwdState: function () {
+    this.setData({ isShowlogoinPwd: !this.data.isShowlogoinPwd})
+  },
+
+  // 登录系统
+  logoinSystem: function () {
+    if (!this.data.isClickLogoinBtn){
+      this.setData({alertTitle:{state:1,title:'登录信息错误'}});
+      this.layOutHideAlert(1800);
+    }
+    else{
+      this.setData({ alertTitle: { state: 2, title: '登录中...' } });
+      var obj = {
+        userName: this.data.logoin.phone,
+        password: util.hexMD5(this.data.logoin.password)
+      }
+      if (this.data.opendid != null) {
+        obj.opendId = this.data.opendid;
+      }
+      var address = app.ip + "tw/userService/login";
+      api.request(obj, address, "post", true).then(res => {
+        console.log(res);
+        this.handlelogoin(res);
       })
     }
   },
-  // 下拉刷新
-  onPullDownRefresh:function () {
-    this.getLogoinCode();
+
+  // 处理登陆返回的信息
+  handlelogoin: function (res){
+    var handleInfo = api.handleLogoinInfo(res);
+    var logoin = this.data.logoin;
+    if (handleInfo.code == '200') {
+      // 储存用户的登录信息
+      wx.setStorageSync("userName", logoin.phone);
+      wx.setStorageSync("password", logoin.password);
+      wx.switchTab({
+          url: '/pages/company/company',
+        })
+      this.setData({ switchMyselfLogoin: true})
+      wx.showTabBar({})
+    }
+    else{
+      this.setData({alertTitle:{state:1,title:res.data.message}})
+    }
+    this.layOutHideAlert(1800);
   },
-  // 获取登录code
-  getLogoinCode:function(){
+
+  // 获取小程序登陆code(通过code登陆协作)
+  getLogoinCode: function () {
     wx.login({
-      success:(res)=>{
+      success: (res) => {
         this.setData({
-          logoinCode:res.code
+          logoinCode: res.code
         })
         this.validateCode(res.code);
         wx.stopPullDownRefresh();//关闭下拉刷新
       },
-      fail:(e)=>{
+      fail: (e) => {
         wx.stopPullDownRefresh();//关闭下拉刷新
       }
     })
   },
-  // 发送code
-  validateCode:function(logoinCode){
+
+  // 
+  validateCode: function (logoinCode) {
     var address = app.ip + "tc/weChat/authorizationCode/" + logoinCode;
-    var obj = {code:logoinCode};
+    var obj = { code: logoinCode };
     // 判断用户是否通过App链接邀请进入
     if (app.globalData.isByAppEntry) {
       obj = Object.assign({}, obj, app.globalData.Invitation);
     }
-    api.sendCode(obj,address,"get").then(res=>{
+    api.sendCode(obj, address, "get").then(res => {
+      console.log(res);
       var handleInfo = api.handleLogoinInfo(res);
+      console.log(handleInfo)
       if (handleInfo.code == '200') {
-        wx.redirectTo({
-          url: '/pages/company/company'
+        this.setData({ switchMyselfLogoin: true })
+        wx.showTabBar({})
+        wx.switchTab({
+          url: '/pages/company/company',
         })
       }
       else {
         this.setData({
-          opendid:res.data.data.openid
+          opendid: res.data.data.openid
         })
-        this.codeError();
       }
-    }).catch((e)=>{
-        this.codeError();
+    }).catch((e) => {
+      this.setData({ switchMyselfLogoin: false})
     });
-  },
-  // 弹框
-  alert:function(){
-    this.popup.showPopup()
-  },
-  //登录/注册路由切换
-  switchUrl:function(event){
-    var role = event.currentTarget.dataset.logoin;
-    // 重置密码可见状态
-    if(role == this.data.dataRole){
-      return false;
-    }
-    else{
-      this.setData({
-        dataRole:role,
-        isClickLogoinBtn:false,
-        isClickRegisterBtn:false
-      })
-    }
-
-    // 重置表单数据
-    var condiction = true;
-    if(role != 1){
-      condiction = false
-    }
-    this.setData({
-      logoinState:condiction,
-      logoinPlaceholder: {
-        phone: true,
-        password: true
-      },
-      logoin:{},
-      registerPlaceholder: {
-        phone: true,
-        verification: true,
-        password: true
-      },
-      register: {
-        phone: "",
-        verification: "",
-        password: ""
-      },
-      isShowlogoinPwd: false,
-      isShowRegisterPwd: false
-    })
-  },
-  // 登录模块实现placeholder效果
-  inputLogoin:function(event){
-    var role = event.currentTarget.dataset.role;
-    if(role == "user"){
-      if(this.data.logoin.phone.length != 0){
-        this.setData({
-          logoinPlaceholder: {
-            phone: false,
-            password: this.data.logoinPlaceholder.password
-          },
-        })
-      }
-      else{
-        this.setData({
-          logoinPlaceholder: {
-            phone: true,
-            password: this.data.logoinPlaceholder.password
-          },
-        })
-      }
-    }
-    else{
-      this.setData({
-        logoinPlaceholder: {
-          phone: this.data.logoinPlaceholder.phone,
-          password: false
-        },
-      })
-    }
-  },
-
-  // 获取并储存登录信息
-  getLogoInfo:function(event){
-    var role = event.currentTarget.dataset.role;
-    var logoin = this.data.logoin;
-    var logoinPlaceholder = this.data.logoinPlaceholder; 
-    if(role == "user"){
-      logoin.phone = event.detail.value;
-      if(logoin.phone.length > 0){
-        this.setData({
-          logoinPlaceholder: {
-            phone: false,
-            password: logoinPlaceholder.password
-          },
-        })
-      }
-      else{
-        this.setData({
-          logoinPlaceholder: {
-            phone: true,
-            password: logoinPlaceholder.password
-          },
-        })
-      }
-    }
-    else{
-      logoin.password = event.detail.value;
-      if(logoin.password.length > 0){
-        this.setData({
-            logoinPlaceholder: {
-              phone: logoinPlaceholder.phone,
-              password: false
-            }
-        })
-      }
-      else{
-        this.setData({
-          logoinPlaceholder: {
-            phone: logoinPlaceholder.phone,
-            password: true
-          }
-        })
-      }
-    }
-    this.setData({
-      logoin:logoin
-    })
-    this.validatorLogoinInfo(this.data.logoin);
-  },
-
-  // 验证码倒计时
-  getVerificationCode:function(){
-    var that = this;
-    that.setData({
-      verificationBtnText: this.data.countTime - 1 + "s后重发",
-      countTime:this.data.countTime - 1
-    });
-    if(that.data.countTime == 0){
-      that.setData({
-        countTime:60,
-        verificationBtnText:"获取验证码"
-      });
-      return false;
-    }
-    var registerTime = setTimeout(function () {
-      that.getVerificationCode()
-    }, 1000);
-    this.setData({
-      registerTime: registerTime
-    })
-    
-  },
-
-  // 切换登录密码可见状态
-  switchPwdState:function(e){
-    var role = e.currentTarget.dataset.role;
-    if(role == "logoin"){
-      this.setData({
-        isShowlogoinPwd:!this.data.isShowlogoinPwd
-      })
-    }
-    else{
-      this.setData({
-        isShowRegisterPwd: !this.data.isShowRegisterPwd
-      })
-    }
-  },
-
-  // 获取并存储用户注册信息
-  getRegisterInfo:function(e){
-    var role = e.currentTarget.dataset.role;
-    var register = this.data.register;
-    var registerPlaceholder = this.data.registerPlaceholder;
-    if(role == "phone"){
-      register.phone = e.detail.value;
-      if(register.phone.length != 0){
-        this.setData({
-          registerPlaceholder:{
-            phone:false,
-            verification: this.data.registerPlaceholder.verification,
-            password: this.data.registerPlaceholder.password
-          }
-        })
-      }
-      else{
-        this.setData({
-          registerPlaceholder: {
-            phone: true,
-            verification: this.data.registerPlaceholder.verification,
-            password: this.data.registerPlaceholder.password
-          }
-        })
-      }
-    }
-    else if (role == "verification"){
-      register.verification = e.detail.value;
-      if (register.verification.length != 0) {
-        this.setData({
-          registerPlaceholder: {
-            phone: this.data.registerPlaceholder.phone,
-            verification: false,
-            password: this.data.registerPlaceholder.password
-          }
-        })
-      }
-      else {
-        this.setData({
-          registerPlaceholder: {
-            phone: this.data.registerPlaceholder.phone,
-            verification: true,
-            password: this.data.registerPlaceholder.password
-          }
-        })
-      }
-    }
-    else{
-      register.password = e.detail.value;
-      if (register.password.length != 0) {
-        this.setData({
-          registerPlaceholder: {
-            phone: this.data.registerPlaceholder.phone,
-            verification: this.data.registerPlaceholder.verification,
-            password: false
-          }
-        })
-      }
-      else {
-        this.setData({
-          registerPlaceholder: {
-            phone: this.data.registerPlaceholder.phone,
-            verification: this.data.registerPlaceholder.verification,
-            password: true
-          }
-        })
-      }
-    }
-    this.setData({
-      register:register
-    });
-    this.validatorRegisterInfo(register);
-  },
-
-  // 验证用户登录信息格式，是否合法，以此改变登录按钮样式
-  validatorLogoinInfo:function(info){
-    var phoneReg = /^1\d{10}$/img;
-    var pwdReg = /^\w{6,20}$/
-    var validatorPhone = phoneReg.test(info.phone);
-    var validatorPwd = false;
-    if(!info.password){
-      validatorPwd = false;
-    }
-    else{
-      var validatorPwd = pwdReg.test(info.password);
-    }
-    
-    if (validatorPhone && validatorPwd){
-        this.setData({
-          isClickLogoinBtn:true
-        })
-    }
-    else{
-      this.setData({
-        isClickLogoinBtn: false
-      })
-    }
-  },
-
-  // 验证用户注册信息格式是否合法，以此改变注册按钮样式
-  validatorRegisterInfo:function(info){
-    var phoneReg = /^1\d{10}$/img;
-    var verificationReg = /^\w{2,8}$/;
-    var pwdReg = /^\w{6,20}$/;
-    var validatorPhone = phoneReg.test(info.phone);
-    var validatorPwd = pwdReg.test(info.password);
-    var validatorVerification = verificationReg.test(info.verification);
-    if (validatorPhone && validatorPwd && validatorVerification && this.data.readCondiction){
-      this.setData({
-        isClickRegisterBtn:true
-      })
-    }
-    else{
-      this.setData({
-        isClickRegisterBtn:false
-      })
-    }
-  },
-
-  // 发起登录请求
-  userLogoin:function(){
-    var obj = {
-      userName:this.data.logoin.phone,
-      password:util.hexMD5(this.data.logoin.password)
-    }
-    if(this.data.opendid != null){
-      obj.opendId = this.data.opendid;
-    }
-    // 判断用户是否通过链接邀请进入
-    if (this.data.share){
-      var scene = {
-        // inviterId: this.data.shareScene.initiator,
-        departmentId: this.data.shareScene.departmentId,
-        urlType: this.data.shareScene.urlType,
-        code: this.data.logoinCode
-      }
-      obj = Object.assign({}, obj, scene);
-    }
-    if (this.data.isClickLogoinBtn){
-      this.setData({
-        isLogoing: false,
-        logoinAlert: {
-          state: 0,
-          content: "登录中..."
-        }
-      })
-      var address = app.ip + "tw/userService/login";
-      api.request(obj,address,"post",true).then(res=>{
-        var handleInfo = api.handleLogoinInfo(res);
-        if (handleInfo.code == '200'){
-          // 储存用户的登录信息
-          wx.setStorageSync("userName",obj.userName);
-          wx.setStorageSync("password", this.data.logoin.password);
-            wx.redirectTo({
-              url: '/pages/company/company'
-            })
-        }
-        else{
-          var logoin = this.data.logoin
-          this.setData({
-            logoinAlert:{
-              state:1,
-              content:handleInfo.msg
-            },
-            logoinPlaceholder: {
-              phone: false,
-              password: false
-            },
-            logoin:{},
-            isLogoing:true
-          })
-          setTimeout(() => {
-            this.setData({
-              logoinAlert: {
-                state: 0,
-                content: ""
-              },
-              logoinPlaceholder:{
-                phone:true,
-                password:true
-              },
-              isClickLogoinBtn:false
-            })
-          }, 2000)
-        }
-      }).catch(e=>{
-        this.setData({
-          logoinAlert:{
-           state:0,
-           content:"登录失败..."
-         }
-        })
-        setTimeout(()=>{
-          this.setData({
-            isLogoing:true
-          })
-        },2000)
-      })
-    }
-  },
-  // 切换勾选服务协议
-  switchCondiction:function(){
-    this.setData({
-      readCondiction: !this.data.readCondiction
-    })
-    
-    this.validatorRegisterInfo(this.data.register);
-  },
-  // 发起注册请求
-  userRegister:function(){
-    if (!this.data.isClickRegisterBtn){
-      return false;
-    }
-    
-    var register = this.data.register;
-    var obj = {
-      userName:register.phone,
-      password:util.hexMD5(register.password),
-      valiCode: register.verification
-    }
-    this.setData({
-      registerAlert: {
-        state: 1,
-        content: "注册中..."
-      }
-    })
-    var address = app.ip + "tw/userService/regist";
-    api.request(obj, address, "post", true).then(res => {
-      if(res.data.code == 200){
-        this.setData({
-          countTime:60,
-          verificationBtnText: "获取验证码"
-        });
-        clearTimeout(this.data.registerTime);
-      }
-      this.setData({
-        registerAlert: {
-          state: 1,
-          content: res.data.message
-        }
-      })
-    }).catch(e=>{
-      this.setData({
-        registerAlert: {
-          state: 1,
-          content: "注册失败..."
-        }
-      })
-    })
-  },
-
-  // 隐藏注册弹框
-  hideAlert:function(){
-    this.setData({
-      registerAlert: {
-        state: 0,
-        content: ""
-      }
-    })
-  },
-  // 发起验证码请求
-  getCode:function(){
-    var phone = this.data.register.phone;
-    var phoneReg = /^1\d{10}$/img;
-    if(!phoneReg.test(phone)){
-      if(phone == "" || phone == null){
-        this.setData({
-          registerAlert: {
-            state: 1,
-            content: "请先输入手机号码"
-          }
-        })
-      }
-      else{
-        this.setData({
-          registerAlert: {
-            state: 1,
-            content: "手机号格式错误"
-          }
-        })
-      }
-      setTimeout(() => {
-        this.setData({
-          registerAlert: {
-            state: 0,
-            content: ""
-          }
-        })
-      }, 1500)
-      return false;
-    }
-    var obj = {
-      mobile: phone,
-      typeFlag: 100
-    }
-    if(this.data.countTime < 60 || obj.mobile == null){
-      return false;
-    }
-    else{
-      var address = app.ip + "neteasy/sms/sendCode";
-      api.request(obj, address, "post", true).then(res => {
-        if(res.statusCode == 200 && res.data.code != 101){
-          this.getVerificationCode();
-          this.setData({
-            verification:res.data
-          })
-        }
-        else{
-          this.setData({
-            registerAlert:{
-              state:1,
-              content:res.data.message
-            }
-          })
-          setTimeout(()=>{
-            this.setData({
-              registerAlert: {
-                state: 0,
-                content: ""
-              },
-              countTime:60
-            })
-          },1500)
-        }
-      })
-    }
-    
-  },
-  pageJump: function (e) {
-    var index = e.currentTarget.dataset.index;
-    var url = e.currentTarget.dataset.url;
-    app.editTabBar(index);
-    wx.redirectTo({
-      url: url,
-    })
-  },
-  // 阅读协议
-  readAgreement:function(){
-    wx.navigateTo({
-      url: '/pages/Agreement/Agreement',
-    })
   }
 })

@@ -95,7 +95,8 @@ page{
   white-space: nowrap;
 }
 .plantitle{
-  width: 300rpx;
+  /* width: 300rpx; */
+  flex: 2;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -109,7 +110,6 @@ page{
 .editPlan{
   display:flex;
   height: 82rpx;
-  margin-left: 250rpx;
   margin-right: 24rpx;
   align-items: center;
 }

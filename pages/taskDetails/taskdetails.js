@@ -33,7 +33,8 @@ Page({
       state:false,
       data:null
     },//需要被展示的文件
-    isShowMenuBtn:false
+    isShowMenuBtn:false,
+    isPersonCreateTask:false//是否是个人创建的任务
   },
 
   /**
@@ -126,6 +127,7 @@ Page({
   // 根据ID查找计划条目
   selectPlanChild: function (id) {
     var userId = wx.getStorageSync('tcUserId');
+    var isPersonCreateTask = false;
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
@@ -155,8 +157,13 @@ Page({
         catch(e){
           console.log(e);
         }
+        if (userId == handle.data.itemBean.creatorId) {
+          isPersonCreateTask = true;
+          console.log("等于")
+        }
         this.setData({
           task:handle.data,
+          isPersonCreateTask: isPersonCreateTask,
           showfile:{
             state:false,
             data: handle.data.arcList.slice(0, 2)

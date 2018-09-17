@@ -42,7 +42,7 @@
     <view class="system_public">
       <view class="imgBamboo">
       <!-- 云竹图片 -->
-        <image src='/pages/index/img/banbom.png' class="logoimg"></image>
+        <image src='../../utils/index/img/banbom.png' class="logoimg"></image>
       </view>
       <view class="urlbtn">
       <!-- 登录与注册路由 -->
@@ -67,7 +67,7 @@
         <view class="password commoninput">
           <input password="{{!isShowlogoinPwd}}" placeholder-class='common_logoin' maxlength='20' class="user input" value="{{logoin.password}}" bindinput="getLogoInfo" placeholder='请输入密码' data-role="pwd"/>
           <view class="eyes" bindtap="switchLogoinPwdState" data-role="logoin">
-              <image src="{{isShowlogoinPwd? '/pages/index/img/eye_icon_on.png':'/pages/index/img/eye_icon_off.png'}}" class="eyesImg"></image>
+              <image src="{{isShowlogoinPwd? '../../utils/index/img/eye_icon_on.png':'../../utils/index/img/eye_icon_off.png'}}" class="eyesImg"></image>
           </view>
         </view>
         <view class="{{isClickLogoinBtn? 'logoinbtn btn clickOn':'logoinbtn btn clickOff'}}" bindtap="logoinSystem">
@@ -106,8 +106,8 @@
     </view>
     <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
   </view>
-    <logoinAlert src="/pages/index/img/logoin-loading.png" wx:if="{{alertTitle.state == 2}}" animate="true" bgcolor="rgba(0,0,0,1)" alertText="{{alertTitle.title}}"></logoinAlert> 
-    <logoinAlert src="/pages/index/img/close-icon.png" wx:if="{{alertTitle.state == 1}}" bind:hideAlert="hideAlert" alertText="{{alertTitle.title}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+    <logoinAlert src="../../utils/index/img/logoin-loading.png" wx:if="{{alertTitle.state == 2}}" animate="true" bgcolor="rgba(0,0,0,1)" alertText="{{alertTitle.title}}"></logoinAlert> 
+    <logoinAlert src="../../utils/index/img/close-icon.png" wx:if="{{alertTitle.state == 1}}" bind:hideAlert="hideAlert" alertText="{{alertTitle.title}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
     <!-- <logoinAlert src="/pages/index/img/close-icon.png" animate="{{false}}" alertText="{{logoinAlert.content}}"  bgcolor="rgba(0,0,0,1)"></logoinAlert> -->
 </view>
 

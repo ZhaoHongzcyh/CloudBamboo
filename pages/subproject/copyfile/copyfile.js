@@ -116,9 +116,35 @@ Page({
     })
   },
 
+  // 确定是否输入文件夹名称
+  isInputFolderName: function (folderName) {
+    if (folderName == null || folderName == "") {
+      this.setData({ alert: { content: '文件夹名称不能为空' } });
+      this.alert();
+      return false;
+    }
+    else {
+      var reg = /\s/img;
+      var length = folderName.split("").length;
+      var spacing = [];
+      spacing = folderName.match(reg);
+      if (spacing != null && length == spacing.length) {
+        this.setData({ alert: { content: '文件夹名称不能为空' } });
+        this.alert();
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+  },
+
   // 新建文件夹
   newFolderName: function (e) {
     console.log(e);
+    if (!this.isInputFolderName(e.detail.folderName)){
+      return false;
+    }
     var folderName = encodeURI(e.detail.folderName);
     var cloudDiskList = this.data.cloudDiskList;
     var parentIdStack = this.data.parentIdStack;

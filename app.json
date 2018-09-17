@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/myself/myself",
+    "pages/index/index",
     "pages/company/company",
     "pages/addCompany/addCompany",
     "pages/addCompany/industry/industry",
@@ -59,7 +59,7 @@
       {
         "iconPath": "/pages/tabBar/img/myself.png",
         "selectedIconPath": "/pages/tabBar/img/myself-active.png",
-        "pagePath": "pages/myself/myself",
+        "pagePath": "pages/index/index",
         "text": "我的"
       },
       {

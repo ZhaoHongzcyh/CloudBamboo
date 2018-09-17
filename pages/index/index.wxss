@@ -1,206 +1,171 @@
-
-/**index.wxss**/
-.system_public{
+/* @import "/pages/tabBar/tabBar.wxss"; */
+@import "/utils/index/index.wxss";
+.myself{
 }
-
-.imgBamboo{
-  position:relative;
-  width: 180rpx;
-  height: 180rpx;
-  margin:auto;
-  margin-top:110rpx;
-}
-
-.logoimg{
-  width: 180rpx;
-  height: 180rpx;
-  margin:auto;
-}
-
-/* 路由按钮区域 */
-.urlbtn{
+.head{
   display: flex;
-  width: 630rpx;
-  margin: auto;
-  margin-top: 97rpx;
-  color:gray;
-  border-bottom:2rpx solid gray;
+  height: 88rpx;
+  align-items: center;
+  border-bottom: 1rpx solid #DBDBDB;
 }
-
-.routeBtn{
-  width: 143rpx;
-  text-align: center;
-  margin: auto;
+.headimg{
+  margin-left: 25rpx;
+  width: 64rpx;
+  height: 64rpx;
 }
-
-.logoinRouter,.registerRouter{
-  position:relative;
-  width: 66rpx;
-  height: 31rpx;
-  margin: auto;
+.user{
+  color: #333333;
   font-size: 32rpx;
+  margin-left: 14rpx;
+  flex: 2;
+  height: 50rpx;
+  line-height: 50rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-
-
-/* 按钮下方的下划线 */
-.line{
-  width: 143rpx;
-  border: 0rpx;
-  margin: auto;
-  margin-top: 48rpx;
-  border-bottom: 4rpx solid gray;
+.bell{
+  width: 36rpx;
+  height: 36rpx;
 }
-
-.lineHr{
-  width: 143rpx;
-  border: 0rpx;
-  margin: auto;
-  margin-top: 48rpx;
-  border-bottom: 4rpx solid gray;
-  opacity: 0;
+.set{
+  margin-left: 27rpx;
+  margin-right: 27rpx;
+  width: 36rpx;
+  height: 36rpx;
 }
-/* 登录与注册表单 */
-.logoinForm,.registerForm{
-  position: relative;
-  width: 640rpx;
-  margin: auto;
-  margin-top: 60rpx;
-}
-
-.commoninput{
-  position:relative;
+/* 待我处理 */
+.wait-handle-head{
+  display: flex;
+  align-items: center;
+  width: 710rpx;
   height: 80rpx;
-  background-color:rgba(236,236,236,1);
-  color: #AAAAAA;
-}
-
-.password{
+  margin: auto;
   margin-top: 30rpx;
+  align-items: center;
+  border: 1rpx solid #DBDBDB;
 }
-
-.input,.placeholder{
-  position:absolute;
-  margin-left:30rpx;
-  width: 168rpx;
-  height: 28rpx;
-  top: 27rpx;
-  bottom: 25rpx;
-  line-height: 28rpx;
+.wait-text{
+  height: 26rpx;
   font-size: 28rpx;
-}
-
-.placeholder{
-  width: calc(100% - 60rpx);
-}
-
-.user,.pwd{
-  display: inline-block;
-  height: 28rpx;
-  width: 600rpx;
-  top: 17rpx;
+  margin-left: 35rpx;
   color: #666666;
+  flex: 1;
 }
-
-.eyes{
-  position:absolute;
-  z-index: 2;
-  width: 40rpx;
-  height: 40rpx;
-  top : 50%;
-  margin-top: -20rpx;
-  right: 30rpx;
+.wait-num{
+  color: #449EF2;
+  font-size: 36rpx;
+  margin-right: 31rpx;
 }
-
-.eyesImg{
-  width: 40rpx;
-  height: 40rpx;
+/* 待我处理的具体内容 */
+.wait-content{
+  display: flex;
+  align-items: center;
+  width: 710rpx;
+  height: 120rpx;
+  border: 1rpx solid rgba(235,236,240,1);
+  border-top: 0rpx;
+  margin: auto;
 }
-
-.Verification{
-  /* width: 418rpx; */
-  width: calc(100% - 60rpx);
+.radio-area{
+  margin-left: 30rpx;
+  margin-right: 24rpx;
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  border: 1rpx solid gray;
+  padding: 0rpx;
+  display: flex;
 }
-
-/* 验证码按钮 */
-.getVerificationCode{
-  position: absolute;
-  z-index: 2;
-  right: 0rpx;
-  width: 200rpx;
-  height: 80rpx;
-  line-height: 80rpx;
+.radio{
+  margin: 0rpx;
+  line-height: 0rpx;
+  width: 32rpx;
+  height: 32rpx;
+}
+.wait-info{
+  flex: 2;
+  margin-left: 24rpx;
+}
+.wait-title{
+  height: 27rpx;
+  line-height: 27rpx;
+  width: 334rpx;
+  color: #666666;
   font-size: 28rpx;
-  text-align:center;
-  color:#fff;
-  background:rgba(64,156,242,1);
-  border-radius: 0rpx 3rpx 3rpx 0rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-
-/* 登录与注册按钮 */
-.btn{
-  position:relative;
-  width: 630rpx;
-  height: 80rpx;
-  font-size: 32rpx;
+.wait-time{
+  height: 40rpx;
+  width: 200rpx;
+  border-radius: 3rpx;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  margin-top: 19rpx;
+  color: white;
   text-align: center;
+  background-color:rgba(64,156,242,1);
+  border-radius: 3rpx;
+}
+.timeout{
+  background-color: #FF7474;
+}
+.handle-img{
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+}
+.handle-name{
+  width: 90rpx;
+  font-size: 28rpx;
+  height: 27rpx;
+  line-height: 27rpx;
+  color: rgba(102,102,102,1);
+  margin-left: 18rpx;
+  margin-right: 30rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* 无任务数据样式 */
+.no-content{
+  text-align: center;
+  margin-top: 293rpx;
+}
+.no-project-img{
+  width: 150rpx;
+  height: 150rpx;
+}
+.no-project-text{
+  color: #999999;
+  font-size: 24rpx;
+  height: 23rpx;
+  margin-top: 16rpx;
+  line-height: 23rpx;
+}
+.add-new-project{
+  width: 300rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 36rpx;
   margin: auto;
   margin-top: 50rpx;
-  padding: 0rpx; 
-  background-color: rgba(219,219,219,1);
   color: white;
-  border-radius: 40rpx;
-  border: 1rpx solid rgba(219,219,219,1);
+  background-color: #409CF2;
+}
+/* 处理等级 */
+.error{
+  border-left: 7rpx solid #FF4F3E;
+}
+.warning{
+  border-left: 7rpx solid #FFAF38;
 }
 
-.btnText{
-  height: 32rpx;
-  line-height: 32rpx; 
-  margin: auto;
-  margin-top: 24rpx;
-  padding: 0rpx;
-  font-size: 32rpx;
-  letter-spacing: 15rpx;
-}
-
-/* 可点击的登录按钮 */
-.clickOn{
-  background-color: rgba(64,156,242,1);
-}
-
-/* 忘记密码 */
-.forgetPwd{
-  position:relative;
+/* -------------------------------------登录注册模块------------------------------------ */
+.common_logoin{
   font-size: 28rpx;
-  margin-top: 40rpx;
-  height: 68rpx;
-  text-align:right;
-  color: #409CF2;
-}
-
-.forgetPwdText{
-  position:absolute;
-  width: 132rpx;
-  height: 68rpx;
-  right:0rpx;
-}
-
-
-/* 条约样式 */
-.treaty{
-  margin-top: 41rpx;
-}
-.treatycheckbox{
-  transform: scale(0.5);
-}
-
-.agreentreaty{
-  font-size:28rpx;
-}
-
-.treatyContent{
-  color: #409CF2;
-}
-
-.gray{
-  background-color: gray;
+  color: #999999;
 }

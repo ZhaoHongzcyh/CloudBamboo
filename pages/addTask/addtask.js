@@ -60,8 +60,10 @@ Page({
       endDate:value
     })
   },
+
   submit: function(){
     var address = app.ip + "tc/schedule/summaryService/add";
+    this.isInputTaskName();
     var scheduleSummaryBean = {
       title: this.data.taskName,//encodeURI(this.data.taskName),
       resourceType: 10010001,//所属资源类型
@@ -81,11 +83,33 @@ Page({
         wx.navigateBack()
       }
       else{
+        this.setData({alert:{content:res.data.message}});
         this.alert();
       }
     }).catch(e=>{
-      console.log(e);
+      this.setData({ alert: { content: '新建任务计划失败' } });
       this.alert();
     })
+  },
+
+  // 确定是否输入任务计划名称
+  isInputTaskName: function () {
+    var taskName = this.data.taskName;
+    if(taskName == null || taskName == ""){
+      this.setData({ alert: { content:'计划名称不能为空'}});
+      this.alert();
+      return false;
+    }
+    else{
+      var reg = /\s/img;
+      var length = taskName.split("").length;
+      var spacing = [];
+      spacing = taskName.match(reg);
+      if(spacing !=null && length == spacing.length){
+        this.setData({ alert: { content:'计划名称不能为空'}});
+        this.alert();
+        return  false;
+      }
+    }
   }
 })
