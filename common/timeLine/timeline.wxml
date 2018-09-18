@@ -27,6 +27,10 @@
             {{item.behType == 10002016 ? '领取任务' : ''}}
             {{item.behType == 10001002 ? '编辑评价' : ''}}
             {{item.behType == 10002002 ? '删除任务' : ''}}
+            {{item.behType == 10002003 ? '变更任务起止时间' : ''}}
+            {{item.behType == 10002006 ? '任务变更执行人' : ''}}
+            {{item.behType == 10002007 ? '任务上传附件' : ''}}
+            {{item.behType == 10002008 ? '任务删除附件' : ''}}
             {{item.behType == null ? '回复任务' : ''}}
           </view>
         </view>
