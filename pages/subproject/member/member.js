@@ -18,7 +18,8 @@ Page({
     choosemember:[],
     summary:null,
     participant:[],
-    delSingle:null//被删除的成员对象
+    delSingle:null,//被删除的成员对象
+    isCouldClickAdd:true//是否可以点击确认添加成员按钮
   },
 
   /**
@@ -166,7 +167,11 @@ Page({
     if(choosemember.length == 0){
       return false;
     }
+    if (!this.data.isCouldClickAdd){
+      return false;
+    }
     else{
+      this.setData({ isCouldClickAdd: !this.data.isCouldClickAdd});
       // var updateFields = this.
       var participant = this.data.participant;
       for(var i = 0; i < choosemember.length; i++){
@@ -194,6 +199,7 @@ Page({
           this.setData({ alert: { content: '成员添加失败' } });
           this.alert();
         }
+        this.setData({ isCouldClickAdd: !this.data.isCouldClickAdd });
       }).catch(e=>{
         this.setData({ alert: { content: '成员添加失败' } });
         this.alert();

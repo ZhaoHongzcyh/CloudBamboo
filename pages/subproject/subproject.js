@@ -26,7 +26,7 @@ Page({
     taskId:null,
     menu:[
       {
-        title:"任务",
+        title:"任务组",
         select:true
       },
       {

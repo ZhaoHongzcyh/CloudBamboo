@@ -24,6 +24,9 @@
             {{item.behType == 10002015 ? '任务编辑' : ''}}
             {{item.behType == 10002009 ? '重启任务' : ''}}
             {{item.behType == 10002010 ? '已完成任务' : ''}}
+            {{item.behType == 10002016 ? '领取任务' : ''}}
+            {{item.behType == 10001002 ? '编辑评价' : ''}}
+            {{item.behType == 10002002 ? '删除任务' : ''}}
             {{item.behType == null ? '回复任务' : ''}}
           </view>
         </view>

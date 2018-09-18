@@ -200,11 +200,15 @@ page{
   margin-left: 26rpx;
 }
 .second-level-name{
+  flex: 2;
   color: #333333;
   font-size: 28rpx;
   height: 27rpx;
   line-height: 27rpx;
   margin-left: 20rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .second-up{
   text-align: center;

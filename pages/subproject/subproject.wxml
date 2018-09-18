@@ -83,7 +83,7 @@
 
     <view class="addTaskPlan" bindtap="addTaskPlan">
       <view class="plus">+</view>
-      <view class="plustitle">新建任务计划</view>
+      <view class="plustitle">新建任务组</view>
     </view>
   </view>
   <!-- 编辑任务计划采单区域 -->
