@@ -72,11 +72,6 @@
   <!-- app下载提示弹框 -->
   <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
 </view>
-<view wx:if="{{switchCompany}}">
-  <block wx:for="{{companyList}}">
-    <companyList src="/pages/company/img/companyList.png" companyName="九天云竹" legalPerson="罗明"></companyList>
-  </block>
-</view>
 <!-- <view wx:if="{{junpLoading}}">
   <logoinAlert src="/pages/index/img/logoin-loading.png" alertText="正在跳转。。。" animate="1" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view> -->

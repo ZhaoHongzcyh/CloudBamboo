@@ -12,6 +12,7 @@
   margin-left: 25rpx;
   width: 64rpx;
   height: 64rpx;
+  border-radius: 50%;
 }
 .user{
   color: #333333;
@@ -38,7 +39,7 @@
 .wait-handle-head{
   display: flex;
   align-items: center;
-  width: 710rpx;
+  width: 712rpx;
   height: 80rpx;
   margin: auto;
   margin-top: 30rpx;

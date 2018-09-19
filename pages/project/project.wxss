@@ -23,6 +23,7 @@ page{
 }
 .current-url{
   position: relative;
+  color: #409CF2;
   z-index: 2;
   border-bottom: 4rpx solid #409CF2;
 }
@@ -231,8 +232,8 @@ page{
   line-height: 81rpx;
   border-radius: 50%;
   text-align: center;
-  /* background-color: #409CF2; */
   color: white;
+  transform: scale(0.9);
 }
 
 .addprojectImg{

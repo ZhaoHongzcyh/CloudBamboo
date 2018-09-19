@@ -72,6 +72,6 @@
   </view>
 
   <!-- 弹框 -->
-  <confirm id="confirm" bindsure="delconnect" title="{{ {content:'确认删除联系人?删除后你将从对方的通讯录中消失'} }}"></confirm>
+  <confirm id="confirm" bindsure="delconnect" title="{{ {content:'删除后您和对方将从彼此的通讯中消失'} }}"></confirm>
   <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

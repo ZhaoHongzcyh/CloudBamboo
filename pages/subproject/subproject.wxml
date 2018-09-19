@@ -58,7 +58,7 @@
       <view class="planName">
         <image class="row" src="./img/row.png" data-index="{{index}}" bindtap="fold"></image>
         <view class="plantitle" data-index="{{index}}" bindtap="fold">{{plan.summaryBean.title}}</view>
-        <view class="editPlan" bindtap="switchEditStatus" data-title="{{plan.summaryBean.title}}" data-sumid="{{plan.summaryBean.id}}">
+        <view class="editPlan" bindtap="switchEditStatus" data-item="{{plan.summaryBean}}" data-title="{{plan.summaryBean.title}}" data-sumid="{{plan.summaryBean.id}}">
           <view class="circle"></view>
           <view class="circle"></view>
           <view class="circle"></view>
@@ -89,8 +89,8 @@
   <!-- 编辑任务计划采单区域 -->
   <view class="editModel" wx:if="{{isShowEditPlan}}">
     <view class="editPlanArea">
-      <view class="editmenu" catchtap='editPlan'>编辑计划</view>
-      <view class="editmenu delplan" catchtap='openConfirm'>删除计划</view>
+      <view class="editmenu" catchtap='editPlan'>编辑任务组</view>
+      <view class="editmenu delplan" catchtap='openConfirm'>删除任务组</view>
       <view class="editmenu cancelplan" catchtap='switchEditStatus'>取消</view>
     </view>
   </view>

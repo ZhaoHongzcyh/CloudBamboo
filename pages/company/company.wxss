@@ -214,6 +214,7 @@ page{
   height: 81rpx;
   bottom: 100rpx;
   right: 20rpx;
+  transform: scale(0.9);
 }
 .addImg{
   width: 81rpx;

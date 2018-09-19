@@ -80,7 +80,7 @@
 
 .input,.placeholder{
   position:absolute;
-  margin-left:30rpx;
+  padding-left:30rpx;
   width: 168rpx;
   height: 28rpx;
   top: 27rpx;

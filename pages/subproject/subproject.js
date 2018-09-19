@@ -681,7 +681,7 @@ Page({
     var delPlanInfo = this.data.delPlanInfo;
     if (needEditPlanId == undefined) { needEditPlanId = null; delPlanInfo = null;}
     else{
-      delPlanInfo = {title:title,content:"确认要删除任务计划 " + title +" ?将同时删除其中包含的任务计划"}
+      delPlanInfo = {title:title,content:"确认要删除任务组 " + title +" ?将同时删除其中包含的任务"}
     }
     this.setData({ isShowEditPlan: !this.data.isShowEditPlan, needEditPlanId: needEditPlanId, delPlanInfo: delPlanInfo})
   },
@@ -694,35 +694,75 @@ Page({
       })
     }
     else{
-      this.setData({alert:{content:"权限不够"}});
-      this.alert();
-    }
-  },
-  sure:function(){
-
-  },
-  // 删除任务计划
-  delPlan: function () {
-    var address = app.ip + "tc/schedule/summaryService/delete";
-    var id = this.data.needEditPlanId;
-    if(this.handlePower()){
-      api.request({ id }, address, "POST", true).then(res => {
-        console.log("删除任务");
-        console.log(res);
-        if(res.data.code == 200 && res.data.result){
-          this.confirm.hide();
-          this.onShow();
-        }
-        else{
-          this.setData({ alert: { content: "删除失败" } });
-          this.alert();
+      var userid = wx.getStorageSync('tcUserId');
+      // 检测该任务组是否是由本人创建
+      var taskList = this.data.taskList;
+      var checkEnd = false;
+      console.log(taskList);
+      taskList.map((item,index)=>{
+        if (item.summaryBean.id == this.data.needEditPlanId){
+          if (userid == item.summaryBean.creatorId){
+            checkEnd = true;
+          }
         }
       })
+      if(checkEnd){
+        wx.navigateTo({
+          url: '/pages/taskDetails/editPlan/editplan?planid=' + this.data.needEditPlanId,
+        })
+      }
+      else{
+        this.setData({alert:{content:"权限不够"}});
+        this.alert();
+      }
+      
+    }
+  },
+
+  // 删除任务计划
+  delPlan: function () {
+    
+    var id = this.data.needEditPlanId;
+    if(this.handlePower()){
+      this.delPlanReq(id)
     }
     else{
-      this.setData({ alert: { content: "权限不够" } });
-      this.alert();
+      var userid = wx.getStorageSync('tcUserId');
+      // 检测该任务组是否是由本人创建
+      var taskList = this.data.taskList;
+      var checkEnd = false;
+      taskList.map((item, index) => {
+        if (item.summaryBean.id == this.data.needEditPlanId) {
+          if (userid == item.summaryBean.creatorId) {
+            checkEnd = true;
+          }
+        }
+      })
+      if (checkEnd) {
+        this.delPlanReq(id);
+      }
+      else {
+        this.setData({ alert: { content: "权限不够" } });
+        this.alert();
+      }
     }
+  },
+
+  // 删除任务计划请求
+  delPlanReq: function (id) {
+    var address = app.ip + "tc/schedule/summaryService/delete";
+    api.request({ id }, address, "POST", true).then(res => {
+      console.log("删除任务");
+      console.log(res);
+      if (res.data.code == 200 && res.data.result) {
+        this.confirm.hide();
+        this.onShow();
+      }
+      else {
+        this.setData({ alert: { content: "删除失败" } });
+        this.alert();
+      }
+    })
   },
   // ----------------------------------------------------任务文件模块函数-----------------------------------------------
   // 监听用户选择文件/文件夹

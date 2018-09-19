@@ -5,7 +5,7 @@ Page({
   data:{
     switchMyselfLogoin:false,//登陆模式与任务模式切换
     app:app,
-    headimg: app.ip + "tc/spaceService/showPersonIcon/"+ wx.getStorageSync("tcUserId") + "/100/100",
+    headimg: null,
     url:{},//导航数据
     userinfo:{
       name:""
@@ -112,6 +112,10 @@ Page({
   },
   // 请求任务
   getTask:function(){
+    // 更新用户头像
+    this.setData({
+      headimg: app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"
+    });
     var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
     api.request({},address,"post",true).then(res=>{
       if(!res.data.result && res.data.code != 200){
@@ -382,7 +386,7 @@ Page({
       this.layOutHideAlert(1800);
     }
     else{
-      this.setData({ alertTitle: { state: 2, title: '登录中...' } });
+      this.setData({ alertTitle: { state: 2, title: '登录中. . . ' } });
       var obj = {
         userName: this.data.logoin.phone,
         password: util.hexMD5(this.data.logoin.password)

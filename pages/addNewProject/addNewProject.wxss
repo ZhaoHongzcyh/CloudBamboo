@@ -38,9 +38,9 @@
   background-color: white;
 }
 .config{
-  padding-bottom: 26rpx;
-  height: 27rpx;
-  line-height: 27rpx;
+  /* padding-bottom: 26rpx; */
+  height: 80rpx;
+  line-height: 80rpx;
   margin-left: 41rpx;
   color: #333333;
   font-size: 28rpx;
@@ -48,13 +48,13 @@
 }
 .value{
   flex: 2;
-  margin-right: 41rpx;
-  height: 27rpx;
-  line-height: 27rpx;
+  padding-right: 41rpx;
+  height: 80rpx;
+  line-height: 80rpx;
   font-size: 28rpx;
   color: #409CF2;
   text-align: right;
-  padding-bottom: 26rpx;
+  /* padding-bottom: 26rpx; */
   border-bottom: 1rpx solid rgba(219,219,219,1);
 }
 /* 添加用户 */
