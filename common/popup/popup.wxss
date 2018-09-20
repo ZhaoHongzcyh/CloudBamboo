@@ -13,7 +13,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 550rpx;
+  width: 600rpx;
   height: 276rpx;
   border: 2rpx solid #ccc;
   border-radius: 16rpx;
@@ -83,6 +83,7 @@
   text-align: center;
   border-top: 1rpx solid rgba(219,219,219,1);
 }
+
 .applefooter{
   font-size: 28rpx;
 }

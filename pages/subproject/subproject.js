@@ -609,6 +609,9 @@ Page({
 
   // 切换任务状态(已完成/未完成)
   switchTaskState: function (e) {
+    var manager = e.currentTarget.dataset.manager;
+    var creatorid = e.currentTarget.dataset.creatorid;
+    var userid = wx.getStorageSync("tcUserId");
     var taskid = e.currentTarget.dataset.taskid;
     var parentnum = e.currentTarget.dataset.parentsnum;
     var selfnum = parseInt(e.currentTarget.dataset.selfnum);
@@ -623,11 +626,11 @@ Page({
     delete obj.endTime;
     delete obj.isTimeOut;
     // 发送更改状态请求，
-    var address = app.ip + "tc/schedule/itemService/update";
+    
     // 权限检测
     if(!this.handlePower()){
-      if (e.currentTarget.dataset.creatorid == wx.getStorageSync("tcUserId")){
-
+      if (manager == userid || creatorid == userid){
+        this.sendTaskReq(obj, taskList, parentnum, selfnum, status);
       }
       else{
         status = status == 0 ? 1 : 0;
@@ -637,10 +640,19 @@ Page({
         return false;
       }
     }
+    else{
+      this.sendTaskReq(obj, taskList, parentnum, selfnum, status);
+    }
+    
+  },
+
+  // 发送更改任务完成状态请求
+  sendTaskReq: function (obj, taskList, parentnum, selfnum, status) {
+    var address = app.ip + "tc/schedule/itemService/update";
     api.sendDataByBody(obj, address, "post", true).then(res => {
-      if(res.data.code == 200 && res.data.result){
+      if (res.data.code == 200 && res.data.result) {
         taskList[parentnum].itemList[selfnum].status = status;
-        this.setData({taskList})
+        this.setData({ taskList })
       }
     })
   },

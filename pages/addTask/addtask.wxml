@@ -1,7 +1,7 @@
 <!--新建任务页面-->
 <view class="addtask">
   <view class="head">
-    <textarea class="taskname" placeholder-class='placeholder' placeholder='请输入任务计划名称' maxlength='30' value="{{taskName}}" bindinput="getTaskName"></textarea>
+    <textarea class="taskname" placeholder-class='placeholder' placeholder='请输入任务组名称' maxlength='30' value="{{taskName}}" bindinput="getTaskName"></textarea>
   </view>
   <view class="time">
     <view class="set-time">

@@ -14,7 +14,7 @@
   </view>
   <!-- 任务名称或任务概述 -->
   <view class="taskstatus">
-    <view bindtap="switchStatus" class="radio" data-status="{{task.itemBean.status}}">
+    <view bindtap="switchStatus" class="radio" data-item="{{task.itemBean}}" data-status="{{task.itemBean.status}}">
       <radio checked="{{task.itemBean.status==0? false:true}}" color="#409CF2"/>
     </view>
     <view class="taskname">{{task.itemBean.title}}</view>

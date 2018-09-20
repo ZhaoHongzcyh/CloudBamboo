@@ -63,7 +63,9 @@ Page({
 
   submit: function(){
     var address = app.ip + "tc/schedule/summaryService/add";
-    this.isInputTaskName();
+    if(!this.isInputTaskName()){
+      return false;
+    }
     var scheduleSummaryBean = {
       title: this.data.taskName,//encodeURI(this.data.taskName),
       resourceType: 10010001,//所属资源类型
@@ -87,7 +89,7 @@ Page({
         this.alert();
       }
     }).catch(e=>{
-      this.setData({ alert: { content: '新建任务计划失败' } });
+      this.setData({ alert: { content: '新建任务组失败' } });
       this.alert();
     })
   },
@@ -96,7 +98,7 @@ Page({
   isInputTaskName: function () {
     var taskName = this.data.taskName;
     if(taskName == null || taskName == ""){
-      this.setData({ alert: { content:'计划名称不能为空'}});
+      this.setData({ alert: { content:'任务组名称不能为空'}});
       this.alert();
       return false;
     }
@@ -106,9 +108,12 @@ Page({
       var spacing = [];
       spacing = taskName.match(reg);
       if(spacing !=null && length == spacing.length){
-        this.setData({ alert: { content:'计划名称不能为空'}});
+        this.setData({ alert: { content:'任务组名称不能为空'}});
         this.alert();
         return  false;
+      }
+      else{
+        return true;
       }
     }
   }

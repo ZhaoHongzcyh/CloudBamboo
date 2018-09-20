@@ -2,7 +2,7 @@ const app = getApp();
 const api = require("../../api/common.js");
 Page({
   data:{
-    start:0,//当前需要加载的页数
+    start:1,//当前需要加载的页数
     pageSize:990,//每一页加载的数据长度
     loadMore:false,//是否加载更多
     url:{},//脚步导航数据
@@ -42,7 +42,7 @@ Page({
 
   // 上拉触底事件
   // onReachBottom: function () {
-  //   this.loadMore();
+    // this.loadMore();
   // },
 
   // 上拉触顶
@@ -65,14 +65,17 @@ Page({
       })
     },2000)
   },
+
   // 打开app下载弹框
   alert:function(){
     this.popup.showPopup();
   },
+
   // 是否成员提醒
   entryalert: function () {
     this.entry.showPopup();
   },
+
   // 请求个人项目信息
   getProjectPerson:function(){
     this.setData({
@@ -82,6 +85,7 @@ Page({
     })
     this.getProjectInfo('person');
   },
+
   // 请求公司项目
   getProjectCompany:function(){
     this.setData({
@@ -90,6 +94,7 @@ Page({
     })
     this.getProjectInfo('company')
   },
+
   // 请求项目信息
   getProjectInfo:function(core){
     var obj = {};
@@ -135,6 +140,7 @@ Page({
       console.log(e);
     })
   },
+  
   // 处理请求公司项目之后的信息
   handleProject:function(res){
     var data = res.data.data
@@ -192,6 +198,7 @@ Page({
       })
     }
   },
+
   // 处理请求个人项目信息
   handlePerson:function(res){
     var list = [];
@@ -207,12 +214,14 @@ Page({
       personProjectList:list
     })
   },
+
   // 跳转到添加新项目
   jump:function(){
     wx.navigateTo({
       url: '/pages/addNewProject/addNewProject',
     })
   },
+
   // 导航跳转
   pageJump: function (e) {
     var index = e.currentTarget.dataset.index;

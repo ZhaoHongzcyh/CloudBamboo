@@ -301,6 +301,8 @@ Page({
   },
   // 切换任务状态（已完成/未完成）
   switchStatus: function (e) {
+    var item = e.currentTarget.dataset.item;
+    var userId = wx.getStorageSync('tcUserId');
     // 权限判定
     var status = e.currentTarget.dataset.status;
     status = status == 0 ? 1 : 0; 
@@ -308,7 +310,9 @@ Page({
     if(power){
       this.sendStatus(status);
     }
-    else{
+    else if (userId == item.creatorId || userId == item.manager){
+      this.sendStatus(status);
+    }else{
       var task = this.data.task;
       task.itemBean.status = status == 0 ? 1 : 0;
       this.setData({
