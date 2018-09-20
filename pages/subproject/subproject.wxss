@@ -658,6 +658,7 @@ page{
 }
 .projectinfo{
   flex: 2;
+  width: calc(100% - 250rpx);
 }
 .projectname{
   color: projectname;

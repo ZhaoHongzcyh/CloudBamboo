@@ -1,8 +1,12 @@
 <view class="wx-popup" hidden="{{flag}}" catchtap="hidePopup">
-  <view class='popup-container'>
+  <view class="popup-container {{apple? 'apple':''}}">
     <!-- <view class="wx-popup-title">{{title}}</view> -->
-    <view class="wx-popup-con">{{content}}</view>
-    <view class="wx-popup-footer" catchtap="downApp">
+    <view class="wx-popup-con {{apple? 'applecontent':''}}">{{content}}</view>
+    <view class="readMore" wx:if="{{apple}}" bindtap="downApp">了解详情</view>
+    <view class="wx-popup-footer applefooter" catchtap="copyText" wx:if="{{apple}}">
+      {{footer}}
+    </view>
+    <view class="wx-popup-footer" catchtap="downApp" wx:if="{{!apple}}">
       {{footer}}
     </view>
   </view>

@@ -57,12 +57,14 @@ Page({
       // return false;
       // 判断session是否过期
       if (sessionoverdue){
+        wx.setNavigationBarTitle({title:'云竹协作'});
         wx.hideTabBar({})
         console.log("不现实")
         this.setData({ switchMyselfLogoin: false });
         this.getLogoinCode();//验证用户是否绑定协作
       }
       else{
+        wx.setNavigationBarTitle({ title: '我的' });
         this.popup = this.selectComponent("#popup");
         console.log("显示")
         wx.showTabBar({});
@@ -292,9 +294,7 @@ Page({
       typeFlag: 100
     };
     api.request(obj, address, "post", true).then(res => {
-      console.log(res);
       if (res.statusCode == 200 && res.data.result) {
-        console.log(res);
         this.setData({ msgCode: res.data.data})
         this.countDown();
       }
@@ -335,10 +335,7 @@ Page({
       password: util.hexMD5(register.password),
       valiCode: register.verification
     }
-    console.log(obj);
     api.request(obj, address, "post", true).then(res => {
-      console.log("注册信息")
-      console.log(res);
       this.setData({ alertTitle: { state: 1, title: res.data.message } })
       this.layOutHideAlert(1800);
     }).catch(e=>{
@@ -363,7 +360,6 @@ Page({
 
   // 多少毫秒之后隐藏弹框
   layOutHideAlert: function (time) {
-    console.log(time)
     setTimeout(()=>{
       this.hideAlert();
     },time)
@@ -396,7 +392,6 @@ Page({
       }
       var address = app.ip + "tw/userService/login";
       api.request(obj, address, "post", true).then(res => {
-        console.log(res);
         this.handlelogoin(res);
       })
     }
@@ -447,9 +442,7 @@ Page({
       obj = Object.assign({}, obj, app.globalData.Invitation);
     }
     api.sendCode(obj, address, "get").then(res => {
-      console.log(res);
       var handleInfo = api.handleLogoinInfo(res);
-      console.log(handleInfo)
       if (handleInfo.code == '200') {
         this.setData({ switchMyselfLogoin: true })
         wx.showTabBar({})

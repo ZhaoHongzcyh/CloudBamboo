@@ -27,7 +27,7 @@ page{
 /*公司名称  */
 .company-name{
   height: 27rpx;
-  width: calc(100% - 86rpx);
+  flex: 2;
   line-height: 27rpx;
   color: #666666;
   font-size: 28rpx;
@@ -38,9 +38,9 @@ page{
 /* 切换公司按钮 */
 .company-switch{
   position:relative;
-  width: 36rpx;
-  height: 36rpx;
-  flex: 3;
+  height: 88rpx;
+  width: 60rpx;
+  line-height: 88rpx;
   text-align: right;
   margin-right: 30rpx;
 }

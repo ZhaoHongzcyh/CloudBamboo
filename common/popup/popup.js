@@ -43,6 +43,7 @@ Component({
    */
   data: {
     flag: true,
+    apple: false
   },
 
   /**
@@ -55,11 +56,38 @@ Component({
         flag: !this.data.flag
       })
     },
+
+    // 获取设备类型（苹果与安卓）
+    checkApple: function () {
+      if (this.data.isAlert){
+        return false;
+      }
+      wx.getSystemInfo({
+        success: (res) => {
+          var reg = /iPhone/img;
+          if (reg.test(res.model)) {
+            this.setData({
+              footer:"复制关键字，跳转AppStore",
+              apple: true,
+              content:"使用云竹协作更多功能,可点击下方按钮前往AppStore搜索下载"
+            })
+          }
+          else {
+            this.setData({
+              footer: "立即下载",
+              apple: false
+            })
+          }
+        }
+      })
+    },
+
     //展示弹框
     showPopup() {
       this.setData({
         flag: !this.data.flag
       })
+      this.checkApple()
     },
     // 跳转到app下载页面
     downApp:function(){
@@ -71,6 +99,13 @@ Component({
           url: '/pages/downApp/downApp'
         })
       }
+    },
+
+    // 复制关键字
+    copyText: function () {
+      wx.setClipboardData({data:'云竹协作'});
+      wx.showToast({title:'复制成功'});
+      this.hidePopup()
     },
     /*
     * 内部私有方法建议以下划线开头

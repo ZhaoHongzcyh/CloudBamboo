@@ -15,7 +15,7 @@ Page({
       success:(res)=>{
         console.log(res);
         var reg = /iPhone/img;
-        var src = "https://itunes.apple.com/cn/app/云竹协作/id1210580623";
+        var src = "http://xz.yzsaas.cn/";
         if(reg.test(res.model)){
           this.setData({
             equipSystem:0,
@@ -23,7 +23,7 @@ Page({
           })
         }
         else{
-          // src = "http://xz.yzsaas.cn/download.html";
+          src = "http://xz.yzsaas.cn/download.html";
           this.setData({
             equipSystem: 1,
             src: src
