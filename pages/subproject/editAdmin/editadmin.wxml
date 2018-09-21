@@ -7,7 +7,7 @@
   </view>
 
   <!-- 人物列表 -->
-  <block wx:for="{{memberlist}}">
+  <block wx:for="{{memberlist}}" wx:key="{{item.id}}">
     <view class="user {{index == 0? 'first':''}}" wx:if="{{project.manager != item.resourceId && item.relationType != 13}}" data-initselect="{{item.initSelect}}" bindtap="addMember" data-item="item" data-index="{{index}}">
       <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userphoto"></image>
       <view class="username">{{item.personName}}</view>

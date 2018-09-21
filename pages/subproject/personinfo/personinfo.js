@@ -20,7 +20,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
     this.confirm = this.selectComponent("#confirm");
     this.popup = this.selectComponent("#popup");
     var isshowdelbtn = options.isshowdelbtn == 'false'? false:true;
@@ -49,8 +48,6 @@ Page({
     var address = app.ip + "tc/userContactService/findContactsById";
     var obj = { personId: this.data.resourceId};
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("联系人信息");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({
           person:res.data.data.person,
@@ -84,8 +81,6 @@ Page({
       perId:this.data.person.id
     }
    api.request(obj,address,"POST",true).then(res=>{
-     console.log("删除结果");
-     console.log(res);
      if(res.data.code == 200 && res.data.result){
        this.setData({alert:{content:"删除成功"}});
        this.alert();
@@ -93,6 +88,13 @@ Page({
          wx.navigateBack()
        },1800)
      }
+     else{
+       this.setData({alert:{content:'删除失败'}});
+       this.alert();
+     }
+   }).catch(e=>{
+     this.setData({alert:{content:'网络异常'}});
+     this.alert();
    }) 
   }
 })

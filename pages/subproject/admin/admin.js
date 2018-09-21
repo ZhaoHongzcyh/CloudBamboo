@@ -34,8 +34,6 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
-      console.log("项目详细信息");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         var project = res.data.data.summaryBean;
         this.setData({
@@ -49,13 +47,10 @@ Page({
 
   // 处理管理员组
   handleAdmin: function (summaryBean,member) {
-    console.log("---------------------")
     var adminTeam = [];
     var teamAdmin = [];
     var adminGroups = summaryBean.adminGroups;//项目管理员组
     var teamAdminGroups = summaryBean.teamAdminGroups;//团队/项目团队管理员组
-    console.log(teamAdminGroups);
-    console.log(adminGroups);
     // 权限判断
     this.judge(teamAdminGroups);
     // 项目管理员组

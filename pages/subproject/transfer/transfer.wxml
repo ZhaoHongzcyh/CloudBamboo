@@ -8,7 +8,7 @@
 
   <!-- 成员列表 -->
   <view wx:if="{{memberlist.length > 0}}">
-    <block wx:for="{{memberlist}}">
+    <block wx:for="{{memberlist}}" wx:key="{{item.id}}">
       <view class="user {{index==0?'first':''}}" data-item="{{item}}" bindtap="openConfirm">
         <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userphoto"></image>
         <view class="username">{{item.personName}}</view>

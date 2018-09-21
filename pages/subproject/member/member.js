@@ -63,8 +63,6 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var taskId = this.data.taskId;
     api.request({taskId},address,"POST",true).then(res=>{
-      console.log("项目详情");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({
           summary:res.data.data.summaryBean,
@@ -78,8 +76,6 @@ Page({
   getFriendsList: function () {
     var address = app.ip + "tc/userContactService/getPersonContacts";
     api.request({},address,"POST",true).then(res=>{
-      console.log("联系人列表");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var data = res.data.data;
         for(var i = 0; i < data.length; i++){
@@ -115,8 +111,6 @@ Page({
     var address = app.ip + "tc/taskService/taskMemberManager";
     var obj = {taskId:this.data.taskId};
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("项目成员");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         
         this.setData({
@@ -129,7 +123,6 @@ Page({
 
   // 选择成员
   selectMember: function (e) {
-    console.log(e);
     var index = e.currentTarget.dataset.index;
     var num = e.currentTarget.dataset.num;
     var data = this.data.friendsList;
@@ -156,7 +149,6 @@ Page({
       })
     }
     this.setData({ choosemember, friendsList:data});
-    console.log(choosemember);
   },
 
   // 添加成员
@@ -189,8 +181,6 @@ Page({
       }
       summaryBean.participant = participant;
       api.customRequest({ updateFields:'participant'},summaryBean,address,"POST",true).then(res=>{
-        console.log("修改结果");
-        console.log(res);
         if(res.data.code == 200 && res.data.result){
           wx.navigateBack()
         }
@@ -221,22 +211,17 @@ Page({
       }
     })
     summaryBean.participant = participant;
-    console.log(single)
     var obj = { summaryBean };
     api.sendDataByBody(obj,address,"POST",true).then(res=>{
-      console.log("删除结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         // wx.navigateBack();
         memberBeanList.map((item,num)=>{
           if (item.resourceId == single.resourceId){
-            console.log("想等")
             memberBeanList.splice(num,1)
           }
         })
         matchMember.map((item,num)=>{
           if (item.resourceId == single.resourceId) {
-            console.log("想等")
             matchMember.splice(num, 1)
           }
         })

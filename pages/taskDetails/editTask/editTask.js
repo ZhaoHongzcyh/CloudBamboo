@@ -62,8 +62,6 @@ Page({
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
       wx.stopPullDownRefresh();
-      console.log("编辑任务");
-      console.log(res);
       var handle = library.handleChild(res);
       if (handle.status) {
         if (handle.data.itemBean.endDate != null) {
@@ -195,7 +193,6 @@ Page({
     if(value == ""){
       searchMatch = [];
     }
-    console.log(searchMatch)
     this.setData({
       searchMatch
     })
@@ -297,11 +294,7 @@ Page({
   },
   // 勾选已经在任务中的人员
   selectHasInTask: function (data) {
-    console.log(data);
-    console.log("-------------");
     var memberlist = this.data.memberlist;
-    console.log("+++++++++++++");
-    console.log(memberlist)
     for(var i = 0; i < data.length; i++){
       var obj = {
         personId:data[i].resourceId,
@@ -309,10 +302,6 @@ Page({
         selected:false,
         relationType:2
       }
-      // if(data[i].resourceId != this.data.mission.personId){
-
-      // }
-      // if(data[i].relationType != 1){
       if (data[i].resourceId != this.data.mission.personId) {
         // 验证是否存在相同的用户
         var end = false;
@@ -322,7 +311,6 @@ Page({
           }
         }
         if(!end){
-          // memberlist
           memberlist.push(obj);
         }
       }
@@ -457,7 +445,6 @@ Page({
     var arcIds = [detail.id]
     // var head = { proxyUserToken: wx.getStorageSync("proxyUserToken"), 'content-type':"application/x-www-form-urlencoded"};
     api.customRequest({}, arcIds,address,"POST",true).then(res=>{
-      console.log(res);
       var task = JSON.stringify(this.data.task);
       task = JSON.parse(task);
       var index = null
@@ -472,10 +459,14 @@ Page({
           task:task
         })
       }
+      else{
+        this.setData({alert:{content:res.data.message}});
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({alert:{content:'图片删除失败'}});
+      this.alert();
     })
-    // api.sendDataByBody(obj, address, "post", true).then(res=>{
-    //   console.log(res);
-    // })
   },
 
     // 控制可见范围

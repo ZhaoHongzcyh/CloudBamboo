@@ -23,12 +23,12 @@ Page({
     })
     this.selectPlanChild(options.id)
   },
+  
   // 根据ID查找计划条目
   selectPlanChild: function (id) {
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
-      console.log("任务参与人");
       var handle = library.handleChild(res);
       if (handle.status) {
         handle.data.arcList = api.cloudDiskDataClean(handle.data.arcList);
@@ -40,13 +40,10 @@ Page({
             memberlist.push(item);
           }
         })
-        console.log("___________");
-        console.log(memberlist);
         this.setData({
           task: handle.data,
           memberlist: memberlist
         })
-        console.log(this.data.task)
       }
       else {
         console.log(handle);

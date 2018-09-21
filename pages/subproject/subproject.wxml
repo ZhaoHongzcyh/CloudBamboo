@@ -41,7 +41,7 @@
         </view>
         <!-- 截止时间筛选列表 -->
         <view wx:if="{{isShowStopTime}}" catchtouchmove='stopmove'>
-          <view wx:for="{{stopTime}}" class="stoptimelist" bindtap="selectTaskByTime" data-timetype="{{item.timeType}}" data-state="{{item.state}}">
+          <view wx:for="{{stopTime}}" wx:key="{{item.title}}" class="stoptimelist" bindtap="selectTaskByTime" data-timetype="{{item.timeType}}" data-state="{{item.state}}">
             <view class="timetitle">{{item.title}}</view>
             <view class="timeradio">
               <radio/>
@@ -53,7 +53,7 @@
     </view>
     
     <!-- 任务新建区域 -->
-    <view wx:for="{{taskList}}" wx:for-item="plan" class="planlist">
+    <view wx:for="{{taskList}}" wx:key="{{plan.summaryBean.id}}" wx:for-item="plan" class="planlist">
 
       <view class="planName">
         <image class="row" src="./img/row.png" data-index="{{index}}" bindtap="fold"></image>
@@ -66,7 +66,7 @@
       </view>
 
       <view wx:if="{{plan.fold}}" bindtap="newTask" class="newTaskBtn" data-planid="{{plan.summaryBean.id}}" data-title="{{plan.summaryBean.title}}">新建任务</view>
-      <view wx:if="{{plan.fold}}" class="single-task {{item.emergencyGrade==1? 'normalcolor':''}} {{item.emergencyGrade==2? 'urgentcolor':''}}" wx:for="{{plan.itemList}}" wx:for-item="item" wx:for-index="childnum" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
+      <view wx:if="{{plan.fold}}" class="single-task {{item.emergencyGrade==1? 'normalcolor':''}} {{item.emergencyGrade==2? 'urgentcolor':''}}" wx:for="{{plan.itemList}}" wx:key="{{item.id}}" wx:for-item="item" wx:for-index="childnum" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
         <view class="radio-area" data-parentsnum="{{index}}" data-status="{{item.status}}" data-selfnum="{{childnum}}" data-taskid="{{item.id}}" catchtap='switchTaskState' data-creatorid="{{item.creatorId}}" data-manager="{{item.manager}}">
           <radio class="radio" color="#409CF2"  bindtap="radioAlert" checked="{{item.status==0? false : true}}"></radio>
         </view>
@@ -104,7 +104,7 @@
     </view>
     <!-- 文件夹返回键 -->
     <view wx:if="{{isShowReturn && fileParentIdStack.length < 7 || fileParentIdStack.length == 7}}" class="file-select-info">
-      <block wx:for="{{fileParentIdStack}}">
+      <block wx:for="{{fileParentIdStack}}" wx:key="{{item.id}}">
         <view class="urltitle {{(fileParentIdStack.length-1)==index? 'last':''}}" bindtap="jumpFile" data-index="{{index}}" data-parentId="{{item.parentId}}">{{item.title}}</view>
         <view class="urltitle">></view>
       </block>
@@ -222,8 +222,8 @@
     </view>
     <!-- 成员列表 -->
     <view class="memberlist">
-      <block wx:for="{{memberlist}}">
-        <view class="singlemember" data-item="{{item}}" bindtap="getPersonInfo">
+      <block wx:for="{{memberlist}}" wx:key="{{item.id}}">
+        <view class="singlemember" wx:key="{{item.id}}" data-item="{{item}}" bindtap="getPersonInfo">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userhead"></image>
           <view class="username">{{item.personName}}</view>
           <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==1 || item.relationType==13}}"></image>
@@ -339,7 +339,7 @@
       <view class="singlelist" bindtap="adminTeam">
         <view class="projectLevel">管理员组</view>
         <view class="moreset">
-          <block wx:for="{{projectMember}}">
+          <block wx:for="{{projectMember}}" wx:key="{{item.id}}">
             <image class="adminGroupImg" wx:if="{{item.relationType == 12 && index < 5}}" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}"></image>
           </block>
           >

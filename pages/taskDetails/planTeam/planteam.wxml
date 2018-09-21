@@ -1,6 +1,6 @@
 <!--pages/taskDetails/planTeam/planteam.wxml-->
 <view class="plancontent" wx:if="{{plan.length > 0}}">
-  <view wx:for="{{plan}}" data-item="{{item}}" class="plan" data-index="{{index}}" bindtap="getPlanInfo">
+  <view wx:for="{{plan}}" wx:key="{{item.summaryBean.id}}" data-item="{{item}}" class="plan" data-index="{{index}}" bindtap="getPlanInfo">
     <view class="plantitle">{{item.summaryBean.title}}</view>
     <radio class="planstatus" checked='{{item.select}}' color="#409CF2"/>
   </view>

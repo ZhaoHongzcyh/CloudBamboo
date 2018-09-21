@@ -41,8 +41,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("详情");
-    console.log(options);
     this.popup = this.selectComponent("#popup");
     this.confirm = this.selectComponent("#confirm")
     this.setData({
@@ -67,8 +65,6 @@ Page({
     var userid = wx.getStorageSync('tcUserId');
     var address = app.ip + "tc/taskService/findTaskBOById";
     api.request({ taskId: id }, address, "POST", true).then(res => {
-      console.log("项目权限");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         var summaryBean = res.data.data.summaryBean;
         var power = {
@@ -93,13 +89,12 @@ Page({
       console.log(e);
     })
   },
+
   // 权限判断
   handlePower: function () {
     var userId = wx.getStorageSync("tcUserId");
     var end = false;
     var power = this.data.power;
-    console.log("鉴别");
-    console.log(power);
     for (var i = 0; i < power.adminGroups.length; i++) {
       if (userId == power.adminGroups[i]) {
         end = true;
@@ -119,6 +114,7 @@ Page({
     }
     return end;
   },
+
   // 弹框
   alert: function () {
     this.popup.showPopup()
@@ -132,8 +128,6 @@ Page({
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
       wx.stopPullDownRefresh();
-      console.log("计划条目");
-      console.log(res);
       var handle = library.handleChild(res);
       if(handle.status){
         handle.data.arcList = api.cloudDiskDataClean(handle.data.arcList);
@@ -159,7 +153,6 @@ Page({
         }
         if (userId == handle.data.itemBean.creatorId) {
           isPersonCreateTask = true;
-          console.log("等于")
         }
         this.setData({
           task:handle.data,
@@ -170,13 +163,12 @@ Page({
           },
           partAction: handle.data.actionList.slice(0,3)
         })
-        console.log(this.data.task)
       }
       else{
-        console.log(handle);
       }
     })
   },
+
   // 设置文件云盘路径
   setFileSrc: function (fileAry,app) {
     var proxyUserToken = wx.getStorageSync("proxyUserToken");
@@ -188,18 +180,21 @@ Page({
     }
     return fileAry
   },
+
   // 获取任务参与人
   getParticipants: function() {
     wx.navigateTo({
       url: './participants/participants?id=' + this.data.taskId,
     })
   },
+
   // 查看任务描述
   watchDescript: function () {
     wx.navigateTo({
       url: './taskdescription/taskdescription?id=' + this.data.taskId,
     })
   },
+
   // 编辑任务
   edittask: function () {
     // 查询权限
@@ -213,6 +208,7 @@ Page({
       this.alert();
     }
   },
+
   // 复制任务
   copytask: function(){
     if(this.handlePower){
@@ -225,15 +221,14 @@ Page({
       this.alert();
     }
   },
+
   // 删除任务
   deleteTask: function () {
     var address = app.ip + "tc/schedule/itemService/delete";
     var obj = {id:this.data.task.itemBean.id};
     api.request(obj,address,"post",true).then(res=>{
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack()
-        console.log(res);
       }
       else{
         this.setData({alert:{content:"任务删除失败"}});
@@ -241,6 +236,7 @@ Page({
       }
     })
   },
+
   // 展示所有任务动态
   showAllAction: function () {
     if (this.data.task.actionList.length > 3){
@@ -249,6 +245,7 @@ Page({
       })
     }
   },
+
   // 显示所有文件
   showallfile: function () {
     var showfile = this.data.showfile;
@@ -272,19 +269,11 @@ Page({
       })
     }
   },  
+
   // 任务回复
   reply: function (e) {
     var reply = e.detail.value;
     var length = reply.length;
-    // if(reply[e.detail.cursor-1] == "@"){
-    //   console.log("打开执行人与参与人列表");
-    //   wx.navigateTo({
-    //     url: './peopleList/peoplelist?taskid=' + this.data.task.itemBean.id + "&num=" + (e.detail.cursor - 1),
-    //   })
-    // }
-    // else {
-    //   console.log(reply);
-    // }
     this.setData({
       replyContent: reply
     })
@@ -292,13 +281,12 @@ Page({
 
   // 编辑回复
   editreply: function(e){
-    console.log("编辑回复");
-    console.log(e);
     var num = e.detail.num;
     wx.navigateTo({
       url: './editreply/editreply?taskid=' + this.data.taskId + "&num=" + num,
     })
   },
+
   // 切换任务状态（已完成/未完成）
   switchStatus: function (e) {
     var item = e.currentTarget.dataset.item;
@@ -322,6 +310,7 @@ Page({
       this.alert();
     }
   },
+
   // 发送切换(已完成/未完成)请求
   sendStatus: function (status) {
     var itemBean = JSON.stringify(this.data.task.itemBean);
@@ -331,8 +320,6 @@ Page({
     itemBean.status = status;
     var address = app.ip + "tc/schedule/itemService/update";
     api.sendDataByBody(itemBean,address,"post",true).then(res=>{
-      console.log("状态修改结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var task = this.data.task
         task.itemBean.status = status;
@@ -351,23 +338,19 @@ Page({
       }
     })
   },
+
   // 附件下载
   downloadFile: function (e) {
-    console.log(e);
     var id = e.detail.id;
     var address = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + id;
     let downloadTask = wx.downloadFile({
       url:address,
       success:(res)=>{
-        console.log("文件下载");
-        console.log(res);
         if(res.statusCode == 200){
           // 持久保存文件
           wx.saveFile({
             tempFilePath: res.tempFilePath,
             success:(res)=>{
-              console.log("保存成功");
-              console.log(res.savedFilePath);
               this.setData({
                 alert:{content:"下载成功"}
               })
@@ -377,8 +360,8 @@ Page({
         }
       }
     })
-    // 文件下载进度监听
   },
+
   // 判断文件是否正处于下载中
   fileIsDownloading: function (id) {
     var downloading = this.data.downloading;
@@ -399,14 +382,13 @@ Page({
   openConfirm: function (){
     this.confirm.show();
   },
+
   // 删除任务请求
   deletetask: function () {
     this.confirm.hide();
     var address = app.ip + "tc/schedule/itemService/delete";
     var id = this.data.taskId;
     api.request({id},address,"POST",true).then(res=>{
-      console.log("删除");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack({
           delta: 1
@@ -425,6 +407,7 @@ Page({
       this.alert();
     })
   },
+
   //确认删除
   sure:function () {
     var power = this.handlePower();
@@ -445,7 +428,8 @@ Page({
         this.deletetask();
       }
     }
-  } ,
+  },
+
   // 评论任务
   evaluate: function () {
     var address = app.ip + "tc/schedule/itemService/estimateItem";
@@ -456,7 +440,6 @@ Page({
     }
     var obj = { id: this.data.taskId, descript: encodeURI(this.data.replyContent)};
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("评论");
       if(res.data.code == 200 && res.data.result){
         var task = this.data.task;
         res.data.data.createDate = res.data.data.createDate.split("T")[0];
@@ -468,7 +451,6 @@ Page({
         this.setData({alert:{content:"评论失败"}});
         this.alert();
       }
-      console.log(task);
     }).catch(e=>{
       this.setData({ alert: { content: "评论失败" } });
       this.alert();

@@ -51,11 +51,13 @@ Page({
     this.onLoad();
     this.getCompanyId();
   },
+
   // app下载弹框
   alert: function () {
     this.popup = this.selectComponent("#company-popup");
     this.popup.showPopup()
   },
+
   // 更新时间
   flushTime:function(){
     var time = api.getData();
@@ -63,6 +65,7 @@ Page({
       time:time
     })
   },
+  
   // 请求考勤打卡情况
   getWorkAttendance:function(){
     var obj = {
@@ -80,14 +83,12 @@ Page({
       wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
+
   // 查询公司信息
   getCompanyInfo:function(){
     var obj = {};
-    //tw/userService/getUserInfo
-    //tc/taskTeamService/findTaskTeam
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj,address,"post",true).then(res=>{
-      console.log(res);
       if(res.data.code == 402){//session 过期，重定向到登录页面
         wx.redirectTo({
           url: '/pages/index/index',
@@ -106,6 +107,7 @@ Page({
       wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
+
   getUserTeam:function(){
     var obj = {};
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
@@ -114,48 +116,21 @@ Page({
       wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
+
   // 切换公司
   switchCompany:function(){
     wx.navigateTo({
       url: '/pages/companyList/companyList',
     })
   },
+  
   // 添加公司
   addCompany:function(){
     wx.navigateTo({
       url: '/pages/addCompany/addCompany'
     })
   },
-  // 导航跳转
-  pageJump: function (e) {
-    var index = e.currentTarget.dataset.index;
-    var url = e.currentTarget.dataset.url.slice(1);
-    var jumpUrl = e.currentTarget.dataset.url, jumpNum = null;
-    var page = getCurrentPages();
-    var length = page.length;
-    app.editTabBar(index);
-    for (var i = 0; i < length; i++) {
-      if (page[i].route == url) {
-        jumpNum = i;
-      }
-    }
-    console.log("页面堆栈" + jumpNum);
-    if (jumpNum == null) {
-      wx.navigateTo({
-        url: jumpUrl,
-      })
-    }
-    else {
-      if (jumpNum == length - 1) {
-        return false;
-      }
-      else {
-        wx.navigateBack({
-          delta: length - (jumpNum + 1)
-        })
-      }
-    }
-  },
+
   // 获取公司ID
   getCompanyId:function(){
     var address = app.ip + "tw/userService/getUserInfo";

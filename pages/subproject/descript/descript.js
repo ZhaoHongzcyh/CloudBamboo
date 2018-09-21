@@ -37,8 +37,6 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
-      console.log("项目详细信息");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         var project = res.data.data.summaryBean;
         this.setData({
@@ -47,18 +45,21 @@ Page({
       }
     })
   },
+
   // 修改项目名称
   changeProjectName: function (e) {
     var project = this.data.project;
     project.title = e.detail.value;
     this.setData({project})
   },
+
   // 修改项目描述
   changeProjectDescript: function (e) {
     var project = this.data.project;
     project.description = e.detail.value;
     this.setData({project})
   },
+  
   // 保存项目信息
   saveProjectInfo: function () {
     var page =getCurrentPages();
@@ -70,7 +71,6 @@ Page({
     prevPage.setData({
       project:prevProject
     });
-    console.log(prevProject);
     wx.navigateBack();
   },
 
@@ -82,8 +82,6 @@ Page({
       summaryBean: summaryBean
     }
     api.request(obj, address, "POST", false).then(res => {
-      console.log("保存结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.saveProjectInfo();
       }

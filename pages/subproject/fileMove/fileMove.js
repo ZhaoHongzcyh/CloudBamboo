@@ -23,8 +23,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("移动文件");
-    console.log(options);
     this.setData({
       taskId:options.taskid,
       ids:options.file.split(",")
@@ -33,13 +31,16 @@ Page({
     this.popup = this.selectComponent("#popup");
     this.newFolder = this.selectComponent("#newFolder");
   },
+
   onShow: function () {
     this.selectFile(null);
   },
+
   // 弹框
   alert: function () {
     this.popup.showPopup()
   },
+
   // 通过项目id查找文件列表
   selectFile: function (e) {
     if(e != null){
@@ -48,9 +49,7 @@ Page({
     var address = app.ip + "tc/taskService/findTaskArcTreeByParent";
     var obj = { taskId: this.data.taskId, parentId: this.data.parentId };
     api.request(obj, address, "post", true).then(res => {
-      console.log("文件列表");
       var file = handle.handleFile(res);
-      console.log(res)
       if (file.status) {
         var fileParentIdStack = this.data.fileParentIdStack;//父文件夹Id堆栈
         var isShowReturn = false;
@@ -88,15 +87,16 @@ Page({
       }
     })
   },
+
   // 进入文件夹
   entryFolder: function (e) {
     var parentId = e.currentTarget.dataset.parentid;
-    console.log(parentId)
     this.setData({
       parentId: parentId
     });
     this.selectFile(e);
   },
+
   // 通过parentId请求文件列表
   getFileTree: function (parentId) {
     var fileParentIdStack = this.data.fileParentIdStack;
@@ -104,9 +104,7 @@ Page({
     var obj = { taskId: this.data.taskId, parentId: parentId };
     var isShowReturn = false;
     api.request(obj, address, "post", true).then(res => {
-      console.log("通过id查找文件树");
       var file = handle.handleFile(res);
-      console.log(res)
       if (file.status) {
         var folder = [];
         file = handle.fileList(app, api, file.data);
@@ -127,9 +125,9 @@ Page({
       }
     })
   },
+
   // 跳转到指定的文件夹
   jumpFile: function (e) {
-    console.log(e);
     var fileParentIdStack = this.data.fileParentIdStack;
     var index = e.currentTarget.dataset.index;
     fileParentIdStack = fileParentIdStack.splice(0, index + 1)
@@ -137,16 +135,14 @@ Page({
     this.setData({ fileParentIdStack });
     this.getFileTree(parentId);
   },
+
   // 新增加一个文件夹
   newFolderName: function (e) {
-    console.log(e);
     var folderName = encodeURI(e.detail.folderName);
     var fileList = this.data.fileList;
     var address = app.ip + "tc/taskService/addArcFolder";
     var obj = { parentId: this.data.parentId, taskId: this.data.taskId, folder: folderName }
     api.request(obj, address, "POST", true).then(res => {
-      console.log("新建文件夹");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         var file = handle.addFolder(app, api, res.data.data);
         fileList.unshift(file[0]);
@@ -155,14 +151,12 @@ Page({
       this.newFolder.hide();
     })
   },
-  // 跳转到上一级
-  upLevel: function (e) {
 
-  },
   // 新建文件夹弹框
   newFolderAlert: function () {
     this.newFolder.showModel();
   },
+
   // 移动文件
   moveFile: function () {
     var page = getCurrentPages();
@@ -172,8 +166,6 @@ Page({
     var head = { parentId: this.data.parentId};
     var ids = this.data.ids;
     api.customRequest(head,ids,address,"POST",true).then(res=>{
-      console.log("移动结果");
-      console.log(res);
       if(res.data.result && res.data.data==null){
         this.setData({alert:{content:"移动成功"}});
         this.alert();
@@ -205,6 +197,7 @@ Page({
       }, 2000)
     })
   },
+  
   // 删除上一个页面被移动的数据
   delMoveFile: function (ids,filelist) {
     for(var i = 0; i < ids.length; i++){

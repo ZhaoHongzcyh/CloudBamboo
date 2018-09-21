@@ -159,9 +159,6 @@ Page({
   searchPowerData: function (id) {
     var address = app.ip + "tc/taskService/findTaskBOById";
     api.request({ taskId: id }, address, "POST", true).then(res => {
-      console.log("项目权限");
-      console.log(res);
-      console.log(res.data.code,res.data.result)
       if(res.data.code == 200 && res.data.result){
         var summaryBean = res.data.data.summaryBean;
         var power = {
@@ -179,9 +176,9 @@ Page({
       }
     }).catch(e=>{
       console.log(e);
-      console.log("数据请求异常")
     })
   },
+
   // 弹框
   alert: function () {
     this.popup.showPopup()
@@ -196,6 +193,7 @@ Page({
   openConfirm: function () {
     this.confirm.show();
   },
+
   // 查找计划清单
   selectPlanList: function(id) {
     var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
@@ -218,8 +216,6 @@ Page({
           }
           data[i].itemList = this.handleTask(data[i].itemList)
         }
-        console.log("任务列表");
-        console.log(res);
         this.setData({
           taskList:data
         });
@@ -303,11 +299,7 @@ Page({
     obj.resourceType = 10010001,
     obj.resourceId = this.data.taskId;
     obj.taskId = this.data.taskId;
-    console.log("请求")
-    console.log(obj);
     api.request(obj,address,"post",true).then(res=>{
-      console.log("统计条目");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var data = res.data.data.list;
         for (var i = 0; i < data.length; i++) {
@@ -441,10 +433,7 @@ Page({
   // 通过项目id查找文件列表
   selectFile: function (e) {
     if(e != undefined){
-      console.log(e);
-      console.log("测试通过")
       var atype = e.currentTarget.dataset.atype;
-      console.log(atype);
       if (atype == 7 || atype == 10 || atype == 9) {
         var previewItem = e.currentTarget.dataset.item;
 
@@ -457,8 +446,6 @@ Page({
         return false;
       }
       if (atype == 3 || atype == 4 || atype == 5 || atype == 6){
-        console.log(e);
-        // return false;
         wx.navigateTo({
           url: './filePreview/filepreview?filename=' + e.currentTarget.dataset.title + "&id=" + e.currentTarget.dataset.item.id + "&atype=" + e.currentTarget.dataset.item.atype
         })
@@ -483,9 +470,7 @@ Page({
     var address = app.ip + "tc/taskService/findTaskArcTreeByParent";
     var obj = { taskId: this.data.taskId, parentId: this.data.parentId};
     api.request(obj,address,"post",true).then(res=>{
-      console.log("文件列表");
       var file = handle.handleFile(res);
-      console.log(res)
       if(file.status){
         var fileParentIdStack = this.data.fileParentIdStack;//父文件夹Id堆栈
         var isShowReturn = false;
@@ -526,13 +511,11 @@ Page({
       url: '/pages/taskDetails/taskdetails?taskId=' + id + "&powerId=" + this.data.taskId,
     });
     return false;
-    
   },
   
   // 进入文件夹
   entryFolder: function (e) {
     var parentId = e.currentTarget.dataset.parentid;
-    console.log(parentId)
     this.setData({
       parentId: parentId,
       chooseFileList:[]
@@ -543,7 +526,6 @@ Page({
   // 切换菜单列表
   switchMenu: function (e) {
     var index = e.currentTarget.dataset.index;
-    console.log(index);
     var menu = this.data.menu
     for(var i = 0; i < menu.length; i++){
       if(index == i){
@@ -594,7 +576,6 @@ Page({
 
   // 任务折叠效果
   fold: function (e) {
-    console.log(e);
     var index = e.currentTarget.dataset.index;
     var taskList = this.data.taskList;
     for(var i = 0; i < taskList.length; i++){
@@ -710,7 +691,6 @@ Page({
       // 检测该任务组是否是由本人创建
       var taskList = this.data.taskList;
       var checkEnd = false;
-      console.log(taskList);
       taskList.map((item,index)=>{
         if (item.summaryBean.id == this.data.needEditPlanId){
           if (userid == item.summaryBean.creatorId){
@@ -733,7 +713,6 @@ Page({
 
   // 删除任务计划
   delPlan: function () {
-    
     var id = this.data.needEditPlanId;
     if(this.handlePower()){
       this.delPlanReq(id)
@@ -764,8 +743,6 @@ Page({
   delPlanReq: function (id) {
     var address = app.ip + "tc/schedule/summaryService/delete";
     api.request({ id }, address, "POST", true).then(res => {
-      console.log("删除任务");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         this.confirm.hide();
         this.onShow();
@@ -776,23 +753,21 @@ Page({
       }
     })
   },
+
   // ----------------------------------------------------任务文件模块函数-----------------------------------------------
   // 监听用户选择文件/文件夹
   checkOutFile: function (e) {
     var num = e.currentTarget.dataset.num;
     e = e.detail.e;
-    console.log(e);
     var fileList = this.data.fileList;
     var chooseFileList = this.data.chooseFileList;
     var end = false;
-    console.log(num);
     chooseFileList.map((item,index)=>{
       if(item.id == e.currentTarget.dataset.id){
         end = true;
         chooseFileList.splice(index,1)
       }
     })
-    console.log(fileList[num])
     if(!end){
       fileList[num].select = true;
       chooseFileList.push(e.currentTarget.dataset.item)
@@ -848,7 +823,6 @@ Page({
 
   // 新增加一个文件夹
   newFolderName: function (e) {
-    console.log(e);
     if(!this.isInputFolderName(e.detail.folderName)){
       return false;
     }
@@ -857,8 +831,6 @@ Page({
     var address = app.ip + "tc/taskService/addArcFolder";
     var obj = { parentId: this.data.parentId, taskId: this.data.taskId, folder: folderName}
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("新建文件夹");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var file = handle.addFolder(app,api,res.data.data);
         file[0].isReadOnly = true;
@@ -876,7 +848,6 @@ Page({
 
   // 跳转到指定的文件夹
   jumpFile: function (e) {
-    console.log(e);
     var fileParentIdStack = this.data.fileParentIdStack;
     var index = e.currentTarget.dataset.index;
     fileParentIdStack = fileParentIdStack.splice(0, index+1);
@@ -905,9 +876,7 @@ Page({
     var obj = { taskId: this.data.taskId, parentId: parentId };
     var isShowReturn = false;
     api.request(obj, address, "post", true).then(res => {
-      console.log("通过id查找文件树");
       var file = handle.handleFile(res);
-      console.log(res)
       if (file.status) {
         file = handle.fileList(app, api, file.data);
         if (fileParentIdStack.length > 2 || fileParentIdStack.length == 2) {
@@ -965,8 +934,6 @@ Page({
         parentId: this.data.parentId
       },
       success:(res)=>{
-        console.log("上传结果");
-        console.log(res);
         try{
           res = JSON.parse(res.data);
         }
@@ -982,28 +949,23 @@ Page({
           fileList.push(file);
           
           this.setData({ fileList});
-          console.log(file);
         }
         this.uploadLocalFile(ary,i+1,progress+100,upNum);
       },
       fail:(e)=>{
-        console.log("文件上传失败");
         unNum = upNum - 1;
         currentProgress = Math.floor(progress/upNum);
         this.uploadLocalFile(ary, i + 1, progress, upNum);
       }
     })
     uploadTask.onProgressUpdate((res)=>{
-      console.log("上传进度" + res.progress);
       currentProgress = Math.floor((res.progress + progress)/upNum);
-      console.log(currentProgress);
     })
   },
 
   // 文件全选/取消
   selectAll: function (e) {
     var state = e.currentTarget.dataset.state == 'true'? true : false;
-    console.log(e);
     var fileList = this.data.fileList;
     var length = fileList.length;
     for (var i = 0; i < length; i++){
@@ -1041,33 +1003,26 @@ Page({
     var asize = parseInt(chooseFileList[i].asize.split(".")[0]);
     var reg = /M/img;
     if (asize > 10 && reg.test(chooseFileList[i].asize )){
-      console.log(chooseFileList[i])
       this.setData({alert:{content:"文件太大，请下载App"}});
       this.alert();
       return false;
     }
     var address = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + id;
-    console.log("开始下载");
     let downloadTask = wx.downloadFile({
       url: address,
       success: (res) => {
-        console.log("文件下载");
-        console.log(res);
         if (res.statusCode == 200) {
           // 持久保存文件
           wx.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success: (res) => {
               this.downloadFile(chooseFileList,i+1)
-              console.log("保存成功");
-              console.log(res.savedFilePath);
               this.setData({
                 alert: { content: "下载成功" }
               })
               this.alert()
             },
             fail:(e)=>{
-              console.log(e);
               this.setData({
                 alert: { content: "下载失败" }
               })
@@ -1104,8 +1059,6 @@ Page({
     }
     if (taskArcIds.length != 0) {
       api.sendDataByBody(taskArcIds, address, "POST", true).then(res => {
-        console.log("文件删除");
-        console.log(res);
         if (res.data.code == 200 && res.data.result) {
           this.delFileList(taskArcIds);
         }
@@ -1134,8 +1087,6 @@ Page({
       return false;
     }
     api.sendDataByBody(arcIds, address, "POST", true).then(res => {
-      console.log("鉴定结果");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         if (res.data.data == "true") {
           couldDel.push(arcIds[index]);
@@ -1153,15 +1104,11 @@ Page({
   delCloudFolder: function (fileArcIds) {
     var address = app.ip + "tc/taskService/deleteTaskArc";
     api.sendDataByBody(fileArcIds, address, "POST", true).then(res => {
-      console.log("远程文件删除情况");
-      console.log(res);
-      console.log(fileArcIds);
       if(res.data.code == 200 && res.data.result){
         var fileList = this.data.fileList;
         fileArcIds.map((item,index)=>{
           fileList.map((obj,num)=>{
             if(obj.id == item){
-              console.log("")
               fileList.splice(num,1)
             }
           })
@@ -1175,7 +1122,6 @@ Page({
         this.alert();
       }
     }).catch(e=>{
-      console.log(e);
       this.setData({ alert: { content: "文件夹删除失败" } });
       this.alert()
     })
@@ -1262,7 +1208,6 @@ Page({
 
   // 文件预览下的 下载
   toobarDown: function () {
-    console.log(this.data.previewItem);
     if (this.data.previewItem.definedPriv){
       if(this.handlePower()){
         this.downloadFile([this.data.previewItem], 0)
@@ -1296,8 +1241,6 @@ Page({
       return false;
     }
     api.sendDataByBody(taskArcIds, address, "POST", true).then(res => {
-      console.log("文件删除");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({
           preview:false
@@ -1346,8 +1289,6 @@ Page({
       auType: 4
     };
     api.customRequest(head,arcIds,address,"POST",true).then(res=>{
-      console.log("文档复制鉴定");
-      console.log(res);
       if(res.data.code == 403 && !res.data.result){
         this.setData({alert:{content:'所选文件夹包含权限锁定文件'}});
         this.alert();
@@ -1368,13 +1309,11 @@ Page({
     var arcIds = [];
     var userId = wx.getStorageSync("tcUserId");
     var chooseFileList = this.data.chooseFileList;
-    console.log(chooseFileList);
     var isHasFolder = false;//是否包含文件夹
     var isHasPower = true;//是否有权限移动
     var permission = this.handlePower();
     if(permission){
       // 移动
-      console.log("管理员权限")
       for (var i = 0; i < chooseFileList.length; i++) {
         arcIds.push(chooseFileList[i].id)
       }
@@ -1390,8 +1329,6 @@ Page({
         }
         arcIds.push(chooseFileList[i].id)
       }
-      console.log("结果")
-      console.log(isHasFolder,isHasPower);
       if (!isHasPower){
         this.setData({alert:{content:"移动失败，权限不够"}});
         this.alert();
@@ -1409,8 +1346,6 @@ Page({
   // 检查文件夹下方是否存在别人的文件
   checkFolderContent: function (arcIds, address) {
     api.sendDataByBody(arcIds, address, "POST", true).then(res => {
-      console.log("鉴定结果");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         if (res.data.data == "true") {
           this.fileMove(arcIds.join(","))
@@ -1436,16 +1371,18 @@ Page({
       this.alert();
     }
   },
+
   // 获取重名名信息
   getFileRename: function (e) {
-    console.log(e);
     this.setData({fileRename:e.detail.folderName});
     this.fileRename();
   },
+
   // 文件重命名弹框
   renameAlert: function () {
     this.rename.showModel();
   },
+
   // 确定重命名
   fileRename: function () {
     var chooseFileList = this.data.chooseFileList;
@@ -1455,15 +1392,12 @@ Page({
     }
     else{
       var address = app.ip + "tc/taskService/updateTaskArcTitle";
-      console.log(chooseFileList[0])
       var obj = {
         arcId: chooseFileList[0].id,
         parentId: chooseFileList[0].parentId,
         title:encodeURI(this.data.fileRename)
       }
       api.request(obj,address,"POST",true).then(res=>{
-        console.log("文件重命名");
-        console.log(res);
         if(res.data.code ==200 && res.data.result){
           res.data.data.isReadOnly = true;
           this.handleRename(res.data.data,obj);
@@ -1474,12 +1408,12 @@ Page({
           this.alert();
         }
       }).catch(e=>{
-        console.log(e);
         this.setData({ alert: { content: "文件重命名失败" } });
         this.alert();
       })
     }
   },
+
   // 文件重命名成功处理函数
   handleRename: function (res,obj) {
     var fileList = this.data.fileList;
@@ -1496,13 +1430,11 @@ Page({
     this.setData({ isShowUpImg: !this.data.isShowUpImg})
   },
   
-  // ---------------------------------------------------------项目成员相关-----------------------------------------------------------
+  // ----------------------------------------------------项目成员相关-------------------------------------------------------
   getProjectMember: function () {
     var address = app.ip + "tc/taskService/taskMemberManager";
     var obj = {taskId:this.data.taskId};
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("项目成员");
-      console.log(res);
       this.handleProjectMember(res);
     })
   },
@@ -1513,8 +1445,6 @@ Page({
     var check = false;
     if(res.data.code == 200 && res.data.result){
       var memberlist = res.data.data.memberBeanList;
-      console.log("c成员");
-      console.log(memberlist);
       memberlist.map((item,index)=>{
         if (userid == item.resourceId){
           if (item.relationType == 12 || item.relationType == 13 || item.relationType == 1){
@@ -1551,7 +1481,7 @@ Page({
       url: './member/member?taskid=' + this.data.taskId + "&state=" + state,
     })
   },
-  // ----------------------------------------------------------项目设置相关-----------------------------------------------------------
+  // -----------------------------------------------项目设置相关---------------------------------------------------
   // 获取项目详细信息
   getProjectInfo: function () {
     var time = this.data.time;
@@ -1562,13 +1492,9 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId:this.data.taskId};
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("项目详细信息");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var project = res.data.data.summaryBean;
         time.createTime = project.createDate
-        console.log("返回时间")
-        // console.log(this.timeTurn(project.createDate));
         project.createDate = this.timeTurn(project.createDate )
         if(project.startDate != null){
           time.startTime = project.startDate.split("T")[1];
@@ -1622,7 +1548,6 @@ Page({
     var project = this.data.project;
     project.startDate = e.detail.value;
     this.setData({project,time})
-    console.log(e);
     var obj = this.handleTimeFormat(project);
     this.saveSummaryBean(obj);
   },
@@ -1640,8 +1565,8 @@ Page({
     this.setData({project,time})
     var obj = this.handleTimeFormat(project);
     this.saveSummaryBean(obj);
-    console.log(project);
   },
+
   // 设置项目所属
   setProjectAscription: function () {
     // 判定是否为管理员与项目负责人
@@ -1652,6 +1577,7 @@ Page({
       url: './ascription/ascription?taskid=' + this.data.taskId,
     })
   },
+
   // 编辑项目描述与项目标题
   editProjectInfo: function () {
     // 判定是否为管理员与项目负责人
@@ -1662,6 +1588,7 @@ Page({
       url: './descript/descript?taskid=' + this.data.taskId,
     })
   },
+  
   // 管理员组
   adminTeam: function () {
     wx.navigateTo({
@@ -1677,7 +1604,6 @@ Page({
     }
  */
   queryUserPower: function () {
-    console.log("权限判定")
     var permission = null;//0:普通管理员
     var project = this.data.project;
     var userId = wx.getStorageSync("tcUserId");
@@ -1690,8 +1616,6 @@ Page({
         else{
           if (project.manager == userId) {
             permission = 1;
-            console.log(8230948320947230984723098740)
-            // return false;
             break;
           }
         }
@@ -1737,7 +1661,6 @@ Page({
     var time = this.data.time;
     summaryBean = JSON.stringify(summaryBean);
     summaryBean = JSON.parse(summaryBean);
-    console.log(summaryBean);
     if(summaryBean.startDate != null){
       if(time.startTime == null){
         time.startTime = "00:00:00.000+0800"
@@ -1764,8 +1687,6 @@ Page({
       taskId: this.data.taskId
     }
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("退出项目");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack()
       }

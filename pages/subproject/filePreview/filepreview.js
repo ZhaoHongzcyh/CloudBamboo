@@ -28,7 +28,6 @@ Page({
     else if(atype == 6 || atype == 5){
       src = app.filePreview + "tc/knowledge/previewPdf/?arcId=" + options.id + "&title=" + options.filename;
     }
-    console.log(src);
     return src;
   }
 })

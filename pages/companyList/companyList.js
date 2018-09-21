@@ -6,12 +6,15 @@ Page({
     defaultteamId: wx.getStorageSync("defaultTaskTeam"),
     isHasCompany:0,//0:未加入任何公司，1：已经加入公司，2：公司切换失败
   },
+  
   onReady:function(){
     
   },
+
   onLoad:function(){
     this.getCompanyList();
   },
+
   // 请求公司列表
   getCompanyList: function () {
     var that = this;
@@ -23,8 +26,6 @@ Page({
     },
     address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj, address, "post", true).then(res => {
-      console.log("团队");
-      console.log(res);
       if (res.data.data.list.length > 0){
         var ary = res.data.data.list;
         ary = api.clearCompanyList(ary);
@@ -44,11 +45,11 @@ Page({
       })
     })
   },
+
   // 选择公司
   chooseCompany:function(e){
     var company = e.details;
     var taskId = e.currentTarget.dataset.id;
-    console.log(taskId);
     var index = e.currentTarget.dataset.index;
     var obj = {taskId};
     var ary = this.data.companyListData;
@@ -70,6 +71,7 @@ Page({
       console.log(e);
     })
   },
+
   // 添加公司
   addCompany: function () {
     wx.navigateTo({

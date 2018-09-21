@@ -5,7 +5,7 @@
   </view>
   <!-- 项目数据 -->
   <scroll-view class="scrollview" scroll-y="{{true}}" wx:if="{{list.length>0}}">
-    <block wx:for="{{list}}" wx:for-item="item">
+    <block wx:for="{{list}}" wx:for-item="item" wx:key="{{item.summaryBean.id}}">
       <view class="project-data" wx:key="{{index}}">
         <view class="company-name" wx:if="{{urlLine}}"  data-index="{{index}}" catchtap="watchProject">
           <image src="./img/company-img.png" class="company-img"  ></image>
@@ -50,7 +50,7 @@
         
         <!-- 公司项目 -->
         <block wx:if="{{item.isShowCompany}}">
-          <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:for-item="child" data-isgetinto="{{child.isInProject? 1:0}}" bindtap="entryProject" wx:for-index="comopanyProIndex" data-item="{{child.summaryBean}}" data-id="{{child.summaryBean.id}}">
+          <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:key="{{child.summaryBean.id}}" wx:for-item="child" data-isgetinto="{{child.isInProject? 1:0}}" bindtap="entryProject" wx:for-index="comopanyProIndex" data-item="{{child.summaryBean}}" data-id="{{child.summaryBean.id}}">
             <view class="father-project">
               <view class="single-project">
                 <view class="isprogress">{{progress[child.summaryBean.tstate]}}</view>
@@ -90,7 +90,7 @@
             <!-- 二级项目信息/公司 -->
             <block wx:if="{{child.subList.length>0}}">
               <view class="sublist" wx:if="{{urlLine}}">
-                <block wx:for="{{child.subList}}" wx:for-item="childItem" wx:for-index="childIndex">
+                <block wx:for="{{child.subList}}" wx:key="{{childItem.summaryBean.id}}" wx:for-item="childItem" wx:for-index="childIndex">
                     <view class="second-level-project" wx:if="{{child.isShowChild}}" data-item="{{childItem.summaryBean}}" data-isGetInto="{{childItem.summaryBean}}" catchtap="entryProject"  data-id="{{childItem.summaryBean.id}}">
                       <view class="second-level">
                         <image src="./img/second-level.png" class="second-title-img"></image>
@@ -111,7 +111,7 @@
           
         <!-- 二级项目信息/个人项目 -->
         <view class="sublist" wx:if="{{!urlLine}}">
-            <block wx:for="{{item.subList}}" wx:for-item="sublist" wx:if="{{item.isShowChild}}">
+            <block wx:for="{{item.subList}}" wx:key="{{sublist.summaryBean.id}}" wx:for-item="sublist" wx:if="{{item.isShowChild}}">
               <view class="second-level-project" data-id="{{sublist.summaryBean.id}}" data-item="{{sublist.summaryBean}}" catchtap="entryProject">
                 <view class="second-level">
                   <image src="./img/second-level.png" class="second-title-img"></image>

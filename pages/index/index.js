@@ -50,23 +50,18 @@ Page({
   getEntryInfo: function () {
     // return false;
     var sessionoverdue = app.globalData.sessionoverdue;
-    console.log("通道判断")
     // 判断用户是否通过分享进入
     if (!app.globalData.isByAppEntry) {
-      console.log("分享进入")
-      // return false;
       // 判断session是否过期
       if (sessionoverdue){
         wx.setNavigationBarTitle({title:'云竹协作'});
         wx.hideTabBar({})
-        console.log("不现实")
         this.setData({ switchMyselfLogoin: false });
         this.getLogoinCode();//验证用户是否绑定协作
       }
       else{
         wx.setNavigationBarTitle({ title: '我的' });
         this.popup = this.selectComponent("#popup");
-        console.log("显示")
         wx.showTabBar({});
         this.setData({ switchMyselfLogoin: true });
         this.getTask();

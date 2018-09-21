@@ -27,8 +27,6 @@ Page({
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = {id:this.data.taskid}
     api.request(obj,address,"post",true).then(res=>{
-      console.log("成员查询");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.handleMemberData(res.data.data.memberList);
       }
@@ -37,6 +35,7 @@ Page({
       }
     })
   },
+
   // 处理返回的任务成员数据
   handleMemberData: function (data) {
     var memberList = [];
@@ -49,6 +48,7 @@ Page({
       memberList
     })
   },
+  
   // 选择人员
   selected: function (e) {
     
@@ -58,8 +58,6 @@ Page({
     var prevPage = page[length - 2];//上一级页面信息
     var calledPeople = prevPage.data.calledPeople;
     var replyContent = prevPage.data.replyContent;
-    console.log(calledPeople);
-    console.log(item)
     if (calledPeople == null){
       calledPeople = [];
       calledPeople.push(item);
@@ -68,17 +66,13 @@ Page({
       calledPeople.push(item);
     }
     var reg = /@/g;
-    console.log(item.personName)
-    console.log(replyContent);
     replyContent = replyContent.split("");
     replyContent[this.data.num] = " @" + item.personName + " ";
     replyContent = replyContent.join("");
-    // replyContent = replyContent.replace(reg,);
     prevPage.setData({
       calledPeople: calledPeople,
       replyContent: replyContent
     });
-    console.log(replyContent);
     wx.navigateBack();
   }
 })

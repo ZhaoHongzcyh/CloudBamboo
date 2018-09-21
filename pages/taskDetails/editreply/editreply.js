@@ -38,8 +38,6 @@ Page({
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = { id };
     api.request(obj, address, "POST", true).then(res => {
-      console.log("计划条目");
-      console.log(res)
       if(res.data.code == 200 && res.data.result){
         this.setData({
           actionlist:res.data.data.actionList
@@ -60,6 +58,7 @@ Page({
       actionlist
     })
   },
+  
   // 保存评论信息
   savedescript: function () {
     var reply = this.data.actionlist;
@@ -71,8 +70,6 @@ Page({
       actionId, descript
     }
     api.request(obj,address,"POST",true).then((res)=>{
-      console.log("修改评论");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack();
       }
@@ -81,7 +78,6 @@ Page({
         this.alert();
       }
     }).catch(e=>{
-      console.log(e);
       this.setData({ alert: { content: '评论修改失败' } });
       this.alert();
     })

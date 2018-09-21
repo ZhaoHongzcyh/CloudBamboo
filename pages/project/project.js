@@ -45,7 +45,7 @@ Page({
     // this.loadMore();
   // },
 
-  // 上拉触顶
+  // 加载更多
   loadMore:function(){
     this.setData({
       loadMore:true
@@ -123,8 +123,6 @@ Page({
         };
     }
     api.request(obj,address,"post",true).then(res=>{
-      console.log("公司项目")
-      console.log(res);
       this.setData({
         start: this.data.start + 1
       })
@@ -189,8 +187,6 @@ Page({
         list:list,
         companyProjectList:list
       })
-      console.log("公司");
-      console.log(list);
     }
     else if(res.data.code == 402){
       wx.redirectTo({
@@ -222,36 +218,6 @@ Page({
     })
   },
 
-  // 导航跳转
-  pageJump: function (e) {
-    var index = e.currentTarget.dataset.index;
-    var url = e.currentTarget.dataset.url.slice(1);
-    var jumpUrl = e.currentTarget.dataset.url, jumpNum = null;
-    var page = getCurrentPages();
-    var length = page.length;
-    app.editTabBar(index);
-    for (var i = 0; i < length; i++) {
-      if (page[i].route == url) {
-        jumpNum = i;
-      }
-    }
-    console.log("页面堆栈" + jumpNum);
-    if (jumpNum == null) {
-      wx.navigateTo({
-        url: jumpUrl,
-      })
-    }
-    else {
-      if (jumpNum == length - 1) {
-        return false;
-      }
-      else {
-        wx.navigateBack({
-          delta: length - (jumpNum + 1)
-        })
-      }
-    }
-  },
   // 折叠与展开项目列表
   watchProject:function(e){
     var index = e.currentTarget.dataset.index;
@@ -261,6 +227,7 @@ Page({
       list:ary
     })
   },
+
   // 折叠与展开子项目
   watchChild:function(e){
     var index = e.currentTarget.dataset.index;
@@ -277,6 +244,7 @@ Page({
       list: ary
     })
   },
+
   // 个人项目的折叠于展开
   watchPersonChild:function(e){
     var index = e.currentTarget.dataset.index;
@@ -286,12 +254,12 @@ Page({
       list: ary
     })
   },
+  
   // 获取项目详细信息
   entryProject: function (e) {
     var id = e.currentTarget.dataset.id;
     var summaryBean = e.currentTarget.dataset.item;
     var isgetinto = e.currentTarget.dataset.isgetinto;
-    console.log(summaryBean)
     if (summaryBean.tstate == 3 || summaryBean.tstate == 4){
       if (wx.getStorageSync('tcUserId') != summaryBean.manager){
         var content = '项目已完结，如需操作请联系负责人重启项目'

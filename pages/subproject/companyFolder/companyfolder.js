@@ -40,8 +40,6 @@ Page({
   getCompanyFolder: function () {
     var address = app.ip + "tc/taskService/findTaskFolderByParentId";
     api.request({ taskId:this.data.companyId},address,"POST",true).then(res=>{
-      console.log("公司更目录");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var fileData = res.data.data.list;
         fileData.map((item,index)=>{
@@ -86,8 +84,6 @@ Page({
     var address = app.ip + "tc/taskService/findTaskArcTree";
     var obj = { parentId: id, taskId: this.data.companyId};
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("文件树");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var fileData = res.data.data;
         fileData.map((item,index)=>{
@@ -136,8 +132,6 @@ Page({
     var parentId = length == 0 ? 0 : parentIdStack[length - 1].parentId
     var obj = { parentId: parentId , taskId: this.data.companyId, folder: folderName};
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("新建文件夹");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var file = handle.addFolder(app, api, res.data.data);
         fileData.unshift(file[0]);
@@ -160,8 +154,6 @@ Page({
     var head = { targetFolder};
     var arcIds = this.data.copyFile;
     api.customRequest(head, arcIds,address,"POST",true).then(res=>{
-      console.log("文件复制");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({alert:{content:'复制成功!'}});
         this.alert();

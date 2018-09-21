@@ -12,7 +12,6 @@ var request = function(data={},url="localhost",method="post",bool){
            header: data,
            success: function (res) {
              if (!res.data.result && res.data.code != 200 && res.data.code != 419) {
-               console.log("session过期")
                if(res.data.code == 402){
                  app.globalData.sessionoverdue = true;
                   wx.switchTab({
@@ -72,7 +71,6 @@ var sendDataByBody = function (data,url,method,isCheck=true) {
       data: data,
       success: function (res) {
         if (!res.data.result && res.data.code != 200) {
-          console.log("session过期")
           if (res.data.code == 402) {
             app.globalData.sessionoverdue = true;
             wx.switchTab({
@@ -112,7 +110,6 @@ var customRequest = function (head,body,address,method="post",bool=true) {
       data: body,
       success: function (res) {
         if (!res.data.result && res.data.code != 200) {
-          console.log("session过期")
           app.globalData.sessionoverdue = true;
           wx.switchTab({
             url: '/pages/index/index'

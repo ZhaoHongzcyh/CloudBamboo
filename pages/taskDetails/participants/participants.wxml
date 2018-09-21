@@ -1,5 +1,5 @@
 <view>
-  <view wx:for="{{memberlist}}" class="member" wx:if="{{memberlist.length>0}}">
+  <view wx:for="{{memberlist}}" wx:key="{{item.personId}}" class="member" wx:if="{{memberlist.length>0}}">
       <image class="userhead" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.personId + '/100/100'}}"></image>
       <view class="username">{{item.personName}}</view>
   </view>

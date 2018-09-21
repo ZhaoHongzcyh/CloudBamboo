@@ -79,8 +79,6 @@ Page({
     var userId = wx.getStorageSync('tcUserId');
     var obj = { taskId };
     api.request(obj, address, "post", true).then(res => {
-      console.log("初始化执行人");
-      console.log(res);
       var Implement = null;
       var memberBeanList = null;
       if (res.data.code == 200 && res.data.result) {
@@ -91,7 +89,6 @@ Page({
             Implement = memberBeanList[i]
           }
         }
-        console.log(Implement)
         this.setData({
           Implement: Implement,
           memberlist: memberBeanList
@@ -99,7 +96,6 @@ Page({
         this.getAddMemberList();
       }
       else if (res.data.message != null || res.data.message != "") {
-        console.log(res.data.message);
       }
       else {
         console.log("加载错误");
@@ -122,8 +118,6 @@ Page({
     var taskId = this.data.taskId;
     var obj = {taskId};
     api.request(obj,address,"post",true).then(res=>{
-      console.log("执行人");
-      console.log(res);
       var Implement = null;
       var memberBeanList = null;
       if(res.data.code == 200 && res.data.result){
@@ -216,7 +210,6 @@ Page({
     if(value == ""){
       matchList = [];
     }
-    console.log(matchList);
     this.setData({
       matchList
     })
@@ -232,7 +225,6 @@ Page({
           participant.push(this.data.addMemberList[i].resourceId);
         }
       }
-      console.log(participant)
       this.setData({
         isShowAddMember: !this.data.isShowAddMember,
         participant: participant
@@ -253,8 +245,6 @@ Page({
     var taskId = this.data.taskId;
     var obj = { taskId };
     api.request(obj,address,"post",true).then(res=>{
-      console.log("参与人列表");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({
           addMemberList:res.data.data.memberBeanList
@@ -321,8 +311,6 @@ Page({
   matchAddMember: function (e) {
     var value = e.detail.value;
     var searchList = [];
-    console.log("列表");
-    console.log(this.data.addMemberList);
     for(var i = 0; i < this.data.addMemberList.length; i++){
       var reg = new RegExp(value);
       if (reg.test(this.data.addMemberList[i].personName) || reg.test(this.data.addMemberList[i].username)) {
@@ -347,7 +335,6 @@ Page({
     var item = e.currentTarget.dataset.item;
     var addMemberList = this.data.addMemberList;
     var searchList = this.data.searchList;
-    console.log(addMemberList);
     for (var i = 0; i < addMemberList.length; i++){
       if (addMemberList[i].id == item.id && !addMemberList[i].selected){
         addMemberList[i].selected = true;
@@ -379,8 +366,6 @@ Page({
       count:10,
       sizeType:"original",
       success:(res)=>{
-        console.log("文件列表");
-        console.log(res);
         this.handleUploadData(res.tempFilePaths);
       },
       fail:(err)=>{
@@ -421,8 +406,6 @@ Page({
         },
         name: "file",
         success: (res)=>{
-          console.log("上传结果");
-          console.log(res);
           try{
             res.data = JSON.parse(res.data);
             data[index].name = res.data.data[0].title;
@@ -467,11 +450,8 @@ Page({
 
   // 添加任务
   addTask: function (e) {
-    console.log("执行人");
-    console.log(this.data.Implement);
     var address = app.ip + "tc/schedule/itemService/add";
     var participant = [];//参与人
-    console.log(this.data.addMemberList);
     for(var i = 0; i < this.data.addMemberList.length; i++){
       if(this.data.addMemberList[i].selected){
         participant.push(this.data.addMemberList[i].resourceId);
@@ -495,31 +475,11 @@ Page({
     }
 
     api.sendDataByBody(obj,address,"post",true).then(res=>{
-      console.log("任务添加结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({
           uploadId:res.data.data.itemBean.id
         })
-        // // 返回上一级，并将新添加的数据添加到任务列表中
-        // var page = getCurrentPages();
-        // var prevpage = page[page.length - 2];
-        // var taskList = prevpage.data.taskList;
-        // for(var i = 0; i < taskList.length; i++){
-        //   if(taskList[i].summaryBean.id == res.data.data.itemBean.resourceId){
-        //     res.data.data.itemBean.managerName = this.data.Implement.personName;
-        //     res.data.data.itemBean.endDate = prevpage.handleTask([res.data.data.itemBean])[0].endDate;
-            
-        //     taskList[i].itemList.push(res.data.data.itemBean);
-        //     break;
-        //   }
-        // }
-        
-        // // return false;
-        // prevpage.setData({
-        //   taskList:taskList
-        // })
-        // // 调用文件上传
+        // 调用文件上传
         if(this.data.tempFilePath.length > 0){
           this.upImg();
         }
@@ -529,9 +489,11 @@ Page({
         
       }
       else{
+        this.setData({alert:{content:res.data.message}});
         this.alert();
       }
     }).catch(e=>{
+      this.setData({alert:{content:'任务添加失败'}});
       this.alert();
     })
   },

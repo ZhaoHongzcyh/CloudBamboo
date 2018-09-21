@@ -18,7 +18,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
     this.setData({
       taskId:options.taskid
     })
@@ -34,8 +33,6 @@ Page({
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
       var isShowState = false;
-      console.log("项目详细信息");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         if (res.data.data.summaryBean.tstate == 3 || res.data.data.summaryBean.tstate == 4){
           isShowState = true;
@@ -62,8 +59,6 @@ Page({
   request: function (obj) {
     var address = app.ip + "tc/taskService/addOrUpdateTask";
     api.request(obj, address, "POST", false).then(res => {
-      console.log("完结项目");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         wx.navigateBack({
           delta: 2

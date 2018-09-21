@@ -24,14 +24,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options);
     this.popup = this.selectComponent("#popup");
     this.setData({
       taskId:options.taskid
     })
+    this.getProjectInfo();
   },
 
   onShow: function () {
+    
+  },
+
+  // 下拉刷新
+  onPullDownRefresh: function (e) {
     this.getProjectInfo();
   },
 
@@ -42,7 +47,6 @@ Page({
 
   // 获取用户输入的项目名称
   getProjectName: function (e) {
-    console.log(e);
     this.setData({
       name: e.detail.value
     })
@@ -53,8 +57,7 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
-      console.log("详细信息");
-      console.log(res);
+      wx.stopPullDownRefresh()
       if(res.data.code == 200 && res.data.result){
         var summaryBean = res.data.data.summaryBean;
         var arcSummaryBeans = res.data.data.arcSummaryBeans;
@@ -104,11 +107,7 @@ Page({
       obj.ownerId = this.data.ownerId;
       obj.ownerType= 40010001;
     }
-    console.log(obj);
-    // return false;
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("复制结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({alert:{content:"已成功复制项目"}});
         this.alert();

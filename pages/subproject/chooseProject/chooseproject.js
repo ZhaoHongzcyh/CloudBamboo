@@ -36,8 +36,6 @@ Page({
     }
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj, address, "post", true).then(res => {
-      console.log("项目所属");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var companyList = res.data.data.list;
         companyList.map((item,index)=>{
@@ -57,7 +55,6 @@ Page({
 
   // 用户选择项目所属
   chooseAscription: function (e) {
-    console.log(e);
     var owerId = e.currentTarget.dataset.id;
     var title = e.currentTarget.dataset.title;
     var page = getCurrentPages();
@@ -74,8 +71,11 @@ Page({
     var length = page.length;
     var prevPage = page[length - 2];
     var projectOwner = { ownerId: null, title: '个人项目' };
-    prevPage.setData({ ownerId: owerId, projectOwner });
+    var summaryBean = prevPage.data.summaryBean;
+    summaryBean.ownerType = 10000003;
+    prevPage.setData({ ownerId: null, projectOwner, summaryBean});
     this.setData({ checked: true})
+    console.log(prevPage.data)
     wx.navigateBack({});
   }
 })

@@ -38,7 +38,6 @@ Page({
   // 设置开始时间
   setStartDate: function(e) {
     var plan = this.data.plan;
-    console.log(e);
     plan.startDate = e.detail.value + "T00:00:00.000+0800" 
     this.setData({startDate:e.detail.value,plan:plan});
   },
@@ -54,14 +53,11 @@ Page({
   getPlanInfo: function (id) {
     var address = app.ip + "tc/schedule/summaryService/findBo";
     api.request({id},address,"POST",true).then(res=>{
-      console.log("计划条目信息");
-      console.log(res);
       wx.stopPullDownRefresh();
       if(res.data.code == 200 && res.data.result){
         var endDate = null;
         if (res.data.data.summaryBean.endDate != null){
           endDate = res.data.data.summaryBean.endDate;
-          console.log(endDate)
           endDate = endDate.split("T")[0]
         }
         this.setData({
@@ -70,6 +66,13 @@ Page({
           endDate: endDate
         })
       }
+      else{
+        this.setData({alert:{content:res.data.message}});
+        this.alert();
+      }
+    }).catch(e=>{
+      this.setData({alert:{content:'网络异常'}});
+      this.alert();
     })
   },
 
@@ -85,15 +88,15 @@ Page({
     var address = app.ip + "tc/schedule/summaryService/update"
     var plan = this.data.plan;
     api.sendDataByBody(plan,address,"POST",true).then(res=>{
-      console.log("修改情况");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack()
       }
       else{
+        this.setData({alert:{content:res.data.message}})
         this.alert();
       }
     }).catch(e=>{
+      this.setData({alert:{content:'编辑失败'}});
       this.alert();
     })
   }

@@ -50,8 +50,6 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
-      console.log("项目详细信息");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var summaryBean = res.data.data.summaryBean;
         var memberlist = res.data.data.memberBeans;
@@ -99,8 +97,6 @@ Page({
       quitTask: quitTask
     }
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("转让结果");
-      console.log(res)
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack({
           delta: 3

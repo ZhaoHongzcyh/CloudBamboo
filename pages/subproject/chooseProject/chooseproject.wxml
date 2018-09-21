@@ -5,7 +5,7 @@
     <view class="person">个人项目</view>
     <radio color="rgb(64,156,242)" class="radio" checked="{{checked}}"></radio>
   </view>
-  <block wx:for="{{companyList}}">
+  <block wx:for="{{companyList}}" wx:key="{{item.id}}">
     <companyList bindtap="chooseAscription" src="/pages/company/img/companyList.png" companyName="{{item.title}}" legalPerson="{{item.personName}}" data-title="{{item.title}}" checked="{{item.checked}}" data-index="{{index}}" data-contentId="{{item.contentId}}" defaultteam="{{item.id}}" data-id="{{item.id}}" data-teamid="{{item.teamId}}"></companyList>
   </block>
 </view>

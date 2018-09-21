@@ -8,12 +8,14 @@
     <view class="projectAcr">项目所属</view>
     <view class="projectclass" wx:if="{{summaryBean.parentId == 0 && summaryBean.ownerType != 10000003}}">
       {{ownerId == null? summaryBean.ownerName:projectOwner.title}}
+      <!-- {{ownerId == null? projectOwner.title:summaryBean.ownerName}}11 -->
     </view>
     <view class="projectclass" wx:if="{{summaryBean.parentId == 0 && summaryBean.ownerType == 10000003}}">
       {{ownerId == null? '个人项目':projectOwner.title}}
     </view>
     <view class="projectclass" wx:if="{{summaryBean.parentId != 0 && summaryBean.ownerType != 10000003}}">
       {{ownerId == null? summaryBean.ownerName:projectOwner.title}}
+      <!-- {{ownerId == null? projectOwner.title:summaryBean.ownerName}} -->
     </view>
     <view class="projectclass" wx:if="{{summaryBean.parentId != 0 && summaryBean.ownerType == 10000003}}">
       {{ownerId == null? '个人项目':projectOwner.title}}

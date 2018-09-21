@@ -16,15 +16,12 @@ Page({
   },
 
   onLoad:function(options){
-    this.getFileList();
     // 弹框节点
     this.popup = this.selectComponent("#popup");
   },
 
   onShow: function () {
-    console.log("页面")
-    var page = getCurrentPages();
-    console.log(page)
+    this.getFileList();
   },
 
   // 下拉刷新
@@ -35,10 +32,12 @@ Page({
       more: false
     })
   },
+
   // 显示弹框
   alert: function () {
     this.popup.showPopup()
   },
+
   // 获取文件列表
   getFileList:function(){
     var address = app.ip + "tc/IArcSumManagerService/findArcSummarysdate";
@@ -66,6 +65,7 @@ Page({
       console.log(e)
     })
   },
+
   select:function(e){
     var index = e.currentTarget.dataset.index;
     var selectStatus = this.data.selectStatus;
@@ -92,6 +92,7 @@ Page({
       wx.showTabBar({})
     }
   },
+
   // 全选
   selectAll:function(){
     var length = this.data.fileData.length;
@@ -117,6 +118,7 @@ Page({
       wx.showTabBar({})
     }
   },
+
   // 取消
   cancel:function(){
     var selectStatus = [];
@@ -131,63 +133,31 @@ Page({
     })
     wx.showTabBar({});
   },
+
   // 更多
   moreFun:function(){
     this.setData({
       more:true
     })
   },
+  
   // 取消更多
   cancelmore:function(){
     this.setData({
       more:false
     })
   },
-  getSearchContent:function(e){
-    // console.log(e);
-  },
-  pageJump: function (e) {
-    var index = e.currentTarget.dataset.index;
-    var url = e.currentTarget.dataset.url.slice(1);
-    var jumpUrl = e.currentTarget.dataset.url, jumpNum = null;
-    var page = getCurrentPages();
-    var length = page.length;
-    app.editTabBar(index);
-    for (var i = 0; i < length; i++) {
-      if (page[i].route == url) {
-        jumpNum = i;
-      }
-    }
-    console.log("页面堆栈"+ jumpNum);
-    if (jumpNum == null) {
-      wx.navigateTo({
-        url: jumpUrl,
-      })
-    }
-    else {
-      if (jumpNum == length - 1) {
-        return false;
-      }
-      else {
-        wx.navigateBack({
-          delta: length - (jumpNum + 1)
-        })
-      }
-    }
-  },
 
   // 进入文件夹
   entryFolder: function (e) {
     var item = e.currentTarget.dataset.item;
     var parentIdStack = this.data.parentIdStack;
-    console.log(item);
     var obj = {
       id:item.id,
       title:item.title
     }
     if(item.atype == 0){
       parentIdStack.push(obj);
-      console.log(parentIdStack);
       this.setData({ parentIdStack})
       this.searchFileList();
       
@@ -234,7 +204,6 @@ Page({
   jumpFolder: function (e) {
     var parentIdStack = this.data.parentIdStack;
     var index = e.currentTarget.dataset.index;
-    console.log(index)
     if(index == 0){
       this.jump(1);
     }
@@ -243,8 +212,6 @@ Page({
       this.jump(id);
     }
     parentIdStack.splice(index);
-    console.log("删除");
-    console.log(parentIdStack);
     this.setData({ parentIdStack})
   },
 

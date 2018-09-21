@@ -29,7 +29,6 @@ Page({
     this.newFolder = this.selectComponent("#newFolder");
     this.popup = this.selectComponent("#popup");
     this.downapp = this.selectComponent("#downapp");
-    console.log(options);
   },
 
   onShow: function () {
@@ -112,7 +111,8 @@ Page({
         cloudDiskList: list
       })
     }).catch(e => {
-      console.log(e)
+      this.setData({alert:{content:'网络请求异常'}});
+      this.alert();
     })
   },
 
@@ -141,7 +141,6 @@ Page({
 
   // 新建文件夹
   newFolderName: function (e) {
-    console.log(e);
     if (!this.isInputFolderName(e.detail.folderName)){
       return false;
     }
@@ -156,12 +155,9 @@ Page({
     else if(length > 1){
       parentid = parentIdStack[length - 1].id;
     }
-    console.log(parentIdStack);
     var address = app.ip + "tc/knowledgeService/addArc";
     var obj = { parentId: parentid, title: folderName }
     api.request(obj, address, "POST", true).then(res => {
-      console.log("新建文件夹");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         var file = handle.addFolder(app, api, res.data.data);
         file[0].isReadOnly = true;
@@ -216,10 +212,7 @@ Page({
       targetFolder: targetFolder,
     }
     var arcIds = this.data.filelId;
-    console.log(arcIds)
     api.customRequest(obj, arcIds,address,"POST",true).then(res=>{
-      console.log("复制结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({alert:{content:'复制成功!'}});
         this.alert()
@@ -235,8 +228,6 @@ Page({
   getCompanyList: function () {
    var address = app.ip + "tc/taskTeamService/findTaskTeam";
    api.request({},address,"POST",true).then(res=>{
-     console.log("公司列表");
-     console.log(res);
      if(res.data.code == 200 && res.data.result){
        this.setData({
          companyList:res.data.data.list
@@ -253,10 +244,6 @@ Page({
     var head = {
       targetFolder: item.id,
     };
-    // api.customRequest(head, arcIds,address,"POST",true).then(res=>{
-    //   console.log("复制到公司");
-    //   console.log(res);
-    // })
     this.entryCompanyFolder(item, arcIds)
   },
 

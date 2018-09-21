@@ -36,7 +36,7 @@
     <view class="info" bindtap="getParticipants">
       <view class="infotitle">参与人</view>
       <view class="common_title">
-        <block wx:for="{{task.memberList}}">
+        <block wx:for="{{task.memberList}}" wx:key="{{item.id}}">
           <image class="memberphoto" wx:if="{{item.relationType == 2}}" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.personId + '/100/100'}}"></image>
         </block>
         <image src="./img/open.png" class="openimg"></image>
@@ -60,7 +60,7 @@
   <!-- 附件列表 -->
   <view class="file">
     <view class="showallfile" bindtap="showallfile">{{showfile.state? '收起所有附件' : '显示所有附件'}}</view>
-    <block wx:for="{{showfile.data}}">
+    <block wx:for="{{showfile.data}}" wx:key="{{item.id}}">
       <file isdownload="{{false}}" readonly="{{false}}" item="{{item}}"></file>
     </block>
   </view>

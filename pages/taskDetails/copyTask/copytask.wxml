@@ -2,12 +2,12 @@
 <view>
   <view class="head">
     <image src="./img/copy.png" class="copyimg"></image>
-    <view class="copytitle">复制任务到以下任务计划</view>
+    <view class="copytitle">复制任务到以下任务组</view>
   </view>
   <!-- 任务分类列表 -->
   <view>
     <view class="planlist">
-      <block wx:for="{{planList}}">
+      <block wx:for="{{planList}}" wx:key="{{item.summaryBean.id}}">
         <view data-id="{{item.summaryBean.id}}" bindtap="copyTask" class="plan">{{item.summaryBean.title}}</view>
       </block>
     </view>

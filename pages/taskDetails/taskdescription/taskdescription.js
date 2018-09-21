@@ -23,12 +23,11 @@ Page({
     })
     this.loadDescript(options.id)
   },
+  
   loadDescript: function (id) {
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
-      console.log("描述条目");
-      console.log(res);
       var handle = library.handleChild(res);
       if (handle.status) {
         if(handle.data.itemBean.description != null){

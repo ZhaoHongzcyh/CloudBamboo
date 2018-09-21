@@ -21,7 +21,7 @@
     
     <view class="cloudDisk" wx:if="{{showTapNum == 1}}">
       <view class="nav">
-        <block wx:for="{{parentIdStack}}">
+        <block wx:for="{{parentIdStack}}" wx:key="{{item.id}}">
           <view data-id="{{item.id}}" class="subnav" data-index="{{index}}" bindtap="jumpFolder" wx:if="{{parentIdStack.length < 4}}">
             {{item.title}}>
           </view>
@@ -52,7 +52,7 @@
 
     <!-- ---------------------------------------------------------我的公司---------------------------------- -->
     <view class="company">
-      <block wx:for="{{companyList}}">
+      <block wx:for="{{companyList}}" wx:key="{{item.id}}">
         <view class="singlecompany" bindtap="selectCompany" data-item="{{item}}">
           <image src="/pages/company/img/companyList.png" class="companyHead"></image>
           <view class="companyinfo">

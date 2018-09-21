@@ -1,20 +1,17 @@
 //app.js
 App({
-  ip:"http://192.168.1.107:8082/tc_service/",//开发环境
-  filePreview:"http://192.168.1.107/tc_web/",
-  // ip:"https://services.yzsaas.cn/",//生产环境
+  //ip:"http://192.168.1.107:8082/tc_service/",//开发环境
+  // filePreview:"http://192.168.1.107/tc_web/",
+  ip:"https://services.yzsaas.cn/",//生产环境
+  filePreview: "http://xz.yzsaas.cn/tc_web/",
   // ip:"http://192.168.1.79:8082/tc_service/",
   onLaunch: function () {
   },
   onShow:function(options){
-    console.log("场景值");
-    console.log(options);
     this.getSceneValue(options);
   },
   // 获取场景值
   getSceneValue:function(options){
-    console.log("获取场景值")
-    console.log(options);
     if(options.scene == 1036){
       this.globalData.isByAppEntry = true;
       var sceneObject = this.globalData.Invitation;

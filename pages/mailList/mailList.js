@@ -31,48 +31,21 @@ Page({
   alert: function () {
     this.popup.showPopup()
   },
+  
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
     this.getGroup();
   },
-  /**
+
+  /*
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
   
   },
-  pageJump: function (e) {
-    var index = e.currentTarget.dataset.index;
-    var url = e.currentTarget.dataset.url.slice(1);
-    var jumpUrl = e.currentTarget.dataset.url, jumpNum = null;
-    var page = getCurrentPages();
-    var length = page.length;
-    app.editTabBar(index);
-    
-    for (var i = 0; i < length; i++) {
-      if (page[i].route == url) {
-        jumpNum = i;
-      }
-    }
-    console.log("页面堆栈" + jumpNum);
-    if (jumpNum == null) {
-      wx.navigateTo({
-        url: jumpUrl,
-      })
-    }
-    else {
-      if (jumpNum == length - 1){
-        return false;
-      }
-      else{
-        wx.navigateBack({
-          delta: length - (jumpNum + 1)
-        })
-      }
-    }
-  },
+
   // 获取用户分组情况
   getGroup:function(){
     var address = app.ip + "tc/userContactService/getPersonContacts";

@@ -29,24 +29,24 @@ Page({
       fileid:options.fileid
       });
   },
+
   onShow: function () {
     // this.searchTaskMember();
     this.getFilePower();
   },
+
   // 弹框
   alert: function () {
     this.popup.showPopup()
   },
+
   // 获取人员与文件权限状态
   getFilePower: function () {
     var address = app.ip + "tc/taskAuthorityService/findListArcPrivilege";
     var obj = {arcId:this.data.fileid};
     var file = this.data.file;
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("人员权限");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
-        // file.
         var selectMember = res.data.data.taskAuthorityList;
         var member = [];
         for (var i = 0; i < selectMember.length; i++){
@@ -62,6 +62,7 @@ Page({
       }
     })
   },
+
   // 状态切换
   switchState: function (e) {
     var isShowMemberList;
@@ -93,12 +94,14 @@ Page({
       isShowMemberList: isShowMemberList
     })
   },
+
   // 取消选择成员
   switchCancel: function () {
     this.setData({
       isShowMemberList:false
     })
   },
+
   // 选择成员
   chooseMember: function (e) {
     var selectMember = this.data.selectMember;
@@ -127,8 +130,8 @@ Page({
     }
     file.taskAuthorityList = taskAuthorityList;
     this.setData({ file, selectMember});
-    console.log(selectMember)
   },
+
   // 开启只读保护
   openReadPer: function (e) {
     var file = this.data.file;
@@ -145,6 +148,7 @@ Page({
     }
     this.setData({file})
   },
+  
   // 编辑文件权限
   editFilePower: function(e) {
     var address = app.ip + "tc/taskAuthorityService/editArcPrivilege";
@@ -180,8 +184,6 @@ Page({
       userIds = [];
     }
     api.customRequest(head, userIds,address,"POST",true).then(res=>{
-      console.log("权限修改结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.alert();
         var page = getCurrentPages();

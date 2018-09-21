@@ -27,7 +27,7 @@
   <!-- 所有成员列表 -->
   <view wx:if="{{isShowMemberList}}" class="member">
     <view class="memberlist" wx:if="{{file.taskAuthorityList.length > 0}}">
-      <view wx:for="{{file.taskAuthorityList}}" class="singlelist" data-item="{{item}}" bindtap="chooseMember">
+      <view wx:for="{{file.taskAuthorityList}}" wx:key="{{item.id}}" class="singlelist" data-item="{{item}}" bindtap="chooseMember">
         <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.userId + '/100/100'}}" class="userhead"></image>
         <view class="username">{{item.userName}}</view>
         <switch checked="{{item.definedPriv}}" color="#409CF2" class="userradio"/>

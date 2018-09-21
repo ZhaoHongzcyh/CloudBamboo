@@ -38,8 +38,6 @@ Page({
   getProjectTeam: function () {
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request({}, address, "POST", true).then(res => {
-      console.log("我的团队");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         var data= res.data.data.list;
         data.checked = false;
@@ -77,8 +75,6 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
-      console.log("项目详细信息");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         var summaryBean = res.data.data.summaryBean;
         this.setData({
@@ -86,7 +82,8 @@ Page({
         })
       }
     }).catch(e => {
-      console.log("请求异常")
+      this.setData({alert:{content:'网络请求异常'}});
+      this.alert();
     })
   },
 
@@ -97,8 +94,6 @@ Page({
       summaryBean:obj
     }
     api.request(obj, address, "POST", false).then(res => {
-      console.log("完结项目");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         wx.navigateBack({
           delta: 2

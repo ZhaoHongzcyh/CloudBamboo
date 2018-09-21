@@ -18,7 +18,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options);
     this.setData({taskid:options.taskId,planid:options.planid,options:options});
   },
 
@@ -51,9 +50,6 @@ Page({
             plan[i].select = false;
           }
         }
-        console.log("___________");
-        console.log(this.data.planid);
-        console.log(plan)
         this.setData({plan})
       }
       else{
@@ -61,6 +57,7 @@ Page({
       }
     })
   },
+
   // 获取任务计划的信息
   getPlanInfo: function (e) {
     var item = e.currentTarget.dataset.item;
@@ -80,6 +77,7 @@ Page({
     });
     this.backTo();
   },
+  
   // 返回上一级列表
   backTo: function() {
     var task = null;
@@ -90,8 +88,6 @@ Page({
     if(options.page == 'edit'){
       task = prevPage.data.task;
       task.scheduleSummaryBean.title = this.data.title;
-      console.log(task);
-      console.log("设置")
       prevPage.setData({
         task:task,
         planid: this.data.planid,

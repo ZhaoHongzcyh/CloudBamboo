@@ -22,7 +22,7 @@
       <view class="common_ope">参与人</view>
       <view class="common_at" wx:if="{{false}}">添加</view>
       <view class="common_at">
-        <block wx:for="{{taskObj.participant}}">
+        <block wx:for="{{taskObj.participant}}" wx:key="{{item}}">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item + '/100/100'}}" class="memberphoto"></image>
         </block>
       </view>
@@ -64,7 +64,7 @@
   </view>
   <!-- 文件列表 -->
   <view>
-    <block wx:for="{{task.arcList}}">
+    <block wx:for="{{task.arcList}}" wx:key="{{item.id}}">
       <file isdelete="{{true}}" item="{{item}}" isdownload="{{false}}" bind:delete="deletefile"/>
     </block>
   </view>
@@ -147,7 +147,7 @@
       </block>
     </view>
   </view>
-  <block wx:for="{{memberlist}}">
+  <block wx:for="{{memberlist}}" wx:key="{{item.personId}}">
     <view class="memberlist" bindtap="changeExecutor" data-item="{{item}}" wx:if="{{item.personId != mission.personId && item.relationType != 1}}">
       <image src="{{app.ip+'tc/spaceService/showPersonIcon/'+item.personId+'/100/100'}}" class="userphoto"></image>
       <view class="username">{{item.personName}}</view>

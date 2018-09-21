@@ -47,7 +47,6 @@ Page({
     }
     else{
       this.getAdminList();
-      console.log(22222);
     }
   },
 
@@ -68,8 +67,6 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
-      console.log("项目详细信息");
-      console.log(res);
       if (res.data.code == 200 && res.data.result) {
         var project = res.data.data.summaryBean;
         var member = JSON.stringify(res.data.data.memberBeans);
@@ -89,8 +86,6 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("删除成员列表");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.handleDelList(res.data.data);
       }
@@ -130,7 +125,6 @@ Page({
       }
     }
     if(user  == ""){
-      console.log(memberlist)
       list = member;
     }
     list = this.checkIsAdmin(list)
@@ -141,9 +135,6 @@ Page({
 
   // 判定是否已经被设置为管理员
   checkIsAdmin: function (list) {
-    console.log("这是成员");
-    console.log(list)
-    console.log(this.data.project)
     var adminGroups = this.data.project.adminGroups;
     for(var i = 0; i < list.length; i++){
       list[i].initSelect = false;
@@ -172,14 +163,12 @@ Page({
           adminGroups.splice(num,1)
         }
       })
-      console.log(adminGroups)
     }
     else{
       if(adminGroups.indexOf(memberlist[index].resourceId) < 0){
         memberlist[index].checked = true;
         adminGroups.push(memberlist[index].resourceId);
       }
-      console.log(adminGroups);
     }
     project.adminGroups = adminGroups;
     for(var i = 0; i < memberlist.length; i++){
@@ -220,8 +209,6 @@ Page({
       summaryBean: summaryBean
     }
     api.request(obj,address,"POST",false).then(res=>{
-      console.log("删除结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         memberlist.map((item,index)=>{
           if(item.resourceId == delid){
@@ -248,10 +235,7 @@ Page({
       summaryBean: this.data.project
     }
     api.request(obj,address,"POST",false).then(res=>{
-      console.log("添加结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
-        console.log("添加成功")
         this.setData({alert:{content:"添加成功"}})
       }
       else{

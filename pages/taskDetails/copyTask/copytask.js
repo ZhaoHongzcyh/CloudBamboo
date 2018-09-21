@@ -48,7 +48,6 @@ Page({
       resourceType: 10010001
     }
     api.request(obj,address,"post",true).then(res=>{
-      console.log("计划清单");
       console.log(res);
       wx.stopPullDownRefresh();
       if(res.data.code == 200 && res.data.result){
@@ -58,14 +57,18 @@ Page({
       }
       else{
         console.log("异常")
+        this.setData({alert:{content:res.data.message}});
+        this.alert();
       }
+    }).catch(e=>{
+      this.setData({alert:{content:'任务组列表加载失败'}});
+      this.alert();
     })
 
   },
 
   // 复制任务
   copyTask: function (e) {
-    console.log(e);
     var targetId = e.currentTarget.dataset.id;
     var address = app.ip + "tc/schedule/itemService/copy";
     var sourceId = this.data.sourceId;
@@ -74,10 +77,7 @@ Page({
       id: sourceId,
       summaryId: targetId
     }
-    console.log(obj);
     api.request(obj,address,"post",true).then(res=>{
-      console.log("复制信息");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack({
           delta:2
@@ -86,6 +86,9 @@ Page({
       else{
         this.alert();
       }
+    }).catch(e=>{
+      this.setData({alert:{content:'网络异常'}});
+      this.alert();
     })
   }
 })
