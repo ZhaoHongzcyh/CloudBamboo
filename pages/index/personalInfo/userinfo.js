@@ -30,5 +30,5 @@ Page({
     }).catch(e => {
       console.log("用户信息异常")
     })
-  },
+  }
 })

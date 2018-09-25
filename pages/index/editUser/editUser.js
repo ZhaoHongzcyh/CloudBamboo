@@ -72,7 +72,7 @@ Page({
           if(res.result && res.code == 200){
             console.log(res);
             var selfId = res.data[0].id;
-            this.changeHeadImg(selfId)
+            this.upTempFile(selfId)
           }
         }
       },
@@ -90,5 +90,28 @@ Page({
       console.log("绑定结果");
       console.log(res);
     })
+  },
+
+  // 上传临时文件
+  upTempFile: function (id) {
+    var address = app.ip + "tc/spaceService/formalFile";
+    var head = {};
+    var fileIds = [id]
+    api.customRequest(head, fileIds,address,"POST",true).then(res=>{
+      console.log("临时");
+      console.log(res);
+      this.saveFile(id)
+    })
+  },
+
+  // 保存文件
+  saveFile: function (id) {
+    var address = app.ip + "tw/itOrgManagerService/updateOrgPersonBeanByPid";
+    var obj = {pname:encodeURI(this.data.userinfo.pname)}
+    api.request(obj,address,"POST",true).then(res=>{
+      
+      console.log("保存结果");
+      console.log(res);
+    });
   }
 })
