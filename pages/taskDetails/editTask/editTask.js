@@ -422,11 +422,9 @@ Page({
           file = file[0]
           task.arcList.push(file)
           // 将文件重命名
-          
           this.setData({
             task
           })
-          // task.artList.push(res.data)
         }
       })
       // 监听上传进度
@@ -495,7 +493,6 @@ Page({
   selectLevel: function (e) {
     var role = e.currentTarget.dataset.role;
     var taskObj = this.data.taskObj;
-    
     var task = this.data.task;
     task.itemBean.emergencyGrade = role;
     taskObj.emergencyGrade = role;

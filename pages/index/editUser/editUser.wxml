@@ -1,0 +1,49 @@
+<!--pages/index/editUser/editUser.wxml-->
+<view>
+  <view class="head">
+    <image src="{{selfHead}}" class="photo" bindtap="changePhoto"></image>
+    <view class="switchhead" bindtap="changePhoto">更换头像</view>
+  </view>
+
+  <view class="com_single nick">
+    <view class="com_head">昵称</view>
+    <view class="com_txt">
+      <input type='text' value="{{userinfo.pname}}" class="input"></input>
+    </view>
+  </view>
+
+  <view class="com_single">
+    <view class="com_head">性别</view>
+    <view class="com_txt">
+      {{userinfo.sex == 0? '男':'女'}}
+    </view>
+  </view>
+
+  <view class="com_single">
+    <view class="com_head">职业</view>
+    <view class="com_txt">
+      <input type='text' value="{{userinfo.occupationName}}" class="input"></input>
+    </view>
+  </view>
+
+  <view class="com_single">
+    <view class="com_head">邮箱</view>
+    <view class="com_txt">
+      <input type='text' value="{{userinfo.email1}}" class="input"></input>
+    </view>
+  </view>
+
+  <view class="com_single">
+    <view class="com_head">座机</view>
+    <view class="com_txt">
+      <input type='text' value="{{userinfo.phone2}}" class="input"></input>
+    </view>
+  </view>
+
+  <view class="com_single">
+    <view class="com_head">手机</view>
+    <view class="com_txt">
+      <input type='text' value="{{userinfo.username}}" class="input"></input>
+    </view>
+  </view>
+</view>

@@ -165,6 +165,8 @@ Page({
         })
       }
       else{
+        this.setData({alert:{state:false,content:res.data.message}});
+        this.alert()
       }
     })
   },

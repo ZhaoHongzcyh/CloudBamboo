@@ -1,0 +1,57 @@
+/* pages/index/personalSet/personalSet.wxss */
+page{
+  background:rgba(245,245,245,1);
+}
+
+.head{
+  display: flex;
+  align-items: center;
+  height: 164rpx;
+  background-color: white;
+}
+
+.photo{
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  margin-left: 26rpx;
+}
+
+.userinfo{
+  font-size: 28rpx;
+  margin-left: 30rpx;
+  flex: 2;
+  overflow: hidden;
+}
+
+.telephone{
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.com_single{
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+  background-color: white;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.com_img{
+  width: 32rpx;
+  height: 36rpx;
+  margin-left: 42rpx;
+  margin-right: 31rpx;
+}
+
+.com_txt{
+  flex: 2;
+  overflow: hidden;
+}
+
+.com_row{
+  width: 14rpx;
+  height: 28rpx;
+  margin-right: 40rpx;
+}

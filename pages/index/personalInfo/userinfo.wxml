@@ -1,0 +1,43 @@
+<!--pages/index/personalInfo/userinfo.wxml-->
+<view>
+  <view class="head">
+    <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + userinfo.id + '/100/100'}}" class="photo"></image>
+    <view class="userinfo">
+      <view class="name">
+        {{userinfo.pname}}
+        <image src="./img/boy.png" class="sex" wx:if="{{userinfo.sex == 0}}"></image>
+        <image src="./img/girl.png" class="sex" wx:if="{{userinfo.sex == 1}}"></image>
+      </view>
+      <view class="telephone">
+        账号：{{userinfo.username}}
+      </view>
+    </view>
+  </view>
+
+  <view class="com_single nick">
+    <view class="com_txt">昵称</view>
+    <view class="com_info">{{userinfo.pname}}</view>
+  </view>
+
+  <view class="com_single">
+    <view class="com_txt">性别</view>
+    <view class="com_info">{{userinfo.sex==0? '男': '女'}}</view>
+  </view>
+
+  <view class="com_single">
+    <view class="com_txt">职业</view>
+    <view class="com_info">{{userinfo.occupationName}}</view>
+  </view>
+
+  <view class="com_single">
+    <view class="com_txt">邮箱</view>
+    <view class="com_info">{{userinfo.email1 == null? userinfo.email2:userinfo.email1}}</view>
+  </view>
+
+  <view class="com_single">
+    <view class="com_txt">座机</view>
+    <view class="com_info">{{userinfo.phone2 == null? '未设置': userinfo.phone2}}</view>
+  </view>
+
+  <view class="editinfo">编辑</view>
+</view>

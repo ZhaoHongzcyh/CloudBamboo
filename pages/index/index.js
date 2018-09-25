@@ -148,6 +148,22 @@ Page({
     console.log(e);
   },
 
+  // 进入任务详情页面
+  entryTask: function (e) {
+    var id = e.currentTarget.dataset.id;
+    var powerid = e.currentTarget.dataset.taskid;
+    wx.navigateTo({
+      url: '/pages/taskDetails/taskdetails?taskId=' + id +  "&powerId=" + powerid,
+    })
+  },
+
+  // 进入个人账号设置模块
+  entryPersonalSet: function () {
+    wx.navigateTo({
+      url: './personalSet/personalSet',
+    })
+  },
+
   // ---------------------------------------登录注册模块---------------------------------------------
 
   // 登录与注册路由切换

@@ -953,7 +953,7 @@ Page({
         this.uploadLocalFile(ary,i+1,progress+100,upNum);
       },
       fail:(e)=>{
-        unNum = upNum - 1;
+        upNum = upNum - 1;
         currentProgress = Math.floor(progress/upNum);
         this.uploadLocalFile(ary, i + 1, progress, upNum);
       }

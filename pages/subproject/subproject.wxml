@@ -76,7 +76,7 @@
             {{item.endDate + "截止"}}
           </view>
         </view>
-        <image class="taskimg" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.creatorId + '/100/100'}}"></image>
+        <image class="taskimg" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
         <view class="tasker">{{item.managerName}}</view>
       </view>
     </view>

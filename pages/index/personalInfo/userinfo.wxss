@@ -1,0 +1,79 @@
+page{
+  background:rgba(245,245,245,1);
+}
+
+.head{
+  display: flex;
+  align-items: center;
+  height: 164rpx;
+  background-color: white;
+}
+
+.photo{
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  margin-left: 26rpx;
+}
+
+.sex{
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.userinfo{
+  font-size: 28rpx;
+  margin-left: 30rpx;
+  flex: 2;
+  overflow: hidden;
+}
+
+.telephone{
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.nick{
+  margin-top: 20rpx;
+}
+
+.com_single{
+  display: flex;
+  align-items: center;
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #666;
+  background-color: white;
+}
+
+.com_txt{
+  height: 80rpx;
+  line-height: 80rpx;
+  margin-left: 42rpx;
+  border-bottom: 1rpx solid #DBDBDB;
+}
+
+.com_info{
+  flex: 2;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding-right: 39rpx;
+  text-align: right;
+  overflow: hidden;
+  border-bottom: 1rpx solid #DBDBDB;
+}
+
+.editinfo{
+  position: fixed;
+  bottom: 40rpx;
+  left: 50%;
+  margin-left: -315rpx;
+  font-size: 28rpx;
+  width: 630rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 40rpx;
+  color: white;
+  text-align: center;
+  background-color: #409CF2;
+}

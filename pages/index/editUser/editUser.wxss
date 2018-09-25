@@ -1,0 +1,53 @@
+/* pages/index/editUser/editUser.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+
+.head{
+  height: 220rpx;
+  background-color: white;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.switchhead{
+  color: #999;
+  margin-top: 10rpx;
+}
+
+.photo{
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 10rpx;
+}
+
+.nick{
+  margin-top: 30rpx;
+}
+
+.com_single{
+  display: flex;
+  align-items: center;
+  height: 80rpx;
+  font-size: 28rpx;
+  background-color: white;
+  color: #333;
+  border-bottom: 1rpx solid #DBDBDB;
+}
+
+.com_head{
+  margin-left: 42rpx;
+  color: #999;
+}
+
+.input{
+  margin: 0rpx;
+  padding: 0rpx;
+}
+
+.com_txt{
+  flex: 2;
+  padding-left: 42rpx;
+}
