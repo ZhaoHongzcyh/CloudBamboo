@@ -3,14 +3,18 @@
   <view class="head" bindtap="userinfo">
     <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + userinfo.id + '/100/100'}}" class="photo"></image>
     <view class="userinfo">
-      <view class="name">{{userinfo.pname}}</view>
+      <view class="name">
+        {{userinfo.pname}}
+        <image src="../img/boy.png" class="sex" wx:if="{{userinfo.sex == 0}}"></image>
+        <image src="../img/girl.png" class="sex" wx:if="{{userinfo.sex == 1}}"></image>
+      </view>
       <view class="telephone">
         账号：{{userinfo.username}}
       </view>
     </view>
   </view>
 
-  <view class="com_single">
+  <view class="com_single" bindtap="userinfo">
     <image src='./img/personal.png' class="com_img"></image>
     <view class="com_txt">个人资料</view>
     <image src='./img/list.png' class="com_row"></image>

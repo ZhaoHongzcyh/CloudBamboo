@@ -15,6 +15,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
+  },
+
+  onShow: function () {
     this.getUserInfo();
   },
 
@@ -29,6 +33,13 @@ Page({
       }
     }).catch(e => {
       console.log("用户信息异常")
+    })
+  },
+
+  // 编辑客户信息
+  editUserInfo: function () {
+    wx.navigateTo({
+      url: '../editUser/editUser',
     })
   }
 })

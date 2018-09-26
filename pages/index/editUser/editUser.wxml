@@ -8,42 +8,70 @@
   <view class="com_single nick">
     <view class="com_head">昵称</view>
     <view class="com_txt">
-      <input type='text' value="{{userinfo.pname}}" class="input"></input>
+      <input type='text' bindinput='debounce' data-eval="changeNickName" value="{{userinfo.pname}}" placeholder="{{userinfo.pname==null?'请输入你的昵称':''}}" class="input"></input>
     </view>
   </view>
 
-  <view class="com_single">
+  <view class="com_single" bindtap="switchModel">
     <view class="com_head">性别</view>
     <view class="com_txt">
-      {{userinfo.sex == 0? '男':'女'}}
+      {{userinfo.sex == null? '未设置':userinfo.sex == 0?'男':'女'}}
     </view>
   </view>
 
   <view class="com_single">
     <view class="com_head">职业</view>
     <view class="com_txt">
-      <input type='text' value="{{userinfo.occupationName}}" class="input"></input>
+      <input type='text' bindinput='debounce' data-eval="changeWork" value="{{userinfo.occupationName}}" placeholder="{{userinfo.occupationName==null?'请输入你的职业':''}}" class="input"></input>
     </view>
   </view>
 
   <view class="com_single">
     <view class="com_head">邮箱</view>
     <view class="com_txt">
-      <input type='text' value="{{userinfo.email1}}" class="input"></input>
+      <input type="text" bindinput='debounce' data-eval="changeEmail" value="{{userinfo.email1}}" placeholder="{{userinfo.email1==null?'请输入你的邮箱':''}}" class="input"></input>
     </view>
   </view>
 
   <view class="com_single">
     <view class="com_head">座机</view>
     <view class="com_txt">
-      <input type='text' value="{{userinfo.phone2}}" class="input"></input>
+      <input type='number' bindinput='debounce' data-eval="changePhone2" value="{{userinfo.phone2}}" placeholder="{{userinfo.phone2==null?'请输入你的座机':''}}" class="input"></input>
     </view>
   </view>
 
   <view class="com_single">
     <view class="com_head">手机</view>
     <view class="com_txt">
-      <input type='text' value="{{userinfo.username}}" class="input"></input>
+      <input type='number' bindinput='debounce' data-eval="changePhone" value="{{userinfo.username}}" placeholder="{{userinfo.username==null?'请输入你的手机号':''}}" class="input"></input>
     </view>
   </view>
+
+  <!-- 保存按钮 -->
+  <view class="saveUserBtn" bindtap="saveUserInfo">保存</view>
+
+  <!-- 性别选择弹框 -->
+  <view class="chooseSexModel" hidden='{{!showSexModel}}'>
+    <view class="modelContent">
+      <view class="modelTitle">
+        选择性别
+      </view>
+      <view class="modelBody">
+        <view class="singleSex">
+          <image src="./img/boy.png" class="modelSex"></image>
+          <view>男</view>
+          <radio bindtap="chooseSex" data-sex="0" class="modelRadio" color="#409CF2" checked='{{sex==0? true:false}}'></radio>
+        </view>
+        <view class="singleSex">
+          <image src="./img/girl.png" class="modelSex"></image>
+          <view>女</view>
+          <radio bindtap="chooseSex" data-sex="1" class="modelRadio" color="#409CF2" checked="{{sex==1? true:false}}"></radio>
+        </view>
+      </view>
+      <view class="modelBtn" bindtap="sureChooseSex">确认</view>
+    </view>
+  </view>
+  
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

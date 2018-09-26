@@ -1,1 +1,6 @@
-{}
+{
+  "navigationBarTitleText": "编辑个人资料",
+  "usingComponents": {
+    "popup": "/common/popup/popup"
+  }
+}

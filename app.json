@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/index/changePwd/changepwd",
+    "pages/index/personalSet/personalSet",
     "pages/index/editUser/editUser",
     "pages/index/personalInfo/userinfo",
     "pages/index/index",
@@ -43,8 +45,7 @@
     "pages/subproject/filePreview/filepreview",
     "pages/addCompany/companyAddress/companyaddress",
     "pages/subproject/companyFolder/companyfolder",
-    "pages/subproject/chooseProject/chooseproject",
-    "pages/index/personalSet/personalSet"
+    "pages/subproject/chooseProject/chooseproject"
     
   ],
   "window": {

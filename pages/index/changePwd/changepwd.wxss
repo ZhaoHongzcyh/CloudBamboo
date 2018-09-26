@@ -1,0 +1,35 @@
+/* pages/index/changePwd/changepwd.wxss */
+
+.singlepwd{
+  width: 650rpx;
+  height: 72rpx;
+  margin: auto;
+  margin-top: 20rpx;
+}
+
+.headpwd{
+  margin-top: 30rpx;
+}
+
+.pwd{
+  border: 1rpx solid red;
+  width: 100%;
+  background-color: rgba(245,245,245,1);
+}
+
+.plaPwd{
+  font-size: 28rpx;
+}
+
+.changePwdBtn{
+  width: 650rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 18rpx;
+  margin: auto;
+  margin-top: 40rpx;
+  color: white;
+  text-align: center;
+  background-color: rgba(245,245,245,1);
+}

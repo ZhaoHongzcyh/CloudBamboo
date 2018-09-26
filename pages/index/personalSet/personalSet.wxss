@@ -24,6 +24,11 @@ page{
   overflow: hidden;
 }
 
+.sex{
+  width: 24rpx;
+  height: 24rpx;
+}
+
 .telephone{
   font-size: 24rpx;
   color: #999999;

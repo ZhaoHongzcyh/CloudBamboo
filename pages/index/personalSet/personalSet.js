@@ -37,5 +37,12 @@ Page({
     wx.navigateTo({
       url: '../personalInfo/userinfo',
     })
+  },
+
+  // 密码修改
+  changePwd: function () {
+    wx.navigateTo({
+      url: '../changePwd/changepwd',
+    })
   }
 })
