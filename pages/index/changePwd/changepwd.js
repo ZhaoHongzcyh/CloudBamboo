@@ -5,7 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    isCouldClick:false,//用户是否可点击
+    oldpwd:null,
+    newpwd:null,
+    sureNewPwd:null
   },
 
   /**
@@ -15,52 +18,29 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  // 填写当前密码
+  oldPwd: function (e) {
+    this.setData({
+      oldpwd: e.detail.value
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  // 新密码
+  newpwd: function (e) {
+    this.setData({
+      newpwd: e.detail.value
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  // 确认新密码
+  sureNewPwd: function (e) {
+    this.setData({
+      sureNewPwd: e.detail.value
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  // 验证按钮是否可被点击
+  checkBtnState: function () {
+    var newpwd = this.data.newpwd;
   }
 })

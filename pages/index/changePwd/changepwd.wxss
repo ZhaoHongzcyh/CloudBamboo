@@ -33,3 +33,7 @@
   text-align: center;
   background-color: rgba(245,245,245,1);
 }
+
+.sureBtn{
+  background-color: #409CF2;
+}
