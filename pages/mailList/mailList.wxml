@@ -1,6 +1,7 @@
 <view class="mail-list-content">
   <!-- <mailList src="{{equipment.src}}" title="{{equipment.title}}" bindtap="alert"></mailList> -->
   <view class="list">
+      <mailList title="新朋友" bindtap="alert"></mailList>
     <block wx:for="{{list}}" wx:key="{{item.id}}">
       <mailList title="{{item.team.tname}}" num="{{item.personList.length}}" bindtap="alert"></mailList>
     </block>

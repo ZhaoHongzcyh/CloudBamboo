@@ -78,6 +78,6 @@
   <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
   <!-- 公司添加失败提示 -->
   <view wx:if="{{info.state == 1}}">
-  <logoinAlert src="/pages/index/img/close-icon.png" bind:hideAlert="hideAlert" alertText="{{info.content}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+  <logoinAlert src="../../utils/index/img/close-icon.png" bind:hideAlert="hideAlert" alertText="{{info.content}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>
 </view>

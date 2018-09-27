@@ -126,6 +126,7 @@ Page({
       taskObj:taskObj
     })
   },
+
   // 设置开始时间
   startDate: function (e) {
     var startDate = e.detail.value;
@@ -348,8 +349,20 @@ Page({
   modifyTask: function(){
     var scheduleItemBean = this.data.taskObj;
     scheduleItemBean.manager = this.data.mission.personId;
+    if (scheduleItemBean.title != null){
+      scheduleItemBean.title = scheduleItemBean.title.replace(/\s+/g, "");
+      if (scheduleItemBean.title == ""){
+        this.setData({alert:{content:'任务名称不能为空'}});
+        this.alert();
+        return false;
+      }
+    }
+    else{
+      this.setData({ alert: { content: '任务名称不能为空' } });
+      this.alert();
+      return false;
+    }
     
-
     if (scheduleItemBean.endDate != null && scheduleItemBean.endDate.split("T").length < 2){
       scheduleItemBean.endDate = scheduleItemBean.endDate + "T00:00:00.000+0800";
     }
@@ -364,9 +377,11 @@ Page({
         wx.navigateBack();
       }
       else{
+        this.setData({ alert: { content:'任务保存失败'}})
         this.alert();
       }
     }).catch(e=>{
+      this.setData({ alert: { content: '任务保存失败' } })
       this.alert();
     })
   },

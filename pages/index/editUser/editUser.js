@@ -31,19 +31,26 @@ Page({
     this.popup.showPopup()
   },
 
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    this.onShow();
+  },
+
   // 获取用户详细信息
   getUserInfo: function () {
     var address = app.ip + "tw/userService/getUserInfo";
     api.request({}, address, "POST", true).then(res => {
-      console.log("用户信息");
-      console.log(res);
+      wx.stopPullDownRefresh();
       if (res.data.code == 200 && res.data.result) {
         var selfHead = app.ip + 'tc/spaceService/showPersonIcon/' + res.data.data.curUser.id + '/100/100'
         var sex = res.data.data.curUser.sex == null ? null : res.data.data.curUser.sex;
         this.setData({ userinfo: res.data.data.curUser, selfHead, sex })
       }
+      else{
+        this.setAlert(res.data.message);
+      }
     }).catch(e => {
-      console.log("用户信息异常");
+      this.setAlert("无法获取个人资料");
     })
   },
 
@@ -74,11 +81,9 @@ Page({
       },
       name:"userphoto",
       success:(res)=>{
-        console.log(res);
         if(res.statusCode == 200){
           res = JSON.parse(res.data);
           if(res.result && res.code == 200){
-            console.log(res);
             var selfId = res.data[0].id;
             this.upTempFile(selfId, src)
           }
@@ -100,8 +105,6 @@ Page({
     var head = {};
     var fileIds = [id]
     api.customRequest(head, fileIds,address,"POST",true).then(res=>{
-      console.log("临时");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.saveFile(id,newsrc)
       }
@@ -115,11 +118,9 @@ Page({
   saveFile: function (id, newsrc) {
     var userid = wx.getStorageSync('tcUserId');
     var address = app.ip + "tw/itOrgManagerService/updateOrgPersonBeanByPid";
-    var userinfo = this.data.uerinfo;
+    var userinfo = this.data.userinfo;
     var obj = { pname: encodeURI(this.data.userinfo.pname), pid: userid, picon:id}
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("保存结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         userinfo.picon = id;
         this.setData({
@@ -148,7 +149,7 @@ Page({
   // 修改昵称
   changeNickName: function (nick) {
     var userinfo = this.data.userinfo;
-    if(nick !== null && nick !== ""){
+    if(nick !== null){
       userinfo.pname = nick;
       this.setData({userinfo})
     }
@@ -156,9 +157,8 @@ Page({
 
   // 修改职业
   changeWork: function (work) {
-    console.log(work);
     var userinfo = this.data.userinfo;
-    if (work !== null && work !== "") {
+    if (work !== null) {
       userinfo.occupationName = work;
       this.setData({ userinfo })
     }
@@ -167,7 +167,7 @@ Page({
   // 修改邮箱
   changeEmail: function (email) {
     var userinfo = this.data.userinfo;
-    if (email !== null && email !== "") {
+    if (email !== null) {
       userinfo.email1 = email;
       this.setData({ userinfo })
     }
@@ -214,16 +214,17 @@ Page({
     }
     if(obj.email != undefined) {
       if (!this.checkEmail(obj.email)){
-        this.setAlert('无效的email地址');
-        return false;
+        obj.email = obj.email.replace(/\s+/g, "");
+        if (obj.email == ""){
+          delete obj.email;
+        }
+        else{
+          this.setAlert('无效的email地址');
+          return false;
+        }
       }
     }
-
-    console.log(obj.email);
-    console.log(this.checkEmail(obj.email));
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("修改结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setAlert('保存成功');
       }

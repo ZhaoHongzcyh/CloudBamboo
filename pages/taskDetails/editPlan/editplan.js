@@ -87,6 +87,19 @@ Page({
   changePlan: function () {
     var address = app.ip + "tc/schedule/summaryService/update"
     var plan = this.data.plan;
+    if(plan.title != null){
+      plan.title = plan.title.replace(/\s+/g, "");
+      if(plan.title == ""){
+        this.setData({ alert: { content: '任务组名称不能为空' } });
+        this.alert();
+        return false;
+      }
+    }
+    else{
+      this.setData({ alert: { content: '任务组名称不能为空' } });
+      this.alert();
+      return false;
+    }
     api.sendDataByBody(plan,address,"POST",true).then(res=>{
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack()

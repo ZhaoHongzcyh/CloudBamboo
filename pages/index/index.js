@@ -358,7 +358,7 @@ Page({
   // 阅读协议
   readAgreement: function () {
     wx.navigateTo({
-      url: '/pages/Agreement/Agreement',
+      url: '/pages/Agreement/Agreement?state=1',
     })
   },
 
@@ -469,5 +469,12 @@ Page({
     }).catch((e) => {
       this.setData({ switchMyselfLogoin: false})
     });
+  },
+
+  // 进入个人资料详情
+  entryUserCenter: function () {
+    wx.navigateTo({
+      url: './personalInfo/userinfo',
+    })
   }
 })

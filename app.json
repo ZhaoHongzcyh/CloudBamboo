@@ -1,10 +1,13 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/index/changePwd/changepwd",
+    
+    
     "pages/index/personalSet/personalSet",
     "pages/index/editUser/editUser",
     "pages/index/personalInfo/userinfo",
-    "pages/index/index",
+    
     "pages/company/company",
     "pages/addCompany/addCompany",
     "pages/addCompany/industry/industry",

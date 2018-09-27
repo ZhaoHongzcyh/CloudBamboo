@@ -38,15 +38,8 @@ Page({
   onReady: function () {
     this.getGroup();
   },
-
-  /*
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
   
-  },
-
-  // 获取用户分组情况
+  // 获取联系人列表
   getGroup:function(){
     var address = app.ip + "tc/userContactService/getPersonContacts";
     api.request({},address,"post",true).then(res=>{
@@ -56,6 +49,13 @@ Page({
         })
       }
       wx.stopPullDownRefresh();//关闭下拉刷新
+    })
+  },
+
+  // 获取当前用户的分组
+  getGroupInfo: function () {
+    wx.navigateTo({
+      url: '',
     })
   }
 })

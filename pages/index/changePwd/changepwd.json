@@ -1,1 +1,7 @@
-{}
+{
+  "navigationBarTitleText": "密码修改",
+  "usingComponents": {
+    "logoinAlert": "/common/logoinAlert/logoinAlert",
+    "popup": "/common/popup/popup"
+  }
+}

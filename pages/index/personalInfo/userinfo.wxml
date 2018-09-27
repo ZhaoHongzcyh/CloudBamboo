@@ -28,7 +28,7 @@
 
   <view class="com_single">
     <view class="com_txt">职业</view>
-    <view class="com_info">{{userinfo.occupationName}}</view>
+    <view class="com_info">{{userinfo.occupationName == null?'未设置':userinfo.occupationName}}</view>
   </view>
 
   <view class="com_single">
@@ -42,4 +42,7 @@
   </view>
 
   <view class="editinfo" bindtap="editUserInfo">编辑</view>
+
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

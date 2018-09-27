@@ -1,7 +1,7 @@
  <view wx:if="{{switchMyselfLogoin}}"> 
     <view class="head">
-        <image src="{{headimg}}" class="headimg" bindtap="alert"></image>
-        <view class="user">{{userinfo.name}}</view>
+        <image src="{{headimg}}" class="headimg" bindtap="entryUserCenter"></image>
+        <view class="user" bindtap="entryUserCenter">{{userinfo.name}}</view>
         <image class="bell" src="./img/bell.png" bindtap="alert"></image>
         <image class="set" src="./img/set.png" bindtap="entryPersonalSet"></image>
     </view>
@@ -14,7 +14,7 @@
         </view>
         <view class="wait-content {{item.emergencyGrade == 2? 'error':''}} {{item.emergencyGrade == 1? 'warning':''}}" bindtap="alert" wx:for="{{list}}" wx:key="{{item.title}}" bindtap="entryTask" data-id="{{item.id}}" data-taskid="{{item.taskId}}">
           <view class="radio-area" catchtap="alert">
-            <!-- <radio class="radio" color="#409CF2"  bindtap="radioAlert" checked='{{false}}'></radio> -->
+            <!-- <radio class="radio" wx:if="{{item.status == 1}}" color="#409CF2" disabled='{{true}}'  bindtap="radioAlert" checked='{{true}}'></radio> -->
           </view>
           <view class="wait-info">
             <view class="wait-title">{{item.title}}</view>

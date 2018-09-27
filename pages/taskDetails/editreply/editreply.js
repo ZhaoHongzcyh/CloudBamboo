@@ -65,10 +65,27 @@ Page({
     var address = app.ip + "tc/schedule/itemService/updateActionItem";
     var num = this.data.num;
     var actionId = reply[num].id;
+    
+    if (reply[num].descript != null){
+      reply[num].descript = reply[num].descript.replace(/\s+/g, "");
+      if (reply[num].descript == ""){
+        this.setData({ alert: { content: '内容不能为空' } });
+        this.alert();
+        return false;
+      }
+    }
+    else{
+      this.setData({ alert: { content: '内容不能为空' } });
+      this.alert();
+      return false;
+    }
+
     var descript = encodeURI(reply[num].descript);
+
     var obj = {
       actionId, descript
     }
+
     api.request(obj,address,"POST",true).then((res)=>{
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack();

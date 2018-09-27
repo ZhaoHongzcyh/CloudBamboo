@@ -19,30 +19,32 @@
     <view class="com_txt">个人资料</view>
     <image src='./img/list.png' class="com_row"></image>
   </view>
-  <view class="com_single">
+  <view class="com_single" bindtap="changePwd">
     <image src='./img/password.png' class="com_img"></image>
     <view class="com_txt">密码修改</view>
     <image src='./img/list.png' class="com_row"></image>
   </view>
 
-  <view class="com_single">
-    <image src='./img/password.png' class="com_img"></image>
+  <view class="com_single" bindtap="useHelp">
+    <image src='./img/help.png' class="com_img"></image>
     <view class="com_txt">使用帮助</view>
     <image src='./img/list.png' class="com_row"></image>
   </view>
-  <view class="com_single">
+  <!-- <view class="com_single">
     <image src='./img/password.png' class="com_img"></image>
     <view class="com_txt">新手入门视频</view>
     <image src='./img/list.png' class="com_row"></image>
-  </view>
-  <view class="com_single">
+  </view> -->
+  <view class="com_single" bindtap="aboutUs">
     <image src='./img/about.png' class="com_img"></image>
     <view class="com_txt">关于我们</view>
     <image src='./img/list.png' class="com_row"></image>
   </view>
-  <view class="com_single">
+  <!-- <view class="com_single">
     <image src='./img/reply.png' class="com_img"></image>
     <view class="com_txt">意见反馈</view>
-    <!-- <image src='./img/list.png' class="com_row"></image> -->
-  </view>
+  </view> -->
+
+  <!-- 弹框 -->
+  <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

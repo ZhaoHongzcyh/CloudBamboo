@@ -69,7 +69,6 @@ Page({
       title: name
     }
     if (this.checkProvinceCity()){
-      console.log("是真的")
       obj.locationProvince = this.data.province.code;
       obj.industryCode = this.data.industry.code;
       if (this.data.city == null) {
@@ -97,7 +96,6 @@ Page({
       return false;
     }
     api.request(obj,address,"post",true).then(res=>{
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.setStorageSync("defaultTaskTeam", res.data.data.id);
         wx.redirectTo({
@@ -114,8 +112,6 @@ Page({
           })
         }
         else if(res.data.code == 414){
-          console.log("无法为空")
-          console.log(res.data)
           this.setData({
             info: {
               state: 1,
@@ -174,8 +170,6 @@ Page({
     var mulitAry = [];
     var address = app.ip + "tc/SystemService/getAllCitys";
     api.request({},address,"POST",true).then(res=>{
-      console.log("省市三级");
-      console.log(res);
       var region = [];
       var multiArray = [];
       if(res.data.code == 200 && res.data.result){
@@ -193,7 +187,6 @@ Page({
 
   // 行数
   showAddress: function (e) {
-    console.log(e);
     this.setData({
       isShowAddress: !this.data.isShowAddress
     })

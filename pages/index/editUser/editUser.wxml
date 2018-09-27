@@ -8,7 +8,7 @@
   <view class="com_single nick">
     <view class="com_head">昵称</view>
     <view class="com_txt">
-      <input type='text' bindinput='debounce' data-eval="changeNickName" value="{{userinfo.pname}}" placeholder="{{userinfo.pname==null?'请输入你的昵称':''}}" class="input"></input>
+      <input type='text' bindinput='debounce' maxlength='25' data-eval="changeNickName" value="{{userinfo.pname}}" placeholder="{{userinfo.pname==null?'请输入你的昵称':''}}" class="input"></input>
     </view>
   </view>
 

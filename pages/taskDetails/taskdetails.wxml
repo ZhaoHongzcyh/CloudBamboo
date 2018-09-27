@@ -36,7 +36,7 @@
     <view class="info" bindtap="getParticipants">
       <view class="infotitle">参与人</view>
       <view class="common_title">
-        <block wx:for="{{task.memberList}}" wx:key="{{item.id}}">
+        <block wx:for="{{task.memberList}}" wx:key="{{item.id}}" wx:if="{{index < 5}}">
           <image class="memberphoto" wx:if="{{item.relationType == 2}}" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.personId + '/100/100'}}"></image>
         </block>
         <image src="./img/open.png" class="openimg"></image>

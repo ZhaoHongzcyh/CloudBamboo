@@ -98,5 +98,5 @@
 </view>
 <!-- 提示弹框 -->
 <view wx:if="{{newproject.state == 1}}">
-  <logoinAlert src="/pages/index/img/close-icon.png" bind:hideAlert="hideAlert" alertText="{{newproject.content}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
+  <logoinAlert src="../../utils/index/img/close-icon.png" bind:hideAlert="hideAlert" alertText="{{newproject.content}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>

@@ -37,6 +37,7 @@ page{
 .com_single{
   display: flex;
   height: 80rpx;
+  margin-top: 9rpx;
   align-items: center;
   background-color: white;
   font-size: 28rpx;

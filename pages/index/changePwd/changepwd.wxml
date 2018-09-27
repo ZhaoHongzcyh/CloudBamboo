@@ -1,14 +1,15 @@
 <!--pages/index/changePwd/changepwd.wxml-->
 <view>
   <view class="singlepwd headpwd">
-    <input type="password" class="pwd" placeholder-class='plaPwd' placeholder='填写当前密码'></input>
+    <input type="password" bindinput='oldPwd' class="pwd" placeholder-class='plaPwd' placeholder='填写当前密码'></input>
   </view>
   <view class="singlepwd">
-    <input type="password" class="pwd" placeholder-class='plaPwd' placeholder='填写6到20位新密码'></input>
+    <input type="password" bindinput='newpwd' class="pwd" maxlength='20' placeholder-class='plaPwd' placeholder='填写6到20位新密码'></input>
   </view>
   <view class="singlepwd">
-    <input type="password" class="pwd" placeholder-class='plaPwd' placeholder='再次填写新密码'></input>
+    <input type="password" bindinput='sureNewPwd' class="pwd" placeholder-class='plaPwd' placeholder='再次填写新密码'></input>
   </view>
 
-  <view class="changePwdBtn">修改</view>
+  <view class="changePwdBtn {{isCouldClick? 'couldClick':''}}" bindtap="submitNewPwd">修改</view>
+  <logoinAlert src="/utils/index/img/close-icon.png" wx:if="{{isShowTxt}}"  alertText="{{alertInfo}}" animate="{{false}}" bgcolor="rgba(0,0,0,1)"></logoinAlert>
 </view>

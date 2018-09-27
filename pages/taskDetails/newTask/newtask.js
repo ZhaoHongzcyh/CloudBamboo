@@ -457,6 +457,7 @@ Page({
         participant.push(this.data.addMemberList[i].resourceId);
       }
     }
+   
     var obj = {
         title:this.data.taskName,
         status:0,
@@ -468,6 +469,20 @@ Page({
         visibilityType: this.data.visibilityType,//0：所有成员可见，1：参与人可见
         emergencyGrade: this.data.emergency,//任务紧急等级
       }
+    
+    if(obj.title != null){
+      obj.title = obj.title.replace(/\s+/g, "");
+      if(obj.title == ""){
+        this.setData({ alert: { content: '任务名称不能为空' } });
+        this.alert();
+        return false;
+      }
+    }
+    else{
+      this.setData({ alert: { content: '任务名称不能为空' } });
+      this.alert();
+      return false;
+    }
 
     // 判断是否设置截止时间
     if(this.data.endDate != null){
