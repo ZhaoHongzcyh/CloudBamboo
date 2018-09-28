@@ -22,7 +22,7 @@
       <view class="common_ope">参与人</view>
       <view class="common_at" wx:if="{{false}}">添加</view>
       <view class="common_at">
-        <block wx:for="{{taskObj.participant}}" wx:key="{{item}}">
+        <block wx:for="{{taskObj.participant}}" wx:key="{{item}}" wx:if="{{index < 5}}">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item + '/100/100'}}" class="memberphoto"></image>
         </block>
       </view>

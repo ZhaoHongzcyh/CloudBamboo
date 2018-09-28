@@ -8,7 +8,7 @@
   <view class="com_single nick">
     <view class="com_head">昵称</view>
     <view class="com_txt">
-      <input type='text' bindinput='debounce' maxlength='25' data-eval="changeNickName" value="{{userinfo.pname}}" placeholder="{{userinfo.pname==null?'请输入你的昵称':''}}" class="input"></input>
+      <input type='text' bindinput='debounce' maxlength='20' data-eval="changeNickName" value="{{userinfo.pname}}" placeholder="{{userinfo.pname==null?'请输入你的昵称':''}}" class="input"></input>
     </view>
   </view>
 
@@ -22,28 +22,28 @@
   <view class="com_single">
     <view class="com_head">职业</view>
     <view class="com_txt">
-      <input type='text' bindinput='debounce' data-eval="changeWork" value="{{userinfo.occupationName}}" placeholder="{{userinfo.occupationName==null?'请输入你的职业':''}}" class="input"></input>
+      <input type='text' bindinput='debounce' maxlength='30' data-eval="changeWork" value="{{userinfo.occupationName}}" placeholder="{{userinfo.occupationName==null?'请输入你的职业':''}}" class="input"></input>
     </view>
   </view>
 
   <view class="com_single">
     <view class="com_head">邮箱</view>
     <view class="com_txt">
-      <input type="text" bindinput='debounce' data-eval="changeEmail" value="{{userinfo.email1}}" placeholder="{{userinfo.email1==null?'请输入你的邮箱':''}}" class="input"></input>
+      <input type="text" bindinput='debounce' maxlength='30' data-eval="changeEmail" value="{{userinfo.email1}}" placeholder="{{userinfo.email1==null?'请输入你的邮箱':''}}" class="input"></input>
     </view>
   </view>
 
   <view class="com_single">
     <view class="com_head">座机</view>
     <view class="com_txt">
-      <input type='number' bindinput='debounce' data-eval="changePhone2" value="{{userinfo.phone2}}" placeholder="{{userinfo.phone2==null?'请输入你的座机':''}}" class="input"></input>
+      <input type='number' maxlength='20' bindinput='debounce' data-eval="changePhone2" value="{{userinfo.phone2}}" placeholder="{{userinfo.phone2==null?'请输入你的座机':''}}" class="input"></input>
     </view>
   </view>
 
   <view class="com_single">
     <view class="com_head">手机</view>
     <view class="com_txt">
-      <input type='number' bindinput='debounce' data-eval="changePhone" value="{{userinfo.username}}" placeholder="{{userinfo.username==null?'请输入你的手机号':''}}" class="input"></input>
+      <input type='number' maxlength='11' bindinput='debounce' data-eval="changePhone" value="{{userinfo.username}}" placeholder="{{userinfo.username==null?'请输入你的手机号':''}}" class="input"></input>
     </view>
   </view>
 

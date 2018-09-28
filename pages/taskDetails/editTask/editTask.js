@@ -48,7 +48,13 @@ Page({
 
   // 下拉刷新
   onPullDownRefresh: function () {
-    this.selectPlan(this.data.taskId)
+    if (this.data.isAddMember || this.data.isChangeImplement){
+      wx.stopPullDownRefresh();
+    }
+    else{
+      this.selectPlan(this.data.taskId);
+    }
+    
   },
 
   // 弹框

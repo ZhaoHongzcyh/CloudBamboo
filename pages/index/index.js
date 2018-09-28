@@ -195,7 +195,7 @@ Page({
   // 检查输入的登录信息是否合法
   validatorLogoinInfo: function (logoin) {
     var phoneReg = /^1\d{10}$/img;
-    var pwdReg = /^\w{6,20}$/
+    var pwdReg = /^[0-9a-zA-Z]{6,20}$/
     var validatorPhone = phoneReg.test(logoin.phone);
     var validatorPwd = pwdReg.test(logoin.password);
     var isClickLogoinBtn = false
@@ -228,7 +228,7 @@ Page({
     var register = this.data.register;
     var phoneReg = /^1\d{10}$/img;
     var verificationReg = /^\w{4,8}$/;
-    var pwdReg = /^\w{6,20}$/;
+    var pwdReg = /^\[0-9a-zA-Z]{6,20}$/;
     var validatorPhone = phoneReg.test(register.phone);
     var validatorPwd = pwdReg.test(register.password);
     var validatorVerification = verificationReg.test(register.verification);

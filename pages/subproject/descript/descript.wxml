@@ -6,8 +6,9 @@
     </view>
     <view class="common_title" wx:if="{{project.parentId == 0}}">项目描述</view>
     <view class="textarea" wx:if="{{project.parentId == 0}}">
-      <textarea value="{{(project.description==null || project.description == '')?'未设置':project.description}}" bindinput='changeProjectDescript' class="projectdescript" placeholder-class='placeholder'></textarea>
+      <textarea value="{{(project.description==null || project.description == '')?'':project.description}}" bindinput='changeProjectDescript' placeholder="{{(project.description==null || project.description == '')?'未设置':''}}" class="projectdescript"  placeholder-class='placeholder'></textarea>
     </view>
+    
   <view class="save" bindtap="saveSummaryBean">保存</view>
   <!-- 弹框 -->
   <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
