@@ -65,6 +65,14 @@ Page({
         wx.showTabBar({});
         this.setData({ switchMyselfLogoin: true });
         this.getTask();
+
+        // 避免因服务器维护造成小程序端登录界面出现异常
+        if (!this.data.switchMyselfLogoin){
+          wx.hideTabBar({})
+        }
+        else{
+          wx.showTabBar({});
+        }
       }
     }
   },
@@ -304,12 +312,15 @@ Page({
       mobile: phone,
       typeFlag: 100
     };
-    api.request(obj, address, "post", true).then(res => {
+    api.request(obj, address, "POST", true).then(res => {
       if (res.statusCode == 200 && res.data.result) {
         this.setData({ msgCode: res.data.data})
         this.countDown();
       }
       else{
+        if(res.data.message == "" || res.data.message == undefined){
+          res.data.message == '验证码获取失败,稍后再试'
+        }
         this.setData({alertTitle:{state:1,title:res.data.message}});
         this.layOutHideAlert(1800);
       }
@@ -404,6 +415,9 @@ Page({
       var address = app.ip + "tw/userService/login";
       api.request(obj, address, "post", true).then(res => {
         this.handlelogoin(res);
+      }).catch(e=>{
+        this.setData({ alertTitle: { state: 1, title: '网络异常，登录失败' } });
+        this.layOutHideAlert(1800);
       })
     }
   },
@@ -423,6 +437,9 @@ Page({
       wx.showTabBar({})
     }
     else{
+      if(res.data.message == "" || res.data.message == undefined){
+        res.data.message = '登录失败!';
+      }
       this.setData({alertTitle:{state:1,title:res.data.message}})
     }
     this.layOutHideAlert(1800);

@@ -123,18 +123,28 @@ Page({
         };
     }
     api.request(obj,address,"post",true).then(res=>{
-      this.setData({
-        start: this.data.start + 1
-      })
-      if(this.data.urlLine){
-        
-        this.handleProject(res);
+      if(res.data.code == 200 && res.data.result){
+        this.setData({
+          start: this.data.start + 1
+        })
+        if (this.data.urlLine) {
+
+          this.handleProject(res);
+        }
+        else {
+          this.handlePerson(res);
+        }
       }
       else{
-        this.handlePerson(res);
+        if(res.data.message == "" || res.data.message == undefined){
+          res.data.message == '项目信息加载失败!'
+        }
+        this.setData({ content: res.data.message })
+        this.entryalert();
       }
       wx.stopPullDownRefresh();//关闭下拉刷新
     }).catch(e=>{
+      wx.stopPullDownRefresh();//关闭下拉刷新
       console.log(e);
     })
   },

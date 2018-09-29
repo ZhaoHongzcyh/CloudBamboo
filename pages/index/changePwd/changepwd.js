@@ -84,7 +84,6 @@ Page({
       oldPassword:util.hexMD5(oldpwd),
       password: password//util.hexMD5(this.data.newpwd)
     };
-    console.log(obj);
     if(!obj.password.match(pwdReg)){
       this.setData({ alertInfo: '密码只能为数字与字母' });
       setTimeout(() => { this.setData({ isShowTxt:false})},1500);
