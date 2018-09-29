@@ -1,0 +1,17 @@
+<!--pages/company/manageCompany/manageCompany.wxml-->
+<view>
+  <!-- 管理组成员列表 -->
+  <view class="adminGroup">
+    <view class="addBtnArea">
+      <image src="../../addCompany/img/add_icon.png" class="addBtn"></image>
+      <view>添加</view>
+    </view>
+
+    <block wx:for="{{adminGroup}}">
+      <view class="addBtnArea adminer">
+        <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="addBtn userhead"></image>
+        <view class="userName">{{item.pname}}</view>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,36 @@
+/* pages/company/manageCompany/manageCompany.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+
+.adminGroup{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: white;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+
+.addBtnArea{
+  width: 68rpx;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+  color: #999;
+  text-align: center;
+}
+
+.addBtn{
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 50%;
+}
+
+.adminer{
+  margin-left: 20rpx;
+}
+
+.userName{
+  width: 68rpx;
+  overflow: hidden;
+}

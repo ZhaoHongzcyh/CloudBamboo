@@ -7,12 +7,18 @@ var handleUserInfo = function(info){
     // wx.setStorageSync("teamName", info.curUser.teamName);//组织名称
     // wx.setStorageSync("isOrgCorporationAdmin", info.isOrgCorporationAdmin);//是否管理员
   }
-  var defaultTaskTeam = wx.getStorageSync("defaultTaskTeam")
+  var defaultTaskTeam = wx.getStorageSync("defaultTaskTeam");
+  var userid = wx.getStorageSync('tcUserId');
+  var isManager = false;
   for(var i =0; i<info.list.length;i++){
     if (info.list[i].id == defaultTaskTeam){
+      if (userid == info.list[i].manager){
+        isManager = true;
+      }
       return {
         cname: info.list[i].title,
-        cicon: ""//单位logo
+        cicon: "",//单位logo
+        isManager: isManager//是否为公司负责人
       }
     }
   }

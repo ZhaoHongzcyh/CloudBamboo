@@ -10,6 +10,7 @@ Page({
       logo:"./img/company.png"
     },
     isGetCompany:false,//是否已经请求到公司数据
+    isManager:false,//是否为公司负责人
     time:{
       today:"",
       month:""
@@ -100,7 +101,8 @@ Page({
           name:handleInfo.cname.split(";")[0],
           cicon: handleInfo.cicon
         },
-        isGetCompany:true
+        isGetCompany:true,
+        isManager: handleInfo.isManager
       });
       wx.stopPullDownRefresh();//关闭下拉刷新
     }).catch(e=>{
@@ -119,9 +121,22 @@ Page({
 
   // 切换公司
   switchCompany:function(){
-    wx.navigateTo({
-      url: '/pages/companyList/companyList',
-    })
+    // 在这里做是否为公司负责人的判断（国庆之后在开发与发布）
+    if(this.data.isManager){
+      // 这里跳转的页面应该是公司高级设置页面，而非公里切换列表页面（国庆之后开发）
+      // wx.navigateTo({
+      //   url: './manageCompany/manageCompany',
+      // })
+      wx.navigateTo({
+        url: '/pages/companyList/companyList',
+      })
+    }
+    else{
+      wx.navigateTo({
+        url: '/pages/companyList/companyList',
+      })
+    }
+    
   },
   
   // 添加公司
