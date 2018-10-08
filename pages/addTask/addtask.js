@@ -11,6 +11,7 @@ Page({
     startDate:null,//任务开始时间
     endDate:"",
     resourceId:null,//所属资源ID
+    isHasSubmit:false,//避免点击多次造成多次添加同一个任务组
     alert:{
       content:"新建任务计划失败"
     }
@@ -66,6 +67,14 @@ Page({
     if(!this.isInputTaskName()){
       return false;
     }
+    if (this.data.isHasSubmit){
+      return false;
+    }
+    else{
+      this.setData({
+        isHasSubmit: true
+      })
+    }
     var scheduleSummaryBean = {
       title: this.data.taskName,//encodeURI(this.data.taskName),
       resourceType: 10010001,//所属资源类型
@@ -78,8 +87,6 @@ Page({
     var obj = {scheduleSummaryBean}
     console.log(scheduleSummaryBean);
     api.sendDataByBody(scheduleSummaryBean,address,"post",true).then(res=>{
-      console.log(obj)
-      console.log("新建任务");
       console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack()

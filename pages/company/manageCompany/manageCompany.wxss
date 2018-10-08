@@ -16,7 +16,7 @@ page{
   width: 68rpx;
   font-size: 28rpx;
   margin-top: 20rpx;
-  color: #999;
+  color: #333;
   text-align: center;
 }
 
@@ -33,4 +33,100 @@ page{
 .userName{
   width: 68rpx;
   overflow: hidden;
+}
+
+/* 查看全部管理组成员 */
+.watchAllAdmin{
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  height: 72rpx;
+  padding-left: 20rpx;
+  border-top: 1rpx solid #DBDBDB;
+  background-color: white;
+}
+
+.arrowimg{
+  flex: 2;
+  text-align: right;
+  padding-right: 20rpx;
+}
+
+.arrow{
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.clearfix{
+  margin-top: 30rpx;
+  height: 80rpx;
+  background-color: white;
+}
+
+.clearfix::after{
+  display: block;
+  content:'';
+}
+
+.comtext{
+  float: left;
+  font-size: 28rpx;
+  margin-left: 20rpx;
+  width: 65%;
+  color: #999;
+}
+
+.comBtn{
+  margin-top: 19rpx;
+  margin-right: 20rpx;
+  width: 100rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  float: right;
+  color: white;
+  text-align: center;
+}
+
+.transferBtn{
+  background-color: #409CF2;
+}
+
+.delBtn{
+  background-color: #F55D61;
+}
+
+/* 转让模态框 */
+.transferModel{
+  position:  fixed;
+  top: 0rpx;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+/* 模态框选择条件 */
+.transferMenu{
+  position: absolute;
+  width: 100%;
+  bottom: 0rpx;
+  text-align: center;
+  background-color: rgba(245,245,245,1);
+  font-size: 28rpx;
+  color: #333;
+}
+
+.comCondiction{
+  height: 72rpx;
+  line-height: 72rpx;
+  background-color: white;
+}
+
+.secondMenu{
+  margin-top: 2rpx;
+}
+
+.lastMenu{
+  margin-top: 20rpx;
 }

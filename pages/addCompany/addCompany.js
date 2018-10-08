@@ -98,7 +98,7 @@ Page({
     api.request(obj,address,"post",true).then(res=>{
       if(res.data.code == 200 && res.data.result){
         wx.setStorageSync("defaultTaskTeam", res.data.data.id);
-        wx.redirectTo({
+        wx.switchTab({
           url: '/pages/company/company',
         })
       }

@@ -15,7 +15,7 @@ Page({
       success:(res)=>{
         console.log(res);
         var reg = /iPhone/img;
-        var src = "http://xz.yzsaas.cn/";
+        var src = "https://xz.yzsaas.cn/";
         if(reg.test(res.model)){
           this.setData({
             equipSystem:0,
@@ -23,7 +23,7 @@ Page({
           })
         }
         else{
-          src = "http://xz.yzsaas.cn/download.html";
+          src = "https://xz.yzsaas.cn/download.html";
           this.setData({
             equipSystem: 1,
             src: src

@@ -45,7 +45,8 @@ Page({
     isShowReadPower:false,//是否展示成员可见列表
     isShowImplement:false,//是否展示执行人选择
     isShowAddMember: false,//是否展示参与人
-    isShowEmergency:false//是否展示任务紧急程度
+    isShowEmergency:false,//是否展示任务紧急程度
+    isHasSubmit: false,//避免点击多次造成多次添加同一个任务
   },
 
   /**
@@ -452,6 +453,12 @@ Page({
   addTask: function (e) {
     var address = app.ip + "tc/schedule/itemService/add";
     var participant = [];//参与人
+    if (this.data.isHasSubmit){
+      return false;
+    }
+    else{
+      this.setData({ isHasSubmit: true});
+    }
     for(var i = 0; i < this.data.addMemberList.length; i++){
       if(this.data.addMemberList[i].selected){
         participant.push(this.data.addMemberList[i].resourceId);
@@ -490,6 +497,7 @@ Page({
     }
 
     api.sendDataByBody(obj,address,"post",true).then(res=>{
+      this.setData({ isHasSubmit: false});
       if(res.data.code == 200 && res.data.result){
         this.setData({
           uploadId:res.data.data.itemBean.id

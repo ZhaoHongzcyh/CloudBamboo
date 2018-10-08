@@ -22,6 +22,9 @@ var handleUserInfo = function(info){
       }
     }
   }
+  return {
+    isGetCompany: false
+  }
 }
 
 var obj = {

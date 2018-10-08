@@ -14,4 +14,39 @@
       </view>
     </block>
   </view>
+  <view class="watchAllAdmin" bindtap="watchAllAdmin">
+    查看全部管理组成员({{adminGroup.length}})
+    <view class="arrowimg">
+      <image src="../img/open.png" class="arrow"></image>
+    </view>
+  </view>
+
+  <!-- 转让公司 -->
+  <view class="clearfix">
+    <view class="transferText comtext">
+      将公司装让给其他成员,您将不再具有公司负责人的相关权限
+    </view>
+    <view class="transferBtn comBtn" bindtap="transferCompany">转让</view>
+  </view>
+
+  <!-- 删除公司 -->
+  <view class="clearfix">
+    <view class="transferText comtext">
+      删除公司将永久删除所有资料,请谨慎操作!
+    </view>
+    <view class="delBtn comBtn" bindtap="openConfirm">删除</view>
+  </view>
+
+  <!-- 转让条件列表 -->
+  <view class="transferModel" wx:if="{{showModel}}">
+    <view class="transferMenu">
+      <view class="comCondiction">转让并退出公司</view>
+      <view class="comCondiction secondMenu">转让不退出</view>
+      <view class="comCondiction lastMenu" bindtap="transferAlert">取消</view>
+    </view>
+  </view>
+  <!-- 对话弹框 -->
+  <confirm id="confirm" bindsure="delCompany" title="{{ {content:'确认要删除当前公司?'} }}"></confirm>
+   <!-- 转让失败提醒弹框 -->
+<popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 </view>

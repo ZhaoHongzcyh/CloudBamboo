@@ -8,7 +8,10 @@ Page({
    */
   data: {
     app:app,
-    adminGroup: null
+    adminGroup: null,
+    allGroup:[],
+    alert:{content:''},
+    showModel: false
   },
 
   /**
@@ -23,6 +26,12 @@ Page({
    */
   onShow: function () {
     this.getManagerGroup();
+    this.confirm = this.selectComponent("#confirm");
+  },
+
+  // 打开对话弹框
+  openConfirm: function () {
+    this.confirm.show();
   },
 
   // 获取公司管理组成员
@@ -36,6 +45,7 @@ Page({
     api.request(obj,address,"POST",true).then(res=>{
       console.log(res);
       if(res.data.result && res.data.code == 200){
+        this.setData({allGroup: res.data.data.list});
         this.handleAdminGroup( res.data.data.list);
       }
     }).catch(e=>{
@@ -52,5 +62,50 @@ Page({
       }
     })
     this.setData({adminGroup});
+  },
+
+  // 查看全部管理组成员
+  watchAllAdmin: function () {
+    wx.navigateTo({
+      url: '../watchAdmin/watchadmin',
+    })
+  },
+
+  // 删除公司
+  delCompany: function () {
+    var address = app.ip + "tc/taskTeamService/deleteTaskTeam";
+    var defaultTaskTeam = wx.getStorageSync('defaultTaskTeam');
+    var obj = { taskId: defaultTaskTeam}
+    api.request(obj,address,"POST",true).then(res=>{
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        wx.setStorageSync('defaultTaskTeam', null)
+      }
+      wx.navigateBack()
+    })
+  },
+
+  // 用户转让公司
+  transferCompany: function () {
+    var userid = wx.getStorageSync('tcUserId');
+    var allGroup = this.data.allGroup;
+    if(allGroup.length < 2){
+      this.setData({alert:{content:'暂无更多公司成员!'}});
+      this.alert();
+    }
+    else{
+      this.transferAlert();
+    }
+  },
+
+  // 无法转让弹框
+  alert: function () {
+    this.popup = this.selectComponent("#popup");
+    this.popup.showPopup();
+  },
+
+  // 公司转让弹框
+  transferAlert: function () {
+    this.setData({ showModel: !this.data.showModel})
   }
 })

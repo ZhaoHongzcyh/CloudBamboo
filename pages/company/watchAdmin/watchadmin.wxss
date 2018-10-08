@@ -1,0 +1,41 @@
+/* pages/company/watchAdmin/watchadmin.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+
+.allAdmin{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.addBtnArea{
+  width: 68rpx;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+  margin-left: 20rpx;
+  color: #333;
+  text-align: center;
+}
+
+.comCircle{
+  width: 68rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  font-size: 34rpx;
+  color: white;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.addAdmin{
+  background-color: #409CF2;
+}
+
+.delAdmin{
+  background-color: #F55D61;
+}
+
+.foottext{
+  padding: 0rpx;
+  overflow: hidden;
+}

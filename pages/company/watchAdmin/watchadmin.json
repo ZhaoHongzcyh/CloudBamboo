@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "popup": "/common/popup/popup",
     "confirm": "/common/confirm/confirm"
   }
 }

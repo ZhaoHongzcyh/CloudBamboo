@@ -1,0 +1,24 @@
+<!--pages/company/watchAdmin/watchadmin.wxml-->
+<view>
+  <view class="allAdmin">
+    <view class="addBtnArea">
+      <view class="comCircle addAdmin">+</view>
+      <!-- <image src="../../addCompany/img/add_icon.png" class="addBtn"></image> -->
+      <view class="foottext">添加</view>
+    </view>
+
+    <view class="addBtnArea">
+      <view class="comCircle delAdmin">-</view>
+      <view class="foottext">删除</view>
+    </view>
+
+    <block wx:for="{{adminGroup}}">
+      <view class="addBtnArea">
+        <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="comCircle"></image>
+        <view class="foottext">{{item.pname}}</view>
+    </view>
+    </block>
+  </view>
+
+  
+</view>

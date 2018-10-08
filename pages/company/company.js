@@ -37,7 +37,6 @@ Page({
     this.setData({
       listConfig:listConfig.listConfig
     })
-    
   },
 
   onShow: function () {
@@ -50,6 +49,7 @@ Page({
   // 下拉刷新
   onPullDownRefresh: function (e) {
     this.onLoad();
+    this.onShow();
     this.getCompanyId();
   },
 
@@ -69,11 +69,16 @@ Page({
   
   // 请求考勤打卡情况
   getWorkAttendance:function(){
+    var taskId = wx.getStorageSync("defaultTaskTeam");
+    if(taskId == null) {
+      return false;
+    }
     var obj = {
-      taskId:wx.getStorageSync("defaultTaskTeam")
+      taskId: taskId
     }
     var address = app.ip + "tc/taskMemberService/findTaskMembershipAttendanceBean";
-    api.request(obj,address,"post",true).then(res=>{
+    api.request(obj,address,"POST",true).then(res=>{
+      
       if(res.data.code == 200){
         var obj = api.handleAttendance(res.data.data);
         this.setData({
@@ -81,6 +86,7 @@ Page({
         })
       }
     }).catch(e=>{
+      console.log(e);
       wx.stopPullDownRefresh();//关闭下拉刷新
     })
   },
@@ -90,20 +96,34 @@ Page({
     var obj = {};
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj,address,"post",true).then(res=>{
+      console.log(res);
       if(res.data.code == 402){//session 过期，重定向到登录页面
         wx.redirectTo({
           url: '/pages/index/index',
         })
       }
+      var isGetCompany = true;
       var handleInfo = company.handleUserInfo(res);
-      this.setData({
-        company:{
-          name:handleInfo.cname.split(";")[0],
-          cicon: handleInfo.cicon
-        },
-        isGetCompany:true,
-        isManager: handleInfo.isManager
-      });
+      console.log("处理结果");
+      console.log(handleInfo);
+      if (handleInfo.isGetCompany == false) {
+        isGetCompany = false;
+        this.setData({
+          isGetCompany: isGetCompany,
+          isManager: false
+        })
+      }
+      else{
+        this.setData({
+          company: {
+            name: handleInfo.cname.split(";")[0],
+            cicon: handleInfo.cicon
+          },
+          isGetCompany: isGetCompany,
+          isManager: handleInfo.isManager
+        });
+      }
+      
       wx.stopPullDownRefresh();//关闭下拉刷新
     }).catch(e=>{
       wx.stopPullDownRefresh();//关闭下拉刷新
@@ -114,6 +134,7 @@ Page({
     var obj = {};
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj,address,"post",true).then(res=>{
+
     }).catch(e=>{
       wx.stopPullDownRefresh();//关闭下拉刷新
     })
@@ -123,13 +144,13 @@ Page({
   switchCompany:function(){
     // 在这里做是否为公司负责人的判断（国庆之后在开发与发布）
     if(this.data.isManager){
-      // 这里跳转的页面应该是公司高级设置页面，而非公里切换列表页面（国庆之后开发）
-      // wx.navigateTo({
-      //   url: './manageCompany/manageCompany',
-      // })
+      // 这里跳转的页面应该是公司高级设置页面，而非公司切换列表页面（国庆之后开发）
       wx.navigateTo({
-        url: '/pages/companyList/companyList',
+        url: './manageCompany/manageCompany',
       })
+      // wx.navigateTo({
+      //   url: '/pages/companyList/companyList',
+      // })
     }
     else{
       wx.navigateTo({
