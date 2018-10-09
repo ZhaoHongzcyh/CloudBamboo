@@ -2,7 +2,7 @@
 <view>
   <!-- 管理组成员列表 -->
   <view class="adminGroup">
-    <view class="addBtnArea">
+    <view class="addBtnArea" bindtap="addMember">
       <image src="../../addCompany/img/add_icon.png" class="addBtn"></image>
       <view>添加</view>
     </view>
@@ -37,11 +37,12 @@
     <view class="delBtn comBtn" bindtap="openConfirm">删除</view>
   </view>
 
+  <view class="switchCompany" bindtap="switchCompany">切换公司</view>
   <!-- 转让条件列表 -->
   <view class="transferModel" wx:if="{{showModel}}">
     <view class="transferMenu">
-      <view class="comCondiction">转让并退出公司</view>
-      <view class="comCondiction secondMenu">转让不退出</view>
+      <view class="comCondiction" bindtap="jumpTransferPage" data-state='1'>转让并退出公司</view>
+      <view class="comCondiction secondMenu" bindtap="jumpTransferPage" data-state='2'>转让不退出</view>
       <view class="comCondiction lastMenu" bindtap="transferAlert">取消</view>
     </view>
   </view>

@@ -39,3 +39,86 @@ page{
   padding: 0rpx;
   overflow: hidden;
 }
+
+/* 成员搜索区域 */
+.search{
+  width: 90%;
+  height: 52rpx;
+  line-height: 52rpx;
+  border-radius: 15rpx;
+  font-size: 28rpx;
+  color: #333;
+  background-color: white;
+  margin: auto;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  padding: 0rpx 20rpx;
+}
+
+.plasearch{
+  text-align: center;
+}
+/* 成员添加与删除 */
+.addOrReduce{
+  position: fixed;
+  top: 0rpx;
+  width: 100%;
+  height: calc(100% - 120rpx);
+  overflow-y: auto;
+}
+
+.memberList{
+  display: flex;
+  align-items: center;
+  background-color: white;
+  height: 80rpx;
+  font-size: 28rpx;
+  border-bottom: 1rpx solid #DBDBDB;
+  color: #333;
+}
+
+.photo{
+  width: 62rpx;
+  height: 62rpx;
+  margin-left: 40rpx;
+  border-radius: 50%;
+}
+
+.name{
+  flex: 2;
+  margin-left: 20rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.del{
+  margin-right: 30rpx;
+  width: 50rpx;
+  width: 50rpx;
+  line-height: 50rpx;
+  border-radius: 50%;
+  text-align: center;
+  color:white;
+  background-color: #F55D61;
+}
+
+.radio{
+  margin-right: 30rpx;
+}
+
+/* 添加管理员组按钮 */
+.submitBtn{
+  position: fixed;
+  left: 50%;
+  margin-left: -335rpx;
+  bottom: 20rpx;
+  width: 670rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 36rpx;
+  background-color: #409CF2;
+  color: white;
+  text-align: center;
+}

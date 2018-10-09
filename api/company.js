@@ -10,6 +10,15 @@ var handleUserInfo = function(info){
   var defaultTaskTeam = wx.getStorageSync("defaultTaskTeam");
   var userid = wx.getStorageSync('tcUserId');
   var isManager = false;
+  if (defaultTaskTeam == null){
+    for (var i = 0; i < info.list.length; i++) {
+      if (info.list[i].manager == userid){
+        defaultTaskTeam = info.list[i].id;
+        wx.setStorageSync('defaultTaskTeam', defaultTaskTeam);
+      }
+    }
+  }
+  
   for(var i =0; i<info.list.length;i++){
     if (info.list[i].id == defaultTaskTeam){
       if (userid == info.list[i].manager){

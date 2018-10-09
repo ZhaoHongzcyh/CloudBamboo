@@ -1,7 +1,7 @@
 <!--pages/company/watchAdmin/watchadmin.wxml-->
-<view>
+<view wx:if="{{!addOrReduce}}">
   <view class="allAdmin">
-    <view class="addBtnArea">
+    <view class="addBtnArea" bindtap="addMember">
       <view class="comCircle addAdmin">+</view>
       <!-- <image src="../../addCompany/img/add_icon.png" class="addBtn"></image> -->
       <view class="foottext">添加</view>
@@ -16,9 +16,23 @@
       <view class="addBtnArea">
         <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="comCircle"></image>
         <view class="foottext">{{item.pname}}</view>
-    </view>
+      </view>
     </block>
   </view>
+</view>
 
-  
+<!-- 添加/删除成员 -->
+<view wx:if="{{addOrReduce}}" class="addOrReduce">
+  <view>
+    <input type="text" placeholder='搜索联系人' class="search" placeholder-class='plasearch' bindinput="search"/>
+  </view>
+  <block wx:for="{{allGroup}}">
+    <view class="memberList" wx:if="{{item.relationType != 1}}" bindtap="sureAddMember" data-item="{{item}}" data-index="{{index}}">
+      <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="photo"></image>
+      <view class="name">{{item.pname}}</view>
+      <radio color="{{item.selfType==13? '#999999':'#409CF2'}}" class="radio" checked='{{item.relationType == 13}}'/>
+      <view class="del" wx:if="{{!isAddMember}}" data-item="{{item}}" bindtap="del">-</view>
+    </view>
+  </block>
+  <view class="submitBtn" bindtap="sureAdd" wx:if="{{chooseMember.length > 0}}">完成</view>
 </view>

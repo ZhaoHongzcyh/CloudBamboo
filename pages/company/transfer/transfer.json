@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "转让给",
+  "usingComponents": {
+    "confirm": "/common/confirm/confirm",
+    "popup": "/common/popup/popup"
+  }
+}

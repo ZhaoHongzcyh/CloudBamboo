@@ -47,7 +47,8 @@
     "pages/subproject/companyFolder/companyfolder",
     "pages/subproject/chooseProject/chooseproject",
     "pages/company/manageCompany/manageCompany",
-    "pages/company/watchAdmin/watchadmin"
+    "pages/company/watchAdmin/watchadmin",
+    "pages/company/transfer/transfer"
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",

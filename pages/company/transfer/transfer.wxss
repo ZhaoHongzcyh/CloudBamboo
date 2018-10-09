@@ -1,0 +1,45 @@
+/* pages/company/transfer/transfer.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+
+.searchinput{
+  width: 90%;
+  height: 52rpx;
+  font-size: 28rpx;
+  border-radius: 15rpx;
+  margin: auto;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  border: 1rpx solid #DBDBDB;
+  background-color: white;
+}
+
+.plhsearch{
+  text-align: center;
+}
+
+.member{
+  display: flex;
+  align-items: center;
+  background-color: white;
+  height: 80rpx;
+  font-size: 28rpx;
+  border-bottom: 1rpx solid #DBDBDB;
+  color: #333;
+}
+
+.photo{
+  width: 62rpx;
+  height: 62rpx;
+  margin-left: 40rpx;
+  border-radius: 50%;
+}
+
+.name{
+  flex: 2;
+  margin-left: 20rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}

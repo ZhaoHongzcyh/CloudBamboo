@@ -1,0 +1,16 @@
+<!--pages/company/transfer/transfer.wxml-->
+<!--  公司转让 -->
+<view>
+  <view class="search">
+    <input type="text" placeholder='搜索成员' class="searchinput" placeholder-class='plhsearch' bindinput="search" />
+  </view>
+  <block wx:for="{{allGroup}}">
+    <view class="member" data-item="{{item}}" bindtap="transferModel">
+      <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="photo"></image>
+      <view class="name">{{item.pname}}</view>
+    </view>
+  </block>
+
+  <!-- 对话弹框 -->
+  <confirm id="confirm" bindsure="transfer" title="{{ confirm }}"></confirm>
+</view>

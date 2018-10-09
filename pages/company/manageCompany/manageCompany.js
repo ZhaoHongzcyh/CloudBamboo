@@ -107,5 +107,27 @@ Page({
   // 公司转让弹框
   transferAlert: function () {
     this.setData({ showModel: !this.data.showModel})
+  },
+
+  // 跳转到转让页面
+  jumpTransferPage: function (e) {
+    var state = e.currentTarget.dataset.state;
+    wx.navigateTo({
+      url: '../transfer/transfer?state=' + state,
+    })
+  },
+
+  // 切换公司
+  switchCompany: function () {
+    wx.navigateTo({
+      url: '/pages/companyList/companyList',
+    })
+  },
+
+  // 添加成员
+  addMember: function () {
+    wx.navigateTo({
+      url: '../watchAdmin/watchadmin?source=1',
+    })
   }
 })

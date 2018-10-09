@@ -97,6 +97,20 @@ page{
   background-color: #F55D61;
 }
 
+/* 切换公司 */
+.switchCompany{
+  width: 670rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 36rpx;
+  font-size: 28rpx;
+  color: white;
+  background-color: #409CF2;
+  text-align: center;
+  margin: auto;
+  margin-top: 30rpx;
+}
+
 /* 转让模态框 */
 .transferModel{
   position:  fixed;
