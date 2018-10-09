@@ -112,7 +112,6 @@ Page({
       }
       this.setData({ allGroup, chooseMember, allMember});
     }
-    console.log(chooseMember)
   },
 
   // 模糊搜索

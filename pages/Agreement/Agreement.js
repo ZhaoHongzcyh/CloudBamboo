@@ -10,14 +10,14 @@ Page({
   onShow: function () {
     if(this.data.state == 2){
       this.setData({
-        src: 'http://xz.yzsaas.cn/'
+        src: 'https://xz.yzsaas.cn/'
       })
     }
     else if(this.data.state == 3){
-      this.setData({ src:'http://xz.yzsaas.cn/aboutus.html'})
+      this.setData({ src:'https://xz.yzsaas.cn/aboutus.html'})
     }
     else {
-      this.setData({ src: 'http://xz.yzsaas.cn/document.html' })
+      this.setData({ src: 'https://xz.yzsaas.cn/document.html' })
     }
   }
 })
