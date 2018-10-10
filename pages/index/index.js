@@ -355,7 +355,8 @@ Page({
     var obj = {
       userName: register.phone,
       password: util.hexMD5(register.password),
-      valiCode: register.verification
+      valiCode: register.verification,
+      "Equipment-Type": 4
     }
     api.request(obj, address, "post", true).then(res => {
       this.setData({ alertTitle: { state: 1, title: res.data.message } })
@@ -407,7 +408,8 @@ Page({
       this.setData({ alertTitle: { state: 2, title: '登录中. . . ' } });
       var obj = {
         userName: this.data.logoin.phone,
-        password: util.hexMD5(this.data.logoin.password)
+        password: util.hexMD5(this.data.logoin.password),
+        "Equipment-Type": 4
       }
       if (this.data.opendid != null) {
         obj.opendId = this.data.opendid;

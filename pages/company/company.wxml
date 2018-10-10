@@ -37,7 +37,7 @@
     <view class="company-work-head">工作台</view>
     <view class="workbench-area list-area">
       <block wx:for="{{listConfig.workPlatform}}" wx:key="{{item.id}}">
-        <companyIcon bindtap="alert" src="{{item.src}}" title="{{item.title}}"></companyIcon>
+        <companyIcon bindtap="alert"  src="{{item.src}}" title="{{item.title}}"></companyIcon>
       </block>
     </view>
   </view>

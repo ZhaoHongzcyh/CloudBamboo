@@ -14,14 +14,17 @@ Page({
     addOrReduce: false,//是否显示添加与删除成员界面
     isAddMember: true,//是否是进行成员添加操作
     chooseMember:[],//需要被添加的管理组成员
-    source:null
+    source:null,
+    delMember:null,
+    alert:null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if(options.source = 1){
+    this.popup = this.selectComponent("#popup");
+    if(options.source == 1){
       this.setData({
         source:options.source
       })
@@ -30,6 +33,11 @@ Page({
 
   onShow: function () {
     this.getManagerGroup();
+  },
+
+  // 弹框
+  alert: function () {
+    this.popup.showPopup()
   },
 
   // 获取公司管理组成员
@@ -53,7 +61,11 @@ Page({
           this.addMember();
         }
       }
+      else{
+        this.showAlert(res.data.message);
+      }
     }).catch(e => {
+      this.showAlert('管理组成员获取失败!');
       console.log(e);
     })
   },
@@ -78,6 +90,9 @@ Page({
   addMember: function () {
     this.setData({ allGroup: this.data.allMember, isAddMember: true});
     this.switchModel();
+    wx.setNavigationBarTitle({
+      title: '添加管理组成员'
+    })
   },
 
   // 单选框添加
@@ -139,6 +154,12 @@ Page({
     var obj = {
       taskId: defaultTaskTeam
     };
+    var allGroup = this.data.allMember;
+    allGroup.map((single,num)=>{
+      if(single.selfType == 13){
+        memberIds.push(single.id);
+      }
+    })
     console.log(memberIds);
     api.customRequest(obj, memberIds,address,"POST",true).then(res=>{
       console.log("添加管理员")
@@ -146,7 +167,92 @@ Page({
       if(res.data.code == 200 && res.data.result){
         this.getManagerGroup();
         this.switchModel();
+        wx.setNavigationBarTitle({
+          title: '全部成员'
+        })
+      }
+      else{
+        this.showAlert(res.data.message);
+      }
+    }).catch(e=>{
+      this.showAlert('管理组成员添加失败!');
+    })
+  },
+
+  // 显示删除成员界面
+  delMember: function () {
+    this.setData({
+      addOrReduce: true,
+      isAddMember: false,
+      allGroup: this.data.allMember
+    });
+    wx.setNavigationBarTitle({
+      title: '删除管理组成员'
+    })
+  },
+
+  // 删除成员
+  delGroup: function (e) {
+    var item = e.currentTarget.dataset.item;
+    var memberIds = this.data.allGroup;
+    var allGroup = [];
+    memberIds.map((single,index)=>{
+      if(single.relationType == 13){
+        allGroup.push(single);
       }
     })
+    
+    memberIds = [];
+    allGroup.map((single,index)=>{
+      if(single.id != item.id){
+        memberIds.push(single.id);
+      }
+    })
+    
+    allGroup.map((single, index) => {
+      if (single.id == item.id) {
+        allGroup.splice(index, 1);
+      }
+    })
+    this.setData({ allGroup, delMember: memberIds});
+  },
+
+  // 确定删除成员
+  sureDelMember: function () {
+    var head = { taskId: wx.getStorageSync('defaultTaskTeam') };
+    var address = app.ip + "tc/taskTeamService/editAdminGroup";
+    var memberIds = this.data.delMember;
+    console.log(memberIds)
+    api.customRequest(head,memberIds,address,"POST",true).then(res=>{
+      console.log("删除成员");
+      if(res.data.code == 200 && res.data.result){
+        this.reloadData();
+      }
+      else{
+        this.showAlert(res.data.message);
+      }
+    }).catch(e=>{
+      this.showAlert('管理组成员删除失败');
+    })
+  },
+
+  // 重载本地相关数据
+  reloadData: function () {
+    this.getManagerGroup();
+    this.setData({
+      addOrReduce: false,
+      isAddMember: true
+    })
+    wx.setNavigationBarTitle({
+      title: '全部成员'
+    })
+  },
+
+  // 弹框显示
+  showAlert: function (txt) {
+    this.setData({
+      alert:{content:txt}
+    });
+    this.alert();
   }
 })

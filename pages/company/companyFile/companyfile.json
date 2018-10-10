@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "公司文件",
+  "usingComponents": {
+    "file": "/common/fileList/fileList",
+    "popup": "/common/popup/popup"
+  }
+}

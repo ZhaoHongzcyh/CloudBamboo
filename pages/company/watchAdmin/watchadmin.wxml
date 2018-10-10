@@ -7,7 +7,7 @@
       <view class="foottext">添加</view>
     </view>
 
-    <view class="addBtnArea">
+    <view class="addBtnArea" bindtap="delMember" wx:if="{{adminGroup.length != 0}}">
       <view class="comCircle delAdmin">-</view>
       <view class="foottext">删除</view>
     </view>
@@ -26,13 +26,27 @@
   <view>
     <input type="text" placeholder='搜索联系人' class="search" placeholder-class='plasearch' bindinput="search"/>
   </view>
-  <block wx:for="{{allGroup}}">
+  <!-- 添加 -->
+  <block wx:for="{{allGroup}}" wx:if="{{isAddMember}}">
     <view class="memberList" wx:if="{{item.relationType != 1}}" bindtap="sureAddMember" data-item="{{item}}" data-index="{{index}}">
       <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="photo"></image>
       <view class="name">{{item.pname}}</view>
       <radio color="{{item.selfType==13? '#999999':'#409CF2'}}" class="radio" checked='{{item.relationType == 13}}'/>
-      <view class="del" wx:if="{{!isAddMember}}" data-item="{{item}}" bindtap="del">-</view>
     </view>
   </block>
-  <view class="submitBtn" bindtap="sureAdd" wx:if="{{chooseMember.length > 0}}">完成</view>
+
+  <view class="submitBtn" bindtap="sureAdd" wx:if="{{chooseMember.length > 0 && isAddMember}}">完成</view>
+
+  <!-- 删除 -->
+  <block wx:for="{{allGroup}}" wx:if="{{!isAddMember}}">
+    <view class="memberList" wx:if="{{item.relationType == 13}}" bindtap="sureAddMember" data-item="{{item}}" data-index="{{index}}">
+      <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="photo"></image>
+      <view class="name">{{item.pname}}</view>
+      <view class="del" data-item="{{item}}" bindtap="delGroup">-</view>
+    </view>
+  </block>
+  <view class="submitBtn" bindtap="sureDelMember" wx:if="{{!isAddMember && delMember != null}}">完成</view>
 </view>
+
+<!-- 提示弹框 -->
+<popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>

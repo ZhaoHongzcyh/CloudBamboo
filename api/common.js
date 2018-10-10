@@ -129,7 +129,7 @@ var customRequest = function (head,body,address,method="post",bool=true) {
 }
 
 // 发送小程序Code与验证
-var sendCode = function (data = {}, url = "localhost", method = "post"){
+var sendCode = function (data = {}, url = "localhost", method = "post",head=null){
   return new Promise(function(resolve,reject){
     var obj = {
       url: url,
@@ -141,6 +141,9 @@ var sendCode = function (data = {}, url = "localhost", method = "post"){
       fail: function (err) {
         reject(err)
       }
+    }
+    if(head != null){
+      obj.header = head;
     }
     wx.request(obj);
   })

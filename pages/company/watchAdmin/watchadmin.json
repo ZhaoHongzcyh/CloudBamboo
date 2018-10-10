@@ -1,5 +1,7 @@
 {
+  "navigationBarTitleText": "全部成员",
   "usingComponents": {
-    "confirm": "/common/confirm/confirm"
+    "confirm": "/common/confirm/confirm",
+    "popup": "/common/popup/popup"
   }
 }

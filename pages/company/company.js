@@ -50,7 +50,7 @@ Page({
   onPullDownRefresh: function (e) {
     this.onLoad();
     this.onShow();
-    this.getCompanyId();
+    // this.getCompanyId();
   },
 
   // app下载弹框
@@ -172,6 +172,14 @@ Page({
   getCompanyId:function(){
     var address = app.ip + "tw/userService/getUserInfo";
     api.request({},address,"post",true).then(res=>{
+
+    })
+  },
+
+  // 公司文件
+  jumpToCompanyFile: function () {
+    wx.navigateTo({
+      url: './companyFile/companyfile',
     })
   }
 })
