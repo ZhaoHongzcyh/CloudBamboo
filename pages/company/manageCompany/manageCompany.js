@@ -43,7 +43,6 @@ Page({
       taskId: defaultTaskTeam
     };
     api.request(obj,address,"POST",true).then(res=>{
-      console.log(res);
       if(res.data.result && res.data.code == 200){
         this.setData({allGroup: res.data.data.list});
         this.handleAdminGroup( res.data.data.list);
