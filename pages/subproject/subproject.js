@@ -1435,6 +1435,7 @@ Page({
     var address = app.ip + "tc/taskService/taskMemberManager";
     var obj = {taskId:this.data.taskId};
     api.request(obj,address,"POST",true).then(res=>{
+      console.log(res);
       this.handleProjectMember(res);
     })
   },

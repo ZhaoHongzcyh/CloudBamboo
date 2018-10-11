@@ -21,7 +21,8 @@ Page({
     cityNum:0,//默认城市数组序号
     isShowAddress: false,//是否显示城市地址选择器
     province:null,//选择的省份信息
-    city:null//选择的城市信息
+    city:null,//选择的城市信息
+    isAddingCompany: false
   },
   onLoad:function(){
     // 弹框
@@ -51,6 +52,7 @@ Page({
       companyName:e.detail.value
     })
   },
+
   // 删除成员
   delete:function(e){
     var index = e.currentTarget.dataset.index;
@@ -60,8 +62,17 @@ Page({
       memberList:memberList
     })
   },
+
   // 添加团队
   addCompany:function(){
+    if (this.data.isAddingCompany){
+      return false;
+    }
+    else{
+      this.setData({
+        isAddingCompany: true
+      })
+    }
     var address = app.ip + "tc/taskTeamService/addTaskTeam";
     var province = this.data.province;
     var name = encodeURI(this.data.companyName);
@@ -96,6 +107,9 @@ Page({
       return false;
     }
     api.request(obj,address,"post",true).then(res=>{
+      this.setData({
+        isAddingCompany: false
+      })
       if(res.data.code == 200 && res.data.result){
         wx.setStorageSync("defaultTaskTeam", res.data.data.id);
         wx.switchTab({
@@ -136,6 +150,7 @@ Page({
       }
     }).catch(e=>{
       this.setData({
+        isAddingCompany: false,
         info: {
           state: 1,
           content: "服务异常，请稍后再试"
@@ -251,5 +266,12 @@ Page({
     else{
       return true;
     }
+  },
+
+  // 添加成员
+  addMember: function () {
+    wx.navigateTo({
+      url: './addMember/addmember',
+    })
   }
 })

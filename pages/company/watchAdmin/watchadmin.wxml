@@ -4,12 +4,12 @@
     <view class="addBtnArea" bindtap="addMember">
       <view class="comCircle addAdmin">+</view>
       <!-- <image src="../../addCompany/img/add_icon.png" class="addBtn"></image> -->
-      <view class="foottext">添加</view>
+      <view class="foottext comtitle">添加</view>
     </view>
 
     <view class="addBtnArea" bindtap="delMember" wx:if="{{adminGroup.length != 0}}">
       <view class="comCircle delAdmin">-</view>
-      <view class="foottext">删除</view>
+      <view class="foottext comtitle">删除</view>
     </view>
 
     <block wx:for="{{adminGroup}}">

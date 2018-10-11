@@ -13,13 +13,16 @@
         </view>
         <view class="action">
           <image wx:if="{{item.behType == 10002001}}" src="/pages/taskDetails/img/add.png" class="actionImg"></image>
-          <image wx:elif="{{item.behType == 10002001}}" src="/pages/taskDetails/img/message.png" class="actionImg"></image>
-          <image wx:elif="{{item.behType == 10002001}}" src="/pages/taskDetails/img/editaction.png" class="actionImg"></image>
+          <image wx:elif="{{item.behType == 10001001}}" src="/pages/taskDetails/img/reply.png" class="actionImg"></image>
+          <image wx:elif="{{item.behType == 10002015}}" src="/pages/taskDetails/img/editaction.png" class="actionImg"></image>
+          <image wx:elif="{{item.behType == 10002010}}" src="/pages/taskDetails/img/finish.png" class="actionImg"></image>
+          <image wx:elif="{{item.behType == 10002009}}" src="/pages/taskDetails/img/restart.png" class="actionImg"></image>
+          <image wx:elif="{{item.behType == 10002016}}" src="/pages/taskDetails/img/get.png" class="actionImg"></image>
           <image wx:else="{{item.behType == 10002001}}" src="/pages/taskDetails/img/add.png" class="actionImg"></image>
           <view class="actionname"> {{item.personName}} </view>
           <view class="actioninfo">
-            {{item.behType == 10001001 ? '回复任务': '' }}
             {{item.behType == 10002001 ? '新建任务' : '' }}
+            {{item.behType == 10001001 ? '回复任务': '' }}
             {{item.behType == 10004008 ? '气泡通知': '' }}
             {{item.behType == 10002015 ? '任务编辑' : ''}}
             {{item.behType == 10002009 ? '重启任务' : ''}}

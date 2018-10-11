@@ -4,7 +4,7 @@
     <view class="add">+</view>
     <view class="title">添加</view>
   </view>
-  <view class="btn" wx:if="{{isShowBtn}}"  data-state="del" bindtap="managerMember">
+  <view class="btn" wx:if="{{isShowBtn && adminGroups.length != 0 || teamAdminGroups.length != 0}}"  data-state="del" bindtap="managerMember">
     <view class="add del">-</view>
     <view class="title">删除</view>
   </view>

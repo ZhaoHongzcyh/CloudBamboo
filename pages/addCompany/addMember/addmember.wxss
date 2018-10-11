@@ -1,0 +1,69 @@
+/* pages/company/addMember/addmember.wxss */
+page{
+  background-color: rgba(245,245,245,1);
+}
+
+.arow{
+  width: 0rpx;
+  height: 0rpx;
+  border: 0rpx;
+  border-top:25rpx solid #B3B3B3;
+  border-left: 25rpx solid rgba(0,0,0,0);
+  transform: rotateZ(45deg);
+}
+
+.arowDown{
+  transform: rotateZ(135deg);
+}
+
+.classTitle{
+  padding: 0rpx 20rpx;
+  font-size: 28rpx;
+  height: 88rpx;
+  border-bottom: 1rpx solid #DBDBDB;
+  display: flex;
+  align-items: center;
+  color: #333333;
+  background-color: white;
+}
+
+.className{
+  flex: 2;
+  height: 50rpx;
+  line-height: 50rpx;
+  margin-left: 20rpx;
+  overflow: hidden;
+}
+
+
+.memberLength{
+  margin-right: 20rpx;
+}
+
+.member{
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  height: 88rpx;
+  border-bottom: 1rpx solid #DBDBDB;
+  color: #333333;
+  background-color: white;
+}
+
+.photo{
+  width: 68rpx;
+  height: 68rpx;
+  margin-left: 40rpx;
+  border-radius: 50%;
+}
+
+.username{
+  flex: 2;
+  overflow: hidden;
+  margin-left: 20rpx;
+}
+
+.radio{
+  margin-right: 40rpx;
+}
+

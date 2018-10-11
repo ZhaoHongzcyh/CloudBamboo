@@ -170,6 +170,9 @@ Page({
         wx.setNavigationBarTitle({
           title: '全部成员'
         })
+        if (this.data.source != null){
+          wx.navigateBack();
+        }
       }
       else{
         this.showAlert(res.data.message);

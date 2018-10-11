@@ -32,6 +32,7 @@ page{
 
 .userName{
   width: 68rpx;
+  height: 40rpx;
   overflow: hidden;
 }
 

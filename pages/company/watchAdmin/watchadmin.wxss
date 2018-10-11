@@ -35,7 +35,14 @@ page{
   background-color: #F55D61;
 }
 
+.comtitle{
+  margin-top: 7rpx;
+}
+
 .foottext{
+  wdith: 68rpx;
+  height: 40rpx;
+  line-height: 40rpx;
   padding: 0rpx;
   overflow: hidden;
 }

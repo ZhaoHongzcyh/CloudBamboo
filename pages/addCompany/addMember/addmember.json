@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "添加成员",
+  "usingComponents": {
+    "footNavigator": "/common/footerNavigator/footerNavigator",
+    "adduser": "/common/people/people",
+    "popup": "/common/popup/popup",
+    "logoinAlert": "/common/logoinAlert/logoinAlert"
+  }
+}

@@ -216,7 +216,7 @@
     <view class="moreModel" wx:if="{{moreAction && chooseFileList.length>0}}" bindtap="moreFun"></view>
   </view>
 
-  <!-- -------------------------------------------------成员区域--------------------------------------------------------------- -->
+  <!-- ----------------------------------------------成员区域------------------------------------------------------------ -->
   <view class="projectMember" wx:if="{{menu[2].select}}">
     <view class="projectMemberHead">
       <view class="promemtitle">
@@ -232,8 +232,8 @@
         <view class="singlemember" wx:key="{{item.id}}" data-item="{{item}}" bindtap="getPersonInfo">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userhead"></image>
           <view class="username">{{item.personName}}</view>
-          <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==1 || item.relationType==13}}"></image>
-          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==12}}"></image>
+          <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==13}}"></image>
+          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==1}}"></image>
         </view>
       </block>
     </view>
@@ -287,9 +287,9 @@
       <view class="editproject" wx:if="{{isShowBtn}}"> {{'<'}} </view>
     </view>
     <!-- 项目描述 -->
-    <view class="projectdescript" wx:if="{{project.parentId == 0}}">
-      {{(project.description==null || project.description == "")?'未设置':project.description}}
-    </view>
+    <textarea class="projectdescript" maxlength='300' wx:if="{{project.parentId == 0}}" disabled='disabled' value="{{(project.description==null || project.description == '')? '未设置':project.description}}">
+      
+    </textarea>
     <!-- 项目成员头像 -->
     <view class="projectmember" wx:if="{{false}}">
       <view class="addmember">

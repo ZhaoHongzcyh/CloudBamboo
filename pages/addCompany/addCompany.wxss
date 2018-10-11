@@ -77,6 +77,10 @@
   background-color: #409CF2;
 }
 
+.adding{
+  background-color: #7777777;
+}
+
 /* 公司所在地址 */
 .companyaddress{
   display: flex;

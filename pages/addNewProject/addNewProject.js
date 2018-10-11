@@ -176,19 +176,43 @@ Page({
       description: description
     })
   },
+
   startDate:function(e){
    var value = e.detail.value;
+   var data = value.split("-");
+   var endDate = this.data.endDate;
+   if(endDate != "" && endDate != null){
+     endDate = endDate.split("-");
+     for(var i = 0; i < data.length; i++){
+       endDate[i] = parseInt(endDate[i]);
+       data[i] = parseInt(data[i]);
+     }
+     if(data[0] > endDate[0]){
+       endDate = "";
+     }
+     else if(data[1] > endDate[1]){
+       endDate = "";
+     }
+     else if(data[2] > endDate[2]) {
+       endDate = "";
+     }
+     else{
+       endDate = endDate.join("-");
+     }
+   }
     this.setData({
       startDate:value,
-      endDate:""
+      endDate:endDate
     })
   },
+
   setEndDate:function(e){
     var value = e.detail.value;
     this.setData({
       endDate:value
     })
   },
+
   // 弹出项目级别选择框
   switchsleve:function(e){
     this.setData({
@@ -215,13 +239,11 @@ Page({
       var teamId = wx.getStorageSync("defaultTaskTeam");
       data.unshift({
         title: "个人项目",
-        id:null
+        id:null,
+        checked: true
       })
       for(var i = 0; i < data.length; i++){
-        if(data[i].id == teamId){
-          data[i].checked = true;
-        }
-        else{
+        if(i != 0){
           data[i].checked = false;
         }
       }

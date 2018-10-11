@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/company/company",
     "pages/index/index",
     "pages/index/changePwd/changepwd",
     "pages/index/personalSet/personalSet",
     "pages/index/editUser/editUser",
     "pages/index/personalInfo/userinfo",
-    "pages/company/company",
     "pages/addCompany/addCompany",
     "pages/addCompany/industry/industry",
     "pages/project/project",
@@ -49,7 +49,8 @@
     "pages/company/manageCompany/manageCompany",
     "pages/company/watchAdmin/watchadmin",
     "pages/company/transfer/transfer",
-    "pages/company/companyFile/companyfile"
+    "pages/company/companyFile/companyfile",
+    "pages/addCompany/addMember/addmember"
   ],
   "window": {
     "navigationBarTitleText": "云竹协作",

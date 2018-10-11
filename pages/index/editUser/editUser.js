@@ -207,6 +207,10 @@ Page({
       email: userinfo.email1,
       offcePhone:userinfo.phone2
     }
+    if (this.data.sex == null){
+      this.setAlert("请选择性别");
+      return false;
+    }
     for(var key in obj){
       if(obj[key] == null || obj[key] == "null" || obj[key]== ""){
         delete obj[key];

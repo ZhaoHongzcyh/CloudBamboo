@@ -29,6 +29,11 @@ Page({
     this.confirm = this.selectComponent("#confirm");
   },
 
+  // 下拉刷新
+  onPullDownRefresh: function (e) {
+    this.getManagerGroup();
+  },
+
   // 打开对话弹框
   openConfirm: function () {
     this.confirm.show();
@@ -43,11 +48,13 @@ Page({
       taskId: defaultTaskTeam
     };
     api.request(obj,address,"POST",true).then(res=>{
+      wx.stopPullDownRefresh();//关闭下拉刷新
       if(res.data.result && res.data.code == 200){
         this.setData({allGroup: res.data.data.list});
         this.handleAdminGroup( res.data.data.list);
       }
     }).catch(e=>{
+      wx.stopPullDownRefresh();//关闭下拉刷新
       console.log(e);
     })
   },
