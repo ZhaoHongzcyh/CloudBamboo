@@ -232,8 +232,8 @@
         <view class="singlemember" wx:key="{{item.id}}" data-item="{{item}}" bindtap="getPersonInfo">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userhead"></image>
           <view class="username">{{item.personName}}</view>
-          <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==13}}"></image>
-          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==1}}"></image>
+          <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==1}}"></image>
+          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==13}}"></image>
         </view>
       </block>
     </view>

@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/company/company",
     "pages/index/index",
+    "pages/company/company",
+    
     "pages/index/changePwd/changepwd",
     "pages/index/personalSet/personalSet",
     "pages/index/editUser/editUser",

@@ -35,6 +35,7 @@ Page({
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
       if (res.data.code == 200 && res.data.result) {
+        console.log(res);
         var project = res.data.data.summaryBean;
         this.setData({
           project: res.data.data.summaryBean
@@ -94,11 +95,11 @@ Page({
   judge: function (teamAdminGroups) {
     var permission = false;
     var userid = wx.getStorageSync("tcUserId");
-    for (var i = 0; i < teamAdminGroups.length; i++){
-      if (userid == teamAdminGroups[i]){
-        permission = true
-      }
-    }
+    // for (var i = 0; i < teamAdminGroups.length; i++){
+    //   if (userid == teamAdminGroups[i]){
+    //     permission = true
+    //   }
+    // }
     if(!permission){
       permission = userid == this.data.project.manager? true:false;
     }

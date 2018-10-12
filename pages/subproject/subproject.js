@@ -204,11 +204,13 @@ Page({
     }
     api.request(obj,address,"post",true).then(res=>{
       var data = null;
+      var dataLength = 0;
       if(res.data.code == 200 && res.data.result){
         data = res.data.data.list;
+        dataLength = data.length - 1 > 0? data.length - 1 : 0;
         for(var i = 0; i < data.length; i++){
           // 用于初始化任务折叠效果
-          if(i == 0){
+          if (i == dataLength){
             data[i].fold = true;//显示子任务
           }
           else{
@@ -1453,8 +1455,38 @@ Page({
           }
         }
       })
+      let sortMember = [];//对数据进行排序
+      let projectAdmin = [];//项目管理员
+      let teamAdmin = [];//团队管理员
+      let otherMember = [];
+      memberlist.map((item,index)=>{
+        if (item.relationType == 1){
+          sortMember.unshift(item);
+        }
+        else if(item.relationType == 12){
+          projectAdmin.push(item);
+        }
+        else if(item.relationType == 13){
+          teamAdmin.push(item);
+        }
+        else{
+          otherMember.push(item);
+        }
+      })
+
+      projectAdmin.map((item,index)=>{
+        sortMember.push(item);
+      })
+
+      teamAdmin.map((item, index) => {
+        sortMember.push(item);
+      })
+
+      otherMember.map((item, index) => {
+        sortMember.push(item);
+      })
       this.setData({
-        memberlist: memberlist,
+        memberlist: sortMember,
         isCouldAdd: check
       })
     }

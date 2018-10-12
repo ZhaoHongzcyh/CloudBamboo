@@ -57,7 +57,7 @@ Page({
         wx.setNavigationBarTitle({title:'云竹协作'});
         wx.hideTabBar({})
         this.setData({ switchMyselfLogoin: false });
-        // this.getLogoinCode();//验证用户是否绑定协作
+        this.getLogoinCode();//验证用户是否绑定协作
       }
       else{
         wx.setNavigationBarTitle({ title: '我的' });

@@ -56,19 +56,23 @@ Page({
       user:ary
     })
   },
+
   // 下拉刷新
   onPullDownRefresh: function (e) {
     // this.onLoad()
     wx.stopPullDownRefresh();//关闭下拉刷新
   },
+
   getStartDate:function(){
     this.setData({
       startDate:api.nowTime()
     })
   },
+
   alert: function () {
     this.popup.showPopup()
   },
+
   // 删除成员
   delete: function (e) {
     var index = e.currentTarget.dataset.index;
@@ -78,6 +82,7 @@ Page({
       user: user
     })
   },
+
   // 验证数据是否合法
   validate:function(data){
     if (data.title && data.description){
@@ -87,6 +92,7 @@ Page({
       return false;
     }
   },
+
   // 发送新建项目请求
   addNewProject:function(e){
     if(this.data.sureAdd.state == 0){
@@ -137,6 +143,7 @@ Page({
       console.log(e);
     })
   },
+
   // 项目添加成功之后
   handleAddEnd:function(res){
     if(res.data.code == 200 && res.data.result){
@@ -161,6 +168,7 @@ Page({
       },1500)
     }
   },
+
   // 更新项目名称
   getProjectName:function(e){
     var value = e.detail.value;
@@ -169,6 +177,7 @@ Page({
     })
     app.globalData.projectName = value;
   },
+  
   // 更新项目描述
   getProjectInfo:function(e){
     var description = e.detail.value;

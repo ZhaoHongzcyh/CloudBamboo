@@ -1,22 +1,49 @@
 <!--pages/company/addMember/addmember.wxml-->
 <!-- 添加成员 -->
 <view>
-  <view class="singleMenu" wx:for="{{companyList}}" wx:key="{{item.id}}">
-    <view>
-      <view class="classTitle" bindtap="showAllMember" data-index="{{index}}">
-        <view class="arow {{item.isShow? 'arowDown':''}}"></view>
-        <view class="className">{{item.title}}</view>
-        <view class="memberLength">{{ item.member.length }}人</view>
+  <view class="list">
+    <!-- 好友列表 -->
+    <view class="singleMenu" wx:for="{{friendsList}}" wx:key="{{item.id}}">
+      <view>
+        <view class="classTitle" bindtap="showAllFriend" data-index="{{index}}">
+          <view class="arow {{item.isShow? 'arowDown':''}}"></view>
+          <view class="className">{{item.team.tname}}</view>
+          <view class="memberLength">{{ item.personList.length }}人</view>
+        </view>
       </view>
+      <block wx:for="{{item.personList}}" wx:for-item="child" wx:for-index="num" wx:if="{{item.isShow}}" wx:key="{{child.id}}">
+        <view data-item="{{child}}" class="member">
+          <image class="photo" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + child.id + '/100/100'}}"></image>
+          <view class="username">{{child.pname}}</view>
+          <radio color="{{child.selectStatus == 1?'#DBDBDB':'#409CF2'}}" data-item="{{child}}" data-index="{{index}}" data-num="{{num}}" bindtap="chooseFriends" checked="{{child.select}}" class="radio"></radio>
+        </view>
+      </block>
     </view>
-    <block wx:for="{{item.member}}" wx:for-item="child" wx:for-index="num" wx:if="{{item.isShow}}" wx:key="{{child.id}}">
-      <view data-item="{{child}}" class="member" wx:if="{{!child.isSelf}}">
-        <image class="photo" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + child.id + '/100/100'}}"></image>
-        <view class="username">{{child.pname}}</view>
-        <radio color="{{child.selectStatus == 1?'#DBDBDB':'#409CF2'}}" data-index="{{index}}" data-num="{{num}}" bindtap="chooseMember" checked="{{child.select}}" class="radio"></radio>
-      </view>
-    </block>
-  </view>
 
+
+    <!-- 公司成员列表 -->
+    <view class="singleMenu" wx:for="{{companyList}}" wx:key="{{item.id}}">
+      <view>
+        <view class="classTitle" bindtap="showAllMember" data-index="{{index}}">
+          <view class="arow {{item.isShow? 'arowDown':''}}"></view>
+          <view class="className">{{item.title}}</view>
+          <view class="memberLength">{{ item.member.length }}人</view>
+        </view>
+      </view>
+      <block wx:for="{{item.member}}" wx:for-item="child" wx:for-index="num" wx:if="{{item.isShow}}" wx:key="{{child.id}}">
+        <view data-item="{{child}}" class="member">
+          <image class="photo" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + child.id + '/100/100'}}"></image>
+          <view class="username">{{child.pname}}</view>
+          <radio color="{{child.selectStatus == 1?'#DBDBDB':'#409CF2'}}" data-index="{{index}}" data-num="{{num}}" bindtap="chooseMember" checked="{{child.select}}" class="radio"></radio>
+        </view>
+      </block>
+    </view>
+  </view>
+  
+  <!-- 当无数据的时候 -->
+  <view class="noData">
+    <image src="" class="nodataimg"></image>
+    <view>空空如也~</view>
+  </view>
   <view class="submit" bindtap="submitMember">确认</view>
 </view>

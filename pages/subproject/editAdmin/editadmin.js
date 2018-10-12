@@ -62,20 +62,28 @@ Page({
     })
     this.confirm.show();
   },
+
   // 获取项目详细信息
   getProjectInfo: function () {
+    var userid = wx.getStorageSync('tcUserId');
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
       if (res.data.code == 200 && res.data.result) {
+        let memberlist = [];
         var project = res.data.data.summaryBean;
         var member = JSON.stringify(res.data.data.memberBeans);
         member = JSON.parse(member);
         this.setData({ project: res.data.data.summaryBean,})
         member = this.checkIsAdmin(member);
+        member.map((item,index)=>{
+          if(item.resourceId != userid){
+            memberlist.push(item);
+          }
+        })
         this.setData({
-          memberlist: member,
-          member: member
+          memberlist: memberlist,
+          member: memberlist
         })
       }
     })
@@ -97,7 +105,7 @@ Page({
     var member = obj.memberBeans;
     var adminGroups = obj.summaryBean.adminGroups;
     var teamAdminGroups = obj.summaryBean.teamAdminGroups;
-    adminGroups = adminGroups.concat(teamAdminGroups);
+    // adminGroups = adminGroups.concat(teamAdminGroups);
     var memberlist = [];
     for (var i = 0; i < adminGroups.length; i++){
       for(var j = 0; j < member.length; j++){
@@ -127,7 +135,7 @@ Page({
     if(user  == ""){
       list = member;
     }
-    list = this.checkIsAdmin(list)
+    // list = this.checkIsAdmin(list)
     this.setData({
       memberlist:list
     })
@@ -136,11 +144,17 @@ Page({
   // 判定是否已经被设置为管理员
   checkIsAdmin: function (list) {
     var adminGroups = this.data.project.adminGroups;
+    var teamAdminGroups = this.data.project.teamAdminGroups;
     for(var i = 0; i < list.length; i++){
       list[i].initSelect = false;
       list[i].checked = false;
       for (var j = 0; j < adminGroups.length; j++){
         if (list[i].resourceId == adminGroups[j]){
+          list[i].initSelect = true;
+        }
+      }
+      for (var j = 0; j < teamAdminGroups.length; j++) {
+        if (list[i].resourceId == teamAdminGroups[j]) {
           list[i].initSelect = true;
         }
       }
@@ -155,7 +169,9 @@ Page({
     var memberlist = this.data.memberlist;
     var adminGroups = this.data.project.adminGroups;
     var project = this.data.project;
-
+    if(memberlist[index].initSelect){
+      return false;
+    }
     if (memberlist[index].checked){
       memberlist[index].checked = false;
       adminGroups.map((item,num)=>{

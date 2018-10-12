@@ -6,7 +6,7 @@
   <!-- 项目数据 -->
   <scroll-view class="scrollview" scroll-y="{{true}}" wx:if="{{list.length>0}}">
     <block wx:for="{{list}}" wx:for-item="item" wx:key="{{item.summaryBean.id}}">
-      <view class="project-data" wx:key="{{index}}" wx:if="{{item.taskBo.list.length > 0}}">
+      <view class="project-data" wx:key="{{index}}" wx:if="{{item.taskBo.list.length > 0 || !urlLine}}">
         <view class="company-name" wx:if="{{urlLine}}"  data-index="{{index}}" catchtap="watchProject">
           <image src="./img/company-img.png" class="company-img"  ></image>
           <view class="companyname">{{item.summaryBean.title}}</view>

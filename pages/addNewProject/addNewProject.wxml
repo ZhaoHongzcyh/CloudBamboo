@@ -13,7 +13,7 @@
     <view class="title">项目描述</view>
     <view class="input">
       <view class="textarea">
-        <textarea class="introduction" bindinput="getProjectInfo" placeholder='项目描述' placeholder-class="placeholder" maxlength='200'></textarea>
+        <textarea class="introduction" bindinput="getProjectInfo" value="{{description}}" placeholder='项目描述' placeholder-class="placeholder" maxlength='200'></textarea>
       </view>
     </view>
   </view>

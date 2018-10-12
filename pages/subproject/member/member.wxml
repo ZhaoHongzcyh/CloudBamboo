@@ -3,6 +3,8 @@
     <!-- 弹框 -->
   <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
   <view class="add" wx:if="{{state == 1}}">
+
+    <!-- 好友列表 -->
     <block wx:for="{{friendsList}}">
       <view>
         <view class="groupinfo" bindtap="foldMember" data-index="{{index}}">
@@ -14,7 +16,24 @@
         <view wx:for="{{item.personList}}" data-index="{{index}}" wx:for-index="num" data-num="{{num}}"  wx:for-item="member" class="singlemember" wx:if="{{item.folder}}" bindtap="selectMember">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + member.id + '/100/100'}}" class="userphoto"></image>
           <view class="username">{{member.pname}}</view>
-          <radio color="#409CF2" class="radio" checked='{{member.select}}'/>
+          <radio color="{{member.initSelect ? '#DBDBDB':'#409CF2'}}" class="radio" checked='{{member.select}}'/>
+        </view>
+      </view>
+    </block>
+
+    <!-- 公司成员列表 -->
+    <block wx:for="{{companyList}}" wx:key="{{item.id}}">
+      <view>
+        <view class="groupinfo" bindtap="openFolder" data-index="{{index}}">
+          <image src="/pages/project/img/select-down.png" class="folder" wx:if="{{!item.folder}}"></image>
+          <image src="/pages/project/img/select-up.png" class="folder" wx:if="{{item.folder}}"></image>
+          <view class="tname">{{item.title}}</view>
+          <view class="tnamenum">{{item.member.length}}人</view>
+        </view>
+        <view wx:for="{{item.member}}" wx:key="{{child.id}}" data-index="{{index}}" wx:for-index="num" data-num="{{num}}"  wx:for-item="child" class="singlemember" wx:if="{{item.folder}}"  bindtap="selectCompanyMember">
+          <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + child.id + '/100/100'}}" class="userphoto"></image>
+          <view class="username">{{child.pname}}</view>
+          <radio color="{{child.initSelect ? '#DBDBDB':'#409CF2'}}" class="radio" checked='{{child.select}}'/>
         </view>
       </view>
     </block>

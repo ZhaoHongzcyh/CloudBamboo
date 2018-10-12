@@ -15,11 +15,14 @@ Page({
     friendsList:null,
     memberBeanList:null,//成员列表
     matchMember:null,//成员列表
+    companyList:null,//所有公司
+    companyMemberId:null,//从公司中选择的成员id
     choosemember:[],
     summary:null,
     participant:[],
     delSingle:null,//被删除的成员对象
-    isCouldClickAdd:true//是否可以点击确认添加成员按钮
+    isCouldClickAdd:true,//是否可以点击确认添加成员按钮
+    prevMemberlist:null,//用于储存上一个页面中的成员数据
   },
 
   /**
@@ -37,13 +40,26 @@ Page({
 
   onShow: function () {
     if(this.data.state == 1){
+      this.getPrevData();//获取上一个页面中成员数据
       this.getFriendsList();
       this.getProjectInfo();
+      this.getCompanyList();
     }
     else{
       this.getProjectMember();
       this.getProjectInfo();
     }
+  },
+
+  // 获取上一个页面中成员数据
+  getPrevData: function () {
+    var prevMemberlist = [];
+    var page = getCurrentPages();
+    var length = page.length;
+    var prevPage = page[length - 2];
+    this.setData({
+      prevMemberlist: prevPage.data.memberlist
+    })
   },
 
   // 弹框
@@ -74,6 +90,7 @@ Page({
 
   // 获取联系人列表
   getFriendsList: function () {
+    var prevMemberlist = this.data.prevMemberlist;
     var address = app.ip + "tc/userContactService/getPersonContacts";
     api.request({},address,"POST",true).then(res=>{
       if(res.data.code == 200 && res.data.result){
@@ -86,24 +103,114 @@ Page({
           else{
             data[i].folder = false;
           }
-
-          data[i].personList.map((item,index)=>{
-            item.select = false;
-          })
         }
+        let list = res.data.data;
+        list.map((item,index)=>{
+          item.personList.map((friend,num)=>{
+            let checkEnd = false;
+            prevMemberlist.map((person, x) => {
+              if (person.resourceId == friend.id) {
+                checkEnd = true;
+                console.log("相等");
+              }
+            })
+            if (checkEnd) {
+              friend.select = true;
+              friend.initSelect = true;
+            }
+            else {
+              friend.select = false;
+              friend.initSelect = false;
+            }
+          })
+        })
         this.setData({
-          friendsList:res.data.data
+          friendsList: list
         })
       }
     })
   },
 
-  // 列表折叠与展开
+  // 好友列表折叠与展开
   foldMember: function (e) {
     var index = e.currentTarget.dataset.index;
     var friendsList = this.data.friendsList;
     friendsList[index].folder = !friendsList[index].folder;
     this.setData({ friendsList})
+  },
+
+  // 公司列表折叠与展开
+  openFolder: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var companyList = this.data.companyList;
+    companyList[index].folder = !companyList[index].folder;
+    this.setData({ companyList: companyList});
+  },
+
+  // 获取公司列表
+  getCompanyList: function () {
+    var obj = {
+      taskId: wx.getStorageSync("defaultTaskTeam")
+    },
+    address = app.ip + "tc/taskTeamService/findTaskTeam";
+    api.request(obj, address, "POST", true).then(res => {
+      var companyListId = [];
+      if (res.data.code == 200 && res.data.result) {
+        let list = res.data.data.list;
+        list.map((item, index) => {
+          companyListId.push(item.id);
+        })
+        this.setData({ companyList: list });
+        for (let i = 0; i < companyListId.length; i++) {
+          let isLast = false;
+          if (i == companyListId.length - 1){
+            isLast = true;
+          }
+          this.getCompanyMember(companyListId[i],isLast);
+        }
+      }
+    })
+  },
+
+  // 获取各个公司的成员列表
+  getCompanyMember: function (taskId,isLast) {
+    var companyList = this.data.companyList;
+    var prevMemberlist = this.data.prevMemberlist;
+    var address = app.ip + "tc/taskMemberService/findPageTaskMember";
+    var obj = { taskId };
+    api.request(obj, address, "POST", true).then(res => {
+      var userid = wx.getStorageSync('tcUserId');
+      if (res.data.code == 200 && res.data.result) {
+        let member = res.data.data.list;
+        companyList.map((item, index) => {
+          if (item.id == taskId) {
+            item.folder = false;
+            companyList[index].member = member;
+          }
+        })
+        if(isLast){
+          companyList.map((item,index)=>{
+            item.member.map((person,num)=>{
+              let checkEnd = false;
+              prevMemberlist.map((prevItem,x)=>{
+                if (person.id == prevItem.resourceId){
+                  checkEnd = true;
+                }
+              })
+              if (checkEnd ){
+                person.select = true;
+                person.initSelect = true;
+              }
+              else{
+                person.select = false;
+                person.initSelect = false;
+              }
+            })
+          })
+        }
+        this.setData({ companyList });
+      }
+    })
   },
 
   // 获取项目成员列表
@@ -121,13 +228,16 @@ Page({
     })
   },
 
-  // 选择成员
+  // 选择好友成员
   selectMember: function (e) {
     var index = e.currentTarget.dataset.index;
     var num = e.currentTarget.dataset.num;
     var data = this.data.friendsList;
     var choosemember = this.data.choosemember;
     var equal = false;
+    if (data[index].personList[num].initSelect){
+      return false;
+    }
     data[index].personList[num].select = !data[index].personList[num].select;
     // 检查该元素是否已被选择
     choosemember.map((item, cid) => {
@@ -148,7 +258,65 @@ Page({
         }
       })
     }
+    this.syncMemberIdAry(data[index].personList[num].id);
     this.setData({ choosemember, friendsList:data});
+  },
+
+  // 选择公司成员
+  selectCompanyMember: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var num = e.currentTarget.dataset.num;
+    var companyList = this.data.companyList;
+    var initSelect = companyList[index].member[num].initSelect;
+    var choosemember = this.data.choosemember;
+    if (!initSelect){
+      // companyList[index].member[num].select = !companyList[index].member[num].select;
+      // this.setData({ companyList});
+      // 检查该元素是否被选中
+      let checkEnd = false;
+      choosemember.map((item,index)=>{
+        if (item.id == companyList[index].member[num].id){
+          checkEnd = true;
+        }
+      })
+      if(!checkEnd){
+        choosemember.push(companyList[index].member[num] );
+        this.setData({ choosemember});
+        this.syncMemberIdAry(companyList[index].member[num].id);
+      }
+      else{
+        return false;
+      }
+      
+    }
+  },
+
+  // 同步公司成员id与好友列表中选择的内容
+  syncMemberIdAry:function (id) {
+    var friendsList = JSON.stringify(this.data.friendsList);
+    var companyList = JSON.stringify(this.data.companyList);
+    friendsList = JSON.parse(friendsList);
+    companyList = JSON.parse(companyList);
+    // 同步好友列表
+    friendsList.map((item,index)=>{
+      item.personList.map((friend,num)=>{
+        let checkEnd = friend.select? false:true;
+        if(friend.id == id){
+          friend.select = checkEnd;
+        }
+      })
+    })
+    // 同步公司列表中的数据
+    companyList.map((item,index)=>{
+      item.member.map((person,num)=>{
+        let checkEnd = person.select ? false : true;
+        if(person.id == id){
+          person.select = checkEnd;
+        }
+      })
+    })
+    this.setData({ companyList, friendsList});
+    console.log(this.data.choosemember);
   },
 
   // 添加成员

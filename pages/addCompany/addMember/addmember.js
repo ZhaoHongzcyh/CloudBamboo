@@ -10,7 +10,8 @@ Page({
     app: app,
     companyList:null,
     companyListId:null,//所有公司列表id
-    participantId:[]
+    participantId:[],
+    friendsList:null//好友列表
   },
 
   /**
@@ -22,6 +23,31 @@ Page({
 
   onShow: function () {
     this.getCompanyList();
+    this.getFriendsList();
+  },
+
+  // 获取好友列表
+  getFriendsList: function () {
+    var address = app.ip + "tc/userContactService/getPersonContacts";
+    api.request({},address,"POST",true).then(res=>{
+      console.log("好友列表");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        let list = res.data.data;
+        list.map((item,index)=>{
+          if(index == 0){
+            item.isShow = true;
+          }
+          else{
+            item.isShow = false;
+          }
+          item.personList.map((person,num)=>{
+            person.select = false;
+          })
+        })
+        this.setData({ friendsList: list});
+      }
+    })
   },
 
   // 获取公司列表
@@ -55,8 +81,6 @@ Page({
     var obj = { taskId};
     api.request(obj,address,"POST",true).then(res=>{
       var userid = wx.getStorageSync('tcUserId');
-      console.log("成员列表");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         let member = res.data.data.list;
         companyList.map((item,index)=>{
@@ -101,7 +125,15 @@ Page({
     })
   },
 
-  // 成员的展开与收起
+  // 好友列表的展开与收起
+  showAllFriend: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var friendsList = this.data.friendsList;
+    friendsList[index].isShow = !friendsList[index].isShow;
+    this.setData({ friendsList});
+  },
+
+  // 公司成员的展开与收起
   showAllMember: function (e) {
     var index = e.currentTarget.dataset.index;
     var companyList = this.data.companyList;
@@ -110,18 +142,56 @@ Page({
     console.log(companyList);
   },
 
-  // 选择成员
+  // 选择好友列表中的成员
+  chooseFriends: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var num = e.currentTarget.dataset.num;
+    var id = e.currentTarget.dataset.item.id;
+    var friendsList = this.data.friendsList;
+    friendsList[index].personList[num].select = !friendsList[index].personList[num].select;
+    this.getMemberId(id);
+    this.syncMemberStatus(id, friendsList[index].personList[num].select);
+    this.setData({friendsList});
+  },
+
+  // 选择公司成员
   chooseMember: function (e) {
     var num = parseInt(e.currentTarget.dataset.num);
     var index = parseInt(e.currentTarget.dataset.index);
     var companyList = this.data.companyList;
+    var id = companyList[index].member[num].id;
+    var status = companyList[index].member[num].select;
     console.log(companyList[index].member[num].selectStatus)
     if(companyList[index].member[num].selectStatus == 0) {
-      companyList[index].member[num].select = !companyList[index].member[num].select;
-      this.getMemberId(companyList[index].member[num].id);
+      companyList[index].member[num].select = !status;
+      this.getMemberId(id);
+      this.syncMemberStatus(id, companyList[index].member[num].select)
     }
     console.log(companyList);
     this.setData({ companyList});
+  },
+
+  // 同步公司列表与好友列表中成员选取的状态
+  syncMemberStatus: function (id,status) {
+    var companyList = this.data.companyList;
+    var friendsList = this.data.friendsList;
+    friendsList.map((item,index)=>{
+      item.personList.map((person,num)=>{
+        if(person.id == id){
+          person.select = status;
+        }
+      })
+    });
+
+    companyList.map((item,index)=>{
+      item.member.map((person,num)=>{
+        if(person.id == id){
+          person.select = status;
+        }
+      })
+    });
+
+    this.setData({ friendsList, companyList});
   },
 
   // 获取添加成员id

@@ -3,6 +3,14 @@ page{
   background-color: rgba(245,245,245,1);
 }
 
+.list{
+  position: fixed;
+  width: 100%;
+  height: calc(100% - 100rpx);
+  overflow: auto;
+  border: 1rpx solid red;
+}
+
 .arow{
   width: 0rpx;
   height: 0rpx;
@@ -37,6 +45,7 @@ page{
 
 
 .memberLength{
+  color: #999999;
   margin-right: 20rpx;
 }
 
@@ -67,3 +76,32 @@ page{
   margin-right: 40rpx;
 }
 
+/* 提交按钮 */
+.submit{
+  position: fixed;
+  bottom: 20rpx;
+  left: 50%;
+  margin-left: -335rpx;
+  width: 670rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: white;
+  text-align: center;
+  background-color: #409CF2;
+}
+
+/* 无数据模块 */
+.noData{
+  font-size: 28rpx;
+  width: 200rpx;
+  height: 200rpx;
+  text-align: center;
+}
+
+.nodataimg{
+  width: 120rpx;
+  height: 120rpx;
+  
+}
