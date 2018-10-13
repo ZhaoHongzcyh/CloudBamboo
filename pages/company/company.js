@@ -41,8 +41,10 @@ Page({
 
   onShow: function () {
     this.getCompanyInfo();
-    this.getWorkAttendance();
-    this.getUserTeam();
+    setTimeout(()=>{
+      this.getWorkAttendance();
+    },1000)
+    // this.getUserTeam();
     this.flushTime();
   },
 
@@ -78,7 +80,8 @@ Page({
     }
     var address = app.ip + "tc/taskMemberService/findTaskMembershipAttendanceBean";
     api.request(obj,address,"POST",true).then(res=>{
-      
+      console.log("考勤");
+      console.log(res);
       if(res.data.code == 200){
         var obj = api.handleAttendance(res.data.data);
         this.setData({

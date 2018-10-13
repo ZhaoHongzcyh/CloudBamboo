@@ -10,6 +10,8 @@ Page({
     companyName:"",
     memberList:[
       {
+        id: wx.getStorageSync("tcUserId"),
+        item:null,
         name:"我",
         role:1,//1:管理员，0：普通用户
         head:app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"//头像路径
@@ -75,10 +77,11 @@ Page({
     }
     var address = app.ip + "tc/taskTeamService/addTaskTeam";
     var province = this.data.province;
-    var name = encodeURI(this.data.companyName);
+    var memberList = this.data.memberList;
     var obj = {
-      title: name
+      title: encodeURI(this.data.companyName)
     }
+    
     if (this.checkProvinceCity()){
       obj.locationProvince = this.data.province.code;
       obj.industryCode = this.data.industry.code;
@@ -87,15 +90,7 @@ Page({
 
         }
         else {
-          this.setData({
-            info: {
-              state: 1,
-              content: "请核对公司地址"
-            }
-          })
-          setTimeout(() => {
-            this.setData({ info: { state: 0, content: "" } })
-          }, 2000)
+          this.customAlert("请核对公司地址",2000);
           return false;
         }
       }
@@ -106,7 +101,14 @@ Page({
     else{
       return false;
     }
-    api.request(obj,address,"post",true).then(res=>{
+
+    // 收集成员id
+    var participant = [];
+    memberList.map((item,index)=>{
+      participant.push(item.id);
+    })
+
+    api.customRequest(obj,participant,address,"POST",true).then(res=>{
       this.setData({
         isAddingCompany: false
       })
@@ -118,35 +120,17 @@ Page({
       }
       else{
         if(res.data.code == 419){
-          this.setData({
-            info: {
-              state: 1,
-              content: "公司数量太多"
-            }
-          })
+          this.customAlert("公司数量太多",2000);
         }
         else if(res.data.code == 414){
-          this.setData({
-            info: {
-              state: 1,
-              content: "公司名称无法为空"
-            }
-          })
+          this.customAlert("公司名称无法为空",2000);
         }
         else{
           if (res.data.message == null || res.data.message == "" || res.data.message == undefined){
             res.data.message = "新建公司失败"
           }
-          this.setData({
-            info: {
-              state: 1,
-              content: res.data.message
-            }
-          })
+          this.customAlert(res.data.message, 2000);
         }
-        setTimeout(()=>{
-          this.setData({info:{state:0,content:""}})
-        },2000)
       }
     }).catch(e=>{
       this.setData({
@@ -161,6 +145,17 @@ Page({
       },2000)
     })
   },
+
+  // 自定义弹框提示内容与消失时间
+  customAlert: function (txt,time=2000) {
+    this.setData({
+      info:{state:1, content: txt}
+    });
+    setTimeout(() => {
+      this.setData({ info: { state: 0, content: "" } })
+    }, time)
+  },
+
   // 隐藏弹框
   hideAlert:function(){
     this.setData({

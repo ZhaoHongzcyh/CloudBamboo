@@ -39,8 +39,8 @@
       <image src="./img/add_icon.png" class="add-menmber-btn"></image>
       <view class="addText">添加</view>
     </view>
-    <block wx:for="{{memberList}}">
-      <adduser bindtap="alert" item="{{item}}" data-index="{{index}}" binddelete="delete"></adduser>
+    <block wx:for="{{memberList}}" wx:key="{{item.id}}">
+      <adduser item="{{item}}" data-index="{{index}}" binddelete="delete"></adduser>
     </block>
    </view>
   </view>

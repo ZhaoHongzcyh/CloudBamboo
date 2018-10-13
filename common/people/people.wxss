@@ -28,9 +28,11 @@
   right: 0rpx;
 }
 .member-name{
-  height: 23rpx;
+  height: 35rpx;
+  width: 78rpx;
   margin-bottom: 23rpx;
   font-size: 24rpx;
   text-align: center;
   color: #666666;
+  overflow: hidden;
 }

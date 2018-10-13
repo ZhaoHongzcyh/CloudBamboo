@@ -11,7 +11,8 @@ Page({
     companyList:null,
     companyListId:null,//所有公司列表id
     participantId:[],
-    friendsList:null//好友列表
+    friendsList:null,//好友列表
+    prevMemberList:null//新建公司页面的已添加成员
   },
 
   /**
@@ -22,16 +23,25 @@ Page({
   },
 
   onShow: function () {
+    this.getHasAddMember();
     this.getCompanyList();
     this.getFriendsList();
   },
 
+  // 获取新建公司页面的已有成员数据
+  getHasAddMember: function () {
+    var page = getCurrentPages();
+    var length = page.length;
+    var prevPage = page[length - 2];
+    var prevMemberList = prevPage.data.memberList;
+    this.setData({ prevMemberList});
+  },
+
   // 获取好友列表
   getFriendsList: function () {
+    var prevMemberList = this.data.prevMemberList;
     var address = app.ip + "tc/userContactService/getPersonContacts";
     api.request({},address,"POST",true).then(res=>{
-      console.log("好友列表");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         let list = res.data.data;
         list.map((item,index)=>{
@@ -43,6 +53,20 @@ Page({
           }
           item.personList.map((person,num)=>{
             person.select = false;
+            let checkEnd = false;
+            prevMemberList.map((previd,x)=>{
+              if(previd.id == person.id){
+                checkEnd = true;
+              }
+            })
+            if(checkEnd){
+              person.select = true;
+              person.initSelect = true;
+            }
+            else{
+              person.select = false;
+              person.initSelect = false;
+            }
           })
         })
         this.setData({ friendsList: list});
@@ -57,8 +81,6 @@ Page({
     },
     address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("公司列表");
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         let list = res.data.data.list;
         let companyListId = [];
@@ -77,6 +99,7 @@ Page({
   // 获取各个公司的成员列表
   getCompanyMember: function (taskId) {
     var companyList = this.data.companyList;
+    var prevMemberList = this.data.prevMemberList;
     var address = app.ip + "tc/taskMemberService/findPageTaskMember";
     var obj = { taskId};
     api.request(obj,address,"POST",true).then(res=>{
@@ -100,27 +123,29 @@ Page({
               else{
                 memItem.isSelf = false;
               }
-              item.participant.map((partId,x)=>{
-                if(partId == memItem.id){
+              if (item.participant == null) { item.participant = []}
+              prevMemberList.map((partId,x)=>{
+                if(partId.id == memItem.id){
                   checkend = true;
                 }
               })
-              // if (checkend) {
-              //   member[num].selectStatus = 0;//已经在公司成员中;
-              //   member[num].select = true;
-              //   console.log(1);
-              // }
-              // else {
-                console.log(0);
-                member[num].selectStatus = 0;//未在公司成员中;
+              if (checkend) {
+                member[num].initSelect = true;//已经在公司成员中;
+                member[num].select = true;
+                console.log(1);
+              }
+              else {
+                member[num].initSelect = false;//未在公司成员中;
                 member[num].select = false;
-              // }
+              }
             })
             companyList[index].member = member;
           }
         })
         this.setData({ companyList});
-        console.log(companyList);
+      }
+      else{
+        console.log("请求异常");
       }
     })
   },
@@ -139,17 +164,21 @@ Page({
     var companyList = this.data.companyList;
     companyList[index].isShow = !companyList[index].isShow;
     this.setData({ companyList});
-    console.log(companyList);
   },
 
   // 选择好友列表中的成员
   chooseFriends: function (e) {
+    var item = e.currentTarget.dataset.item;
     var index = e.currentTarget.dataset.index;
     var num = e.currentTarget.dataset.num;
-    var id = e.currentTarget.dataset.item.id;
+    var id = item.id;
     var friendsList = this.data.friendsList;
+    if(item.initSelect){
+      return false;
+    }
     friendsList[index].personList[num].select = !friendsList[index].personList[num].select;
-    this.getMemberId(id);
+    var item = friendsList[index].personList[num];
+    this.getMemberId(id,item);
     this.syncMemberStatus(id, friendsList[index].personList[num].select);
     this.setData({friendsList});
   },
@@ -159,15 +188,18 @@ Page({
     var num = parseInt(e.currentTarget.dataset.num);
     var index = parseInt(e.currentTarget.dataset.index);
     var companyList = this.data.companyList;
+    var item = companyList[index].member[num];
     var id = companyList[index].member[num].id;
-    var status = companyList[index].member[num].select;
-    console.log(companyList[index].member[num].selectStatus)
-    if(companyList[index].member[num].selectStatus == 0) {
+    var status = item.select;
+    if(item.initSelect){
+      return false;
+    }
+    if (!item.initSelect) {
       companyList[index].member[num].select = !status;
-      this.getMemberId(id);
+      let item = companyList[index].member[num];
+      this.getMemberId(id,item);
       this.syncMemberStatus(id, companyList[index].member[num].select)
     }
-    console.log(companyList);
     this.setData({ companyList});
   },
 
@@ -195,9 +227,10 @@ Page({
   },
 
   // 获取添加成员id
-  getMemberId: function (id) {
+  getMemberId: function (id,item) {
     var participantId = this.data.participantId;
     var checkEnd = false;
+    var prevMemberList = this.data.prevMemberList;
     participantId.map((item,index)=>{
       if(item.id == id){
         checkEnd = true;
@@ -205,12 +238,43 @@ Page({
     })
     if(!checkEnd){
       participantId.push(id);
+      let obj = {
+        item:item,
+        id: item.id,
+        name: item.pname,
+        role: 0,//1:管理员，0：普通用户
+        head: app.ip + "tc/spaceService/showPersonIcon/" + item.id + "/100/100"//头像路径
+      }
+      prevMemberList.push(obj);
     }
-    this.setData({ participantId});
+    this.setData({ participantId, prevMemberList});
   },
 
   // 添加成员
   submitMember: function () {
-    var companyList = this
+    var prevMemberList = this.data.prevMemberList;
+    var page = getCurrentPages();
+    var length = page.length;
+    var prevPage = page[length - 2];
+    prevPage.setData({ memberList: this.delHasAdd(prevMemberList)});
+    wx.navigateBack({});
+  },
+
+  // 去处相同已经被添加的成员
+  delHasAdd: function (prevMemberList) {
+    var newMember = [];
+    prevMemberList.map((item,index)=>{
+      let checkEnd = false;
+      newMember.map((person,num)=>{
+        if(person.id == item.id){
+          checkEnd = true;
+        }
+      })
+      if(!checkEnd){
+        newMember.push(item);
+      }
+    });
+
+    return newMember;
   }
 })
