@@ -110,10 +110,12 @@ var customRequest = function (head,body,address,method="post",bool=true) {
       data: body,
       success: function (res) {
         if (!res.data.result && res.data.code != 200) {
-          app.globalData.sessionoverdue = true;
-          wx.switchTab({
-            url: '/pages/index/index'
-          })
+          if (res.data.code == 402) {
+            app.globalData.sessionoverdue = true;
+            wx.switchTab({
+              url: '/pages/index/index'
+            })
+          }
         }
         else {
           app.globalData.sessionoverdue = false;
@@ -389,13 +391,15 @@ var handleTask = function(res){
   var year = dat.getFullYear();
   var month = dat.getMonth() + 1;
   var today = dat.getDate();
+  console.log(year,month,today)
   if(month < 10){
     month =  "0" + "" + month;
   }
   if(today < 10){
     today = "0" + "" + today;
   }
-  var today = Number(year + month + today);
+  var today = year + "-" + month + "-" + today;
+  today = today.split("-").join("");
   ary.sort(function(a,b){
     return compareTime(a,b);
   })
@@ -406,7 +410,7 @@ var handleTask = function(res){
         var str = ary[i].endDate.split("T");
         str = str[0].split("-");
         ary[i].endTime = str.join("");
-        if (Number(str.join("")) >= today){
+        if (Number(str.join("")) > today || Number(str.join("")) == today){
           ary[i].isTimeOut = false;
         }
         else{

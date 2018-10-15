@@ -34,6 +34,8 @@ page{
   width: 68rpx;
   height: 40rpx;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* 查看全部管理组成员 */

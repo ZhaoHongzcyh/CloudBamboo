@@ -21,9 +21,9 @@
             <view class="single-project">
               <view class="isprogress">{{progress[item.summaryBean.tstate]}}</view>
               <view class="project-name {{item.summaryBean.isGetInto == 0? 'notmembers' : ''}}">{{item.summaryBean.title}}</view>
-              <view class="project-sign">
-                <!-- <image src="./img/project_top.png" class="projecttop"></image> -->
-              </view>
+              <!-- <view class="project-sign">
+                <image src="./img/project_top.png" class="projecttop"></image>
+              </view> -->
             </view>
             <!-- 负责人信息 -->
             <view class="project-charge">

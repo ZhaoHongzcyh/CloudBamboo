@@ -94,7 +94,9 @@
       <view class="editmenu cancelplan" catchtap='switchEditStatus'>取消</view>
     </view>
   </view>
-  <!-- ----------------------------------------------文件列表区域------------------------------------------------------------- -->
+
+
+  <!-- ----------------------------------------------文件列表区域---------------------------------------------------------- -->
 
   <view wx:if="{{menu[1].select}}" class="filelist">
     <view wx:if="{{chooseFileList.length > 0}}" class="file-select-info {{chooseFileList.length > 0? 'fileAct':''}}">
@@ -233,7 +235,7 @@
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userhead"></image>
           <view class="username">{{item.personName}}</view>
           <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==1}}"></image>
-          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==13}}"></image>
+          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==13 || item.relationType==12}}"></image>
         </view>
       </block>
     </view>

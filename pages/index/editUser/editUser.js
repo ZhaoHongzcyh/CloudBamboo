@@ -42,8 +42,10 @@ Page({
     api.request({}, address, "POST", true).then(res => {
       wx.stopPullDownRefresh();
       if (res.data.code == 200 && res.data.result) {
+        console.log(res);
         var selfHead = app.ip + 'tc/spaceService/showPersonIcon/' + res.data.data.curUser.id + '/100/100'
-        var sex = res.data.data.curUser.sex == null ? null : res.data.data.curUser.sex;
+        var sex = res.data.data.curUser.sex == null ? 0 : res.data.data.curUser.sex;
+        res.data.data.curUser.sex = sex;
         this.setData({ userinfo: res.data.data.curUser, selfHead, sex })
       }
       else{
@@ -201,7 +203,7 @@ Page({
       pid: userid,
       pname: encodeURI(userinfo.pname),
       picon:userinfo.picon,
-      sex:userinfo.sex,
+      sex:this.data.sex.toString(),
       phone:userinfo.username,
       occupation: encodeURI(userinfo.occupationName),
       email: userinfo.email1,
@@ -212,7 +214,8 @@ Page({
       return false;
     }
     for(var key in obj){
-      if(obj[key] == null || obj[key] == "null" || obj[key]== ""){
+      if(obj[key] === null || obj[key] == "null" || obj[key]== ""){
+        console.log("删除" + key)
         delete obj[key];
       }
     }
@@ -259,7 +262,9 @@ Page({
   // 选择性别
   chooseSex: function (e) {
     var sex = e.currentTarget.dataset.sex;
-    this.setData({sex})
+    var userinfo = this.data.userinfo;
+    userinfo.sex = sex;
+    this.setData({sex,userinfo});
   },
 
   // 模态框的隐藏与显示的切换

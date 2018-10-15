@@ -26,9 +26,9 @@ page{
 
 /*公司名称  */
 .company-name{
-  height: 27rpx;
+  height: 35rpx;
   flex: 2;
-  line-height: 27rpx;
+  line-height: 35rpx;
   color: #666666;
   font-size: 28rpx;
   overflow: hidden;

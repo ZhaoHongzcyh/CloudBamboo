@@ -233,6 +233,7 @@ Page({
         })
         this.setData({memberlist});
         this.confirm.hide();
+        wx.navigateBack();
       }
       else{
         this.setData({ alert: { content: "删除失败" } });
@@ -252,7 +253,8 @@ Page({
     }
     api.request(obj,address,"POST",false).then(res=>{
       if(res.data.code == 200 && res.data.result){
-        this.setData({alert:{content:"添加成功"}})
+        // this.setData({alert:{content:"添加成功"}});
+        wx.navigateBack();
       }
       else{
         this.setData({alert:{content:"添加失败"}})

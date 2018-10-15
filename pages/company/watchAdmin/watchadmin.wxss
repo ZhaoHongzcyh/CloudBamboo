@@ -45,6 +45,8 @@ page{
   line-height: 40rpx;
   padding: 0rpx;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* 成员搜索区域 */

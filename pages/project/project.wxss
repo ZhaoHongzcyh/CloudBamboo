@@ -101,9 +101,9 @@ page{
 }
 .project-name{
   margin-left: 21rpx;
-  height: 31rpx;
+  height: 40rpx;
   width: 200rpx;
-  line-height: 31rpx;
+  line-height: 40rpx;
   font-size: 32rpx;
   flex: 2;
   text-align: left;
@@ -126,12 +126,13 @@ page{
 /* 负责人模块 */
 .project-charge{
   display: flex;
+  align-items: center;
   margin-left: 36rpx;
   margin-bottom: 33rpx;
 }
 .charge{
-  height: 23rpx;
-  line-height: 23rpx;
+  height: 30rpx;
+  line-height: 30rpx;
   font-size: 24rpx;
   color: #999999;
   overflow: hidden;
@@ -140,9 +141,9 @@ page{
 }
 .charger{
   color: #333333;
-  height: 19rpx;
+  height: 23rpx;
   margin-left: 19rpx;
-  line-height: 19rpx;
+  line-height: 23rpx;
   font-size: 24rpx;
 }
 /* 进度条信息 */

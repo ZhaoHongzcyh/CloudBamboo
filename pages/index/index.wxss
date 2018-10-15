@@ -86,11 +86,12 @@
 }
 .wait-info{
   flex: 2;
+  align-items: center;
   margin-left: 24rpx;
 }
 .wait-title{
-  height: 27rpx;
-  line-height: 27rpx;
+  height: 35rpx;
+  line-height: 35rpx;
   width: 334rpx;
   color: #666666;
   font-size: 28rpx;

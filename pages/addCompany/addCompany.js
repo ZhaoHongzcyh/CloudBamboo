@@ -8,15 +8,7 @@ Page({
     },
     isShowTextPlaceholder:true,
     companyName:"",
-    memberList:[
-      {
-        id: wx.getStorageSync("tcUserId"),
-        item:null,
-        name:"我",
-        role:1,//1:管理员，0：普通用户
-        head:app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"//头像路径
-      }
-    ],
+    memberList:[],//公司成员
     industry:null,//公司所在行业
     region:[],//公司所在地址
     multiArray:[],
@@ -29,18 +21,36 @@ Page({
   onLoad:function(){
     // 弹框
     this.popup = this.selectComponent("#company-popup");
-    this.getAddress()
+    this.initCompanyMember();
+    this.getAddress();
   },
+
+  // 初始化加载用户头像与公司成员
+  initCompanyMember: function () {
+    var obj = {
+      id: wx.getStorageSync("tcUserId"),
+      item: null,
+      name: "我",
+      role: 1,//1:管理员，0：普通用户
+      head: app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"//头像路径
+    };
+    var memberList = [];
+    memberList.push(obj);
+    this.setData({ memberList});
+  },
+
   // 弹框
   alert: function () {
     this.popup.showPopup()
   },
+
   // 隐藏输入框提示信息
   hidePlaceholder:function(){
     this.setData({
       isShowTextPlaceholder:false
     })
   },
+
   // 显示输入框提示信息
   showPlaceholder:function(){
     if(this.data.companyName.length == 0){
@@ -49,6 +59,7 @@ Page({
       })
     }
   },
+
   getinput:function(e){
     this.setData({
       companyName:e.detail.value
@@ -120,7 +131,7 @@ Page({
       }
       else{
         if(res.data.code == 419){
-          this.customAlert("公司数量太多",2000);
+          this.customAlert(res.data.message,2000);
         }
         else if(res.data.code == 414){
           this.customAlert("公司名称无法为空",2000);

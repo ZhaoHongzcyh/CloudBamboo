@@ -120,9 +120,10 @@ Page({
         start: 0, 
         pageSize: this.data.start * this.data.pageSize, 
         dateType:1
-        };
+      };
     }
     api.request(obj,address,"post",true).then(res=>{
+      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({
           start: this.data.start + 1

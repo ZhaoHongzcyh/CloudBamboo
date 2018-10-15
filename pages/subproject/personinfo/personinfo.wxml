@@ -6,12 +6,12 @@
       <view class="name">{{person.pname}}</view>
       <view class="phone">账号：{{person.username}}</view>
     </view>
-    <view class="vip">
+    <!-- <view class="vip">
       {{person.ptype==0? '云账户' : ''}}
       {{person.ptype==1? '运维账户' : ''}}
       {{person.ptype==2? '超级管理员' : ''}}
       {{person.ptype==3? '单位账户' : ''}}
-    </view>
+    </view> -->
   </view>
 
   <view class="list sex">

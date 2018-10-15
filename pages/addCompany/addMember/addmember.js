@@ -109,7 +109,7 @@ Page({
         companyList.map((item,index)=>{
           if(item.id == taskId){
             if(index == 0){
-              companyList[index].isShow = true;
+              companyList[index].isShow = false;
             }
             else{
               companyList[index].isShow = false;
@@ -132,7 +132,6 @@ Page({
               if (checkend) {
                 member[num].initSelect = true;//已经在公司成员中;
                 member[num].select = true;
-                console.log(1);
               }
               else {
                 member[num].initSelect = false;//未在公司成员中;

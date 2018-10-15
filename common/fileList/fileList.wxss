@@ -22,10 +22,9 @@
   width: 260rpx;
 }
 .file-name{
-  height: 27rpx;
-  line-height: 27rpx;
+  height: 35rpx;
   width: 230rpx;
-  line-height: 27rpx;
+  line-height: 35rpx;
   color: #333333;
   font-size: 28rpx;
   overflow: hidden;

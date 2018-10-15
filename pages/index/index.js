@@ -123,6 +123,7 @@ Page({
     });
     var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
     api.request({},address,"post",true).then(res=>{
+      console.log(res);
       if(!res.data.result && res.data.code != 200){
         this.setData({ switchMyselfLogoin:false});
         this.getLogoinCode();
