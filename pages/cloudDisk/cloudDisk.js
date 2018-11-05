@@ -21,12 +21,14 @@ Page({
   },
 
   onShow: function () {
+    this.setData({ parentIdStack: []})
     this.getFileList();
   },
 
   // 下拉刷新
   onPullDownRefresh: function (e) {
     this.onLoad();
+    this.onShow();
     this.setData({
       selectnum:0,
       more: false

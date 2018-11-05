@@ -37,7 +37,6 @@ Page({
       taskId: defaultTaskTeam
     };
     api.request(obj, address, "POST", true).then(res => {
-      console.log(res);
       if (res.data.result && res.data.code == 200) {
         let data = res.data.data.list;
         this.handleMemberData(data);
@@ -61,7 +60,6 @@ Page({
 
   // 用户搜索
   search: function (e) {
-    console.log(e);
     var content = e.detail.value;
     var allGroup = [];
     this.data.allMember.map((item,index)=>{
@@ -96,8 +94,6 @@ Page({
     };
 
     api.request(obj,address,"POST",true).then(res=>{
-      console.log("公司转让结果");
-      console.log(res);
       if(res.data.code == 200 && res.data.result) {
         wx.setStorageSync('defaultTaskTeam', null);
         wx.navigateBack({

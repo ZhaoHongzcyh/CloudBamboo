@@ -131,8 +131,18 @@
       </view>
     </view>
   </block>
-  <view bindtap="sureAdd" class="save">完成</view>
+
+  <view bindtap="sureAdd" class="save" wx:if="{{!isShowDataError}}">完成</view>
+
+  <!-- 无数据异常页面 -->
+  <view wx:if="{{isShowDataError }}">
+    <view class="nothingData">
+      <image src="../participants/img/nopeople.png" class="nothing"></image>
+      <view class="nothingtitle">暂无更多操作人员</view>
+    </view>
+  </view>
 </view>
+
 <!-- 更改执行人 -->
 <view wx:if="{{isChangeImplement}}">
   <!-- <view>执行人</view> -->
@@ -153,4 +163,12 @@
       <view class="username">{{item.personName}}</view>
     </view>
   </block>
+
+  <!-- 无数据异常页面 -->
+  <view wx:if="{{isShowDataError}}">
+    <view class="nothingData">
+      <image src="../participants/img/nopeople.png" class="nothing"></image>
+      <view class="nothingtitle">暂无更多操作人员</view>
+    </view>
+  </view>
 </view>

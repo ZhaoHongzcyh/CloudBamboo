@@ -14,7 +14,8 @@ Page({
     memberlist:null,
     adminGroups: null,//项目管理员组
     teamAdminGroups: null,//团队/项目团队管理员组
-    isShowBtn:false
+    isShowBtn:false,
+    manager:null
   },
 
   /**
@@ -35,10 +36,10 @@ Page({
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
       if (res.data.code == 200 && res.data.result) {
-        console.log(res);
         var project = res.data.data.summaryBean;
         this.setData({
-          project: res.data.data.summaryBean
+          project: res.data.data.summaryBean,
+          manager: res.data.data.manager
         })
         // 处理管理员组
         this.handleAdmin(res.data.data.summaryBean,res.data.data.memberBeans);
@@ -70,21 +71,6 @@ Page({
       }
     }
 
-    // 团队。项目团队管理员组
-    for (var i = 0; i < teamAdminGroups.length; i++) {
-      var obj = {
-        id: teamAdminGroups[i],
-        name: null,
-        item: null
-      }
-      for (var j = 0; j < member.length; j++) {
-        if (member[j].resourceId == teamAdminGroups[i]) {
-          obj.name = member[j].personName;
-          obj.item = member[j];
-          teamAdmin.push(obj)
-        }
-      }
-    }
     this.setData({
       adminGroups: adminTeam,
       teamAdminGroups: teamAdmin

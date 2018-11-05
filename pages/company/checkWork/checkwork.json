@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "考勤打卡",
+  "usingComponents": {
+    "calendar": "/common/calendar/calendar",
+    "popup": "/common/popup/popup"
+  }
+}

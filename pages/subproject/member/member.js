@@ -23,6 +23,7 @@ Page({
     delSingle:null,//被删除的成员对象
     isCouldClickAdd:true,//是否可以点击确认添加成员按钮
     prevMemberlist:null,//用于储存上一个页面中的成员数据
+    isShowDelErrorPage: false//是否展示删除成员的异常页面
   },
 
   /**
@@ -79,6 +80,8 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var taskId = this.data.taskId;
     api.request({taskId},address,"POST",true).then(res=>{
+      console.log("------");
+      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.setData({
           summary:res.data.data.summaryBean,
@@ -111,7 +114,6 @@ Page({
             prevMemberlist.map((person, x) => {
               if (person.resourceId == friend.id) {
                 checkEnd = true;
-                console.log("相等");
               }
             })
             if (checkEnd) {
@@ -221,11 +223,24 @@ Page({
       if(res.data.code == 200 && res.data.result){
         
         this.setData({
+          isShowDelErrorPage: this.checkUserNumber(res.data.data.memberBeanList),
           memberBeanList: res.data.data.memberBeanList,
           matchMember:res.data.data.memberBeanList
         })
       }
     })
+  },
+
+  // 判断有无成员可操作
+  checkUserNumber: function (member) {
+    let checkEnd = [];
+    member.map((item, index) => {
+      if (item.relationType != 12 && item.relationType != 13 && item.relationType != 1) {
+        checkEnd.push(item);
+      }
+    })
+    checkEnd = checkEnd.length < 1 ? true : false;
+    return checkEnd;
   },
 
   // 选择好友成员
@@ -274,14 +289,16 @@ Page({
       // this.setData({ companyList});
       // 检查该元素是否被选中
       let checkEnd = false;
-      choosemember.map((item,index)=>{
+      choosemember.map((item,x)=>{
         if (item.id == companyList[index].member[num].id){
           checkEnd = true;
         }
       })
       if(!checkEnd){
         choosemember.push(companyList[index].member[num] );
+        
         this.setData({ choosemember});
+        
         this.syncMemberIdAry(companyList[index].member[num].id);
       }
       else{
@@ -316,7 +333,6 @@ Page({
       })
     })
     this.setData({ companyList, friendsList});
-    console.log(this.data.choosemember);
   },
 
   // 添加成员
@@ -373,6 +389,11 @@ Page({
     var summaryBean = this.data.summary;
     var participant = this.data.participant;
     var matchMember = this.data.matchMember;
+    if (single.resourceId == summaryBean.teamManager){
+      this.setData({alert:{content:'无法删除公司负责人'}});
+      this.alert();
+      return false;
+    }
     participant.map((item,index)=>{
       if (item == single.resourceId){
         participant.splice(index,1);
@@ -393,7 +414,9 @@ Page({
             matchMember.splice(num, 1)
           }
         })
-        this.setData({ summaryBean, memberBeanList, matchMember});
+        
+        this.setData({ summaryBean, memberBeanList, matchMember, isShowDelErrorPage: this.checkUserNumber(memberBeanList)});
+        
         this.confirm.hide();
       }
       else{

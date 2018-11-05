@@ -58,6 +58,8 @@
       <view class="footertext">更多</view>
     </view>
   </view>
+
+  
   <!-- 更多操作 -->
   <view class="footer-more" wx:if="{{more && selectnum}}">
     <view class="copyto more" bindtap="alert">移动到</view>
@@ -65,6 +67,13 @@
     <view class="rename more" wx:if="{{selectnum == 1}}" bindtap="alert">重命名</view>
     <view class="cancelfun more" bindtap="cancelmore">取消</view>
   </view>
+
+ <!-- 无文件夹页面  -->
+    <view wx:if="{{fileData.length == 0}}" class="nofile">
+      <image src="/pages/subproject/img/nofile.png" class="nofileimg"></image>
+      <view class="nofiletxt">空空如也~</view>
+    </view>
+
   <!-- 提示弹框 -->
   <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
   <!-- 蒙版层 -->

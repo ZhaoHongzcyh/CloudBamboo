@@ -164,3 +164,23 @@ page{
 .last{
   color: #409CF2;
 }
+
+/* 当文件列表为空的样式 */
+.nofile{
+  width: 230rpx;
+  height: 230rpx;
+  font-size: 28rpx;
+  text-align: center;
+  margin: auto;
+  margin-top: 250rpx;
+  color: #999;
+}
+
+.nofileimg{
+  width: 125rpx;
+  height: 125rpx;
+}
+
+.nofiletxt{
+  margin-top: 20rpx;
+}

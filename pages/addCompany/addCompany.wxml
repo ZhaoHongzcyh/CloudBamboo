@@ -6,7 +6,7 @@
       公司名称
     </view>
     <view class="new-company-name">
-      <textarea bindinput="getinput" bindfocus="hidePlaceholder" bindblur='showPlaceholder' class="input-company-name"></textarea>
+      <textarea bindinput="getinput" maxlength='30' bindfocus="hidePlaceholder" bindblur='showPlaceholder' class="input-company-name"></textarea>
       <view class="textPlaceholder" wx:if="{{isShowTextPlaceholder}}">请输入公司名称</view>
     </view>
     <view class="new-company-title">公司地址</view>

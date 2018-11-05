@@ -1,6 +1,6 @@
 <!--pages/company/companyFile/companyfile.wxml-->
 <!-- 公司文件 -->
-<!-- 该版本公司文件仅有文件同步功能 -->
+<!-- 该版本公司文件仅有文件同步功能，暂未开发 -->
 <view>
   <block>
     <file item="{{item}}" bindtap="entryFolder" data-item="{{item}}" data-index="{{index}}" readonly="{{false}}"></file>

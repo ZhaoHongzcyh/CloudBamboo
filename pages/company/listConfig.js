@@ -25,17 +25,14 @@ var listConfig = {
       {
         "id": 1,
         "src": "/pages/company/img/send.png",
-        "title": "我发起的"
+        "title": "审批",
+        "txtIcon":"approval",
       },
       {
         "id": 2,
-        "src": "/pages/company/img/approval.png",
-        "title": "我审批的"
-      },
-      {
-        "id": 3,
         "src": "/pages/company/img/time.png",
-        "title": "报项目工时"
+        "title": "考勤",
+        "txtIcon": "checkwork"
       }
     ],
     "analysis": [

@@ -94,7 +94,7 @@ Page({
     var obj = {
       taskId:this.data.taskId,
       managerId:item.resourceId,
-      quitTask: quitTask
+      // quitTask: quitTask
     }
     api.request(obj,address,"POST",true).then(res=>{
       if(res.data.code == 200 && res.data.result){

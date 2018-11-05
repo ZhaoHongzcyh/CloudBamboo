@@ -1,0 +1,50 @@
+<!--pages/company/checkWork/checkwork.wxml-->
+<view>
+<view class="company-check-work">
+    <!-- 今天时间 -->
+    <view class="comapny-today">
+      <view class="work-month-data">
+        <view class="work-data">{{time.today}}</view>
+        <view class="work-month">{{time.month}}</view>
+      </view>
+    </view>
+    <view class="company-work">
+      <!-- 上班考情 -->
+      <view class="company-goToWork">
+        <view class="company-clock">上班打卡时间：</view>
+        <view class="attend {{attendance.goWork.code == 3? 'error': ''}} {{attendance.goWork.status? 'punch-clock-time':'punch-clock-time-off'}}">{{attendance.goWork.time}}</view>
+        <view wx:if="{{attendance.goWork.code != 1}}" class="{{attendance.goWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}" bindtap="alert">{{attendance.goWork.title}}</view>
+        <view wx:if="{{attendance.goWork.code == 1}}" class="{{attendance.goWork.status? 'punch-card punch-card-btn-off':'punch-card-btn punch-card'}}" bindtap="alert">{{attendance.goWork.title}}</view>
+      </view>
+      <!-- 下班那考情 -->
+      <view class="company-goOffWork">
+        <view class="company-clock">下班打卡时间：</view>
+        <view class="attend {{attendance.offWork.status? 'punch-clock-time':'punch-clock-time-off'}}">{{attendance.offWork.time}}</view>
+        <view class="{{attendance.offWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}" bindtap="alert">{{attendance.offWork.title}}</view>
+      </view>
+    </view>
+  </view>
+
+
+
+
+
+<!-- -------------------------------------------日历考勤------------------------------------- -->
+  <calendar class="calendar" lunar="{{true}}" checkwork="{{checkwork}}" weeks-type="cn" calendar-style="calendar" header-style="header" board-style="board" days-color="{{days_style}}" bindnextMonth="nextMonth" bindprevMonth="nextMonth" />
+
+<!-- 考勤颜色说明 -->
+  <view class="colorTxt">
+    <view class="comwork">
+      <view class="colorIdenti workSuccess"></view>
+      <view> 正常</view>
+    </view>
+
+    <view class="comwork lacktime">
+      <view class="colorIdenti workError"></view>
+      <view> 缺卡</view>
+    </view>
+  </view>
+<!-- app下载提示弹框 -->
+  <popup id='company-popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+</view>
+

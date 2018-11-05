@@ -7,49 +7,33 @@
       <image src="./img/switch.png" class="company-switch-img"></image>
     </view>
   </view>
-  <!-- 考勤情况 -->
-  <view class="company-check-work">
-    <!-- 今天时间 -->
-    <view class="comapny-today">
-      <view class="work-month-data">
-        <view class="work-data">{{time.today}}</view>
-        <view class="work-month">{{time.month}}</view>
-      </view>
-    </view>
-    <view class="company-work">
-      <!-- 上班考情 -->
-      <view class="company-goToWork">
-        <view class="company-clock">上班打卡时间：</view>
-        <view class="attend {{attendance.goWork.code == 3? 'error': ''}} {{attendance.goWork.status? 'punch-clock-time':'punch-clock-time-off'}}">{{attendance.goWork.time}}</view>
-        <view wx:if="{{attendance.goWork.code != 1}}" class="{{attendance.goWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}" bindtap="alert">{{attendance.goWork.title}}</view>
-        <view wx:if="{{attendance.goWork.code == 1}}" class="{{attendance.goWork.status? 'punch-card punch-card-btn-off':'punch-card-btn punch-card'}}" bindtap="alert">{{attendance.goWork.title}}</view>
-      </view>
-      <!-- 下班那考情 -->
-      <view class="company-goOffWork">
-        <view class="company-clock">下班打卡时间：</view>
-        <view class="attend {{attendance.offWork.status? 'punch-clock-time':'punch-clock-time-off'}}">{{attendance.offWork.time}}</view>
-        <view class="{{attendance.offWork.status? 'punch-card-btn punch-card':'punch-card punch-card-btn-off'}}" bindtap="alert">{{attendance.offWork.title}}</view>
-      </view>
-    </view>
-  </view>
-  <!-- 工作台区域 -->
+  <!-- 广告轮播图 -->
+    <swiper indicator-dots="{{indicatorDots}}"
+  autoplay="{{true}}" interval="3000" duration="1500">
+  <block wx:for="{{AdvertisementImgUrls}}">
+    <swiper-item class="turnImgSwip">
+      <image src="{{item.src}}" bindtap="readAdver" data-descript="{{item.description}}" class="advertisement"/>
+    </swiper-item>
+  </block>
+</swiper>
+  <!-- 公司区域 -->
   <view class="company-workbench">
-    <view class="company-work-head">工作台</view>
+    <view class="company-work-head">公司</view>
     <view class="workbench-area list-area">
       <block wx:for="{{listConfig.workPlatform}}" wx:key="{{item.id}}">
         <companyIcon bindtap="alert"  src="{{item.src}}" title="{{item.title}}"></companyIcon>
       </block>
     </view>
   </view>
-  <!-- 审批区域 -->
+  <!-- 工作台区域 -->
   <view class="company-approval">
     <view class="company-more">
-      <view class="rise">审批</view>
+      <view class="rise">工作台</view>
       <view class="rise company-set-approval" bindtap="alert">设置审批人</view>
     </view>
     <view class="list-area">
       <block wx:for="{{listConfig.iLaunch}}" wx:key="{{item.id}}">
-        <companyIcon bindtap="alert" src="{{item.src}}" title="{{item.title}}"></companyIcon>
+        <companyIcon bindtap="workPlatform" data-txtIcon="{{item.txtIcon}}" src="{{item.src}}" title="{{item.title}}"></companyIcon>
       </block>
     </view>
   </view>

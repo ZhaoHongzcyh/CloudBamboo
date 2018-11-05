@@ -391,7 +391,6 @@ var handleTask = function(res){
   var year = dat.getFullYear();
   var month = dat.getMonth() + 1;
   var today = dat.getDate();
-  console.log(year,month,today)
   if(month < 10){
     month =  "0" + "" + month;
   }

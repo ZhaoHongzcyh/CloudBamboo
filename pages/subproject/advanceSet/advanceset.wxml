@@ -14,14 +14,14 @@
     <view class="btn" data-click="{{true}}" bindtap="suspension">中止项目</view>
   </view>
 
-  <view class="function copy">
+  <view class="function copy" wx:if="{{validatManager == '11' || validatManager == '01'}}">
     <view class="talk">
       复制项目，可选择复制的内容包括；任务计划、文件、成员
     </view>
     <view class="btn" bindtap="copyProject">复制项目</view>
   </view>
 
-  <view class="function">
+  <view class="function" wx:if="{{validatManager != '10'}}">
     <view class="talk">
       将项目转让给其他成员，你将不再具有项目负责人的相关权限
     </view>
@@ -54,24 +54,24 @@
     <view class="talk" wx:if="{{summaryBean.tstate!=3}}">
       归档已完成的项目，成员将无法进入已完结项目；你仍然可以正常访问项目
     </view>
-    <view class="btn {{summaryBean.tstate == 3? 'restart':'suspension'}}" bindtap="restartProject" data-click="{{summaryBean.tstate == 3? true:false}}">
+    <view   class="btn {{summaryBean.tstate == 3? 'restart':'suspension'}}" bindtap="restartProject" data-click="{{summaryBean.tstate == 3? true:false}}">
       {{summaryBean.tstate == 3? '重启项目': '完结项目'}}
     </view>
   </view>
 
-  <view class="function">
+  <view class="function" >
     <view class="talk" wx:if="{{summaryBean.tstate != 4}}">
       中止进行中项目，成员将无法进入；你可以在设置中重启该项目
     </view>
     <view class="talk" wx:if="{{summaryBean.tstate == 4}}">
-      中止的项目，可以通过重启变为进行中的项目，让您的成员可以正常访问
+      中止的项目，可以通过重启变为进行中的项目，让您的成员可以正常访问2
     </view>
-    <view class="btn {{summaryBean.tstate == 4? 'restart':'suspension'}}" bindtap="restartProject" data-click="{{summaryBean.tstate == 4? true:false}}">
+    <view class="btn {{summaryBean.tstate == 4? 'restart':'suspension'}}"  bindtap="restartProject" data-click="{{summaryBean.tstate == 4? true:false}}">
       {{summaryBean.tstate == 4? '重启项目' : '中止项目'}}
     </view>
   </view>
 
-  <view class="function">
+  <view class="function" wx:if="{{validatManager != '10'}}">
     <view class="talk">
       将项目转让给其他成员，你将不再具有项目负责人的相关权限
     </view>
@@ -94,3 +94,5 @@
     </view>
   </view>
 </view>
+   <!-- 弹框 -->
+<popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>

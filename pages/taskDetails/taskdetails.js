@@ -13,7 +13,7 @@ Page({
     power: {
       manager: null,
       adminGroups: null,//项目管理员组
-      teamAdminGroups: null//团队项目管理员组
+      teamManager:null
     },//权限数据
     alert:{
       state:false,
@@ -70,7 +70,7 @@ Page({
         var power = {
           manager: summaryBean.manager,
           adminGroups: summaryBean.adminGroups,
-          teamAdminGroups: summaryBean.teamAdminGroups
+          teamManager: summaryBean.teamManager
         }
         // 权限判定
         res.data.data.memberBeans.map((item,index)=>{
@@ -101,10 +101,8 @@ Page({
       }
     }
     if (!end) {
-      for (var i = 0; i < power.teamAdminGroups.length; i++) {
-        if (userId == power.teamAdminGroups[i]) {
-          end = true;
-        }
+      if (power.teamManager == userId){
+        end = true;
       }
       if (!end) {
         if (userId == power.manager) {
@@ -140,13 +138,23 @@ Page({
             if (handle.data.actionList[i].belongToResId == userId || handle.data.actionList[i].belongToResId == null){
               handle.data.actionList[i].edit = true;
             }
-          }
-          else{
-            handle.data.actionList[i].edit = false;
+            else{
+              var isProjectManager = wx.getStorageSync('isProjectManager')
+              var pTeamManager = wx.getStorageSync('pTeamManager');
+              if (userId == pTeamManager || isProjectManager) {
+                handle.data.actionList[i].edit = true;
+              }
+              else {
+                handle.data.actionList[i].edit = false;
+              }
+            }
           }
         }
         try{
-          handle.data.itemBean.endDate = handle.data.itemBean.endDate.split("T")[0];
+          if (handle.data.itemBean.endDate != null){
+            handle.data.itemBean.endDate = handle.data.itemBean.endDate.split("T")[0];
+          }
+          
         }
         catch(e){
           console.log(e);
@@ -446,6 +454,7 @@ Page({
         var task = this.data.task;
         res.data.data.createDate = res.data.data.createDate.split("T")[0];
         res.data.data.edit = true;
+        // res.data.data.behType = 10001001;
         task.actionList.unshift(res.data.data);
         this.setData({ task: task, isShowAllAction: true, replyContent:""})
       }

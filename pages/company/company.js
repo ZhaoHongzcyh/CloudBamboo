@@ -11,41 +11,41 @@ Page({
     },
     isGetCompany:false,//是否已经请求到公司数据
     isManager:false,//是否为公司负责人
-    time:{
-      today:"",
-      month:""
-    },
     listConfig:{},
-    attendance:{
-      goWork:{
-        time:"00:00",
-        status:true,
-        title:"上班打卡",
-        code:0
-      },
-      offWork:{
-        time:"00:00",
-        status:true,
-        title:"下班打卡",
-        code:0
-      }
-    },//考勤配置：status:打卡按钮是否可点击
-    companyList:[]//公司列表
+    companyList:[],//公司列表
+    AdvertisementImgUrls:[]
   },
 
   onLoad:function(options){
     this.setData({
       listConfig:listConfig.listConfig
     })
+    this.getTurnImg();
   },
 
   onShow: function () {
     this.getCompanyInfo();
-    setTimeout(()=>{
-      this.getWorkAttendance();
-    },1000)
     // this.getUserTeam();
-    this.flushTime();
+  },
+
+  // 获取广告轮播图信息
+  getTurnImg: function () {
+    var address = app.ip + "tc/knowledgeService/findArcSummarys";
+    var obj = { folderId: 17, category: 17};
+    api.request(obj,address,"POST",true).then(res=>{
+      if(res.data.code == 200 && res.data.result){
+        let AdvertisementImgUrls = res.data.data.list;
+          AdvertisementImgUrls.map((item,index)=>{
+            item.src = app.ip + "tc/spaceService/downloadFileImgUnlimitGet/" + item.resource + "/0/0"
+        })
+        this.setData({
+          AdvertisementImgUrls
+        })
+      }
+      else{
+        console.log("广告获取失败")
+      }
+    })
   },
 
   // 下拉刷新
@@ -60,47 +60,25 @@ Page({
     this.popup = this.selectComponent("#company-popup");
     this.popup.showPopup()
   },
-
-  // 更新时间
-  flushTime:function(){
-    var time = api.getData();
-    this.setData({
-      time:time
-    })
-  },
   
-  // 请求考勤打卡情况
-  getWorkAttendance:function(){
-    var taskId = wx.getStorageSync("defaultTaskTeam");
-    if(taskId == null) {
+  // 广告阅读
+  readAdver: function (e) {
+    var descript = e.currentTarget.dataset.descript;
+    if(descript == null || descript == ""){
       return false;
     }
-    var obj = {
-      taskId: taskId
-    }
-    var address = app.ip + "tc/taskMemberService/findTaskMembershipAttendanceBean";
-    api.request(obj,address,"POST",true).then(res=>{
-      console.log("考勤");
-      console.log(res);
-      if(res.data.code == 200){
-        var obj = api.handleAttendance(res.data.data);
-        this.setData({
-          attendance:obj
-        })
-      }
-    }).catch(e=>{
-      console.log(e);
-      wx.stopPullDownRefresh();//关闭下拉刷新
+    wx.navigateTo({
+      url: '/pages/Agreement/Agreement?state=4&src=' + descript,
     })
   },
 
   // 查询公司信息
   getCompanyInfo:function(){
+    // var defaultTaskTeam = wx.getStorageSync('defaultTaskTeam');
+    // var obj = { taskId: defaultTaskTeam};
     var obj = {};
     var address = app.ip + "tc/taskTeamService/findTaskTeam";
     api.request(obj,address,"post",true).then(res=>{
-      console.log("公司信息")
-      console.log(res);
       if(res.data.code == 402){//session 过期，重定向到登录页面
         wx.redirectTo({
           url: '/pages/index/index',
@@ -108,8 +86,7 @@ Page({
       }
       var isGetCompany = true;
       var handleInfo = company.handleUserInfo(res);
-      console.log("处理结果");
-      console.log(handleInfo);
+      // var handleInfo = company.handleCompany(res);
       if (handleInfo.isGetCompany == false) {
         isGetCompany = false;
         this.setData({
@@ -183,6 +160,22 @@ Page({
   jumpToCompanyFile: function () {
     wx.navigateTo({
       url: './companyFile/companyfile',
+    })
+  },
+
+  // 跳转到考勤打卡界面】
+  workPlatform: function (e) {
+    var address;
+    var platform = e.currentTarget.dataset.txticon;
+    if (platform == 'checkwork'){
+      address = "./checkWork/checkwork";
+    }
+    else{
+      this.alert();
+      return false;
+    }
+    wx.navigateTo({
+      url: address,
     })
   }
 })

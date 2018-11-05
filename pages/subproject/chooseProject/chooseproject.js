@@ -75,7 +75,6 @@ Page({
     summaryBean.ownerType = 10000003;
     prevPage.setData({ ownerId: null, projectOwner, summaryBean});
     this.setData({ checked: true})
-    console.log(prevPage.data)
     wx.navigateBack({});
   }
 })

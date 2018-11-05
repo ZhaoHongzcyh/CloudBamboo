@@ -243,7 +243,6 @@ Page({
     }
     var address = app.ip + 'tc/taskTeamService/findTaskTeam'
     api.request(obj, address, "post", true).then(res => {
-      console.log(res);
       var data = res.data.data.list
       var teamId = wx.getStorageSync("defaultTaskTeam");
       data.unshift({
@@ -283,7 +282,6 @@ Page({
     var id = e.currentTarget.dataset.id;
     var title = e.currentTarget.dataset.title;
     var ownerType = e.currentTarget.dataset.ownertype;
-    console.log(e);
     var company = this.data.company;
     for(var i = 0; i < company.length; i++){
       if(company[i].id == id){

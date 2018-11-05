@@ -101,6 +101,7 @@ Page({
 
         }
         else {
+          this.setData({ isAddingCompany: false})
           this.customAlert("请核对公司地址",2000);
           return false;
         }
@@ -110,6 +111,7 @@ Page({
       }
     }
     else{
+      this.setData({ isAddingCompany: false })
       return false;
     }
 

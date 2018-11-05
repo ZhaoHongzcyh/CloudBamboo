@@ -46,6 +46,14 @@
     </view>
   </block>
   <view class="submitBtn" bindtap="sureDelMember" wx:if="{{!isAddMember && delMember != null}}">完成</view>
+
+  <!-- 无数据异常页面 -->
+  <view wx:if="{{allGroup.length == 0}}">
+    <view class="nothingData">
+      <image src="../img/noComapny.png" class="nothing"></image>
+      <view class="nothingtitle">暂无更多操作人员</view>
+    </view>
+  </view>
 </view>
 
 <!-- 提示弹框 -->

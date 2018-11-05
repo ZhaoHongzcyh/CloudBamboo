@@ -73,6 +73,27 @@ page{
   width: 40rpx;
 }
 
+
+/* 当文件列表为空的样式 */
+.nofile{
+  width: 230rpx;
+  height: 230rpx;
+  font-size: 28rpx;
+  text-align: center;
+  margin: auto;
+  margin-top: 250rpx;
+  color: #999;
+}
+
+.nofileimg{
+  width: 125rpx;
+  height: 125rpx;
+}
+
+.nofiletxt{
+  margin-top: 20rpx;
+}
+
 /* -------------------------------------------------------------我的公司---------------------------------------------- */
 .singlecompany{
   display: flex;
@@ -95,11 +116,31 @@ page{
   margin-left: 21rpx;
 }
 
-.companyname{
-    
-}
-
 .admin{
   font-size: 24rpx;
   color: #999999;
+}
+
+.hasntCompany{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  text-align: center; 
+  margin: auto;
+  background-color: rgba(245,245,245,1);
+  /* width: 240rpx; */
+}
+.Hint{
+  margin-top: 300rpx;
+  text-align: center;
+}
+.HintImg{
+  width: 150rpx;
+  height: 150rpx;
+}
+.HintText{
+  margin-top:23rpx;
+  text-align: center;
+  color: #999999;
+  font-size: 24rpx;
 }

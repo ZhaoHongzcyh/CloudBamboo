@@ -42,10 +42,11 @@ Page({
   // 获取联系人列表
   getGroup:function(){
     var address = app.ip + "tc/userContactService/getPersonContacts";
-    api.request({},address,"post",true).then(res=>{
+    address = app.ip + "tc/userContactService/getPersonContacts2"
+    api.request({},address,"POST",true).then(res=>{
       if(res.data.code == 200 && res.data.result){
         this.setData({
-          list:res.data.data
+          list: res.data.data.contactTeamList
         })
       }
       wx.stopPullDownRefresh();//关闭下拉刷新

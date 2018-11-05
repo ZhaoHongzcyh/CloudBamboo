@@ -48,7 +48,6 @@ Page({
       resourceType: 10010001
     }
     api.request(obj,address,"post",true).then(res=>{
-      console.log(res);
       wx.stopPullDownRefresh();
       if(res.data.code == 200 && res.data.result){
         this.setData({
@@ -56,7 +55,6 @@ Page({
         })
       }
       else{
-        console.log("异常")
         this.setData({alert:{content:res.data.message}});
         this.alert();
       }

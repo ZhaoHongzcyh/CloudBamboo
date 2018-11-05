@@ -32,7 +32,8 @@ Page({
     rangenum:0,
     alert:{
       content:"更新失败"
-    }
+    },
+    isShowDataError: false,//是否显示数据异常界面
   },
 
   /**
@@ -66,6 +67,7 @@ Page({
   selectPlan: function (id) {
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = { id };
+    var userid = wx.getStorageSync('tcUserId');
     api.request(obj, address, "post", true).then(res => {
       wx.stopPullDownRefresh();
       var handle = library.handleChild(res);
@@ -109,6 +111,7 @@ Page({
           projectId:handle.data.taskBean.id,
           planid: handle.data.itemBean.resourceId
         })
+        
       }
       else {
         console.log(handle);
@@ -301,6 +304,7 @@ Page({
   },
   // 勾选已经在任务中的人员
   selectHasInTask: function (data) {
+    var userid = wx.getStorageSync('tcUserId');
     var memberlist = this.data.memberlist;
     for(var i = 0; i < data.length; i++){
       var obj = {
@@ -323,9 +327,22 @@ Page({
       }
     }
     memberlist = this.removalEval(memberlist)
-    this.setData({
-      memberlist
+    var isShowDataError = [];
+    memberlist.map((item, num) => {
+    if (item.personId != userid) {
+        isShowDataError.push(item);
+      }
     })
+    if (isShowDataError.length == 0) {
+      isShowDataError = true;
+    }
+    else {
+      isShowDataError = false;
+    }
+    this.setData({
+      memberlist, isShowDataError
+    })
+
   },
 
   // 去除memberlist相同的人员

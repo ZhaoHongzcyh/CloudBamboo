@@ -45,11 +45,17 @@ Page({
 
   // 获取用户详细信息
   getUserInfo: function () {
+    var userid = wx.getStorageSync('tcUserId');
     var address = app.ip + "tc/userContactService/findContactsById";
     var obj = { personId: this.data.resourceId};
     api.request(obj,address,"POST",true).then(res=>{
       if(res.data.code == 200 && res.data.result){
+        let checkEnd = true;
+        if(res.data.data.person.id == userid) {
+          checkEnd = false;
+        }
         this.setData({
+          isshowdelbtn: checkEnd,
           person:res.data.data.person,
           team:res.data.data.team
         })

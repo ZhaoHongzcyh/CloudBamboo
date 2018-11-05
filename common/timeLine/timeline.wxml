@@ -18,7 +18,9 @@
           <image wx:elif="{{item.behType == 10002010}}" src="/pages/taskDetails/img/finish.png" class="actionImg"></image>
           <image wx:elif="{{item.behType == 10002009}}" src="/pages/taskDetails/img/restart.png" class="actionImg"></image>
           <image wx:elif="{{item.behType == 10002016}}" src="/pages/taskDetails/img/get.png" class="actionImg"></image>
+          <image wx:elif="{{item.behType == null}}" src="/pages/taskDetails/img/reply.png" class="actionImg"></image>
           <image wx:else="{{item.behType == 10002001}}" src="/pages/taskDetails/img/add.png" class="actionImg"></image>
+          
           <view class="actionname"> {{item.personName}} </view>
           <view class="actioninfo">
             {{item.behType == 10002001 ? '新建任务' : '' }}

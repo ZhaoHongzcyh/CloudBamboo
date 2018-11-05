@@ -1,14 +1,16 @@
 //app.js
 App({
-  ip:"http://192.168.1.107:8082/tc_service/",//开发环境
-  filePreview:"http://192.168.1.107/tc_web/",
-  // ip:"https://services.yzsaas.cn/",//生产环境
-  // filePreview: "http://xz.yzsaas.cn/tc_web/",//生产环境
+  // ip:"http://192.168.1.107:8082/tc_service/",//开发环境
+  // filePreview:"http://192.168.1.107/tc_web/",
+  ip:"https://services.yzsaas.cn/",//生产环境
+  filePreview: "http://xz.yzsaas.cn/tc_web/",//生产环境
   onLaunch: function () {
   },
+
   onShow:function(options){
     this.getSceneValue(options);
   },
+
   // 获取场景值
   getSceneValue:function(options){
     if(options.scene == 1036){
@@ -29,6 +31,7 @@ App({
         
     }
   },
+
   // 编辑tabbar
   editTabBar:function(index){
     var tabBar = this.globalData.tabbar.list;
@@ -40,6 +43,7 @@ App({
     }
     this.globalData.tabbar.list = tabBar;
   },
+  
   globalData:{
     isByAppEntry:false,
     Invitation:{

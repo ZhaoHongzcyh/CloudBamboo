@@ -83,7 +83,6 @@ Page({
     var defaultTaskTeam = wx.getStorageSync('defaultTaskTeam');
     var obj = { taskId: defaultTaskTeam}
     api.request(obj,address,"POST",true).then(res=>{
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.setStorageSync('defaultTaskTeam', null)
       }

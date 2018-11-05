@@ -49,7 +49,6 @@ Page({
       taskId: defaultTaskTeam
     };
     api.request(obj, address, "POST", true).then(res => {
-      console.log(res);
       if (res.data.result && res.data.code == 200) {
         let data = res.data.data.list;
         for(var i = 0; i < data.length; i++){
@@ -160,10 +159,7 @@ Page({
         memberIds.push(single.id);
       }
     })
-    console.log(memberIds);
     api.customRequest(obj, memberIds,address,"POST",true).then(res=>{
-      console.log("添加管理员")
-      console.log(res)
       if(res.data.code == 200 && res.data.result){
         this.getManagerGroup();
         this.switchModel();
@@ -225,9 +221,7 @@ Page({
     var head = { taskId: wx.getStorageSync('defaultTaskTeam') };
     var address = app.ip + "tc/taskTeamService/editAdminGroup";
     var memberIds = this.data.delMember;
-    console.log(memberIds)
     api.customRequest(head,memberIds,address,"POST",true).then(res=>{
-      console.log("删除成员");
       if(res.data.code == 200 && res.data.result){
         this.reloadData();
       }

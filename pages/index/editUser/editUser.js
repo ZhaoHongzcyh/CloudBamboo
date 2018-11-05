@@ -42,7 +42,6 @@ Page({
     api.request({}, address, "POST", true).then(res => {
       wx.stopPullDownRefresh();
       if (res.data.code == 200 && res.data.result) {
-        console.log(res);
         var selfHead = app.ip + 'tc/spaceService/showPersonIcon/' + res.data.data.curUser.id + '/100/100'
         var sex = res.data.data.curUser.sex == null ? 0 : res.data.data.curUser.sex;
         res.data.data.curUser.sex = sex;
@@ -215,7 +214,6 @@ Page({
     }
     for(var key in obj){
       if(obj[key] === null || obj[key] == "null" || obj[key]== ""){
-        console.log("删除" + key)
         delete obj[key];
       }
     }

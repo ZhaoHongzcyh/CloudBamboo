@@ -192,3 +192,24 @@ page{
   background-color: white;
   margin-top: 2rpx;
 }
+
+/* 无数据异常界面 */
+.nothingData{
+  position: absolute;
+  top: 40%;
+  margin-top: -75rpx;
+  left: 50%;
+  margin-left: -75rpx;
+  text-align: center;
+}
+.nothing{
+  width : 150rpx;
+  height: 150rpx;
+  margin: auto;
+}
+.nothingtitle{
+  margin-top:23rpx;
+  text-align: center;
+  color: #999999;
+  font-size: 24rpx;
+}

@@ -46,12 +46,19 @@
         <view class="spacing"></view>
         <view class="btn" bindtap="copyFile">复制{{filelId.length}}个</view>
       </view>
+
+      <!-- 云盘无数据提醒 -->
+      <view wx:if="{{cloudDiskList.length == 0}}" class="nofile">
+        <image src="/pages/subproject/img/nofile.png" class="nofileimg"></image>
+        <view class="nofiletxt">空空如也~</view>
+      </view>
+
     </view>
     
     <!-- 我的项目区域 -->
 
     <!-- ---------------------------------------------------------我的公司---------------------------------- -->
-    <view class="company">
+    <view class="company" wx:if="{{showTapNum == 3}}">
       <block wx:for="{{companyList}}" wx:key="{{item.id}}">
         <view class="singlecompany" bindtap="selectCompany" data-item="{{item}}">
           <image src="/pages/company/img/companyList.png" class="companyHead"></image>
@@ -61,6 +68,16 @@
           </view>
         </view>
       </block>
+
+      <!-- 公司数据为空时 -->
+      <view class="hasntCompany" wx:if="{{companyList.length == 0}}">
+        <view class="Hint">
+          <image src="/pages/companyList/img/noComapny.png" class="HintImg"></image>
+        </view>
+        <view class="HintText">
+          你还没有加入任何公司
+        </view>
+      </view>
     </view>
   </view>
 

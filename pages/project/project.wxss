@@ -59,6 +59,7 @@ page{
   height: 32rpx;
 }
 .scrollview{
+  width: 100%;
   height: calc(100% - 98rpx);
 }
 /* 项目信息样式 */
@@ -295,6 +296,7 @@ page{
 .loadmore{
   margin-right: 10rpx;
 }
+
 @keyframes loading{
   0%{
     transform:rotateZ(0);
@@ -305,4 +307,146 @@ page{
   100%{
     transform: rotateZ(360);
   }
+}
+
+/* 加载更多按钮 */
+.loadMore {
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+  font-size: 28rpx;
+  text-align: center;
+  color: #409CF2;
+}
+
+/* -------------------------------------------------------我的任务模块---------------------------------------------- */
+.wait-handle-head{
+  display: flex;
+  align-items: center;
+  width: 712rpx;
+  height: 80rpx;
+  margin: auto;
+  margin-top: 30rpx;
+  align-items: center;
+  border: 1rpx solid #DBDBDB;
+}
+.wait-text{
+  height: 26rpx;
+  font-size: 28rpx;
+  margin-left: 35rpx;
+  color: #666666;
+  flex: 1;
+}
+.wait-num{
+  color: #449EF2;
+  font-size: 36rpx;
+  margin-right: 31rpx;
+}
+/* 待我处理的具体内容 */
+.wait-content{
+  display: flex;
+  align-items: center;
+  width: 710rpx;
+  height: 120rpx;
+  border: 1rpx solid rgba(235,236,240,1);
+  border-top: 0rpx;
+  margin: auto;
+  background-color: white;
+}
+.radio-area{
+  margin-left: 30rpx;
+  margin-right: 24rpx;
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  border: 1rpx solid gray;
+  padding: 0rpx;
+  display: flex;
+}
+.radio{
+  margin: 0rpx;
+  line-height: 0rpx;
+  width: 32rpx;
+  height: 32rpx;
+}
+.wait-info{
+  flex: 2;
+  align-items: center;
+  margin-left: 24rpx;
+}
+.wait-title{
+  height: 35rpx;
+  line-height: 35rpx;
+  width: 334rpx;
+  color: #666666;
+  font-size: 28rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.wait-time{
+  height: 40rpx;
+  width: 200rpx;
+  border-radius: 3rpx;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  margin-top: 19rpx;
+  color: white;
+  text-align: center;
+  background-color:rgba(64,156,242,1);
+  border-radius: 3rpx;
+}
+.timeout{
+  background-color: #FF7474;
+}
+.handle-img{
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+}
+.handle-name{
+  width: 90rpx;
+  font-size: 28rpx;
+  height: 27rpx;
+  line-height: 27rpx;
+  color: rgba(102,102,102,1);
+  margin-left: 18rpx;
+  margin-right: 30rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 无任务数据样式 */
+.no-content{
+  text-align: center;
+  margin-top: 293rpx;
+}
+.no-project-img{
+  width: 150rpx;
+  height: 150rpx;
+}
+.no-project-text{
+  color: #999999;
+  font-size: 24rpx;
+  height: 23rpx;
+  margin-top: 16rpx;
+  line-height: 23rpx;
+}
+.add-new-project{
+  width: 300rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 36rpx;
+  margin: auto;
+  margin-top: 50rpx;
+  color: white;
+  background-color: #409CF2;
+}
+/* 处理等级 */
+.error{
+  border-left: 7rpx solid #FF4F3E;
+}
+.warning{
+  border-left: 7rpx solid #FFAF38;
 }

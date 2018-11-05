@@ -12,7 +12,7 @@ Page({
     power:{
       manager:null,
       adminGroups:null,//项目管理员组
-      teamAdminGroups:null//团队项目管理员组
+      teamManager:null//团队项目管理员组
     },//权限数据
     alert:{
       content:"权限不够"
@@ -125,7 +125,7 @@ Page({
     isCouldEditProject:false,
     projectMember:null,
     isShowBtn: false,//是否展示删除项目与退出项目按钮
-    time:{startTime:null,endTime:null,createTime:null}    
+    time:{startTime:null,endTime:null,createTime:null} 
   },
 
   /**
@@ -158,13 +158,26 @@ Page({
   // 查询权限数据
   searchPowerData: function (id) {
     var address = app.ip + "tc/taskService/findTaskBOById";
+    var userId = wx.getStorageSync('tcUserId');
     api.request({ taskId: id }, address, "POST", true).then(res => {
       if(res.data.code == 200 && res.data.result){
         var summaryBean = res.data.data.summaryBean;
+        var memberBeans = res.data.data.memberBeans;
+        wx.setStorageSync('pTeamManager', summaryBean.teamManager);
+
+        // 判断用户是否为项目管理员（储存身份之后，在任务评论中根据该值决定是否渲染 ‘编辑’ 按钮）;
+        var checkEnd = false;
+        memberBeans.map((item,num)=>{
+          if (item.resourceId == userId && item.relationType == 12){
+            checkEnd = true;
+          }
+        })
+        wx.setStorageSync('isProjectManager', checkEnd);
+
         var power = {
           manager:summaryBean.manager,
           adminGroups: summaryBean.adminGroups,
-          teamAdminGroups: summaryBean.teamAdminGroups
+          teamManager: summaryBean.teamManager
         }
         this.setData({
           power:power,
@@ -216,6 +229,15 @@ Page({
           else{
             data[i].fole = false;//隐藏子任务
           }
+          data.map((item,index)=>{
+            var hasDown = 0;
+            item.itemList.map((sub,num)=>{
+              if(sub.status == 1){
+                hasDown++
+              }
+            })
+            item.percent = hasDown  + " / " + item.itemList.length;
+          })
           data[i].itemList = this.handleTask(data[i].itemList)
         }
         this.setData({
@@ -645,17 +667,14 @@ Page({
     var userId = wx.getStorageSync("tcUserId");
     var end = false;
     var power = this.data.power;
+    if (power.adminGroups == null) { power.adminGroups = [];}
     for (var i = 0; i < power.adminGroups.length; i++){
       if (userId == power.adminGroups[i]){
         end = true;
       }
     }
     if(!end){
-      for (var i = 0; i < power.teamAdminGroups.length; i++){
-        if (userId == power.teamAdminGroups[i]){
-          end = true;
-        }
-      }
+      if (power.teamManager == userId) { end = true;}
       if(!end){
         if(userId == power.manager){
           end = true;
@@ -1181,11 +1200,6 @@ Page({
     return permission;
   },
 
-  // 检查文件夹中是否含有只读文件
-  checkFolderHasOnlyReadFile: function (obj) {
-    var permissions = false;
-  },
-
   // 判断是否为别人的只读文件
   isOtherreadFile: function (obj) {
     var permission = false;
@@ -1450,11 +1464,12 @@ Page({
       var memberlist = res.data.data.memberBeanList;
       memberlist.map((item,index)=>{
         if (userid == item.resourceId){
-          if (item.relationType == 12 || item.relationType == 13 || item.relationType == 1){
+          if (item.relationType == 12 || item.relationType == 1){
             check = true;
           }
         }
       })
+      console.log(check)
       let sortMember = [];//对数据进行排序
       let projectAdmin = [];//项目管理员
       let teamAdmin = [];//团队管理员
@@ -1466,7 +1481,7 @@ Page({
         else if(item.relationType == 12){
           projectAdmin.push(item);
         }
-        else if(item.relationType == 13){
+        else if(item.relationType == 14){
           teamAdmin.push(item);
         }
         else{
@@ -1514,6 +1529,7 @@ Page({
       url: './member/member?taskid=' + this.data.taskId + "&state=" + state,
     })
   },
+
   // -----------------------------------------------项目设置相关---------------------------------------------------
   // 获取项目详细信息
   getProjectInfo: function () {
@@ -1547,16 +1563,41 @@ Page({
         // 通过权限，决定渲染不同的按钮
         this.queryUserPower();
       }
+      else{
+        this.setData({
+          alert: { content: "数据加载异常，请稍后再试" }
+        })
+        this.alert()
+      }
     })
   },
   
   // 是否打开功能区
   openToolbarMenu: function () {
     // 判定是否为管理员与项目负责人
+    var project = this.data.project;
     if (!this.data.isShowBtn){
       return false;
     }
-    this.setData({ isOpenMenu: !this.data.isOpenMenu})
+    else{
+      // 判断是否为公司负责人且非项目负责人
+      if ( this.validatePower() ){
+        return false;
+      }
+    }
+    this.setData({ isOpenMenu: !this.data.isOpenMenu});
+  },
+
+  // 判定是否为公司负责人，但非项目负责人
+  validatePower: function () {
+    var userid = wx.getStorageSync('tcUserId');
+    var project= this.data.project;
+    if (project.teamManager == userid && userid != project.manager) {
+      return true;
+    }
+    else{
+      return false;
+    }
   },
 
   // 获取项目级别
@@ -1577,6 +1618,9 @@ Page({
     if (!this.data.isShowBtn) {
       return false;
     }
+    if ( this.validatePower() ){
+      return false;
+    }
     time.startTime = null;
     var project = this.data.project;
     project.startDate = e.detail.value;
@@ -1589,6 +1633,9 @@ Page({
   setProjectEndDate: function (e) {
     // 判定是否为管理员与项目负责人
     if (!this.data.isShowBtn) {
+      return false;
+    }
+    if (this.validatePower()) {
       return false;
     }
     var time = this.data.time;
@@ -1606,6 +1653,9 @@ Page({
     if (!this.data.isShowBtn) {
       return false;
     }
+    if (this.validatePower()) {
+      return false;
+    }
     wx.navigateTo({
       url: './ascription/ascription?taskid=' + this.data.taskId,
     })
@@ -1613,8 +1663,24 @@ Page({
 
   // 编辑项目描述与项目标题
   editProjectInfo: function () {
+    var userId = wx.getStorageSync('tcUserId');
+    var pTeamManager = wx.getStorageSync('pTeamManager');
+    var project = this.data.project;
+    // 判断是否即是公司负责人也是项目负责人
+    if (project.manager == userId){
+      wx.navigateTo({
+        url: './descript/descript?taskid=' + this.data.taskId,
+      })
+    }
     // 判定是否为管理员与项目负责人
     if (!this.data.isShowBtn) {
+      return false;
+    }
+    if (this.validatePower()) {
+      return false;
+    }
+    // 判断是否公司负责人
+    if (userId == pTeamManager){
       return false;
     }
     wx.navigateTo({
@@ -1643,11 +1709,11 @@ Page({
     var projectMember = this.data.projectMember;
     for(var i = 0; i < projectMember.length; i++){
       if(projectMember[i].resourceId == userId){
-        if(project.adminGroups.indexOf(userId) > 0){
-          permission = 0;
+        if(project.adminGroups.indexOf(userId) >= 0){
+          permission = 1;
         }
         else{
-          if (project.manager == userId) {
+          if (project.manager == userId || project.teamManager == userId) {
             permission = 1;
             break;
           }
@@ -1684,7 +1750,6 @@ Page({
       summaryBean:summaryBean
     }
     api.request(obj,address,"POST",false).then(res=>{
-      console.log("保存结果");
       console.log(res);
     })
   },

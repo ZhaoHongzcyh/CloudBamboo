@@ -1,43 +1,61 @@
- <view wx:if="{{switchMyselfLogoin}}"> 
-    <view class="head">
-        <image src="{{headimg}}" class="headimg" bindtap="entryUserCenter"></image>
-        <view class="user" bindtap="entryUserCenter">{{userinfo.name}}</view>
-        <image class="bell" src="./img/bell.png" bindtap="alert"></image>
-        <image class="set" src="./img/set.png" bindtap="entryPersonalSet"></image>
-    </view>
-    <view class="myself">
-      <!-- 待我处理 -->
-      <view class="waiting" wx:if="{{list.length > 0?true:false}}">
-        <view class="wait-handle-head">
-          <view class="wait-text">待我处理</view>
-          <view class="wait-num">{{list.length}}</view>
-        </view>
-        <view class="wait-content {{item.emergencyGrade == 2? 'error':''}} {{item.emergencyGrade == 1? 'warning':''}}" bindtap="alert" wx:for="{{list}}" wx:key="{{item.title}}" bindtap="entryTask" data-id="{{item.id}}" data-taskid="{{item.taskId}}">
-          <view class="radio-area" catchtap="alert">
-            <!-- <radio class="radio" wx:if="{{item.status == 1}}" color="#409CF2" disabled='{{true}}'  bindtap="radioAlert" checked='{{true}}'></radio> -->
+ <view wx:if="{{switchMyselfLogoin}}" class="personalinfo"> 
+  <!-- ----------------------------------------个人中心界面--------------------------------- -->
+    <!--pages/index/personalSet/personalSet.wxml-->
+  <view>
+      <view class="head" bindtap="userinfo">
+        <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + userinfo.id + '/100/100'}}" class="photo"></image>
+        <view class="userinfo">
+          <view class="name">
+            {{userinfo.pname}}
+            <image src="./img/boy.png" class="sex" wx:if="{{userinfo.sex == 0}}"></image>
+            <image src="./img/girl.png" class="sex" wx:if="{{userinfo.sex == 1}}"></image>
           </view>
-          <view class="wait-info">
-            <view class="wait-title">{{item.title}}</view>
-            <view class="wait-time {{item.isTimeOut? 'timeout': ''}}" wx:if="{{item.endDate != null}}">{{item.endDate + '截止'}}</view>
+          <view class="telephone">
+            账号：{{userinfo.username}}
           </view>
-          <image class="handle-img" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
-          <view class="handle-name">{{item.managerName}}</view>
         </view>
       </view>
-    </view>
-    <!-- 无数据情况 -->
-    <view class="no-task" wx:if="{{list.length == 0}}">
-      <view class="no-content">
-        <image src="./img/no-project.png" class="no-project-img"></image>
-        <view class="no-project-text">没有待处理的任务</view>
+
+      <view class="com_single" bindtap="userinfo">
+        <image src='./personalSet/img/personal.png' class="com_img"></image>
+        <view class="com_txt">个人资料</view>
+        <image src='./personalSet/img/list.png' class="com_row"></image>
       </view>
-    </view>
-    <!-- app下载弹框 -->
-    <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+      <view class="com_single" bindtap="changePwd">
+        <image src='./personalSet/img/password.png' class="com_img"></image>
+        <view class="com_txt">密码修改</view>
+        <image src='./personalSet/img/list.png' class="com_row"></image>
+      </view>
+
+      <view class="com_single" bindtap="useHelp">
+        <image src='./personalSet/img/help.png' class="com_img"></image>
+        <view class="com_txt">使用帮助</view>
+        <image src='./personalSet/img/list.png' class="com_row"></image>
+      </view>
+      <!-- <view class="com_single">
+        <image src='./img/password.png' class="com_img"></image>
+        <view class="com_txt">新手入门视频</view>
+        <image src='./img/list.png' class="com_row"></image>
+      </view> -->
+      <view class="com_single" bindtap="aboutUs">
+        <image src='./personalSet/img/about.png' class="com_img"></image>
+        <view class="com_txt">关于我们</view>
+        <image src='./personalSet/img/list.png' class="com_row"></image>
+      </view>
+      <!-- <view class="com_single">
+        <image src='./img/reply.png' class="com_img"></image>
+        <view class="com_txt">意见反馈</view>
+      </view> -->
+
+      <!-- 弹框 -->
+      <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
   </view>
+</view>
+<!-- --------------------------------------个人中心界面完结------------------------------- -->
+
 
   <!-- ------------------------------------------------------登录模块----------------------------------------------- -->
-  <view wx:if="{{!switchMyselfLogoin}}">
+  <view wx:if="{{!switchMyselfLogoin}}" class="userlogoin">
     <view class="system">
     <view class="system_public">
       <view class="imgBamboo">

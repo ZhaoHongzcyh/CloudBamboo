@@ -31,8 +31,6 @@ Page({
       typeStr: "T00009"
     }
     api.request(obj, address, "POST", true).then(res => {
-      console.log("行业列表");
-      console.log(res);
       var data = res.data.data;
       data.map((item,index)=>{
         if (item.name == this.data.industryTitle){

@@ -144,7 +144,7 @@ Page({
   // 判定是否已经被设置为管理员
   checkIsAdmin: function (list) {
     var adminGroups = this.data.project.adminGroups;
-    var teamAdminGroups = this.data.project.teamAdminGroups;
+    // var teamAdminGroups = this.data.project.teamAdminGroups;
     for(var i = 0; i < list.length; i++){
       list[i].initSelect = false;
       list[i].checked = false;
@@ -153,11 +153,11 @@ Page({
           list[i].initSelect = true;
         }
       }
-      for (var j = 0; j < teamAdminGroups.length; j++) {
-        if (list[i].resourceId == teamAdminGroups[j]) {
-          list[i].initSelect = true;
-        }
-      }
+      // for (var j = 0; j < teamAdminGroups.length; j++) {
+      //   if (list[i].resourceId == teamAdminGroups[j]) {
+      //     list[i].initSelect = true;
+      //   }
+      // }
     }
     return list;
   },
@@ -215,11 +215,11 @@ Page({
         delid = memberlist[i].resourceId;
       }
     }
-    summaryBean.teamAdminGroups.map((item,index)=>{
-      if (item == userObj.resourceId){
-        summaryBean.teamAdminGroups.splice(index,1);
-      }
-    })
+    // summaryBean.teamAdminGroups.map((item,index)=>{
+    //   if (item == userObj.resourceId){
+    //     summaryBean.teamAdminGroups.splice(index,1);
+    //   }
+    // })
     summaryBean.adminGroups = adminGroupId;
     var obj = {
       summaryBean: summaryBean

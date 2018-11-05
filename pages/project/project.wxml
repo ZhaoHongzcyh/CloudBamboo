@@ -1,13 +1,67 @@
 <view class="project">
   <view class="project-classification">
-    <view class="project-url {{urlLine? 'current-url':''}}" bindtap="getProjectCompany">公司项目</view>
-    <view class="project-url {{urlLine? '':'current-url'}}" bindtap="getProjectPerson">个人项目</view>
+    <view class="project-url {{urlRouter[0]? 'current-url':''}}" bindtap="getProjectCompany">公司项目</view>
+    <view class="project-url {{urlRouter[1]? 'current-url':''}}" bindtap="getProjectPerson">个人项目</view>
+    <view class="project-url {{urlRouter[2]? 'current-url':''}}" bindtap="getMyTask">我的任务</view>
   </view>
+
+  <!-- ------------------------------------我的任务-------------------------------------------- -->
+  <view class="myself" wx:if="{{urlRouter[2] }}">
+      <!-- 待我处理 -->
+      <view class="waiting" wx:if="{{listtask.length > 0}}">
+        <view class="wait-handle-head">
+          <view class="wait-text">待我处理</view>
+          <view class="wait-num">{{listtask.length}}</view>
+        </view>
+        <view class="wait-content {{item.emergencyGrade == 2? 'error':''}} {{item.emergencyGrade == 1? 'warning':''}}" bindtap="alert" wx:for="{{listtask}}" wx:key="{{item.title}}" bindtap="entryTask" data-id="{{item.id}}" data-taskid="{{item.taskId}}">
+          <view class="radio-area" catchtap="alert">
+            <!-- <radio class="radio" wx:if="{{item.status == 1}}" color="#409CF2" disabled='{{true}}'  bindtap="radioAlert" checked='{{true}}'></radio> -->
+          </view>
+          <view class="wait-info">
+            <view class="wait-title">{{item.title}}</view>
+            <view class="wait-time {{item.isTimeOut? 'timeout': ''}}" wx:if="{{item.endDate != null}}">{{item.endDate + '截止'}}</view>
+          </view>
+          <image class="handle-img" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
+          <view class="handle-name">{{item.managerName}}</view>
+        </view>
+      </view>
+  </view>
+    <!-- 无数据情况 -->
+  <view class="no-task" wx:if="{{listtask.length == 0 && urlRouter[2]}}">
+      <view class="no-content">
+        <image src="./img/no-project.png" class="no-project-img"></image>
+        <view class="no-project-text">没有待处理的任务</view>
+      </view>
+  </view>
+
+<!-- 我的任务结束 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <!-- 项目数据 -->
-  <scroll-view class="scrollview" scroll-y="{{true}}" wx:if="{{list.length>0}}">
+  <scroll-view class="scrollview"   wx:if="{{list.length>0}}">
     <block wx:for="{{list}}" wx:for-item="item" wx:key="{{item.summaryBean.id}}">
-      <view class="project-data" wx:key="{{index}}" wx:if="{{item.taskBo.list.length > 0 || !urlLine}}">
-        <view class="company-name" wx:if="{{urlLine}}"  data-index="{{index}}" catchtap="watchProject">
+      <view class="project-data" wx:key="{{index}}" wx:if="{{item.taskBo.list.length > 0 || !urlRouter[2] }}">
+        <view class="company-name" wx:if="{{urlRouter[0]}}"  data-index="{{index}}" catchtap="watchProject">
           <image src="./img/company-img.png" class="company-img"  ></image>
           <view class="companyname">{{item.summaryBean.title}}</view>
           <view class="select" wx:if="{{item.taskBo.list.length>0? true:false}}" data-index="{{index}}" catchtap="watchProject">
@@ -16,7 +70,7 @@
           </view>
         </view>
         <!-- 个人项目 -->
-        <view class="project-info" wx:if="{{!urlLine}}">
+        <view class="project-info" wx:if="{{urlRouter[1]}}">
           <view class="father-project" data-id="{{item.summaryBean.id}}" data-isgetinto="{{item.summaryBean.isGetInto}}" data-item="{{item.summaryBean}}" bindtap="entryProject">
             <view class="single-project">
               <view class="isprogress">{{progress[item.summaryBean.tstate]}}</view>
@@ -28,7 +82,9 @@
             <!-- 负责人信息 -->
             <view class="project-charge">
               <view class="charge">负责人</view>
-              <view class="charger">{{item.manager.personName}}</view>
+              <!-- 屏蔽了旧接口 -->
+              <!-- <view class="charger">{{item.manager.personName}}</view> -->
+              <view class="charger">{{item.summaryBean.managerName}}</view>
             </view>
             <!-- 进度条信息 -->
             <view class="progress" wx:if="{{item.summaryBean.endDate != null}}">
@@ -48,13 +104,16 @@
           </view>
         </view>
         
-        <!-- 公司项目 -->
+
+
+      <!-- 公司项目测试用例 -->
+      
         <block wx:if="{{item.isShowCompany}}">
-          <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlLine}}" wx:for="{{item.taskBo.list}}" wx:key="{{child.summaryBean.id}}" wx:for-item="child" data-isgetinto="{{child.isInProject? 1:0}}" bindtap="entryProject" wx:for-index="comopanyProIndex" data-item="{{child.summaryBean}}" data-id="{{child.summaryBean.id}}">
+          <view class="project-info {{item.summaryBean.important==1? 'important':''}} {{item.summaryBean.important==2? 'veryimportant':''}}" wx:if="{{urlRouter[0]}}" wx:for="{{item.taskBo.list}}" wx:key="{{child.summaryBean.id}}" wx:for-item="child" data-isgetinto="{{child.summaryBean.isGetInto}}" bindtap="entryProject" wx:for-index="comopanyProIndex" data-item="{{child.summaryBean}}" data-id="{{child.summaryBean.id}}">
             <view class="father-project">
               <view class="single-project">
                 <view class="isprogress">{{progress[child.summaryBean.tstate]}}</view>
-                <view class="project-name {{child.isInProject? '':'notmembers'}}">{{child.summaryBean.title}}</view>
+                <view class="project-name {{child.summaryBean.isGetInto? '':'notmembers'}}">{{child.summaryBean.title}}</view>
               </view>
               <!-- 负责人信息 -->
               <view class="project-charge">
@@ -89,9 +148,9 @@
 
             <!-- 二级项目信息/公司 -->
             <block wx:if="{{child.subList.length>0}}">
-              <view class="sublist" wx:if="{{urlLine}}">
+              <view class="sublist" wx:if="{{urlRouter[0]}}">
                 <block wx:for="{{child.subList}}" wx:key="{{childItem.summaryBean.id}}" wx:for-item="childItem" wx:for-index="childIndex">
-                    <view class="second-level-project" wx:if="{{child.isShowChild}}" data-item="{{childItem.summaryBean}}" data-isGetInto="{{childItem.summaryBean}}" catchtap="entryProject"  data-id="{{childItem.summaryBean.id}}">
+                    <view class="second-level-project" wx:if="{{child.isShowChild}}" data-item="{{childItem.summaryBean}}" data-isGetInto="{{childItem.summaryBean.isGetInto}}" catchtap="entryProject"  data-id="{{childItem.summaryBean.id}}">
                       <view class="second-level">
                         <image src="./img/second-level.png" class="second-title-img"></image>
                         <view class="second-level-name">{{childItem.summaryBean.title}}</view>
@@ -106,13 +165,20 @@
                 
               </view>
             </block>
+            <view class="loadMore" data-index="{{index}}" data-id="{{item.summaryBean.id}}" data-nowpage="{{item.taskBo.nowPage}}" wx:if="{{child.isLoadMore}}" catchtap="loadMoreProject">加载更多</view>
           </view>
         </block>
+
+      <!-- 测试用例完结 -->
+
+
+
+        
           
         <!-- 二级项目信息/个人项目 -->
-        <view class="sublist" wx:if="{{!urlLine}}">
+        <view class="sublist" wx:if="{{urlRouter[1]}}">
             <block wx:for="{{item.subList}}" wx:key="{{sublist.summaryBean.id}}" wx:for-item="sublist" wx:if="{{item.isShowChild}}">
-              <view class="second-level-project" data-id="{{sublist.summaryBean.id}}" data-item="{{sublist.summaryBean}}" catchtap="entryProject">
+              <view class="second-level-project" data-id="{{sublist.summaryBean.id}}" data-item="{{sublist.summaryBean}}" catchtap="entryProject" data-isgetinto="{{sublist.summaryBean.isGetInto}}">
                 <view class="second-level">
                   <image src="./img/second-level.png" class="second-title-img"></image>
                   <view class="second-level-name">{{sublist.summaryBean.title}}</view>
@@ -123,6 +189,7 @@
               <image src="./img/select-up.png" wx:if="{{item.isShowChild}}" class="second-select-up"></image>
               <image src="./img/select-down.png" wx:if="{{!item.isShowChild}}" class="second-select-up"></image>
           </view>
+          <view wx:if="{{item.loadMore}}" class="loadMore" bindtap="loadMorePersonProject">加载更多</view>
         </view> 
       </view>
     </block>
@@ -131,11 +198,14 @@
       加载更多
     </view>
   </scroll-view>
+
   <!-- 添加公司 -->
-  <view class="add-project" bindtap="jump">
+  <view class="add-project" bindtap="jump" wx:if="{{ !urlRouter[2] }}">
     <image src="/pages/company/img/addCompany.png" class="addprojectImg"></image>
   </view>
-  <view class="no-project" wx:if="{{list.length == 0}}">
+
+  <!-- ---------------------------------------------无数据异常页面------------------------------------- -->
+  <view class="no-project" wx:if="{{list.length == 0 && !urlRouter[2]}}">
     <view class="no-content">
       <image src="./img/no-project.png" class="no-project-img"></image>
       <view class="no-project-text">还没有任何项目</view>

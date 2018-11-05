@@ -2,10 +2,6 @@
 var handleUserInfo = function(info){
   if(info.statusCode == 200 && info.data.result){
     info = info.data.data;
-    // wx.setStorageSync("allPersonSize", info.allPersonSize);//公司人数
-    // wx.setStorageSync("cid", info.cid);//公司ID
-    // wx.setStorageSync("teamName", info.curUser.teamName);//组织名称
-    // wx.setStorageSync("isOrgCorporationAdmin", info.isOrgCorporationAdmin);//是否管理员
   }
   var defaultTaskTeam = wx.getStorageSync("defaultTaskTeam");
   var userid = wx.getStorageSync('tcUserId');
@@ -18,7 +14,7 @@ var handleUserInfo = function(info){
       }
     }
   }
-  
+
   for(var i =0; i<info.list.length;i++){
     if (info.list[i].id == defaultTaskTeam){
       if (userid == info.list[i].manager){
@@ -36,8 +32,34 @@ var handleUserInfo = function(info){
   }
 }
 
+// 判断是否为公司负责人(如果使用的是 tc/taskTeamService/findTaskTeamBo 该接口，则调用该函数处理公司详情数据)
+var handleCompany = function (res) {
+  var defaultTaskTeam = wx.getStorageSync("defaultTaskTeam");
+  var userid = wx.getStorageSync('tcUserId');
+  var isManager = false;
+  if(res.data.code == 200 && res.data.result) {
+    console.log(res);
+    let manager = res.data.data.manager;
+    let summaryBean = res.data.data.summaryBean;
+    if (manager.taskId == defaultTaskTeam){
+      if (manager.resourceId == userid){
+        isManager = true;
+      }
+      return {
+        cname: summaryBean.title,
+        cicon: "",//单位logo
+        isManager: isManager//是否为公司负责人
+      }
+    }
+    else{
+      return {
+        isGetCompany: false
+      }
+    }
+  }
+}
 var obj = {
-  handleUserInfo
+  handleUserInfo, handleCompany
 }
 
 module.exports = obj;

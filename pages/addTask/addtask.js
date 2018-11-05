@@ -21,7 +21,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options);
     this.popup = this.selectComponent("#popup");
     this.setData({
       resourceId: options.resourceId
@@ -55,7 +54,6 @@ Page({
   },
   // 设置结束时间
   endDate: function (e) {
-    console.log("结束")
     var value = e.detail.value;
     this.setData({
       endDate:value
@@ -85,9 +83,7 @@ Page({
       scheduleSummaryBean.endDate = this.data.endDate + "T00:00:00.000+0800";
     }
     var obj = {scheduleSummaryBean}
-    console.log(scheduleSummaryBean);
     api.sendDataByBody(scheduleSummaryBean,address,"post",true).then(res=>{
-      console.log(res);
       if(res.data.code == 200 && res.data.result){
         wx.navigateBack()
       }

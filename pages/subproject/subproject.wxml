@@ -4,14 +4,14 @@
   <view class="menu-list">
     <view class="menu" wx:for="{{menu}}" wx:key="{{item.title}}" data-index="{{index}}" bindtap="switchMenu">
       <view class="task menuText {{item.select? 'textcolor':''}}">{{item.title}}</view>
-      <view class="menuline" wx:if="{{item.select}}"></view>
+      <view class=" {{item.select? 'menuline':'commenuline'}}"></view>
     </view>
   </view>
 
   <!-- 任务列表区域 -->
   <view class="task-list" wx:if="{{menu[0].select}}">
     <!-- 任务筛选区域 -->
-    <view>
+    <view class="taskFilter">
       <view>
         <view class="screen">
           <view bindtap="switchSelectTask" class="screenCondiction taskScreen">
@@ -53,11 +53,16 @@
     </view>
     
     <!-- 任务新建区域 -->
+    <view class="addTaskPlan" bindtap="addTaskPlan">
+      <view class="plus">+</view>
+      <view class="plustitle">新建任务组</view>
+    </view>
+
     <view wx:for="{{taskList}}" wx:key="{{plan.summaryBean.id}}" wx:for-item="plan" class="planlist">
 
       <view class="planName">
         <image class="row" src="./img/row.png" data-index="{{index}}" bindtap="fold"></image>
-        <view class="plantitle" data-index="{{index}}" bindtap="fold">{{plan.summaryBean.title}}</view>
+        <view class="plantitle" data-index="{{index}}" bindtap="fold">{{plan.summaryBean.title}} <text class="percent"> ({{plan.percent}})</text></view>
         <view class="editPlan" bindtap="switchEditStatus" data-item="{{plan.summaryBean}}" data-title="{{plan.summaryBean.title}}" data-sumid="{{plan.summaryBean.id}}">
           <view class="circle"></view>
           <view class="circle"></view>
@@ -65,7 +70,6 @@
         </view>
       </view>
 
-      <view wx:if="{{plan.fold}}" bindtap="newTask" class="newTaskBtn" data-planid="{{plan.summaryBean.id}}" data-title="{{plan.summaryBean.title}}">新建任务</view>
       <view wx:if="{{plan.fold}}" class="single-task {{item.emergencyGrade==1? 'normalcolor':''}} {{item.emergencyGrade==2? 'urgentcolor':''}}" wx:for="{{plan.itemList}}" wx:key="{{item.id}}" wx:for-item="item" wx:for-index="childnum" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
         <view class="radio-area" data-parentsnum="{{index}}" data-status="{{item.status}}" data-selfnum="{{childnum}}" data-taskid="{{item.id}}" catchtap='switchTaskState' data-creatorid="{{item.creatorId}}" data-manager="{{item.manager}}">
           <radio class="radio" color="#409CF2"  bindtap="radioAlert" checked="{{item.status==0? false : true}}"></radio>
@@ -79,12 +83,9 @@
         <image class="taskimg" src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.manager + '/100/100'}}"></image>
         <view class="tasker">{{item.managerName}}</view>
       </view>
+      <view wx:if="{{plan.fold}}" bindtap="newTask" class="newTaskBtn" data-planid="{{plan.summaryBean.id}}" data-title="{{plan.summaryBean.title}}">新建任务</view>
     </view>
-
-    <view class="addTaskPlan" bindtap="addTaskPlan">
-      <view class="plus">+</view>
-      <view class="plustitle">新建任务组</view>
-    </view>
+    
   </view>
   <!-- 编辑任务计划采单区域 -->
   <view class="editModel" wx:if="{{isShowEditPlan}}">
@@ -235,7 +236,7 @@
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userhead"></image>
           <view class="username">{{item.personName}}</view>
           <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==1}}"></image>
-          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==13 || item.relationType==12}}"></image>
+          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==14 || item.relationType==12}}"></image>
         </view>
       </block>
     </view>

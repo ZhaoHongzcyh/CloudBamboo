@@ -57,9 +57,9 @@
         </view>
   </view>
   <!-- 无操作人员 -->
-      <view class="nopeople" wx:if="{{memberBeanList.length == 0}}">
+      <view class="nopeople" wx:if="{{isShowDelErrorPage}}">
         <image class="nopeopleimg" src="./img/nopeople.png"></image>
-        <view>没有可操作人员</view>
+        <view>暂无可操作人员</view>
       </view>
   <confirm id="confirm" bindsure="delMember" title="{{ {content:'确认删除'+delSingle.personName} }}"></confirm>
 </view>

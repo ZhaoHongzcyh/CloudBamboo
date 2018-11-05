@@ -5,12 +5,8 @@ Page({
   data:{
     switchMyselfLogoin:false,//登陆模式与任务模式切换
     app:app,
-    headimg: null,
     url:{},//导航数据
-    userinfo:{
-      name:""
-    },
-    list:[],//待处理任务
+    userinfo:null,
 
     // -------------------------------------------------------------登录注册模块数据-----------------------------------------
     logoinState: true,//true:代表注册，false:渲染注册
@@ -24,6 +20,7 @@ Page({
       password: ""
     },
     isClickLogoinBtn:false,//登录按钮是否可点击
+    isClickRegisterBtn:false,//注册按钮是否可点击
     verificationBtnText:'获取验证码',
     readCondiction:true,//是否勾选服务协议
     countTime:60,//倒计时
@@ -55,16 +52,16 @@ Page({
       // 判断session是否过期
       if (sessionoverdue){
         wx.setNavigationBarTitle({title:'云竹协作'});
-        wx.hideTabBar({})
+        wx.hideTabBar({});
         this.setData({ switchMyselfLogoin: false });
-        this.getLogoinCode();//验证用户是否绑定协作
+        this.getLogoinCode();//验证用户是否绑定协作(实现自动登录)
       }
       else{
         wx.setNavigationBarTitle({ title: '我的' });
         this.popup = this.selectComponent("#popup");
         wx.showTabBar({});
         this.setData({ switchMyselfLogoin: true });
-        this.getTask();
+        this.getUserInfo();
 
         // 避免因服务器维护造成小程序端登录界面出现异常
         if (!this.data.switchMyselfLogoin){
@@ -97,52 +94,25 @@ Page({
     this.popup.showPopup();
   },
 
-  // 请求用户详细信息
-  getUserInfo:function(){
+  //  ----------------------------------------------------个人中心------------------------------------------------
+  // 获取用户详细信息
+  getUserInfo: function () {
     var address = app.ip + "tw/userService/getUserInfo";
-    api.request({},address,"post",true).then(res=>{
-      if(res.data.code == 401 && !res.data.result){
-        this.getLogoinCode();
+    api.request({}, address, "POST", true).then(res => {
+      wx.stopPullDownRefresh();
+      if (res.data.code == 200 && res.data.result) {
+        this.setData({ userinfo: res.data.data.curUser })
       }
-      else{
-        var userinfo = {
-          name: res.data.data.curUser.pname
-        }
-        this.setData({
-          userinfo: userinfo
-        })
+      else {
+        this.setAlert(res.data.message);
       }
-      wx.stopPullDownRefresh()
-    })
-  },
-  // 请求任务
-  getTask:function(){
-    // 更新用户头像
-    this.setData({
-      headimg: app.ip + "tc/spaceService/showPersonIcon/" + wx.getStorageSync("tcUserId") + "/100/100"
-    });
-    var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
-    api.request({},address,"post",true).then(res=>{
-      console.log(res);
-      if(!res.data.result && res.data.code != 200){
-        this.setData({ switchMyselfLogoin:false});
-        this.getLogoinCode();
-      }
-      else{
-        var list = api.handleTask(res);
-        this.setData({
-          list: list
-        })
-      }
-      
-      // 请求用户信息
-      if(res.data.code == 200 && res.data.result){
-        this.getUserInfo();
-      }
-    }).catch(e=>{
+    }).catch(e => {
       console.log(e);
+      // this.setAlert('无法获取用户资料');
     })
   },
+  
+  
 
   // 下拉刷新
   onPullDownRefresh: function (e) {
@@ -152,24 +122,37 @@ Page({
     })
   },
 
-  // 点击状态栏的弹框
-  radioAlert:function(e){
-    console.log(e);
+  // 设置alert的内容
+  setAlert: function (txt) {
+    this.setData({ alert: { content: txt } });
+    this.alert();
   },
 
-  // 进入任务详情页面
-  entryTask: function (e) {
-    var id = e.currentTarget.dataset.id;
-    var powerid = e.currentTarget.dataset.taskid;
+  // 查看个人详细信息
+  userinfo: function () {
     wx.navigateTo({
-      url: '/pages/taskDetails/taskdetails?taskId=' + id +  "&powerId=" + powerid,
+      url: './personalInfo/userinfo',
     })
   },
 
-  // 进入个人账号设置模块
-  entryPersonalSet: function () {
+  // 密码修改
+  changePwd: function () {
     wx.navigateTo({
-      url: './personalSet/personalSet',
+      url: './changePwd/changepwd',
+    })
+  },
+
+  // 使用帮助
+  useHelp: function () {
+    wx.navigateTo({
+      url: '/pages/Agreement/Agreement?state=2',
+    })
+  },
+
+  // 关于我们
+  aboutUs: function () {
+    wx.navigateTo({
+      url: '/pages/Agreement/Agreement?state=3',
     })
   },
 
@@ -237,7 +220,7 @@ Page({
     var register = this.data.register;
     var phoneReg = /^1\d{10}$/img;
     var verificationReg = /^\w{4,8}$/;
-    var pwdReg = /^\[0-9a-zA-Z]{6,20}$/;
+    var pwdReg = /^[0-9a-zA-Z]{6,20}$/;
     var validatorPhone = phoneReg.test(register.phone);
     var validatorPwd = pwdReg.test(register.password);
     var validatorVerification = verificationReg.test(register.verification);
