@@ -86,7 +86,7 @@
   <view class="rangelistmodel" hidden="{{!isShowLevel}}">
     <view class="rangelist">
       <view class="range" data-role="2" bindtap="selectLevel">
-        优先解决
+        紧急处理
       </view>
       <view class="range" data-role="1" bindtap="selectLevel">
         正常处理

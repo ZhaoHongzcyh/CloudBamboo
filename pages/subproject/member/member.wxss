@@ -2,12 +2,18 @@
 page{
   background-color: rgba(245,245,245,1);
 }
+
+.loaddata{
+  height: 100rpx;
+  background-color: rgba(0,0,0,0);
+}
+
 .add{
   position: absolute;
   top: 0rpx;
   width: 100%;
   height: calc(100% - 110rpx);
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .groupinfo{

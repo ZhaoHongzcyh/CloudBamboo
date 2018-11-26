@@ -27,16 +27,24 @@ Page({
     })
     this.getStartDate()
   },
+
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh();//关闭下拉刷新
+  },
+
   // 弹框
   alert: function () {
     this.popup.showPopup();
   },
+
   // 初始化任务开始时间
   getStartDate: function () {
     this.setData({
       startDate: api.nowTime()
     })
   },
+
   // 得到用户输入的任务计划名称
   getTaskName: function (e) {
     var taskName = e.detail.value;
@@ -44,6 +52,7 @@ Page({
       taskName:taskName
     })
   },
+
   // 设置开始时间
   startDate: function (e) {
     var value = e.detail.value;
@@ -52,6 +61,7 @@ Page({
       endDate:""
     })
   },
+  
   // 设置结束时间
   endDate: function (e) {
     var value = e.detail.value;

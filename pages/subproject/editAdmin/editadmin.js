@@ -17,7 +17,8 @@ Page({
     project:null,
     isShowRadio:null,//是否显示单选框
     delObj:null,//需要被删除的对象
-    isShowSubmit:false//是否显示添加对象按钮
+    isShowSubmit:false,//是否显示添加对象按钮
+    chooseMember:null//已经选择的成员
   },
 
   /**
@@ -55,6 +56,10 @@ Page({
     this.popup.showPopup()
   },
 
+  onPullDownRefresh: function () {
+    this.onShow();
+  },
+
   // 打开对话弹框
   openConfirm: function (e) {
     this.setData({
@@ -69,6 +74,7 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj, address, "POST", true).then(res => {
+      wx.stopPullDownRefresh();//关闭下拉刷新
       if (res.data.code == 200 && res.data.result) {
         let memberlist = [];
         var project = res.data.data.summaryBean;
@@ -94,6 +100,7 @@ Page({
     var address = app.ip + "tc/taskService/findTaskBOById";
     var obj = { taskId: this.data.taskId };
     api.request(obj,address,"POST",true).then(res=>{
+      wx.stopPullDownRefresh();//关闭下拉刷新
       if(res.data.code == 200 && res.data.result){
         this.handleDelList(res.data.data);
       }
@@ -120,6 +127,7 @@ Page({
       project:obj.summaryBean
     })
   },
+
   // 匹配用户输入的内容
   matchUser: function (e) {
     var user = e.detail.value;
@@ -164,6 +172,7 @@ Page({
 
   // 添加成员
   addMember: function (e) {
+    var chooseMember = this.data.chooseMember == null? []:this.data.chooseMember;
     var isShowSubmit = false;//是否显示添加按钮
     var index = e.currentTarget.dataset.index;
     var memberlist = this.data.memberlist;
@@ -172,6 +181,17 @@ Page({
     if(memberlist[index].initSelect){
       return false;
     }
+    let check = false;//用于判断是否已经被选中
+    chooseMember.map((item,n)=>{
+      if(item == memberlist[index].resourceId){
+        chooseMember.splice(n,1);
+        check = true;
+      }
+    })
+    if(!check){
+      chooseMember.push(memberlist[index].resourceId);
+    }
+    this.setData({ chooseMember});
     if (memberlist[index].checked){
       memberlist[index].checked = false;
       adminGroups.map((item,num)=>{
@@ -197,42 +217,98 @@ Page({
     })
   },
 
-  // 删除用户
-  delAdminUser: function (e) {
-    // var userObj = e.currentTarget.dataset.item;
+  // 删除用户（该方法已被废弃，如果服务器老接口不发生更改，该方法取消注释即可用）
+  // delAdminUser: function (e) {
+  //   this.delAdminMember();
+  //   return false;
+  //   var userObj = this.data.delObj;
+  //   var address = app.ip + "tc/taskService/addOrUpdateTask";
+  //   var summaryBean = JSON.stringify(this.data.project);
+  //   summaryBean = JSON.parse(summaryBean);
+  //   var memberlist = this.data.memberlist;
+  //   var adminGroupId = [];
+  //   var delid = null
+  //   for(var i = 0; i < memberlist.length; i++){
+  //     if(memberlist[i].resourceId != userObj.resourceId){
+  //       adminGroupId.push(memberlist[i].resourceId)
+  //     }
+  //     else{
+  //       delid = memberlist[i].resourceId;
+  //     }
+  //   }
+  //   summaryBean.adminGroups = adminGroupId;
+  //   var obj = {
+  //     summaryBean: summaryBean
+  //   }
+  //   api.request(obj,address,"POST",false).then(res=>{
+  //     if(res.data.code == 200 && res.data.result){
+  //       memberlist.map((item,index)=>{
+  //         if(item.resourceId == delid){
+  //           memberlist.splice(index,1)
+  //         }
+  //       })
+  //       this.setData({memberlist});
+  //       this.confirm.hide();
+  //       wx.navigateBack();
+  //     }
+  //     else{
+  //       this.setData({ alert: { content: "删除失败" } });
+  //       this.alert()
+  //     }
+  //   }).catch(e=>{
+  //     this.setData({ alert: { content: "删除失败" } });
+  //     this.alert()
+  //   })
+  // },
+  
+  // 添加管理员用户（该方法已被废弃，如果服务器不更改老接口，该方法取消注释即可用）
+  // addAdminUser: function () {
+  //   var address = app.ip + "tc/taskService/addOrUpdateTask";
+  //   var obj = {
+  //     summaryBean: this.data.project
+  //   }
+  //   api.request(obj,address,"POST",false).then(res=>{
+  //     if(res.data.code == 200 && res.data.result){
+  //       // this.setData({alert:{content:"添加成功"}});
+  //       wx.navigateBack();
+  //     }
+  //     else{
+  //       this.setData({alert:{content:"添加失败"}})
+  //     }
+  //     this.alert();
+  //   }).catch(e=>{
+  //     this.setData({ alert: { content: "添加失败" } })
+  //     this.alert()
+  //   })
+  // },
+
+  // 添加管理员用户（新接口）
+  addAdminUser: function () {
+    var address = app.ip + "tc/taskMemberService/updateTaskAdmin";
+    var memberIds = this.data.chooseMember;
+    var head = { taskId: this.data.taskId};
+    api.customRequest(head, {add:memberIds}, address, "POST",true).then(res=>{
+      if (res.data.code == 200 && res.data.result) {
+        wx.navigateBack();
+      }
+      else {
+        this.setData({ alert: { content: "添加失败" } })
+      }
+      this.alert();
+    }).catch(e=>{
+      this.setData({ alert: { content: "添加失败" } })
+      this.alert()
+    })
+  },
+
+  // 删除管理组用户（新接口）
+  delAdminUser: function () {
     var userObj = this.data.delObj;
-    var address = app.ip + "tc/taskService/addOrUpdateTask";
-    var summaryBean = JSON.stringify(this.data.project);
-    summaryBean = JSON.parse(summaryBean);
-    var memberlist = this.data.memberlist;
-    var adminGroupId = [];
-    var delid = null
-    for(var i = 0; i < memberlist.length; i++){
-      if(memberlist[i].resourceId != userObj.resourceId){
-        adminGroupId.push(memberlist[i].resourceId)
-      }
-      else{
-        delid = memberlist[i].resourceId;
-      }
-    }
-    // summaryBean.teamAdminGroups.map((item,index)=>{
-    //   if (item == userObj.resourceId){
-    //     summaryBean.teamAdminGroups.splice(index,1);
-    //   }
-    // })
-    summaryBean.adminGroups = adminGroupId;
-    var obj = {
-      summaryBean: summaryBean
-    }
-    api.request(obj,address,"POST",false).then(res=>{
+    var address = app.ip + "tc/taskMemberService/updateTaskAdmin";
+    var memberIds = [userObj.resourceId];
+    var head = { taskId: this.data.taskId};
+    api.customRequest(head, {delete:memberIds}, address, "POST", true).then(res => {
       if(res.data.code == 200 && res.data.result){
-        memberlist.map((item,index)=>{
-          if(item.resourceId == delid){
-            memberlist.splice(index,1)
-          }
-        })
-        this.setData({memberlist});
-        this.confirm.hide();
         wx.navigateBack();
       }
       else{
@@ -241,27 +317,6 @@ Page({
       }
     }).catch(e=>{
       this.setData({ alert: { content: "删除失败" } });
-      this.alert()
-    })
-  },
-  
-  // 添加管理员用户
-  addAdminUser: function () {
-    var address = app.ip + "tc/taskService/addOrUpdateTask";
-    var obj = {
-      summaryBean: this.data.project
-    }
-    api.request(obj,address,"POST",false).then(res=>{
-      if(res.data.code == 200 && res.data.result){
-        // this.setData({alert:{content:"添加成功"}});
-        wx.navigateBack();
-      }
-      else{
-        this.setData({alert:{content:"添加失败"}})
-      }
-      this.alert();
-    }).catch(e=>{
-      this.setData({ alert: { content: "添加失败" } })
       this.alert()
     })
   }

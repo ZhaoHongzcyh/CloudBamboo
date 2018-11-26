@@ -31,7 +31,7 @@
     <view class="memberList" wx:if="{{item.relationType != 1}}" bindtap="sureAddMember" data-item="{{item}}" data-index="{{index}}">
       <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="photo"></image>
       <view class="name">{{item.pname}}</view>
-      <radio color="{{item.selfType==13? '#999999':'#409CF2'}}" class="radio" checked='{{item.relationType == 13}}'/>
+      <radio color="{{item.selfType==12? '#999999':'#409CF2'}}" class="radio" checked='{{item.relationType == 12}}'/>
     </view>
   </block>
 
@@ -39,13 +39,13 @@
 
   <!-- 删除 -->
   <block wx:for="{{allGroup}}" wx:if="{{!isAddMember}}">
-    <view class="memberList" wx:if="{{item.relationType == 13}}" bindtap="sureAddMember" data-item="{{item}}" data-index="{{index}}">
+    <view class="memberList" wx:if="{{item.relationType == 12}}" bindtap="sureAddMember" data-item="{{item}}" data-index="{{index}}">
       <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="photo"></image>
       <view class="name">{{item.pname}}</view>
       <view class="del" data-item="{{item}}" bindtap="delGroup">-</view>
     </view>
   </block>
-  <view class="submitBtn" bindtap="sureDelMember" wx:if="{{!isAddMember && delMember != null}}">完成</view>
+  <view class="submitBtn" bindtap="sureDelMember" wx:if="{{!isAddMember}}">完成</view>
 
   <!-- 无数据异常页面 -->
   <view wx:if="{{allGroup.length == 0}}">

@@ -73,7 +73,7 @@ Page({
   handleAdminGroup: function (list) {
     var adminGroup = [];
     list.map(item => {
-      if (item.relationType == 13) {
+      if (item.relationType == 12) {
         adminGroup.push(item);
       }
     })
@@ -102,7 +102,7 @@ Page({
     var allGroup = this.data.allGroup;
     var item = e.currentTarget.dataset.item;
     var id = item.id;
-    if (item.selfType == 13){
+    if (item.selfType == 12){
       return false;
     }
     else{
@@ -116,7 +116,7 @@ Page({
       })
       if(!checkend){
         chooseMember.push(id);
-        item.relationType = 13;
+        item.relationType = 12;
       }
       allGroup[index] = item;
       for(var i = 0; i < allMember.length; i++){
@@ -155,11 +155,12 @@ Page({
     };
     var allGroup = this.data.allMember;
     allGroup.map((single,num)=>{
-      if(single.selfType == 13){
+      if(single.selfType == 12){
         memberIds.push(single.id);
       }
     })
     api.customRequest(obj, memberIds,address,"POST",true).then(res=>{
+      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.getManagerGroup();
         this.switchModel();
@@ -171,6 +172,7 @@ Page({
         }
       }
       else{
+        if(res.data.message == "" || res.data.message == null || res.data.message == undefined){res.data.message = '数据加载异常';}
         this.showAlert(res.data.message);
       }
     }).catch(e=>{
@@ -196,7 +198,7 @@ Page({
     var memberIds = this.data.allGroup;
     var allGroup = [];
     memberIds.map((single,index)=>{
-      if(single.relationType == 13){
+      if(single.relationType == 12){
         allGroup.push(single);
       }
     })
@@ -218,10 +220,12 @@ Page({
 
   // 确定删除成员
   sureDelMember: function () {
-    var head = { taskId: wx.getStorageSync('defaultTaskTeam') };
+    var head = { taskId: wx.getStorageSync('defaultTaskTeam'), delete:"true"};
     var address = app.ip + "tc/taskTeamService/editAdminGroup";
     var memberIds = this.data.delMember;
     api.customRequest(head,memberIds,address,"POST",true).then(res=>{
+      console.log("删除成员");
+      console.log(res);
       if(res.data.code == 200 && res.data.result){
         this.reloadData();
       }

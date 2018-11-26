@@ -20,6 +20,7 @@ Page({
     choosemember:[],
     summary:null,
     participant:[],
+    loadData:false,//是否正在刷新数据
     delSingle:null,//被删除的成员对象
     isCouldClickAdd:true,//是否可以点击确认添加成员按钮
     prevMemberlist:null,//用于储存上一个页面中的成员数据
@@ -50,6 +51,17 @@ Page({
       this.getProjectMember();
       this.getProjectInfo();
     }
+  },
+
+  onPullDownRefresh: function () {
+    this.onShow();
+    this.setData({
+      loadData: true
+    })
+    setTimeout(()=>{
+      this.setData({loadData:false});
+      wx.stopPullDownRefresh();
+    },4000)
   },
 
   // 获取上一个页面中成员数据
@@ -107,12 +119,14 @@ Page({
             data[i].folder = false;
           }
         }
+        console.log(res);
+        console.log("成员")
         let list = res.data.data;
         list.map((item,index)=>{
           item.personList.map((friend,num)=>{
             let checkEnd = false;
             prevMemberlist.map((person, x) => {
-              if (person.resourceId == friend.id) {
+              if (person.id == friend.id) {
                 checkEnd = true;
               }
             })
@@ -155,6 +169,7 @@ Page({
       taskId: wx.getStorageSync("defaultTaskTeam")
     },
     address = app.ip + "tc/taskTeamService/findTaskTeam";
+    console.log(api.request(obj, address, "POST", true));
     api.request(obj, address, "POST", true).then(res => {
       var companyListId = [];
       if (res.data.code == 200 && res.data.result) {
@@ -163,18 +178,77 @@ Page({
           companyListId.push(item.id);
         })
         this.setData({ companyList: list });
+        
+        //2018-11-21
+        let promiseAll = [];
+        let companyId = [];
+        //end
         for (let i = 0; i < companyListId.length; i++) {
-          let isLast = false;
-          if (i == companyListId.length - 1){
-            isLast = true;
-          }
-          this.getCompanyMember(companyListId[i],isLast);
+          // let isLast = false;
+          // if (i == companyListId.length - 1){
+          //   isLast = true;
+          // }
+          // this.getCompanyMember(companyListId[i],isLast);
+          let obj = {taskId: companyListId[i]};
+          let address = app.ip + "tc/taskMemberService/findPageTaskMember";
+          // 生成多个promise对象
+          var p1 = api.request(obj, address, "POST", true);
+          promiseAll.push(p1);
+          companyId.push(companyListId[i]);
         }
+        Promise.all(promiseAll).then(result=>{
+          console.log("所有请求");
+          console.log(result);
+          this.addMemberToCompany(result,companyId)
+        })
       }
     })
   },
 
-  // 获取各个公司的成员列表
+  // 将各个公司成员放入各个公司目录下
+  addMemberToCompany: function (memberResult,companyId) {
+    let companyList = this.data.companyList;
+    console.log("++++++++++++");
+    console.log(memberResult);
+    console.log(companyList)
+    var prevMemberlist = this.data.prevMemberlist;
+    companyList.map((item,index)=>{
+      companyId.map((id,num)=>{
+        if(item.id == id){
+          item.folder = false;
+          if(memberResult[index].data.code == 200 && memberResult[index].data.result){
+            item.member = memberResult[index].data.data.list
+          }
+          else{
+            console.log("异常")
+          }
+        }
+      })
+    })
+
+    companyList.map((item,index)=>{
+      item.member.map((person,num)=>{
+        let checkEnd = false;
+        prevMemberlist.map((prevPerson,x)=>{
+          if(person.id == prevPerson.id){
+            checkEnd = true;
+          }
+        })
+        if (checkEnd) {
+          person.select = true;
+          person.initSelect = true;
+        }
+        else {
+          person.select = false;
+          person.initSelect = false;
+        }
+      })
+    })
+
+    this.setData({ companyList})
+  },
+
+  // 获取各个公司的成员列表(该函数暂时被废弃)
   getCompanyMember: function (taskId,isLast) {
     var companyList = this.data.companyList;
     var prevMemberlist = this.data.prevMemberlist;
@@ -192,10 +266,11 @@ Page({
         })
         if(isLast){
           companyList.map((item,index)=>{
+            try{
             item.member.map((person,num)=>{
               let checkEnd = false;
               prevMemberlist.map((prevItem,x)=>{
-                if (person.id == prevItem.resourceId){
+                if (person.id == prevItem.id){
                   checkEnd = true;
                 }
               })
@@ -208,11 +283,25 @@ Page({
                 person.initSelect = false;
               }
             })
+            }
+            catch (e) {
+              console.log("--------")
+              console.log(item);
+              console.log(item.member)
+              console.log(e)
+            }
           })
+          
         }
         this.setData({ companyList });
       }
     })
+  },
+
+
+  // 同步公司成员与初始项目成员
+  syncCompanyMember: function (result,companyid){
+
   },
 
   // 获取项目成员列表
@@ -245,6 +334,7 @@ Page({
 
   // 选择好友成员
   selectMember: function (e) {
+    console.log(e);
     var index = e.currentTarget.dataset.index;
     var num = e.currentTarget.dataset.num;
     var data = this.data.friendsList;
@@ -279,6 +369,7 @@ Page({
 
   // 选择公司成员
   selectCompanyMember: function (e) {
+    console.log(e);
     var index = e.currentTarget.dataset.index;
     var num = e.currentTarget.dataset.num;
     var companyList = this.data.companyList;
@@ -292,6 +383,7 @@ Page({
       choosemember.map((item,x)=>{
         if (item.id == companyList[index].member[num].id){
           checkEnd = true;
+          choosemember.splice(x,1);
         }
       })
       if(!checkEnd){
@@ -302,8 +394,15 @@ Page({
         this.syncMemberIdAry(companyList[index].member[num].id);
       }
       else{
-        return false;
+        this.syncMemberIdAry(companyList[index].member[num].id);
+        console.log("存在")
+        // companyList[index].member[num].select = false;
+        // this.setData({
+        //   companyList
+        // })
+        // return false;
       }
+      console.log(choosemember);
       
     }
   },
@@ -335,38 +434,76 @@ Page({
     this.setData({ companyList, friendsList});
   },
 
-  // 添加成员
+  // 添加成员该函数已被废弃
+  // addmember: function () {
+  //   var choosemember = this.data.choosemember;
+  //   var summaryBean = this.data.summary;
+  //   var address = app.ip + "tc/taskService/updateTaskDynamic";
+  //   if(choosemember.length == 0){
+  //     return false;
+  //   }
+  //   if (!this.data.isCouldClickAdd){
+  //     return false;
+  //   }
+  //   else{
+  //     this.setData({ isCouldClickAdd: !this.data.isCouldClickAdd});
+  //     // var updateFields = this.
+  //     var participant = this.data.participant;
+  //     for(var i = 0; i < choosemember.length; i++){
+  //       var state = false;
+  //       if (participant == null) { participant = []}
+  //       participant.map((item,index)=>{
+  //         if (item == choosemember[i].id){
+  //           state = true;
+  //         }
+  //       })
+
+  //       if(!state){
+  //         participant.push(choosemember[i].id);
+  //       }
+  //     }
+  //     summaryBean.participant = participant;
+  //     api.customRequest({ updateFields:'participant'},summaryBean,address,"POST",true).then(res=>{
+  //       if(res.data.code == 200 && res.data.result){
+  //         wx.navigateBack()
+  //       }
+  //       else{
+  //         // 弹框提示添加失败
+  //         this.setData({ alert: { content: '成员添加失败' } });
+  //         this.alert();
+  //       }
+  //       this.setData({ isCouldClickAdd: !this.data.isCouldClickAdd });
+  //     }).catch(e=>{
+  //       this.setData({ alert: { content: '成员添加失败' } });
+  //       this.alert();
+  //     })
+  //   }
+  // },
+
+  // 添加成员（通过新接口）
   addmember: function () {
     var choosemember = this.data.choosemember;
     var summaryBean = this.data.summary;
-    var address = app.ip + "tc/taskService/updateTaskDynamic";
-    if(choosemember.length == 0){
+    if (choosemember.length == 0) {
       return false;
     }
-    if (!this.data.isCouldClickAdd){
+    if (!this.data.isCouldClickAdd) {
       return false;
     }
     else{
-      this.setData({ isCouldClickAdd: !this.data.isCouldClickAdd});
-      // var updateFields = this.
-      var participant = this.data.participant;
-      for(var i = 0; i < choosemember.length; i++){
-        var state = false;
-        if (participant == null) { participant = []}
-        participant.map((item,index)=>{
-          if (item == choosemember[i].id){
-            state = true;
-          }
-        })
-
-        if(!state){
-          participant.push(choosemember[i].id);
-        }
-      }
-      summaryBean.participant = participant;
-      api.customRequest({ updateFields:'participant'},summaryBean,address,"POST",true).then(res=>{
+      this.setData({ isCouldClickAdd: !this.data.isCouldClickAdd });
+      var memberIds =[];
+      choosemember.map((item,index)=>{
+        memberIds.push(item.id);
+      })
+      let address = app.ip + "tc/taskMemberService/updateTaskMember";
+      let add = memberIds;
+      // let str = "{add:" + add +"}";
+      api.customRequest({ taskId: this.data.taskId}, {add:add},address,"POST",true).then(res=>{
+        console.log("成员结果添加");
+        console.log(res);
         if(res.data.code == 200 && res.data.result){
-          wx.navigateBack()
+          wx.navigateBack();
         }
         else{
           // 弹框提示添加失败
@@ -375,20 +512,72 @@ Page({
         }
         this.setData({ isCouldClickAdd: !this.data.isCouldClickAdd });
       }).catch(e=>{
+        // 弹框提示添加失败
         this.setData({ alert: { content: '成员添加失败' } });
         this.alert();
       })
     }
+    
   },
 
-  // 删除成员
-  delMember: function (e) {
-    var address = app.ip + "tc/taskService/addOrUpdateTask";
-    var single = this.data.delSingle;
-    var memberBeanList = this.data.memberBeanList;
+  // 删除成员(该函数已经被废弃，采用新接口)
+  // delMember: function (e) {
+  //   var address = app.ip + "tc/taskService/addOrUpdateTask";
+  //   var single = this.data.delSingle;
+  //   var memberBeanList = this.data.memberBeanList;
+  //   var summaryBean = this.data.summary;
+  //   var participant = this.data.participant;
+  //   var matchMember = this.data.matchMember;
+  //   if (single.resourceId == summaryBean.teamManager){
+  //     this.setData({alert:{content:'无法删除公司负责人'}});
+  //     this.alert();
+  //     return false;
+  //   }
+  //   participant.map((item,index)=>{
+  //     if (item == single.resourceId){
+  //       participant.splice(index,1);
+  //     }
+  //   })
+  //   summaryBean.participant = participant;
+  //   var obj = { summaryBean };
+  //   api.sendDataByBody(obj,address,"POST",true).then(res=>{
+  //     if(res.data.code == 200 && res.data.result){
+  //       // wx.navigateBack();
+  //       memberBeanList.map((item,num)=>{
+  //         if (item.resourceId == single.resourceId){
+  //           memberBeanList.splice(num,1)
+  //         }
+  //       })
+  //       matchMember.map((item,num)=>{
+  //         if (item.resourceId == single.resourceId) {
+  //           matchMember.splice(num, 1)
+  //         }
+  //       })
+        
+  //       this.setData({ summaryBean, memberBeanList, matchMember, isShowDelErrorPage: this.checkUserNumber(memberBeanList)});
+        
+  //       this.confirm.hide();
+  //     }
+  //     else{
+  //       // 弹框提示删除失败
+  //       this.setData({alert:{content:'成员删除失败'}});
+  //       this.alert();
+  //     }
+  //   }).catch(e=>{
+  //     this.setData({ alert: { content: '成员删除失败' } });
+  //     this.alert();
+  //   })
+  // },
+
+  // 删除成员（新接口）
+  delMember: function () {
+    var matchMember = this.data.matchMember;
     var summaryBean = this.data.summary;
     var participant = this.data.participant;
-    var matchMember = this.data.matchMember;
+    var memberBeanList = this.data.memberBeanList;
+    var address = app.ip + "tc/taskMemberService/updateTaskMember";
+    var single = this.data.delSingle;
+    var memberIds = [this.data.delSingle.resourceId];
     if (single.resourceId == summaryBean.teamManager){
       this.setData({alert:{content:'无法删除公司负责人'}});
       this.alert();
@@ -396,38 +585,39 @@ Page({
     }
     participant.map((item,index)=>{
       if (item == single.resourceId){
-        participant.splice(index,1);
-      }
-    })
-    summaryBean.participant = participant;
-    var obj = { summaryBean };
-    api.sendDataByBody(obj,address,"POST",true).then(res=>{
-      if(res.data.code == 200 && res.data.result){
-        // wx.navigateBack();
-        memberBeanList.map((item,num)=>{
-          if (item.resourceId == single.resourceId){
-            memberBeanList.splice(num,1)
-          }
-        })
-        matchMember.map((item,num)=>{
-          if (item.resourceId == single.resourceId) {
-            matchMember.splice(num, 1)
-          }
-        })
-        
-        this.setData({ summaryBean, memberBeanList, matchMember, isShowDelErrorPage: this.checkUserNumber(memberBeanList)});
-        
-        this.confirm.hide();
-      }
-      else{
+          participant.splice(index,1);
+        }
+      })
+
+    api.customRequest({ taskId: this.data.taskId }, {delete:memberIds}, address, "POST", true).then(res => {
+        if (res.data.code == 200 && res.data.result) {
+          // wx.navigateBack();
+          memberBeanList.map((item, num) => {
+            if (item.resourceId == single.resourceId) {
+              memberBeanList.splice(num, 1)
+            }
+          })
+          matchMember.map((item, num) => {
+            if (item.resourceId == single.resourceId) {
+              matchMember.splice(num, 1)
+            }
+          })
+
+          this.setData({ summaryBean, memberBeanList, matchMember, isShowDelErrorPage: this.checkUserNumber(memberBeanList) });
+
+          this.confirm.hide();
+        }
+        else {
+          // 弹框提示删除失败
+          this.setData({ alert: { content: '成员删除失败' } });
+          this.alert();
+        }
+      }).catch(e=>{
+        console.log(e);
         // 弹框提示删除失败
-        this.setData({alert:{content:'成员删除失败'}});
+        this.setData({ alert: { content: '成员删除失败' } });
         this.alert();
-      }
-    }).catch(e=>{
-      this.setData({ alert: { content: '成员删除失败' } });
-      this.alert();
-    })
+      })
   },
 
   // 动态匹配用户输入的联系人

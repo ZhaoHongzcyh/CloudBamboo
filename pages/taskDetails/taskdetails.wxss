@@ -149,25 +149,30 @@ textarea{
 /* 评论区域 */
 .reply{
   display: flex;
+  align-items: center;
   height: 98rpx;
   margin-top: 30rpx;
-  align-items: center;
   background-color: white;
 }
 
 .replyinput{
+  position: relative;
   height: 70rpx;
   width: 510rpx;
+  line-height: 70rpx;
   margin-left: 24rpx;
   font-size: 28rpx;
+  color: #333;
   border:1rpx solid #AAAAAA;
 }
 
 .replyplace{
+  position: relative;
   color: #AAAAAA;
-  font-size: 28rpx;
-  margin: 21rpx 0rpx;
+  height: 70rpx;
+  line-height: 70rpx;
 }
+
 .submit{
   width: 168rpx;
   height: 72rpx;

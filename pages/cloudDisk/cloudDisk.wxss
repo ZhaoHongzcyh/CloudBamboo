@@ -76,6 +76,7 @@ page{
   font-size: 28rpx;
   color: #AAAAAA;
 }
+
 /* 底部文件操作弹框 */
 .footer-alert{
   position: fixed;
@@ -119,6 +120,7 @@ page{
   font-size: 20rpx;
   color: #F8F8F8;
 }
+
 /* 更多操作 */
 .footer-more{
   position: fixed;
@@ -144,6 +146,7 @@ page{
   margin-top: 10rpx;
   background-color: white;
 }
+
 /* 蒙版层 */
 .model{
   position: fixed;
@@ -163,6 +166,23 @@ page{
 
 .last{
   color: #409CF2;
+}
+
+/* 排序规则 */
+.sortMenu{
+  position: absolute;
+  bottom: 0rpx;
+  width: 100%;
+  color: #333;
+  background-color: white;
+}
+
+.singleRule{
+  font-size: 28rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: center;
+  border-bottom: 1rpx solid #DBDBDB;
 }
 
 /* 当文件列表为空的样式 */

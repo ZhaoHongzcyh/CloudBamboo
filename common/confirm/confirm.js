@@ -27,6 +27,7 @@ Component({
       this.setData({
         isShow:false
       })
+      this.triggerEvent("cancel");
     },
     show: function () {
       this.setData({

@@ -5,7 +5,7 @@
     <view class="select-all" bindtap="selectAll">全选</view>
   </view>
   <view class="search">
-    <view class="search-img-btn" bindtap="alert">
+    <view class="search-img-btn" bindtap="switchSortMenu">
       <image src="./img/search.png" class="search-img"></image>
     </view>
     <view class="search-input">
@@ -68,6 +68,13 @@
     <view class="cancelfun more" bindtap="cancelmore">取消</view>
   </view>
 
+  <view class="model" wx:if="{{isShowSortRule}}" catchtap='switchSortMenu'>
+    <view class="sortMenu">
+      <view class="singleRule" bindtap="fileSort" data-sort="title">按文件名排序</view>
+      <view class="singleRule" bindtap="fileSort" data-sort ="createDate">按修改时间倒序</view>
+      <view class="singleRule" bindtap="fileSort" data-sort="asize">按文件大小排序</view>
+    </view>
+  </view>
  <!-- 无文件夹页面  -->
     <view wx:if="{{fileData.length == 0}}" class="nofile">
       <image src="/pages/subproject/img/nofile.png" class="nofileimg"></image>
@@ -76,6 +83,7 @@
 
   <!-- 提示弹框 -->
   <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
+  <popup id='model' isAlert="{{true}}" content="{{alert.content}}" footer="知道了"></popup>
   <!-- 蒙版层 -->
   <view class="model" wx:if="{{more && selectnum}}" bindtap="cancelmore">
   </view>

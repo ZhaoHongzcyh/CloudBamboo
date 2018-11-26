@@ -12,17 +12,23 @@ Page({
     selectnum:0,
     selectStatus:[],//文件是否被选中的状态
     input:"请输入关键字搜索文件或文件夹",
-    more:false//用户是否选择了更多操作
+    more:false,//用户是否选择了更多操作
+    sortRule:null,//排序规则
+    folderId:1,//排序规则的父文件夹
+    isShowSortRule: false,//是否打开文件排序选项菜单
+    alert:{content:null}
   },
 
   onLoad:function(options){
     // 弹框节点
     this.popup = this.selectComponent("#popup");
+    this.model = this.selectComponent("#model");
   },
 
   onShow: function () {
     this.setData({ parentIdStack: []})
     this.getFileList();
+    this.setData({ isShowSortRule: false})
   },
 
   // 下拉刷新
@@ -38,6 +44,10 @@ Page({
   // 显示弹框
   alert: function () {
     this.popup.showPopup()
+  },
+
+  alertinfo: function () {
+    this.model.showPopup()
   },
 
   // 获取文件列表
@@ -171,6 +181,9 @@ Page({
     var parentIdStack = this.data.parentIdStack;
     var length = parentIdStack.length;
     var address = app.ip + "tc/IArcSumManagerService/findArcSummarysdate";
+    this.setData({
+      folderId: parentIdStack[length - 1].id
+    })
     this.jump(parentIdStack[length - 1].id);
   },
 
@@ -214,6 +227,9 @@ Page({
       this.jump(id);
     }
     parentIdStack.splice(index);
+    if (parentIdStack.length == 0){
+      this.setData({ folderId: 1})
+    }
     this.setData({ parentIdStack})
   },
 
@@ -242,5 +258,51 @@ Page({
       fileAry = filelist;
     }
     this.setData({ fileData: fileAry})
+  },
+
+  // 排序菜单的状态切换
+  switchSortMenu: function () {
+    this.setData({
+      isShowSortRule: !this.data.isShowSortRule
+    })
+  },
+
+  // 文件排序
+  fileSort: function (e) {
+    var sortRule = e.currentTarget.dataset.sort;
+    this.setData({ sortRule});
+    var address = app.ip + "tc/knowledgeService/showArcList";
+    var obj = { parentId: this.data.folderId, start: 0, pageSize:100};
+    if(sortRule != "null"){
+      obj.sortFields = sortRule; 
+    };
+    api.request(obj,address,"POST",true).then(res=>{
+      console.log("排序");
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        var selectStatus = [];
+        var dat = api.cloudDiskDataClean(res.data.data.list);
+
+        // 将选中状态设置为false
+        for (var i = 0; i < dat.length; i++) {
+          selectStatus.push(false);
+        }
+        console.log(dat);
+        var list = [];
+        dat = list.concat(dat.file,dat.folder);
+        this.setData({
+          fileData: dat,
+          filelist: dat,
+          selectStatus: selectStatus
+        })
+      }
+      else{
+        this.setData({alert:{content:'排序失败'}});
+        this.alertinfo();
+      }
+    }).catch(e=>{
+      this.setData({ alert: { content: '排序失败' } });
+      this.alertinfo();
+    })
   }
 })

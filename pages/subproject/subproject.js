@@ -2,11 +2,8 @@
 const app = getApp();
 const api = require("../../api/common.js");
 const handle = require("./common.js");
-Page({
 
-  /**
-   * 页面的初始数据
-   */
+Page({
   data: {
     app:app,
     power:{
@@ -102,6 +99,7 @@ Page({
     isShowEditPlan:false,//是否显示编辑任务计划状态栏
     needEditPlanId:null,
     delPlanInfo:{title:null},
+    selectPlanCondiction:null,//查询条件（任务筛选与截止时间）
     // ---------------------------------------------------文件模块相关数据---------------------------------------------
     isShowFileMenu:false,
     chooseFileList:[],//已选文件列表
@@ -147,6 +145,9 @@ Page({
     wx.stopPullDownRefresh();//关闭下拉刷新
     if (app.globalData.tasknum == 2){
       this.getProjectMember();
+    }
+    if (this.data.menu[3].select){
+      this.getProjectInfo();
     }
   },
 
@@ -207,6 +208,70 @@ Page({
     this.confirm.show();
   },
 
+  // 加载更多任务计划
+  loadmoreplan: function (e) {
+    let selectPlanCondiction = this.data.selectPlanCondiction;
+    let taskSelect = this.data.taskSelect;
+    let index = e.currentTarget.dataset.index;
+    let id = e.currentTarget.dataset.id;
+    let address = app.ip + "tc/schedule/itemService/findListByResource";
+    let tasklist = this.data.taskList;
+    tasklist = JSON.stringify(tasklist);
+    tasklist = JSON.parse(tasklist);
+    let start = tasklist[index].itemList.length;
+    let head = { resourceId: id, start: start, pageSize: 20, orderType:"DESC"};
+    if(selectPlanCondiction != null){
+      if (selectPlanCondiction.timeType != undefined) {
+        head.timeType = this.data.timeType;
+      }
+      else {
+        if (taskSelect[0].status) {
+          head.status = 0;
+        }
+        if (taskSelect[1].status) {
+          head.status = 1;
+        }
+        if (taskSelect[0].status && taskSelect[1].status) {
+          delete head.status;
+        }
+        if (taskSelect[2].status) {
+          head.memberRelType = 1;
+        }
+        if (taskSelect[3].status) {
+          head.memberRelType = 2;
+        }
+        if (taskSelect[2].status && taskSelect[3].status) {
+          head.memberRelType = 0;
+        }
+      }
+    }
+    api.request(head,address,"POST",true).then(res=>{
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        let data = res.data.data.list;
+        data = this.handleTask(data);
+        let list = tasklist[index].itemList.concat(data);
+        tasklist[index].itemList = list;
+        let hasDown = 0;
+        list.map((sub, num) => {
+          if (sub.status == 1) {
+            hasDown++
+          }
+        })
+        tasklist[index].percent = hasDown + " / " + list.length;
+
+        // 判断是否已经加载完所有数据
+        if(data.length < 20){
+          tasklist[index].isLoadedAllData = true;
+        }
+      }
+    })
+    setTimeout(()=>{
+      this.setData({taskList:tasklist})
+    },100)
+
+  },
+
   // 查找计划清单
   selectPlanList: function(id) {
     var address = app.ip + "tc/schedule/summaryService/findBoListByResource";
@@ -216,9 +281,13 @@ Page({
       orderType:"DESC"
     }
     api.request(obj,address,"post",true).then(res=>{
+      
       var data = null;
       var dataLength = 0;
       if(res.data.code == 200 && res.data.result){
+        let count = res.data.data.count;
+        console.log(res);
+        console.log("++++")
         data = res.data.data.list;
         dataLength = data.length - 1 > 0? data.length - 1 : 0;
         for(var i = 0; i < data.length; i++){
@@ -237,8 +306,12 @@ Page({
               }
             })
             item.percent = hasDown  + " / " + item.itemList.length;
+
+            // 用于判断加载更多的时候是否已经加载完毕所有数据（初始化为 未加载完）
+            item.isLoadedAllData = false;
           })
-          data[i].itemList = this.handleTask(data[i].itemList)
+          data[i].itemList = this.handleTask(data[i].itemList);
+
         }
         this.setData({
           taskList:data
@@ -323,6 +396,7 @@ Page({
     obj.resourceType = 10010001,
     obj.resourceId = this.data.taskId;
     obj.taskId = this.data.taskId;
+    this.setData({ selectPlanCondiction: obj});
     api.request(obj,address,"post",true).then(res=>{
       if(res.data.code == 200 && res.data.result){
         var data = res.data.data.list;
@@ -333,8 +407,25 @@ Page({
           else{
             data[i].fold = false;
           }
+          
           data[i].itemList = this.handleTask(data[i].itemList)
         }
+
+        // 任务完成进度
+        data.map((item, index) => {
+          var hasDown = 0;
+          // 用于判断加载更多的时候是否已经加载完毕所有数据（初始化为 未加载完）
+          item.isLoadedAllData = false;
+          
+          //任务完成度计算
+          item.itemList.map((sub, num) => {
+            if (sub.status == 1) {
+              hasDown++
+            }
+          })
+          item.percent = hasDown + " / " + item.itemList.length;
+        })
+
         this.setData({
           taskList:res.data.data.list
         })
@@ -350,7 +441,7 @@ Page({
     })
   },
 
-  // 查询我执行的任务
+  // 查询我执行的任务（该函数未被调用）
   selectJoinTask: function(obj) {
     obj.taskId = this.data.taskId
     var address = app.ip + "tc/schedule/itemService/findMyManageItemList";
@@ -1448,10 +1539,13 @@ Page({
   
   // ----------------------------------------------------项目成员相关-------------------------------------------------------
   getProjectMember: function () {
-    var address = app.ip + "tc/taskService/taskMemberManager";
+    var address = app.ip + "tc/taskService/taskMemberManager";//旧接口
+    address = app.ip + "tc/taskTeamService/findMemberByTask";
     var obj = {taskId:this.data.taskId};
     api.request(obj,address,"POST",true).then(res=>{
+      console.log("成员")
       console.log(res);
+      // return false;
       this.handleProjectMember(res);
     })
   },
@@ -1461,10 +1555,11 @@ Page({
     var userid = wx.getStorageSync('tcUserId');
     var check = false;
     if(res.data.code == 200 && res.data.result){
-      var memberlist = res.data.data.memberBeanList;
+      // var memberlist = res.data.data.memberBeanList;
+      var memberlist = res.data.data;
       memberlist.map((item,index)=>{
-        if (userid == item.resourceId){
-          if (item.relationType == 12 || item.relationType == 1){
+        if (userid == item.id){
+          if (item.type == 12 || item.type == 1){
             check = true;
           }
         }
@@ -1475,13 +1570,13 @@ Page({
       let teamAdmin = [];//团队管理员
       let otherMember = [];
       memberlist.map((item,index)=>{
-        if (item.relationType == 1){
+        if (item.type == 1){
           sortMember.unshift(item);
         }
-        else if(item.relationType == 12){
+        else if(item.type == 12){
           projectAdmin.push(item);
         }
-        else if(item.relationType == 14){
+        else if(item.type == 14){
           teamAdmin.push(item);
         }
         else{
@@ -1500,6 +1595,7 @@ Page({
       otherMember.map((item, index) => {
         sortMember.push(item);
       })
+      console.log("状态" + check)
       this.setData({
         memberlist: sortMember,
         isCouldAdd: check
@@ -1518,7 +1614,7 @@ Page({
     var item = e.currentTarget.dataset.item;
     var state = this.data.isCouldAdd? true:false;
     wx.navigateTo({
-      url: './personinfo/personinfo?personid=' + item.resourceId + "&isshowdelbtn=" + state,
+      url: './personinfo/personinfo?personid=' + item.id + "&isshowdelbtn=" + state,
     })
   },
 

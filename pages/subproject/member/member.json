@@ -4,5 +4,6 @@
     "popup": "/common/popup/popup",
     "confirm": "/common/confirm/confirm",
     "fileAlert": "/common/fileAlert/filealert"
-  }
+  },
+  "enablePullDownRefresh":true
 }

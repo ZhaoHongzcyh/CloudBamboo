@@ -144,6 +144,17 @@ page{
   display: flex;
   align-items: center;
 }
+
+/* 点击加载更多 */
+.loadMorePlan{
+  height: 70rpx;
+  line-height: 70rpx;
+  color: #409CF2;
+  font-size: 28rpx;
+  text-align: center;
+  border-top: 1rpx solid #DBDBDB;
+}
+
 .single-task{
   display: flex;
   align-items: center;

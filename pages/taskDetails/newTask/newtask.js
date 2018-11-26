@@ -68,6 +68,11 @@ Page({
     this.popup.showPopup()
   },
 
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh();//关闭下拉刷新
+  },
+
   // app下载弹框
   downAppAlert: function () {
     this.downapp.showPopup();

@@ -41,12 +41,16 @@ Page({
   
   // 获取联系人列表
   getGroup:function(){
-    var address = app.ip + "tc/userContactService/getPersonContacts";
-    address = app.ip + "tc/userContactService/getPersonContacts2"
-    api.request({},address,"POST",true).then(res=>{
+    // var address = app.ip + "tc/userContactService/getPersonContacts";
+    var address = app.ip + "tc/userContactService/getPersonContacts2"
+    api.request({ getGroupChat:"true"},address,"POST",true).then(res=>{
       if(res.data.code == 200 && res.data.result){
+        console.log(res);
+        let list = res.data.data.contactTeamList;
+        let group = { id: '1234', teamName: '我的群组',members: res.data.data.companyList.length};
+        list.push(group)
         this.setData({
-          list: res.data.data.contactTeamList
+          list: list//res.data.data.contactTeamList
         })
       }
       wx.stopPullDownRefresh();//关闭下拉刷新

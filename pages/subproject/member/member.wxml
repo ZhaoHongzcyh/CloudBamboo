@@ -2,8 +2,9 @@
 <view class="member">
     <!-- 弹框 -->
   <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
-  <view class="add" wx:if="{{state == 1}}">
-
+  
+  <scroll-view class="add" scroll-y wx:if="{{state == 1}}">
+    <view class="loaddata" wx:if="{{loadData}}"></view>
     <!-- 好友列表 -->
     <block wx:for="{{friendsList}}">
       <view>
@@ -39,7 +40,7 @@
     </block>
 
     <view class="savebtn" bindtap="addmember">确认</view>
-  </view>
+  </scroll-view>
 
 
   <!-- 删除成员 -->
@@ -48,7 +49,7 @@
       <image src="/pages/cloudDisk/img/searchbtn.png" class="searchbtn"></image>
       <input type="text" placeholder='搜索联系人' class="searchinput" bindinput="matchSearchContent" placeholder-class='placeholder'/>
     </view>
-    <view data-item="{{item}}" wx:for="{{memberBeanList}}" wx:key="{{item.resourceId}}" data-index="{{index}}" class="singlemember" bindtap="openConfirm" wx:if="{{item.relationType != 12 && item.relationType != 13 && item.relationType != 1}}">
+    <view data-item="{{item}}" data-id="{{item.resourceId}}" wx:for="{{memberBeanList}}" wx:key="{{item.resourceId}}" data-index="{{index}}" class="singlemember" bindtap="openConfirm" wx:if="{{item.relationType != 12 && item.relationType != 13 && item.relationType != 1}}">
           <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="deluserphoto"></image>
           <view class="delusername">{{item.personName}}</view>
           <view class="radio delradio">
@@ -57,7 +58,7 @@
         </view>
   </view>
   <!-- 无操作人员 -->
-      <view class="nopeople" wx:if="{{isShowDelErrorPage}}">
+      <view class="nopeople" wx:if="{{memberBeanList.length == 0}}">
         <image class="nopeopleimg" src="./img/nopeople.png"></image>
         <view>暂无可操作人员</view>
       </view>

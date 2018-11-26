@@ -9,6 +9,7 @@ Page({
    */
   data: {
     app:app,
+    edit:false,//是否具有编辑计划条目的权限
     powerId:null,
     power: {
       manager: null,
@@ -34,7 +35,8 @@ Page({
       data:null
     },//需要被展示的文件
     isShowMenuBtn:false,
-    isPersonCreateTask:false//是否是个人创建的任务
+    isPersonCreateTask:false,//是否是个人创建的任务
+    isShowSubmit: true//是否显示发布按钮区域
   },
 
   /**
@@ -50,13 +52,23 @@ Page({
   },
 
   onShow: function () {
-    this.searchPowerData(this.data.powerId);
+    //this.searchPowerData(this.data.powerId);
     this.selectPlanChild(this.data.taskId);
   },
 
   // 下拉刷新
   onPullDownRefresh: function () {
     this.onShow();
+  },
+
+  // 
+  cancelmodel: function () {
+    this.switchSubShow();
+  },
+
+  // 切换评论发布区域的隐藏与显示
+  switchSubShow: function () {
+    this.setData({ isShowSubmit: !this.data.isShowSubmit})
   },
 
   // 查询权限数据
@@ -90,34 +102,40 @@ Page({
     })
   },
 
-  // 权限判断
-  handlePower: function () {
-    var userId = wx.getStorageSync("tcUserId");
-    var end = false;
-    var power = this.data.power;
-    for (var i = 0; i < power.adminGroups.length; i++) {
-      if (userId == power.adminGroups[i]) {
-        end = true;
-      }
-    }
-    if (!end) {
-      if (power.teamManager == userId){
-        end = true;
-      }
-      if (!end) {
-        if (userId == power.manager) {
-          end = true;
-        }
-      }
-    }
-    return end;
+  // 权限判断(旧方法)
+  // handlePower: function () {
+  //   var userId = wx.getStorageSync("tcUserId");
+  //   var end = false;
+  //   var power = this.data.power;
+  //   for (var i = 0; i < power.adminGroups.length; i++) {
+  //     if (userId == power.adminGroups[i]) {
+  //       end = true;
+  //     }
+  //   }
+  //   if (!end) {
+  //     if (power.teamManager == userId){
+  //       end = true;
+  //     }
+  //     if (!end) {
+  //       if (userId == power.manager) {
+  //         end = true;
+  //       }
+  //     }
+  //   }
+  //   return end;
+  // },
+
+  // 通过返回的新字段（edit）判断是否有权限
+  handlePower: function (){
+    var edit = this.data.edit;
+    return edit;
   },
 
   // 弹框
   alert: function () {
     this.popup.showPopup()
   },
-  
+
   // 根据ID查找计划条目
   selectPlanChild: function (id) {
     var userId = wx.getStorageSync('tcUserId');
@@ -125,6 +143,10 @@ Page({
     var address = app.ip + "tc/schedule/itemService/findBo";
     var obj = { id };
     api.request(obj, address, "post", true).then(res => {
+      console.log(res);
+      if(res.data.code == 200 && res.data.result){
+        this.setData({ edit: res.data.data.edit, isShowMenuBtn: res.data.data.edit});
+      }
       wx.stopPullDownRefresh();
       var handle = library.handleChild(res);
       if(handle.status){
@@ -209,12 +231,15 @@ Page({
   edittask: function () {
     // 查询权限
     var power = this.handlePower();
-    if (power || this.data.task.itemBean.creatorId == wx.getStorageSync('tcUserId')){
+    if (power){
       wx.navigateTo({
         url: './editTask/editTask?id=' + this.data.taskId,
       })
     }
     else{
+      let alert = this.data.alert;
+      alert.content = '暂无权限编辑！'
+      this.setData({alert});
       this.alert();
     }
   },
@@ -227,7 +252,7 @@ Page({
       })
     }
     else{
-      this.setData({alert:{content:"权限不够"}});
+      this.setData({alert:{content:"暂无权限复制！"}});
       this.alert();
     }
   },
@@ -308,14 +333,12 @@ Page({
     if(power){
       this.sendStatus(status);
     }
-    else if (userId == item.creatorId || userId == item.manager){
-      this.sendStatus(status);
-    }else{
+    else{
       var task = this.data.task;
       task.itemBean.status = status == 0 ? 1 : 0;
       this.setData({
         task:task,
-        alert:{content:"权限不够"}
+        alert:{content:"暂无权限切换状态"}
       })
       this.alert();
     }
@@ -323,6 +346,7 @@ Page({
 
   // 发送切换(已完成/未完成)请求
   sendStatus: function (status) {
+    var task = this.data.task;
     var itemBean = JSON.stringify(this.data.task.itemBean);
     itemBean = JSON.parse(itemBean);
     delete itemBean.endDate;
@@ -331,18 +355,21 @@ Page({
     var address = app.ip + "tc/schedule/itemService/update";
     api.sendDataByBody(itemBean,address,"post",true).then(res=>{
       if(res.data.code == 200 && res.data.result){
-        var task = this.data.task
         task.itemBean.status = status;
         this.setData({
           task:task
         })
       }
       else{
+        status = status == 0? 1:0;
+        task.itemBean.status = status;
         // 弹框
+        console.log(res);
         var alert = this.data.alert;
-        alert.content = "状态更改失败";
+        alert.content = res.data.message || "状态更改失败";
         this.setData({
-          alert:alert
+          alert:alert,
+          task
         });
         this.alert();
       }
@@ -391,6 +418,7 @@ Page({
   // 打开对话弹框
   openConfirm: function (){
     this.confirm.show();
+    this.switchSubShow();
   },
 
   // 删除任务请求
@@ -428,7 +456,7 @@ Page({
       if (this.data.task.itemBean.creatorId != wx.getStorageSync('tcUserId')){
         this.setData({
           alert: {
-            content: "权限不够"
+            content: "暂无权限！"
           }
         })
         this.alert();

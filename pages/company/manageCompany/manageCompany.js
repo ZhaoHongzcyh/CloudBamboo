@@ -42,12 +42,15 @@ Page({
   // 获取公司管理组成员
   getManagerGroup: function ( ) {
     var address = app.ip + "tc/taskMemberService/findPageTaskMember";
+    // address = app.ip + "tc/taskTeamService/findTaskTeamBo";
     var defaultTaskTeam = wx.getStorageSync('defaultTaskTeam');
     var obj = {
       memberRelTypes: 13,
       taskId: defaultTaskTeam
     };
     api.request(obj,address,"POST",true).then(res=>{
+      console.log(res);
+      console.log("管理组")
       wx.stopPullDownRefresh();//关闭下拉刷新
       if(res.data.result && res.data.code == 200){
         this.setData({allGroup: res.data.data.list});
@@ -63,7 +66,7 @@ Page({
   handleAdminGroup: function (list) {
     var adminGroup = [];
     list.map(item=>{
-      if (item.relationType == 13){
+      if (item.relationType == 12){
         adminGroup.push(item);
       }
     })

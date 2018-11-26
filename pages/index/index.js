@@ -7,7 +7,7 @@ Page({
     app:app,
     url:{},//导航数据
     userinfo:null,
-
+    userheadimg:null,
     // -------------------------------------------------------------登录注册模块数据-----------------------------------------
     logoinState: true,//true:代表注册，false:渲染注册
     logoin:{
@@ -41,6 +41,7 @@ Page({
 
   onShow: function (options) {
     this.getEntryInfo();
+    this.setData({ userheadimg: null});
   },
 
   // 判断用户是通过哪一个通道进入系统
@@ -101,7 +102,11 @@ Page({
     api.request({}, address, "POST", true).then(res => {
       wx.stopPullDownRefresh();
       if (res.data.code == 200 && res.data.result) {
-        this.setData({ userinfo: res.data.data.curUser })
+        let userinfo = res.data.data.curUser;
+        this.setData({
+          userinfo: userinfo,
+          userheadimg: app.ip + 'tc/spaceService/showPersonIcon/' + userinfo.id + '/100/100'  
+        })
       }
       else {
         this.setAlert(res.data.message);

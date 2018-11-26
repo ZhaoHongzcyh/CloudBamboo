@@ -16,8 +16,7 @@
         <view class="screen">
           <view bindtap="switchSelectTask" class="screenCondiction taskScreen">
             <view>任务筛选</view>
-            <image src="./img/row.png" class="triangle">
-            </image>
+            <image src="./img/row.png" class="triangle"></image>
           </view>
           <view bindtap="switchStopTime" class="screenCondiction stoptime">
             <view>截止时间</view>
@@ -59,7 +58,6 @@
     </view>
 
     <view wx:for="{{taskList}}" wx:key="{{plan.summaryBean.id}}" wx:for-item="plan" class="planlist">
-
       <view class="planName">
         <image class="row" src="./img/row.png" data-index="{{index}}" bindtap="fold"></image>
         <view class="plantitle" data-index="{{index}}" bindtap="fold">{{plan.summaryBean.title}} <text class="percent"> ({{plan.percent}})</text></view>
@@ -72,7 +70,7 @@
 
       <view wx:if="{{plan.fold}}" class="single-task {{item.emergencyGrade==1? 'normalcolor':''}} {{item.emergencyGrade==2? 'urgentcolor':''}}" wx:for="{{plan.itemList}}" wx:key="{{item.id}}" wx:for-item="item" wx:for-index="childnum" data-parentTitle="{{plan.summaryBean.title}}" bindtap="getPlanInfo" data-singleid="{{item.id}}">
         <view class="radio-area" data-parentsnum="{{index}}" data-status="{{item.status}}" data-selfnum="{{childnum}}" data-taskid="{{item.id}}" catchtap='switchTaskState' data-creatorid="{{item.creatorId}}" data-manager="{{item.manager}}">
-          <radio class="radio" color="#409CF2"  bindtap="radioAlert" checked="{{item.status==0? false : true}}"></radio>
+          <radio class="radio" color="#409CF2"  checked="{{item.status==0? false : true}}"></radio>
         </view>
         <view class="task-info">
           <view class="taskname">{{item.title}}</view>
@@ -84,9 +82,21 @@
         <view class="tasker">{{item.managerName}}</view>
       </view>
       <view wx:if="{{plan.fold}}" bindtap="newTask" class="newTaskBtn" data-planid="{{plan.summaryBean.id}}" data-title="{{plan.summaryBean.title}}">新建任务</view>
+      <view 
+          class="loadMorePlan" 
+          data-index="{{index}}" 
+          data-id="{{}}" 
+          wx:if="{{plan.fold && plan.itemList.length > 19 && !plan.isLoadedAllData}}"
+          data-id="{{plan.summaryBean.id}}"
+          bindtap="loadmoreplan"
+        >
+          点击加载更多
+      </view>
+      
     </view>
     
   </view>
+
   <!-- 编辑任务计划采单区域 -->
   <view class="editModel" wx:if="{{isShowEditPlan}}">
     <view class="editPlanArea">
@@ -233,10 +243,10 @@
     <view class="memberlist">
       <block wx:for="{{memberlist}}" wx:key="{{item.id}}">
         <view class="singlemember" wx:key="{{item.id}}" data-item="{{item}}" bindtap="getPersonInfo">
-          <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.resourceId + '/100/100'}}" class="userhead"></image>
-          <view class="username">{{item.personName}}</view>
-          <image src="./img/admin_big.png" class="adminer" wx:if="{{item.relationType==1}}"></image>
-          <image src="./img/admin.png" class="adminer" wx:if="{{item.relationType==14 || item.relationType==12}}"></image>
+          <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + item.id + '/100/100'}}" class="userhead"></image>
+          <view class="username">{{item.name}}</view>
+          <image src="./img/admin_big.png" class="adminer" wx:if="{{item.type==1}}"></image>
+          <image src="./img/admin.png" class="adminer" wx:if="{{item.type==14 || item.type==12}}"></image>
         </view>
       </block>
     </view>

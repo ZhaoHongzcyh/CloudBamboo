@@ -3,7 +3,7 @@
     <!--pages/index/personalSet/personalSet.wxml-->
   <view>
       <view class="head" bindtap="userinfo">
-        <image src="{{app.ip + 'tc/spaceService/showPersonIcon/' + userinfo.id + '/100/100'}}" class="photo"></image>
+        <image src="{{userheadimg}}" class="photo"></image>
         <view class="userinfo">
           <view class="name">
             {{userinfo.pname}}

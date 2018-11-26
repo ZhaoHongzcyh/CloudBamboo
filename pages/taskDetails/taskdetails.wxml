@@ -70,8 +70,8 @@
     <timeline data="{{isShowAllAction? task.actionList:partAction}}" bindedit="editreply"/>
   </view>
   <!-- 评论回复区域 -->
-  <view class="reply">
-    <textarea placeholder-class='replyplace' placeholder="回复任务" value="{{replyContent}}" class="replyinput" bindinput="reply" >
+  <view class="reply" wx:if="{{isShowSubmit}}">
+    <textarea  placeholder="回复任务"  class="replyinput" bindinput="reply" value="{{replyContent}}" >
       
     </textarea>
     <view bindtap="evaluate" class="submit">发布</view>
@@ -79,7 +79,7 @@
   <!-- 弹框 -->
 <popup id='popup' isAlert="{{true}}" content="{{alert.content}}" footer="确定"></popup>
 <!-- 对话弹框 -->
-<confirm id="confirm" bindsure="sure"></confirm>
+<confirm id="confirm" bindsure="sure" bindcancel="cancelmodel"></confirm>
 </view>
 
 
