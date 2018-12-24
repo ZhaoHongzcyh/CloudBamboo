@@ -252,13 +252,13 @@ Page({
         data = this.handleTask(data);
         let list = tasklist[index].itemList.concat(data);
         tasklist[index].itemList = list;
-        let hasDown = 0;
-        list.map((sub, num) => {
-          if (sub.status == 1) {
-            hasDown++
-          }
-        })
-        tasklist[index].percent = hasDown + " / " + list.length;
+        // let hasDown = 0;
+        // list.map((sub, num) => {
+        //   if (sub.status == 1) {
+        //     hasDown++
+        //   }
+        // })
+        // tasklist[index].percent = hasDown + " / " + list.length;
 
         // 判断是否已经加载完所有数据
         if(data.length < 20){
@@ -299,13 +299,13 @@ Page({
             data[i].fole = false;//隐藏子任务
           }
           data.map((item,index)=>{
-            var hasDown = 0;
-            item.itemList.map((sub,num)=>{
-              if(sub.status == 1){
-                hasDown++
-              }
-            })
-            item.percent = hasDown  + " / " + item.itemList.length;
+            // var hasDown = 0;
+            // item.itemList.map((sub,num)=>{
+            //   if(sub.status == 1){
+            //     hasDown++
+            //   }
+            // })
+            item.percent = item.finishedItems + "/" + item.itemCount;//hasDown  + " / " + item.itemList.length;
 
             // 用于判断加载更多的时候是否已经加载完毕所有数据（初始化为 未加载完）
             item.isLoadedAllData = false;
@@ -398,6 +398,8 @@ Page({
     obj.taskId = this.data.taskId;
     this.setData({ selectPlanCondiction: obj});
     api.request(obj,address,"post",true).then(res=>{
+      console.log(res);
+      console.log("__________________")
       if(res.data.code == 200 && res.data.result){
         var data = res.data.data.list;
         for (var i = 0; i < data.length; i++) {
@@ -413,17 +415,17 @@ Page({
 
         // 任务完成进度
         data.map((item, index) => {
-          var hasDown = 0;
+          // var hasDown = 0;
           // 用于判断加载更多的时候是否已经加载完毕所有数据（初始化为 未加载完）
           item.isLoadedAllData = false;
           
           //任务完成度计算
-          item.itemList.map((sub, num) => {
-            if (sub.status == 1) {
-              hasDown++
-            }
-          })
-          item.percent = hasDown + " / " + item.itemList.length;
+          // item.itemList.map((sub, num) => {
+          //   if (sub.status == 1) {
+          //     hasDown++
+          //   }
+          // })
+          item.percent = item.finishedItems + "/" + item.itemCount;//hasDown + " / " + item.itemList.length;
         })
 
         this.setData({
@@ -551,7 +553,7 @@ Page({
       var atype = e.currentTarget.dataset.atype;
       if (atype == 7 || atype == 10 || atype == 9) {
         var previewItem = e.currentTarget.dataset.item;
-
+        previewItem.src = encodeURI(previewItem.src);
         var previewAtype = e.currentTarget.dataset.atype;
         this.setData({
           previewAtype: previewAtype,
@@ -560,13 +562,24 @@ Page({
         })
         return false;
       }
-      if (atype == 3 || atype == 4 || atype == 5 || atype == 6){
+      if (atype == 3 || atype == 4 || atype == 5 || atype == 6 || atype==2){
         wx.navigateTo({
           url: './filePreview/filepreview?filename=' + e.currentTarget.dataset.title + "&id=" + e.currentTarget.dataset.item.id + "&atype=" + e.currentTarget.dataset.item.atype
         })
+        return false;
       }
-      else if (atype == 2){
-        this.setData({ alert: { content:'暂不支持office文件预览'}});
+      else if (atype == 8) {
+        this.setData({ alert: { content: '该格式需前往下载 云竹协作APP 预览' } });
+        this.alert();
+        return false;
+      }
+      else if (atype == 11) {
+        this.setData({ alert: { content: '该格式需前往下载 云竹协作APP 预览' } });
+        this.alert();
+        return false;
+      }
+      else if (atype == 1) {
+        this.setData({ alert: { content: '该格式需前往下载 云竹协作APP 预览' } });
         this.alert();
         return false;
       }
@@ -775,7 +788,7 @@ Page({
     return end;
   },
 
-  // 滚动穿透问题
+  // 滚动穿透问题(该函数虽无内容，但是有重要作用)
   stopmove:function (e) {
   },
 

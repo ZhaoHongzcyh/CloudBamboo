@@ -16,7 +16,8 @@ Page({
     sortRule:null,//排序规则
     folderId:1,//排序规则的父文件夹
     isShowSortRule: false,//是否打开文件排序选项菜单
-    alert:{content:null}
+    alert:{content:null},
+    filePreviewSrc:null//文件预览地址
   },
 
   onLoad:function(options){
@@ -59,6 +60,7 @@ Page({
       folderId:1
     }
     api.request(obj,address,"post",true).then(res=>{
+      console.log(res)
       var selectStatus = [];
       var dat = api.cloudDiskDataClean(res.data.data.list);
       var list = api.fileNameSort(dat);
@@ -162,6 +164,7 @@ Page({
 
   // 进入文件夹
   entryFolder: function (e) {
+    let filePreviewSrc = null;
     var item = e.currentTarget.dataset.item;
     var parentIdStack = this.data.parentIdStack;
     var obj = {
@@ -172,15 +175,51 @@ Page({
       parentIdStack.push(obj);
       this.setData({ parentIdStack})
       this.searchFileList();
-      
     }
+    else if(item.atype == 2 || item.atype == 3 || item.atype == 4 || item.atype == 5 || item.atype == 6 ){
+      // ofice、pdf、ppt、txt、word等文件预览
+        wx.navigateTo({
+          url: '/pages/subproject/filePreview/filepreview?atype=' + item.atype + "&id=" + item.id + "&filename=" + item.title,
+        })
+      }
+    else if(item.atype == 1){
+      this.setData({ alert: { content: '该格式需前往下载 云竹协作APP 预览' } });
+      this.alertinfo();
+    }
+    else if(item.atype == 7){
+      // 图片预览
+      this.setData({ alert: { content: '该格式需前往下载 云竹协作APP 预览' } });
+      this.alertinfo();
+      let token = wx.getStorageSync("proxyUserToken");
+      filePreviewSrc = app.ip + "tc/knowledgeService/arcDownload?proxyUserToken=" + token + "&arcId=" + item.id;
+    }
+    else if(item.atype == 8){
+      this.setData({ alert: { content: '该格式需前往下载 云竹协作APP 预览' } });
+      this.alertinfo();
+      return false;
+    }
+    else if(item.atype == 9){
+      this.setData({ alert: { content: '该格式需前往下载 云竹协作APP 预览' } });
+      this.alertinfo();
+      filePreviewSrc = app.ip + "tc/spaceService/downloadFileBatchUnlimitGet?arcIds=" + item.id;
+    }
+    else if(item.atype == 10){
+      // 音频文件预览
+      this.setData({ alert: { content: '该格式需前往下载 云竹协作APP 预览' } });
+      this.alertinfo();
+      filePreviewSrc = app.ip + "spaceService/downloadFileBatchUnlimitGet?arcIds=" + item.id;
+    }
+    else if(item.atype == 11){
+      this.setData({ alert: { content: '该格式需前往下载 云竹协作APP 预览' } });
+      this.alertinfo();
+    }
+    // this.setData({ filePreviewSrc})
   },
 
   // 查询文件列表数据
   searchFileList: function (id) {
     var parentIdStack = this.data.parentIdStack;
     var length = parentIdStack.length;
-    var address = app.ip + "tc/IArcSumManagerService/findArcSummarysdate";
     this.setData({
       folderId: parentIdStack[length - 1].id
     })

@@ -84,7 +84,21 @@
   <!-- 提示弹框 -->
   <popup id='popup' content="云竹协作更多功能，请下载App" footer="立即下载"></popup>
   <popup id='model' isAlert="{{true}}" content="{{alert.content}}" footer="知道了"></popup>
+
   <!-- 蒙版层 -->
   <view class="model" wx:if="{{more && selectnum}}" bindtap="cancelmore">
+  </view>
+
+  <!-- 文件预览区域 -->
+  <view class="model" wx:if="{{filePreviewSrc != null}}">
+    <view>
+      <image src="{{filePreviewSrc}}" class="previewimg"></image>
+    </view>
+    <view class="video">
+      <video src="{{filePreviewSrc}}"></video>
+    </view>
+    <!-- <view class="audio">
+      <audio src="{{filePreviewSrc}}">
+    </view> -->
   </view>
 </view>

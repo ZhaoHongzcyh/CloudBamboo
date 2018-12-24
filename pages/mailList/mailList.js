@@ -25,6 +25,7 @@ Page({
   },
 
   onShow: function () {
+    this.getGroup();
   },
 
   // app下载弹框
@@ -36,7 +37,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.getGroup();
   },
   
   // 获取联系人列表

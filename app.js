@@ -1,10 +1,13 @@
 //app.js
 App({
-  // ip:"http://192.168.1.107:8082/tc_service/",//开发环境
-  // filePreview:"http://192.168.1.107/tc_web/",
+  //ip:"http://192.168.1.161:8080/tc_service/",//罗霞
+  //file:"https://192.168.1.161:8080/tc_web/",
+  //ip:"http://192.168.1.107:8082/tc_service/",//开发环境
+  //filePreview:"http://192.168.1.107/tc_web/",//开发环境
   ip:"https://services.yzsaas.cn/",//生产环境
-  filePreview: "http://xz.yzsaas.cn/tc_web/",//生产环境
+  filePreview: "https://xz.yzsaas.cn/tc_web/",//生产环境
   onLaunch: function () {
+    this.listenVersion();//监听版本信息
   },
 
   onShow:function(options){
@@ -30,6 +33,24 @@ App({
         },250)
         
     }
+  },
+
+  // 监听是否有新版本更新
+  listenVersion: function () {
+    let updateManager = wx.getUpdateManager();
+    console.log(updateManager);
+    updateManager.onUpdateReady(function () {
+      wx.showModal({
+        title: '版本更新提示',
+        content: '新版本已经准备好，是否重启应用？',
+        success(res) {
+          if (res.confirm) {
+            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+            updateManager.applyUpdate()
+          }
+        }
+      })
+    })
   },
 
   // 编辑tabbar

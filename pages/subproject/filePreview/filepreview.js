@@ -22,12 +22,33 @@ Page({
   getSrc: function (options) {
     var atype = options.atype;
     var src = null;
-    if(atype == 3){
-      src = app.filePreview + "tc/office/open?m=readOnly&arcId=" + options.id + "&proxyUserToken=" + wx.getStorageSync('proxyUserToken');
-    }
-    else if(atype == 6 || atype == 5){
+    if(atype == 3 || atype == 2){
+      options.filename = encodeURI(options.filename)
       src = app.filePreview + "tc/knowledge/previewPdf/?arcId=" + options.id + "&title=" + options.filename;
+      // src = app.filePreview + "tc/office/open?m=readOnly&arcId=" + options.id + "&proxyUserToken=" + wx.getStorageSync('proxyUserToken');
+    }
+    else if(atype == 6 || atype == 5 || atype == 4){
+      options.filename = encodeURI(options.filename)
+      src = app.filePreview + "tc/knowledge/previewPdf/?arcId=" + options.id + "&title=" + options.filename;
+      console.log(src)
     }
     return src;
+  },
+
+  // 文件下载https://xz.yzsaas.cn
+  downloadFile: function (src) {
+    wx.downloadFile({
+      url:src,
+      success:(res)=>{
+        console.log("文件下载成功");
+        console.log(res);
+        wx.openDocument({
+          filePath: res.tempFilePath,
+          success: function(re){
+            console.log(re);
+          }
+        })
+      }
+    })
   }
 })

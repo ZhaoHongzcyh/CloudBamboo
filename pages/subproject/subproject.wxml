@@ -152,7 +152,7 @@
           </view>
           <!-- 视频预览 -->
           <view wx:if="{{previewAtype == 9}}" class="previewArea">
-            <video src="{{previewItem.src}}" class="previewimg"></video>
+            <video custom-cache="{{false}}" src="{{previewItem.src}}" class="previewimg"></video>
           </view>
           <!-- 音频预览 -->
           <view wx:if="{{previewAtype == 10}}" class="previewArea">

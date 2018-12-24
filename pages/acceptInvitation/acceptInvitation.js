@@ -66,9 +66,16 @@ Page({
   // 获取邀请人信息
   getInvitationInfo:function(){
     var address = app.ip + "tc/taskDepartmentService/dpmmInvite/" + app.globalData.Invitation.url;
+    // wx.setClipboardData({
+    //   data: address,
+    //   success: () => { console.log(app.globalData.Invitation.url, "测试") },
+    //   fail: (e) => { console.log(e); console.log("异常") }
+    // })
     api.request({},address,"post",true).then(res=>{
       console.log("邀请人信息");
+      console.log(address);
       console.log(res)
+      
       if(res.data.code == 200 && res.data.result){
         this.setData({
           shareScene:res.data.data,
@@ -77,7 +84,7 @@ Page({
       }
       else{
         wx.redirectTo({
-          url: '/pages/myself/myself',
+          url: '/pages/company/company',
         })
       }
     }).catch(e=>{
