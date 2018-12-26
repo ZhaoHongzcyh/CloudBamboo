@@ -26,10 +26,12 @@ Page({
       options.filename = encodeURI(options.filename)
       src = app.filePreview + "tc/knowledge/previewPdf/?arcId=" + options.id + "&title=" + options.filename;
       // src = app.filePreview + "tc/office/open?m=readOnly&arcId=" + options.id + "&proxyUserToken=" + wx.getStorageSync('proxyUserToken');
+      src = app.filePreview + "tc/knowledge/previewPdfWX/?arcId=" + options.id + "&title=" + options.filename;
     }
     else if(atype == 6 || atype == 5 || atype == 4){
       options.filename = encodeURI(options.filename)
       src = app.filePreview + "tc/knowledge/previewPdf/?arcId=" + options.id + "&title=" + options.filename;
+      src = app.filePreview + "tc/knowledge/previewPdfWX/?arcId=" + options.id + "&title=" + options.filename;
       console.log(src)
     }
     return src;
